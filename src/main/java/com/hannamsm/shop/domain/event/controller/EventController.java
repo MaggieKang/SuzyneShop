@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.hannamsm.shop.domain.account.vo.Account;
 import com.hannamsm.shop.domain.event.service.EventService;
@@ -34,7 +34,7 @@ import com.hannamsm.shop.global.vo.ResponseResutl;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
 
-@Controller
+@RestController
 @RequestMapping(value="/api/events", produces = MediaTypes.HAL_JSON_VALUE)
 public class EventController {
 //	private final Logger logger = LoggerFactory.getLogger(this.getClass());
