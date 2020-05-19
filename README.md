@@ -14,7 +14,7 @@
 
 [OpenJDK 다운로드][openjdklink]
 
-[openjdklink]: https://jdk.java.net/archive/ "OpenJDK"
+[openjdklink]: (https://jdk.java.net/archive/){:target="_blank"} "OpenJDK"
 
 [Docker toolbox 다운로드][dockertoolboxlink]
 
