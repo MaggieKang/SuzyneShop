@@ -8,13 +8,15 @@
 
 [vscodelink]: https://code.visualstudio.com/ "Visual Studio Code"
 
+<a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code 다운로드</a>
+
 [Spring Tools for Exlipse 다운로드][stslink]
 
 [stslink]: https://download.springsource.com/release/STS4/4.6.1.RELEASE/dist/e4.15/spring-tool-suite-4-4.6.1.RELEASE-e4.15.0-win32.win32.x86_64.self-extracting.jar "Spring sts"
 
 [OpenJDK 다운로드][openjdklink]
 
-[openjdklink]: (https://jdk.java.net/archive/){:target="_blank"} "OpenJDK"
+[openjdklink]: https://jdk.java.net/archive/ "OpenJDK"
 
 [Docker toolbox 다운로드][dockertoolboxlink]
 
@@ -23,6 +25,8 @@
 [Sql Server Management Studio 다운로드][ssmslink]
 
 [ssmslink]: https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15 "Sql server management studio"
+
+<a href="http://stackoverflow.com" target="_blank">go</a>
 
 >docker sql server 설치  
 >1. 이미지 다운로드  
