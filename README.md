@@ -1,7 +1,7 @@
-#HNS-SHOP
+# HNS-SHOP
 
 
-##1. 환경 구성
+## 1. 환경 구성
 
 # This is a H1
 ## This is a H2
