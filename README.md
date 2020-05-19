@@ -4,10 +4,6 @@
 ### 1. 환경 구성
 
 
-[Visual Studio Code 다운로드][vscodelink]
-
-[vscodelink]: https://code.visualstudio.com/ "Visual Studio Code"
-
 <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code 다운로드</a>
 
 [Spring Tools for Exlipse 다운로드][stslink]
