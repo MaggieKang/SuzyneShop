@@ -3,21 +3,85 @@
 
 ### 1. 환경 구성
 
-sts 다운로드  
-openJDK 다운로드  
-Docker 다운로드  
-ms sql server 다운로드  
-mssms 다운로드  
 
-docker sql server 설치
+[Visual Studio Code 다운로드][vscodelink]
 
-스크립트 생성
+[vscodelink]: https://code.visualstudio.com/ "Visual Studio Code"
+
+[Spring Tools for Exlipse 다운로드][stslink]
+
+[stslink]: https://download.springsource.com/release/STS4/4.6.1.RELEASE/dist/e4.15/spring-tool-suite-4-4.6.1.RELEASE-e4.15.0-win32.win32.x86_64.self-extracting.jar "Spring sts"
+
+[OpenJDK 다운로드][openjdklink]
+
+[openjdklink]: https://jdk.java.net/archive/ "OpenJDK"
+
+[Docker toolbox 다운로드][dockertoolboxlink]
+
+[dockertoolboxlink]: https://github.com/docker/toolbox/releases "Docker toolbox"
+
+[Sql Server Management Studio 다운로드][ssmslink]
+
+[ssmslink]: https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15 "Sql server management studio"
+
+>docker sql server 설치  
+>1. 이미지 다운로드  
+>docker pull mcr.microsoft.com/mssql/server:2019-latest
+>
+>2. 컨테이너 생성  
+>docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pa33word" -p1433:1433 --name sql2019 -d >d60e9ac97708
+>
+>3. SA 암호 변경  
+>docker exec -it sql2019 /opt/mssql-tools/bin/sqlcmd \
+> -S localhost -U SA -P '<Pa33word>' \
+> -Q 'ALTER LOGIN SA WITH PASSWORD="<Pa33word>"'
+>
+>4. SQL Server 연결  
+>sql2019은 컨테이너 생성 시 지정한 이름
+>실행 중인 컨테이너 내에서 대화형 bash 셸 시작
+>docker exec -it sql2019 "bash"
+>
+>5. 컨테이너 내부로 들어가면 sqlcmd를 사용하여 로컬로 연결  
+>/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Pa33word'
+>
+>
+>6. MSSQL 계정 생성  
+>MSSQL에서는 설치 중에 기본적으로 SA계정을 제공하며 이는 SQL Server 인스턴스의 시스템 관리자이다.  
+>대부분 SA에 비밀번호를 설정하지 않거나 쉬운 비밀번호를 적용시키기 때문에 기본 포트와 SA 계정으로 >Database server에 접근하게 되면 뚫리게 되는 경우가 발생한다. 이를 방지하기 위해 추가로 계정을 >만들어 Database에 접근할 수 있도록 해야한다  
+>계정 사용에 대한 두 가지 방법 : 기존 윈도우 계정을 SQL계정으로 사용 / OS와 다른 별도의 새로운 계정 >사용  
+>로그인 계정 생성  
+>CREATE LOGIN 'david' WITH PASSWORD='Pa33word', DEFAULT_DATABASE='wholesaleDB'  
+>계정 생성 후 DEFAULT DATABASE 설정하는 경우  
+>ALTER LOGIN [david] WITH DEFAULT_DATABASE = [wholesaleDB]  
+>
+>7. db 생성  
+>create database wholesaleDB  
+>
+>8. db 조회  
+>SELECT Name from sys.Databases  
+>.백업 폴더 생성  
+>docker exec -it sql2019 mkdir /var/opt/mssql/backup  
+>>
+>1. 호스트에서 컨테이너로 파일 전송하는 방법  
+>docker cp X:/eclipse/vscode/wholesaleDB_backup_2020_04_18_010001_1258974.bak sql2019:/var/  >opt/mssql/backup/wholesaleDB_backup_2020_04_18_010001_1258974.bak  
+>>
+>2. 컨테이너에서 호스트로 파일 전송하는 방법   
+>docker cp mycontainer:/path/foo.txt /path/foo.txt
+
+
+필수 스크립트 생성
+>/HNS-SHOP/src/main/resources/sechema.sql
+>   >DDL     
+>   >Data insert  
 
 sts 환경구성
-git clone
+> openJdk 11 설정  
+> utf-8 설정  
+> ERD 플러그인 설정
+> 프로젝트 복사  
+> git clone
 
 테스트는 테스트 참고하세요.
-
 
 
 *****
