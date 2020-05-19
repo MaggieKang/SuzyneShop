@@ -3,12 +3,22 @@
 
 ### 1. 환경 구성
 
-# This is a H1
-## This is a H2
-### This is a H3
-#### This is a H4
-##### This is a H5
-###### This is a H6
+sts 다운로드  
+openJDK 다운로드  
+Docker 다운로드  
+ms sql server 다운로드  
+mssms 다운로드  
+
+docker sql server 설치
+
+스크립트 생성
+
+sts 환경구성
+git clone
+
+테스트는 테스트 참고하세요.
+
+
 
 *****
 ### 2. 구성 가이드
@@ -206,4 +216,5 @@ __double underscores__
 
 *****
 ### 11. 빌드 사용 가이드
+
 *****
