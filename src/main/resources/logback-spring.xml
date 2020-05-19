@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 60초마다 설정 파일의 변경을 확인 하여 변경시 갱신  scan="true" scanPeriod="60 seconds"-->
+<configuration>
+    <!--Environment 내의 프로퍼티들을 개별적으로 설정할 수도 있다.-->
+    <springProperty scope="context" name="LOG_LEVEL" source="logging.level.root"/>
+    
+    <property name="LOG_PATH" value="${log.config.path}"/>
+    <property name="LOG_FILE_NAME" value="${log.config.filename}"/>
+    <property name="ERR_LOG_FILE_NAME" value="${log.config.err-filename}"/>
+    <!-- <property name="LOG_PATTERN" value="%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-3level %logger{5} - %msg %n"/> -->
+    <property name="LOG_PATTERN" value="%-5level %d{yy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%line] - %msg%n"/>
+    
+    <!-- 콘솔에 로그를 찍음, 로그를 OutputStream에 작성하여 콘솔에 출력되도록 한다. -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	
+	<root level="${LOG_LEVEL}">
+        <appender-ref ref="CONSOLE" />
+    </root>
+    
+    <logger name="org.apache.ibatis" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+  
+</configuration>

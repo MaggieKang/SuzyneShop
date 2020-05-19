@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hannamsm.shop.domain.account.dao.AccountDao">
+<select id="findByUserId" parameterType="String" resultType="com.hannamsm.shop.domain.account.vo.Account">
+ SELECT seq
+      , id
+      , ISNULL(name, '') AS name
+      , password
+      , ISNULL(email, '') AS email
+      , isAccountNonExpired
+      , isAccountNonLocked
+      , isCredentialsNonExpired
+      , isEnabled
+   FROM ACCOUNT
+  WHERE id = #{id}
+</select>
+<select id="findRolesByUserId" parameterType="String" resultType="String">
+SELECT authority_code
+  FROM AUTHORITY
+ WHERE id = #{id}
+</select>
+<insert id="createAccount" parameterType="com.hannamsm.shop.domain.account.vo.Account">
+INSERT INTO ACCOUNT
+(      seq
+     , id
+     , name
+     , password
+     , email
+     , isAccountNonExpired, isAccountNonLocked
+     , isCredentialsNonExpired, isEnabled
+     , regPerson, regDate 
+     , lastModDate, lastModPerson
+) VALUES (
+       ISNULL((SELECT max(seq)+1 from ACCOUNT),0)
+     , #{id}
+     , #{name}
+     , #{password}
+     , #{email}
+     , 0
+     , 0
+     , 0
+     , 0
+     , #{id}
+     , getDate()
+     , #{id}
+     , getDate()
+)
+</insert>
+<delete id="deleteAccount" parameterType="String">
+UPDATE ACCOUNT
+   SET isEnabled = 1
+     , lastModDate = getDate()
+     , lastModPerson = #{id}
+ WHERE id = #{id}
+</delete>
+<insert id="createAuthority" parameterType="String">
+INSERT INTO AUTHORITY
+(      id
+     , authority_code
+) VALUES (
+       #{id}
+     , #{rols}
+);
+</insert>
+<delete id="deleteAuthority" parameterType="String">
+DELETE AUTHORITY
+ WHERE id = #{id}
+   AND authority_code = #{rols}
+</delete>
+<delete id="deleteAuthorities" parameterType="String">
+DELETE AUTHORITY
+ WHERE id = #{id}
+</delete>
+</mapper>
