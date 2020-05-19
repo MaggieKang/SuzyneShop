@@ -1,6 +1,4 @@
-# HNS-SHOP
-
-This is an H1
+HNS-SHOP
 =============
 
 This is an H2
