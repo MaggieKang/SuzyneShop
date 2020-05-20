@@ -10,8 +10,8 @@ INSERT INTO ACCOUNT (seq,id,name,password,email,isAccountNonExpired,isAccountNon
 
 INSERT INTO AUTHORITY (id,authority_code) VALUES 
 ('1006','ADMIN')
-,('1006','CARD')
 ,('1006','USER')
 ,('9000','ADMIN')
 ,('9000','USER')
+,('9001','USER')
 ;
