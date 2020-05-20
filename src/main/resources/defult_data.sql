@@ -7,3 +7,11 @@ INSERT INTO ACCOUNT (seq,id,name,password,email,isAccountNonExpired,isAccountNon
 ,(2,'9000','test9000','1234','TEST',0,0,0,1,getdate(),'9000',getdate(),'9000')
 ,(3,'9001','test9002','1234',NULL,0,0,0,0,getdate(),'9001',getdate(),'9001')
 ;
+
+INSERT INTO AUTHORITY (id,authority_code) VALUES 
+('1006','ADMIN')
+,('1006','CARD')
+,('1006','USER')
+,('9000','ADMIN')
+,('9000','USER')
+;
