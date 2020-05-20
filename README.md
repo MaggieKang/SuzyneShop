@@ -24,8 +24,6 @@
 
 [ssmslink]: https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15 "Sql server management studio"
 
-<a href="http://stackoverflow.com" target="_blank">go</a>
-
 >docker sql server 설치  
 >1. 이미지 다운로드  
 >docker pull mcr.microsoft.com/mssql/server:2019-latest
