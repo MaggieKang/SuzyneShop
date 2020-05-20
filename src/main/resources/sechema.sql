@@ -1,10 +1,10 @@
 CREATE TABLE oauth_access_token (
     authentication_id varchar(256) NOT NULL,
     token_id varchar(256) NULL,
-    token varbinary NULL,
+    token varbinary(max) NULL,
     user_name varchar(256) NULL,
     client_id varchar(256) NULL,
-    authentication varbinary NULL,
+    authentication varbinary(max) NULL,
     refresh_token varchar(256) NULL,
     PRIMARY KEY (authentication_id)
 );
@@ -35,7 +35,7 @@ CREATE TABLE oauth_client_details (
 
 CREATE TABLE oauth_client_token (
     token_id varchar(256) NULL,
-    token varbinary NULL,
+    token varbinary(max) NULL,
     authentication_id varchar(256) NOT NULL,
     user_name varchar(256) NULL,
     client_id varchar(256) NULL,
@@ -44,13 +44,13 @@ CREATE TABLE oauth_client_token (
 
 CREATE TABLE oauth_code (
     code varchar(256) NULL,
-    authentication varbinary NULL
+    authentication varbinary(max) NULL
 );
 
 CREATE TABLE oauth_refresh_token (
     token_id varchar(256) NULL,
-    token varbinary NULL,
-    authentication varbinary NULL
+    token varbinary(max) NULL,
+    authentication varbinary(max) NULL
 );
 
 -- used in tests that use MSSQL
