@@ -27,6 +27,7 @@ public class AccountDaoTest extends BaseDaoTest {
 	
 	@Test
 	@DisplayName("username 조회 테스트")
+	@Disabled
 	public void findByUserId() throws Exception {
 		
 		Optional<Account> account = this.accountDao.findByUserId("1006");
@@ -37,6 +38,7 @@ public class AccountDaoTest extends BaseDaoTest {
 	
 	@Test
 	@DisplayName("username Role 조회 테스트")
+	@Disabled
 	public void findRolesByUserId() throws Exception {
 		List<String> rols = this.accountDao.findRolesByUserId("1006");
 		System.out.println("rols:" + rols.toString());
@@ -45,6 +47,7 @@ public class AccountDaoTest extends BaseDaoTest {
 	
 	@Test
 	@DisplayName("Account 생성 테스트")
+	@Disabled
 	public void createAccount() {
 		List<String> roles = new ArrayList<String>();
 		roles.add("ADMIN");

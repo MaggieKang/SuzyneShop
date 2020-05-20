@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class EventDaoTest extends BaseDaoTest {
 	
 	@Test
 	@DisplayName("Event Id 조회 테스트")
+	@Disabled
 	public void selectEventId() throws Exception {
 		
 		int id = this.eventDao.selectEventId();
@@ -35,6 +37,7 @@ public class EventDaoTest extends BaseDaoTest {
 	
 	@Test
 	@DisplayName("Event 조회 테스트")
+	@Disabled
 	public void selectEvent() throws Exception {
 		EventSearch search = new EventSearch(1, 10);
 		
@@ -46,6 +49,7 @@ public class EventDaoTest extends BaseDaoTest {
 	
 	@Test
 	@DisplayName("Event 생성 테스트")
+	@Disabled
 	public void createEvent() throws Exception {
 		log.info("##### 테스트 #####");
 		Event event = Event.builder()
@@ -72,6 +76,7 @@ public class EventDaoTest extends BaseDaoTest {
 	
 	@Test
 	@DisplayName("Event 변경 테스트")
+	@Disabled
 	public void saveEvent() throws Exception {
 		log.info("##### 테스트 #####");
 		Event event = Event.builder()

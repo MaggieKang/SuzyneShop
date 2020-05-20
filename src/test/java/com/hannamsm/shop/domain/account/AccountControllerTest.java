@@ -1,5 +1,6 @@
 package com.hannamsm.shop.domain.account;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -10,25 +11,31 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 import com.hannamsm.shop.domain.account.vo.AuthenticationRequest;
 import com.hannamsm.shop.global.BaseControllerTest;
+import com.hannamsm.shop.global.properties.AppProperties;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class AccountControllerTest extends BaseControllerTest {
+	
+	@Autowired
+	AppProperties appProperties;
 	
 	@Test
 	public void loginTest() throws Exception {
 		AuthenticationRequest authRequest = new AuthenticationRequest();
 		authRequest.setUsername("9000");
 		authRequest.setPassword("1234");
+		authRequest.setGrant_type("password");
 		
-		mockMvc.perform(post("/account/login")
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaTypes.HAL_JSON)
+		mockMvc.perform(post("/oauth/token")
+				.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.content(this.objectMapper.writeValueAsString(authRequest)))
 			.andDo(print())
 			.andExpect(status().isOk())

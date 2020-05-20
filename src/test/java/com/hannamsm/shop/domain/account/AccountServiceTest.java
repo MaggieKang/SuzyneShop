@@ -28,6 +28,7 @@ public class AccountServiceTest extends BaseServiceTest {
 	
 	@Test
 	@DisplayName("사용자 조회 테스트")
+	@Disabled
 	public void findByUsername() {
 		// Given
 		String username = "1006";
@@ -42,6 +43,7 @@ public class AccountServiceTest extends BaseServiceTest {
 	
 	@Test
 	@DisplayName("사용자 조회 실패 테스트")
+	@Disabled
 	public void findByUsernameFail() {
 		// Given
 		String username = "100610";
@@ -59,6 +61,7 @@ public class AccountServiceTest extends BaseServiceTest {
 	
 	@Test
 	@DisplayName("사용자 생성 테스트")
+	@Disabled
 	public void createUser() {
 		List<String> roles = new ArrayList<String>();
 		roles.add("ADMIN");
