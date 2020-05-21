@@ -28,6 +28,10 @@
 
 [ssmslink]: https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15 "Sql server management studio"
 
+[DBeaver Community Database Tool 다운로드][dbeaverlink]
+
+[dbeaverlink]: https://dbeaver.io/download/?start&os=win&arch=x86_64 "DBeaver Community Database Tool"
+
 >docker sql server 설치  
 >1. 이미지 다운로드  
 >docker pull mcr.microsoft.com/mssql/server:2019-latest
@@ -52,18 +56,21 @@
 >6. db 조회  
 >SELECT Name from sys.Databases  
 
-
-필수 스크립트 DDL & Data생성
+필수 스크립트 DDL & Data생성 (DBeaver 사용 권장)
 >/HNS-SHOP/src/main/resources/sechema.sql  
 >/HNS-SHOP/src/main/resources/defult_data.sql
 
 sts 환경구성
 > openJdk 11 설정  
 > utf-8 설정  
+> lombok 설치
 > ERD 플러그인 설정
-> 프로젝트 복사  
-> git clone
 
+소스 복사
+> workspace 에서 git clone 사용
+> sts forder import 하영 사용
+
+Junit5
 테스트는 테스트 참고하세요.
 
 
