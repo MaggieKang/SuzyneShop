@@ -35,26 +35,19 @@
 >2. 컨테이너 생성  
 >docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pa33word" -p1433:1433 --name sql2019 -d >d60e9ac97708
 >
->3. SA 암호 변경  
->docker exec -it sql2019 /opt/mssql-tools/bin/sqlcmd \
-> -S localhost -U SA -P '<Pa33word>' \
-> -Q 'ALTER LOGIN SA WITH PASSWORD="<Pa33word>"'
->
->4. SQL Server 연결  
+>3. SQL Server 연결  
 >sql2019은 컨테이너 생성 시 지정한 이름  
 >실행 중인 컨테이너 내에서 대화형 bash 셸 시작  
 >docker exec -it sql2019 "bash"  
 >
->5. 컨테이너 내부로 들어가면 sqlcmd를 사용하여 로컬로 연결  
+>4. 컨테이너 내부로 들어가면 sqlcmd를 사용하여 로컬로 연결  
 >/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Pa33word'  
 >
->7. db 생성  
+>5. db 생성  
 >create database wholesaleDB  
->go  
 >
->8. db 조회  
+>6. db 조회  
 >SELECT Name from sys.Databases  
->go  
 
 
 필수 스크립트 생성
