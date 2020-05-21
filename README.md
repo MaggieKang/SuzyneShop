@@ -54,7 +54,7 @@
 
 
 필수 스크립트 DDL & Data생성
->/HNS-SHOP/src/main/resources/sechema.sql
+>/HNS-SHOP/src/main/resources/sechema.sql  
 >/HNS-SHOP/src/main/resources/defult_data.sql
 
 sts 환경구성
