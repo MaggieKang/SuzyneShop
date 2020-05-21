@@ -19,7 +19,7 @@ import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 @RequestMapping(value="/api/item", produces = MediaTypes.HAL_JSON_VALUE)
 public class ItemController {
 	
-	//TODO 상품 목록 조회
+	//TODO ITEM 목록 조회
 	@GetMapping
 	public ResponseEntity queryItems(@RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "listSize", defaultValue = "100") int listSize) throws Exception {

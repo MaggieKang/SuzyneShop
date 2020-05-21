@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,7 @@ public class AuthServerConfigTest extends BaseControllerTest {
 
 	@Test
 	@DisplayName("재발급토큰을 사용하여 인증 토큰을 발급 받는 테스트")
+	@Disabled
 	public void getAuthTokenByRefreshToken() throws Exception {
 		this.mockMvc.perform(
 				post("/oauth/token")

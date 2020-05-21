@@ -236,7 +236,7 @@ public class EventControllerTests extends BaseControllerTest {
 	@DisplayName("이벤트를 정상적으로 수정하기")
 	public void updateEvent() throws Exception {
 		String eventName = "Updated Event";
-		Event event = this.generateEvent(40);
+		Event event = this.generateEvent(1);
 		
 		EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 		eventDto.setName(eventName);
@@ -255,7 +255,7 @@ public class EventControllerTests extends BaseControllerTest {
 	@Test
 	@DisplayName("입력값이 비어있는 경우에 이벤트 수정 실패")
 	public void updateEvent400_Empty() throws Exception {
-		Event event = this.generateEvent(40);
+		Event event = this.generateEvent(1);
 		
 		EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 		eventDto.setBeginEnrollmentDateTime(null);
@@ -273,7 +273,7 @@ public class EventControllerTests extends BaseControllerTest {
 	@Test
 	@DisplayName("입력값이 잘못된 경우에 이벤트 수정 실패")
 	public void updateEvent400_Wrong() throws Exception {
-		Event event = this.generateEvent(20);
+		Event event = this.generateEvent(1);
 		
 		EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 		eventDto.setBasePrice(20000);

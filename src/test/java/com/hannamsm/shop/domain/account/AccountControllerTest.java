@@ -27,6 +27,7 @@ public class AccountControllerTest extends BaseControllerTest {
 	AppProperties appProperties;
 	
 	@Test
+	@Disabled
 	public void loginTest() throws Exception {
 		AuthenticationRequest authRequest = new AuthenticationRequest();
 		authRequest.setUsername("9000");
