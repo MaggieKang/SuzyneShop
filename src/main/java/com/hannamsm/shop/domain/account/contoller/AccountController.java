@@ -28,6 +28,7 @@ public class AccountController {
 	@Autowired
 	AccountService accountService;
 	
+	//회원가입
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public AuthenticationToken login(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {
 		String username = authenticationRequest.getUsername();
