@@ -32,8 +32,11 @@
 >1. 이미지 다운로드  
 >docker pull mcr.microsoft.com/mssql/server:2019-latest
 >
+>2. 이미지 조회 
+>docker images
+>
 >2. 컨테이너 생성  
->docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pa33word" -p1433:1433 --name sql2019 -d >d60e9ac97708
+>docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pa33word" -p1433:1433 --name sql2019 -d 이미지ID
 >
 >3. SQL Server 연결  
 >sql2019은 컨테이너 생성 시 지정한 이름  
@@ -50,10 +53,9 @@
 >SELECT Name from sys.Databases  
 
 
-필수 스크립트 생성
+필수 스크립트 DDL & Data생성
 >/HNS-SHOP/src/main/resources/sechema.sql
->   >DDL     
->   >Data insert  
+>/HNS-SHOP/src/main/resources/defult_data.sql
 
 sts 환경구성
 > openJdk 11 설정  
