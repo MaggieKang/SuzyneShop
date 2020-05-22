@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hannamsm.shop.domain.event.dao.ItemDao">
+<select id="findAllTotalCount" parameterType="com.hannamsm.shop.domain.item.vo.Item" resultType="int">
+select count(*) as totalCount
+  from item
+</select>
+
+<select id="findAll" parameterType="com.hannamsm.shop.domain.item.vo.Item" resultType="com.hannamsm.shop.domain.item.vo.Item">
+select item_id
+  from item
+</select>
+
+<select id="findById" parameterType="int" resultType="com.hannamsm.shop.domain.item.vo.Item">
+select item_id
+  from item
+</select>
+
+</mapper>

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
-public class EventSearch{
+public class EventSearch {
 
 	private String name;
 	

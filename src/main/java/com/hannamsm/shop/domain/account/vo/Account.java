@@ -23,13 +23,11 @@ public class Account implements Serializable {
     private String password;
     private String email;
     //계정이 만료되었는지
-    private boolean isUseAccountNonExpired;
+    private boolean isExpired;
     //계정이 잠겼는지(패스워드를 몇회 틀려서)
-    private boolean isAccountNonLocked;
-    //패스워드가 만료되었는지(몇 개월 주기로 변경)
-    private boolean isCredentialsNonExpired;
+    private boolean isLocked;
     //계정 활성화 여부
-    private boolean isEnabled;
+    private boolean isUse;
 	
     private List<String> roles;
 }

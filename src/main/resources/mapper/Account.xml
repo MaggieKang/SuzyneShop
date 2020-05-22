@@ -7,11 +7,10 @@
       , ISNULL(name, '') AS name
       , password
       , ISNULL(email, '') AS email
-      , isAccountNonExpired
-      , isAccountNonLocked
-      , isCredentialsNonExpired
-      , isEnabled
-   FROM ACCOUNT
+      , is_expired AS isExpired
+      , is_locked AS isLocked
+      , is_use AS isUse
+   FROM account
   WHERE id = #{id}
 </select>
 <select id="findRolesByUserId" parameterType="String" resultType="String">
@@ -20,19 +19,20 @@ SELECT authority_code
  WHERE id = #{id}
 </select>
 <insert id="createAccount" parameterType="com.hannamsm.shop.domain.account.vo.Account">
-INSERT INTO ACCOUNT
-(      seq
-     , id
+INSERT INTO account
+(      id
      , name
      , password
      , email
-     , isAccountNonExpired, isAccountNonLocked
-     , isCredentialsNonExpired, isEnabled
-     , regPerson, regDate 
-     , lastModDate, lastModPerson
+     , is_expired
+     , is_locked
+     , is_use
+     , reg_date
+     , reg_person
+     , last_mod_date
+     , last_mod_person
 ) VALUES (
-       ISNULL((SELECT max(seq)+1 from ACCOUNT),0)
-     , #{id}
+       #{id}
      , #{name}
      , #{password}
      , #{email}
@@ -47,7 +47,7 @@ INSERT INTO ACCOUNT
 )
 </insert>
 <delete id="deleteAccount" parameterType="String">
-UPDATE ACCOUNT
+UPDATE account
    SET isEnabled = 1
      , lastModDate = getDate()
      , lastModPerson = #{id}

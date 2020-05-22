@@ -33,7 +33,6 @@ import com.hannamsm.shop.global.error.ErrorsResource;
 import com.hannamsm.shop.global.vo.ResponseResutl;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
-
 @RestController
 @RequestMapping(value="/api/events", produces = MediaTypes.HAL_JSON_VALUE)
 public class EventController {
