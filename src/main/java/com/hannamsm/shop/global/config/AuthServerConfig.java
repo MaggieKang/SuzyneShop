@@ -66,6 +66,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.tokenStore(tokenStore)
 			.authenticationManager(authenticationManager)
-			.userDetailsService(accountService);
+			.userDetailsService(accountService)
+			.pathMapping("/oauth/token", "/api/account/login");
 	}
 }

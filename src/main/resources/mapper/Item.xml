@@ -8,6 +8,28 @@ select count(*) as totalCount
 
 <select id="findAll" parameterType="com.hannamsm.shop.domain.item.vo.Item" resultType="com.hannamsm.shop.domain.item.vo.Item">
 select item_id
+     , upc
+     , gal_code
+     , prod_own_code
+     , supp_code
+     , prod_id
+     , item_kr_nm
+     , item_en_nm
+     , item_size
+     , item_type
+     , item_type2
+     , item_in_price
+     , sale_price
+     , regular_price
+     , item_balance
+     , tax_cd
+     , sale_unit
+     , deposit_cd
+     , is_use
+     , reg_date
+     , reg_person
+     , last_mod_date
+     , last_mod_person
   from item
 </select>
 

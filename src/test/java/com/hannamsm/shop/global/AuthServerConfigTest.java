@@ -33,7 +33,7 @@ public class AuthServerConfigTest extends BaseControllerTest {
 	public void getAuthTokenByPassword() throws Exception {
 
 		this.mockMvc.perform(
-				post("/oauth/token")
+				post("/api/account/login")
 						.with(httpBasic(appProperties.getClientId(), appProperties.getClientSecret()))
 						.header(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded")
 						.param("grant_type", "password")
@@ -91,7 +91,7 @@ public class AuthServerConfigTest extends BaseControllerTest {
 //						links(linkWithRel("self").description("link to self"))
 						));
 	}
-	
+
 	@Test
 	@DisplayName("Access토큰을 사용하여 토큰 확인 및 토큰 정보를 받는 테스트")
 	public void getAuthTokenCheckByAccessToken() throws Exception {
@@ -109,7 +109,7 @@ public class AuthServerConfigTest extends BaseControllerTest {
 				.andExpect(jsonPath("authorities").exists())
 				.andExpect(jsonPath("client_id").exists())
 				.andExpect(jsonPath("scope").exists())
-				.andDo(document("get-tokenCheck", 
+				.andDo(document("get-tokenCheck",
 						requestHeaders(headerWithName(HttpHeaders.AUTHORIZATION).description("Basic auth credentials"),
 								headerWithName(HttpHeaders.CONTENT_TYPE).description("The \"Content-Type\" header field indicates the media type of the associated representation")),
 						requestParameters(parameterWithName("token").description("access_token of AuthToken")),
