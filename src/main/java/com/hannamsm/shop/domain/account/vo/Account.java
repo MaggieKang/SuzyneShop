@@ -16,18 +16,17 @@ import lombok.ToString;
 @ToString
 public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer seq;
     private String id;
-    private String name;
     private String password;
-    private String email;
+    private String name;
     //계정이 만료되었는지
     private boolean isExpired;
     //계정이 잠겼는지(패스워드를 몇회 틀려서)
     private boolean isLocked;
     //계정 활성화 여부
     private boolean isUse;
-	
+
     private List<String> roles;
 }

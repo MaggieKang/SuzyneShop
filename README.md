@@ -3,6 +3,7 @@
 
 ### 1. 환경 구성
 
+다운로드
 
 [Visual Studio Code 다운로드][vscodelink]
 
@@ -32,43 +33,53 @@
 
 [dbeaverlink]: https://dbeaver.io/download/?start&os=win&arch=x86_64 "DBeaver Community Database Tool"
 
->docker sql server 설치  
->1. 이미지 다운로드  
+Local DB 환경구성 (Docker 추천)
+>docker sql server 설치
+>1. 이미지 다운로드
 >docker pull mcr.microsoft.com/mssql/server:2019-latest
 >
->2. 이미지 조회 
+>2. 이미지 조회
 >docker images
 >
->2. 컨테이너 생성  
+>2. 컨테이너 생성
 >docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pa33word" -p1433:1433 --name sql2019 -d 이미지ID
 >
->3. SQL Server 연결  
->sql2019은 컨테이너 생성 시 지정한 이름  
->실행 중인 컨테이너 내에서 대화형 bash 셸 시작  
->docker exec -it sql2019 "bash"  
+>3. SQL Server 연결
+>sql2019은 컨테이너 생성 시 지정한 이름
+>실행 중인 컨테이너 내에서 대화형 bash 셸 시작
+>docker exec -it sql2019 "bash"
 >
->4. 컨테이너 내부로 들어가면 sqlcmd를 사용하여 로컬로 연결  
->/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Pa33word'  
+>4. 컨테이너 내부로 들어가면 sqlcmd를 사용하여 로컬로 연결
+>/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Pa33word'
 >
->5. db 생성  
->create database wholesaleDB  
+>5. db 생성
+>create database wholesaleDB
 >
->6. db 조회  
->SELECT Name from sys.Databases  
+>6. db 조회
+>SELECT Name from sys.Databases
 
-필수 스크립트 DDL & Data생성 (DBeaver 사용 권장)
->/HNS-SHOP/src/main/resources/sechema.sql  
+프로젝트 필수 스크립트 DDL & Data 사용 (DBeaver 사용 권장)
+>/HNS-SHOP/src/main/resources/sechema.sql
 >/HNS-SHOP/src/main/resources/defult_data.sql
 
 sts 환경구성
-> openJdk 11 설정  
-> utf-8 설정  
-> lombok 설치
+> openJdk 11 설정
+> utf-8 설정
 > ERD 플러그인 설정
+> [lombok설치][lombokInstall-link]
+
+[lombokInstall-link]: https://medium.com/@dongchimi/%EC%9D%B4%ED%81%B4%EB%A6%BD%EC%8A%A4%EC%97%90-lombok-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-b3489875780b "lombok설치"
+
 
 소스 복사
 > workspace 에서 git clone 사용
-> sts forder import 하영 사용
+> sts forder import 사용
+
+로컬 환경 Windows 10 64bit에 IIS와 Spring boot를 설치하고 연동하기
+[IIS Spring boot Connector 연결][iis2springbootlink]
+
+[iis2springbootlink]: https://offbyone.tistory.com/322 "IIS Spring boot Connector 연결"
+
 
 Junit5
 테스트는 테스트 참고하세요.
@@ -77,21 +88,21 @@ Junit5
 *****
 ### 2. 구성 가이드
 
-##### 디렉토리 구조   
+##### 디렉토리 구조
 
 >domain
->   >controller   
->   >service   
->   >dao   
->   >vo   
+>   >controller
+>   >service
+>   >dao
+>   >vo
 
 >global
->   >controller   
->   >service   
->   >dao   
->   >vo   
+>   >controller
+>   >service
+>   >dao
+>   >vo
 
-##### 패키지   
+##### 패키지
 
 | 패키지 명      | 설명     |
 | ---------- | ------ |
@@ -109,7 +120,7 @@ Junit5
 | dao        | 데이터    |
 | vo         | 객체     |
 
-##### Layer 별 역할 및 명명 규칙   
+##### Layer 별 역할 및 명명 규칙
 
 | Layer      | 구분   | 표준  | 예시  |
 | ---------- | ---- | --- | --- |
@@ -123,40 +134,40 @@ Junit5
 
 *****
 ### 3. VO, DTO 작성 가이드
-> Dao vo 생성시 어노테이션 사용은 아래와 같습니다.  
+> Dao vo 생성시 어노테이션 사용은 아래와 같습니다.
 > Dao용 vo는 controller에서 그대로 사용하지 않습니다.
->   > @Builder  
->   > @AllArgsConstructor  
->   > @NoArgsConstructor  
->   > @Getter  
->   > @Setter  
->   > @toString  
+>   > @Builder
+>   > @AllArgsConstructor
+>   > @NoArgsConstructor
+>   > @Getter
+>   > @Setter
+>   > @toString
 
-> DTO vo 생성시 어노테이션 사용은 아래와 같습니다.  
+> DTO vo 생성시 어노테이션 사용은 아래와 같습니다.
 > DTO는 Dao vo로 사용하지 않습니다.
->   > @Builder  
->   > @AllArgsConstructor  
->   > @NoArgsConstructor  
->   > @Getter  
->   > @Setter  
->   > @toString  
+>   > @Builder
+>   > @AllArgsConstructor
+>   > @NoArgsConstructor
+>   > @Getter
+>   > @Setter
+>   > @toString
 
 *****
 ### 4. Dao 작성 가이드
->Dao는 주로 Interface로 작성합니다.  
+>Dao는 주로 Interface로 작성합니다.
 >작성된 Dao는 반드시 query.xml과 1대 1로 맵핑하여 줍니다.
-> com.hannamsm.shop.domain.event.dao.EventDao.class  
+> com.hannamsm.shop.domain.event.dao.EventDao.class
 > src/main/resources/mapper/Event.xml
 ><pre><code>
 >public interface EventDao {
 >   public int create(@Param("event")Event event) throws Exception;
 >
 >   public int selectEventId() throws Exception;
->   
+>
 >   public Optional<Event> findById(Integer id) throws Exception;
 >
 >   public int findAllTotalCount(EventSearch eventSearch) throws Exception;
->   
+>
 >   public List<Event> findAll(EventSearch eventSearch) throws Exception;
 >
 >   public int update(Event event) throws Exception;
@@ -184,7 +195,7 @@ public class BootSpringBootApplication {
 반드시 @RestController를 사용해야 합니다.
 반드시 @RequestMapping을 MediaTypes.HAL_JSON_VALUE 선언하여 사용해야 합니다.
 
-입력 값으로는 DTO를 사용해야 하며 필수 조건은 DTO를 이용하여 valid를 사용합니다.  
+입력 값으로는 DTO를 사용해야 하며 필수 조건은 DTO를 이용하여 valid를 사용합니다.
 valid의 결과값으로 Errors 객체를 사용합니다.
 DTO의 입력 조건을 확인하려면 VO 생성을 참조하세요
 
@@ -196,34 +207,34 @@ DTO의 입력 조건을 확인하려면 VO 생성을 참조하세요
 public class EventController {
     @Autowired
     private EventService eventService;
-    
+
     @Autowired
     private ModelMapper modelMapper;
-    
+
     @Autowired
     private EventValidator eventValidator;
-    
+
     @PostMapping
     public ResponseEntity createEvent(@RequestBody @Valid EventDto reqEventDto
             , @CurrentUser Account account, Errors errors) throws Exception {
         if(errors.hasErrors()) {
             return badRequest(errors);
         }
-        
+
         this.eventValidator.validate(reqEventDto, errors);
         if(errors.hasErrors()) {
             return badRequest(errors);
         }
-        
+
         Event event = modelMapper.map(reqEventDto, Event.class);
         event.update();
         event.setRegPerson(account.getId());
         event.setLastModPerson(account.getId());
-        
+
         Event savedEvent = this.eventService.create(event);
-        
+
         ResEventDto resEventDto = modelMapper.map(savedEvent, ResEventDto.class);
-        
+
         ResponseResutl<ResEventDto> resResult = new ResponseResutl<ResEventDto>();
         resResult.setMessage("생성되었습니다.");
         resResult.setResult(resEventDto);
@@ -246,9 +257,9 @@ __double underscores__
 *****
 ### 8. Error 작성 가이드
 
-#### 에러코드 정의 
+#### 에러코드 정의
 
-##### ex) B12345678910  
+##### ex) B12345678910
 | 예제     | 자리      | 설명        | 종류                              |
 | ------ | ------- | --------- | ------------------------------- |
 | B      | 0자리     | 메시지 유형구분  | B:비즈시니,S:시스템,:D:DB IO,I:정보,U:조치 |

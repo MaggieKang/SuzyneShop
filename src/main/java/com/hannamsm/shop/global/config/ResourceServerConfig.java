@@ -24,7 +24,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 				.accessDeniedHandler(new OAuth2AccessDeniedHandler())
 				.and()
 				.authorizeRequests()
-				.antMatchers(HttpMethod.OPTIONS, "/oauth/token").permitAll()
+				.antMatchers(HttpMethod.OPTIONS, "/api/account/login").permitAll()
 				.anyRequest().authenticated();
 	}
 }

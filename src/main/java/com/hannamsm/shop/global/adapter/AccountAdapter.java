@@ -16,7 +16,7 @@ public class AccountAdapter extends User {
 	private Account account;
 
 	public AccountAdapter(Account account) {
-		super(account.getEmail(), account.getPassword(), authorities(account.getRoles()));
+		super(account.getId(), account.getPassword(), authorities(account.getRoles()));
 		this.account = account;
 	}
 
@@ -25,7 +25,7 @@ public class AccountAdapter extends User {
 	}
 
 	public Account getAccount() {
-		this.account.setPassword("");
+//		this.account.setPassword("");
 		return this.account;
 	}
 }

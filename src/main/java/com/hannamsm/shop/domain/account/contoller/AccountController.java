@@ -22,23 +22,23 @@ import com.hannamsm.shop.domain.account.vo.AuthenticationToken;
 @RestController
 @RequestMapping(value="/account", produces = MediaTypes.HAL_JSON_VALUE)
 public class AccountController {
-	
+
 	@Autowired
 	AuthenticationManager authenticationManager;
 	@Autowired
 	AccountService accountService;
-	
+
 	//회원가입
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public AuthenticationToken login(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {
+	@RequestMapping(value="/join", method=RequestMethod.POST)
+	public AuthenticationToken join(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {
 		String username = authenticationRequest.getUsername();
 		String password = authenticationRequest.getPassword();
-		
+
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
 		Authentication authentication = authenticationManager.authenticate(token);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-		
+
 		UserDetails account = this.accountService.loadUserByUsername(username);
 		return new AuthenticationToken(account.getUsername(), account.getAuthorities(), session.getId());
 	}

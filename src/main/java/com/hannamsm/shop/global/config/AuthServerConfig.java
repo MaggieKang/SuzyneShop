@@ -67,6 +67,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 		endpoints.tokenStore(tokenStore)
 			.authenticationManager(authenticationManager)
 			.userDetailsService(accountService)
+			.pathMapping("/oauth/check_token", "/api/account/token-check")
 			.pathMapping("/oauth/token", "/api/account/login");
 	}
 }
