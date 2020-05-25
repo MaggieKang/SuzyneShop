@@ -34,8 +34,7 @@ public class Item {
 	private String taxCd;
 	private String saleUnit;
 	private String depositCd;
-	private String categoryLevel1Cd;
-	private String categoryLevel2Cd;
+	private String categoryCd;
 	private boolean isUse;
 	private LocalDateTime regDate;
 	private String regPerson;

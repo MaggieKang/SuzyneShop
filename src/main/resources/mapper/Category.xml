@@ -6,8 +6,8 @@ with temp as (
 select category_cd
      , category_nm
      , parent_category_cd
-     , convert(varchar(255), category_cd) sort
-     , convert(varchar(255), category_nm) depth_fullname
+     , convert(varchar(255), category_cd) as sort
+     , convert(varchar(255), category_nm) as depth_full_nm
   from category
  where parent_category_cd = 'L000'
    and is_use = '1'
@@ -15,14 +15,14 @@ select category_cd
 select a.category_cd
      , a.category_nm
      , a.parent_category_cd
-     , convert(varchar(255), convert(nvarchar,b.sort) + ' > ' + convert(varchar(255), a.category_cd)) sort
-     , convert(varchar(255), convert(nvarchar,b.depth_fullname) + ' > ' + convert(varchar(255), a.category_nm)) depth_fullname
+     , convert(varchar(255), convert(nvarchar,b.sort) + ' > ' + convert(varchar(255), a.category_cd)) as sort
+     , convert(varchar(255), convert(nvarchar,b.depth_full_nm) + ' > ' + convert(varchar(255), a.category_nm)) as depth_full_nm
   from category a
      , temp b
  where a.parent_category_cd = b.category_cd
    and a.is_use = '1'
 )
-select count(category_cd)
+select count(category_cd) as totalCount
   from temp
  OPTION(MAXRECURSION 5)
 </select>
@@ -32,8 +32,8 @@ with temp as (
 select category_cd
      , category_nm
      , parent_category_cd
-     , convert(varchar(255), category_cd) sort
-     , convert(varchar(255), category_nm) depth_fullname
+     , convert(varchar(255), category_cd) as sort
+     , convert(varchar(255), category_nm) as depth_full_nm
   from category
  where parent_category_cd = 'L000'
    and is_use = '1'
@@ -41,14 +41,17 @@ select category_cd
 select a.category_cd
      , a.category_nm
      , a.parent_category_cd
-     , convert(varchar(255), convert(nvarchar,b.sort) + ' > ' + convert(varchar(255), a.category_cd)) sort
-     , convert(varchar(255), convert(nvarchar,b.depth_fullname) + ' > ' + convert(varchar(255), a.category_nm)) depth_fullname
+     , convert(varchar(255), convert(nvarchar,b.sort) + ' > ' + convert(varchar(255), a.category_cd)) as sort
+     , convert(varchar(255), convert(nvarchar,b.depth_full_nm) + ' > ' + convert(varchar(255), a.category_nm)) as depth_full_nm
   from category a
      , temp b
  where a.parent_category_cd = b.category_cd
    and a.is_use = '1'
 )
-select category_cd, parent_category_cd, depth_fullname
+select category_cd as categoryCd
+     , category_nm as categoryNm
+     , parent_category_cd as parentCategoryCd
+     , depth_full_nm as depthFullNm
   from temp
  order by sort
  OPTION(MAXRECURSION 5)
@@ -60,7 +63,7 @@ select category_cd
      , category_nm
      , parent_category_cd
      , convert(varchar(255), category_cd) sort
-     , convert(varchar(255), category_nm) depth_fullname
+     , convert(varchar(255), category_nm) depth_full_nm
   from category
  where parent_category_cd = #{categoryCd}
    and is_use = '1'
@@ -69,13 +72,16 @@ select a.category_cd
      , a.category_nm
      , a.parent_category_cd
      , convert(varchar(255), convert(nvarchar,b.sort) + ' > ' + convert(varchar(255), a.category_cd)) sort
-     , convert(varchar(255), convert(nvarchar,b.depth_fullname) + ' > ' + convert(varchar(255), a.category_nm)) depth_fullname
+     , convert(varchar(255), convert(nvarchar,b.depth_fullname) + ' > ' + convert(varchar(255), a.category_nm)) depth_full_nm
   from category a
      , temp b
  where a.parent_category_cd = b.category_cd
    and a.is_use = '1'
 )
-select category_cd, parent_category_cd, depth_fullname
+select category_cd as categoryCd
+     , category_nm as categoryNm
+     , parent_category_cd as parentCategoryCd
+     , depth_full_nm as depthFullNm
   from temp
  order by sort
  OPTION(MAXRECURSION 5)

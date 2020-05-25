@@ -25,8 +25,7 @@ select item_id            as itemId
      , tax_cd             as taxCd
      , sale_unit          as saleUnit
      , deposit_cd         as depositCd
-     , category_level1_cd as categoryLevel1Cd
-     , category_level2_cd as categoryLevel2Cd
+     , category_cd        as categoryCd
      , is_use             as isUse
      , reg_date           as regDate
      , reg_person         as regPerson
@@ -57,8 +56,7 @@ select item_id            as itemId
      , tax_cd             as taxCd
      , sale_unit          as saleUnit
      , deposit_cd         as depositCd
-     , category_level1_cd as categoryLevel1Cd
-     , category_level2_cd as categoryLevel2Cd
+     , category_cd        as categoryCd
      , is_use             as isUse
      , reg_date           as regDate
      , reg_person         as regPerson
@@ -87,8 +85,7 @@ select item_id            as itemId
      , tax_cd             as taxCd
      , sale_unit          as saleUnit
      , deposit_cd         as depositCd
-     , category_level1_cd as categoryLevel1Cd
-     , category_level2_cd as categoryLevel2Cd
+     , category_cd        as categoryCd
      , is_use             as isUse
      , reg_date           as regDate
      , reg_person         as regPerson

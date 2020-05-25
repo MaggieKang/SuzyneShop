@@ -7,19 +7,19 @@ select count(store_id) as totalCount
 </select>
 
 <select id="findAll" parameterType="com.hannamsm.shop.domain.store.vo.StoreSearch" resultType="com.hannamsm.shop.domain.store.vo.Store">
-select store_id
-     , store_nm
-     , address
-     , city
-     , province
-     , postal_cd
-     , store_open_time
-     , telephone
-     , is_use
-     , reg_date
-     , reg_person
-     , last_mod_date
-     , last_mod_person
+select store_id        as storeId
+     , store_nm        as storeNm
+     , address         as address
+     , city            as city
+     , province        as province
+     , postal_cd       as postalCd
+     , store_open_time as storeOpenTime
+     , telephone       as telephone
+     , is_use          as isUse
+     , reg_date        as regDate
+     , reg_person      as regPerson
+     , last_mod_date   as lastModDate
+     , last_mod_person as lastModPerson
   from store
  order by store_id
 offset #{startRownum} rows
