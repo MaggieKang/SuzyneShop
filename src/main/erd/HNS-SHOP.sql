@@ -4,11 +4,15 @@
 IF ObJECt_ID('[authority]') IS NOT NULL DROP TABLE [authority];
 IF ObJECt_ID('[customer]') IS NOT NULL DROP TABLE [customer];
 IF ObJECt_ID('[account]') IS NOT NULL DROP TABLE [account];
+IF ObJECt_ID('[item_file]') IS NOT NULL DROP TABLE [item_file];
+IF ObJECt_ID('[item]') IS NOT NULL DROP TABLE [item];
+IF ObJECt_ID('[category]') IS NOT NULL DROP TABLE [category];
 IF ObJECt_ID('[cmn_code_detail]') IS NOT NULL DROP TABLE [cmn_code_detail];
 IF ObJECt_ID('[cmn_code]') IS NOT NULL DROP TABLE [cmn_code];
 IF ObJECt_ID('[cmn_cls_code]') IS NOT NULL DROP TABLE [cmn_cls_code];
-IF ObJECt_ID('[item]') IS NOT NULL DROP TABLE [item];
+IF ObJECt_ID('[cmn_file]') IS NOT NULL DROP TABLE [cmn_file];
 IF ObJECt_ID('[mfProd]') IS NOT NULL DROP TABLE [mfProd];
+IF ObJECt_ID('[store]') IS NOT NULL DROP TABLE [store];
 
 
 
@@ -54,6 +58,25 @@ CREATE TABLE [authority]
 );
 
 
+CREATE TABLE [category]
+(
+	[category_cd] varchar(10) NOT NULL,
+	[category_nm] varchar(45),
+	[category_desc] varchar(250),
+	[parent_category_cd] varchar(10),
+	[is_use] bit DEFAULT '1',
+	-- 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자
+	[reg_person] varchar(256),
+	-- last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([category_cd])
+);
+
+
 -- common classification code
 -- 공통 분류 코드
 CREATE TABLE [cmn_cls_code]
@@ -68,7 +91,7 @@ CREATE TABLE [cmn_cls_code]
 -- common code
 CREATE TABLE [cmn_code]
 (
-	[cd_id] varchar(6) NOT NULL,
+	[cd_id] varchar(10) NOT NULL,
 	[cd_id_nm] varchar(60) NOT NULL,
 	[cd_id_dc] varchar(20),
 	[is_use] bit DEFAULT '1' NOT NULL,
@@ -88,8 +111,8 @@ CREATE TABLE [cmn_code]
 -- common code detail
 CREATE TABLE [cmn_code_detail]
 (
-	[cd_id] varchar(6) NOT NULL,
-	[cd] varchar(6) NOT NULL,
+	[cd_id] varchar(10) NOT NULL,
+	[cd] varchar(10) NOT NULL,
 	[cd_nm] varchar(60) NOT NULL,
 	[cd_dc] varchar(20),
 	[is_use] bit DEFAULT '1' NOT NULL,
@@ -102,6 +125,27 @@ CREATE TABLE [cmn_code_detail]
 	-- 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([cd_id], [cd])
+);
+
+
+CREATE TABLE [cmn_file]
+(
+	[cmn_file_id] varchar(100) NOT NULL,
+	[cnm_file_type_cd] varchar(10) NOT NULL,
+	[cmn_file_original_nm] varchar(200) NOT NULL,
+	[cnm_file_nm] varchar(500) NOT NULL,
+	[cnm_file_path] varchar(100) NOT NULL,
+	[cnm_file_size] int NOT NULL,
+	[is_use] bit DEFAULT '1' NOT NULL,
+	-- 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자
+	[reg_person] varchar(256),
+	-- last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([cmn_file_id])
 );
 
 
@@ -137,7 +181,7 @@ CREATE TABLE [customer]
 
 CREATE TABLE [item]
 (
-	[item_id] varchar(15) NOT NULL,
+	[item_id] varchar(24) NOT NULL,
 	[upc] varchar(20),
 	[gal_code] varchar(9),
 	[prod_own_code] varchar(4),
@@ -146,6 +190,7 @@ CREATE TABLE [item]
 	[item_kr_nm] varchar(150),
 	[item_en_nm] varchar(150),
 	[item_size] nvarchar(30),
+	-- tblCategory1 포스 테이블 참조
 	[item_type] nvarchar(2),
 	-- 상품 Type - "08" 베이커리 6개 이상 구매시 Non Tax
 	-- 
@@ -164,6 +209,7 @@ CREATE TABLE [item]
 	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType' 
 	-- 100 보다 작으면 Select * FROM [dbgal].[dbo].[tblEncorp] WHERE ReturnType ='ReturnType'"
 	[deposit_cd] int,
+	[category_cd] varchar(10),
 	[is_use] bit,
 	-- 최초등록일시
 	[reg_date] datetime,
@@ -174,6 +220,21 @@ CREATE TABLE [item]
 	-- 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([item_id])
+);
+
+
+CREATE TABLE [item_file]
+(
+	[item_id] varchar(24) NOT NULL,
+	[cmn_file_id] varchar(100) NOT NULL,
+	-- 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자
+	[reg_person] varchar(256),
+	-- last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막 변경 사용자
+	[last_mod_person] varchar(256)
 );
 
 
@@ -350,6 +411,30 @@ CREATE TABLE [mfProd]
 );
 
 
+CREATE TABLE [store]
+(
+	[store_id] varchar(10) NOT NULL,
+	[store_nm] varchar(250),
+	[address] varchar(100),
+	[city] varchar(20),
+	[province] varchar(20),
+	[postal_cd] varchar(10),
+	[store_open_time] varchar(50),
+	[telephone] varchar(20),
+	[is_use] bit DEFAULT '1' NOT NULL,
+	[store_manager_id] varchar(200),
+	-- 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자
+	[reg_person] varchar(256),
+	-- last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([store_id])
+);
+
+
 
 /* Create Foreign Keys */
 
@@ -369,6 +454,22 @@ ALTER TABLE [customer]
 ;
 
 
+ALTER TABLE [category]
+	ADD FOREIGN KEY ([parent_category_cd])
+	REFERENCES [category] ([category_cd])
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
+ALTER TABLE [item]
+	ADD FOREIGN KEY ([category_cd])
+	REFERENCES [category] ([category_cd])
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
 ALTER TABLE [cmn_code]
 	ADD FOREIGN KEY ([cls_cd])
 	REFERENCES [cmn_cls_code] ([cls_cd])
@@ -382,6 +483,22 @@ ALTER TABLE [cmn_code_detail]
 	REFERENCES [cmn_code] ([cd_id])
 	ON UPDATE CASCADE
 	ON DELETE CASCADE
+;
+
+
+ALTER TABLE [item_file]
+	ADD FOREIGN KEY ([cmn_file_id])
+	REFERENCES [cmn_file] ([cmn_file_id])
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
+;
+
+
+ALTER TABLE [item_file]
+	ADD FOREIGN KEY ([item_id])
+	REFERENCES [item] ([item_id])
+	ON UPDATE RESTRICT
+	ON DELETE RESTRICT
 ;
 
 

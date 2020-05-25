@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hannamsm.shop.domain.category.dao.CategoryDao">
+<select id="findAllCount" parameterType="com.hannamsm.shop.domain.category.vo.CategorySearch" resultType="int">
+with temp as (
+select category_cd
+     , category_nm
+     , parent_category_cd
+     , convert(varchar(255), category_cd) sort
+     , convert(varchar(255), category_nm) depth_fullname
+  from category
+ where parent_category_cd = 'L000'
+   and is_use = '1'
+ union all
+select a.category_cd
+     , a.category_nm
+     , a.parent_category_cd
+     , convert(varchar(255), convert(nvarchar,b.sort) + ' > ' + convert(varchar(255), a.category_cd)) sort
+     , convert(varchar(255), convert(nvarchar,b.depth_fullname) + ' > ' + convert(varchar(255), a.category_nm)) depth_fullname
+  from category a
+     , temp b
+ where a.parent_category_cd = b.category_cd
+   and a.is_use = '1'
+)
+select count(category_cd)
+  from temp
+ OPTION(MAXRECURSION 5)
+</select>
+
+<select id="findAll" parameterType="com.hannamsm.shop.domain.category.vo.CategorySearch" resultType="com.hannamsm.shop.domain.category.vo.CategoryDto">
+with temp as (
+select category_cd
+     , category_nm
+     , parent_category_cd
+     , convert(varchar(255), category_cd) sort
+     , convert(varchar(255), category_nm) depth_fullname
+  from category
+ where parent_category_cd = 'L000'
+   and is_use = '1'
+ union all
+select a.category_cd
+     , a.category_nm
+     , a.parent_category_cd
+     , convert(varchar(255), convert(nvarchar,b.sort) + ' > ' + convert(varchar(255), a.category_cd)) sort
+     , convert(varchar(255), convert(nvarchar,b.depth_fullname) + ' > ' + convert(varchar(255), a.category_nm)) depth_fullname
+  from category a
+     , temp b
+ where a.parent_category_cd = b.category_cd
+   and a.is_use = '1'
+)
+select category_cd, parent_category_cd, depth_fullname
+  from temp
+ order by sort
+ OPTION(MAXRECURSION 5)
+</select>
+
+<select id="findByCode" parameterType="String" resultType="com.hannamsm.shop.domain.category.vo.CategoryDto">
+with temp as (
+select category_cd
+     , category_nm
+     , parent_category_cd
+     , convert(varchar(255), category_cd) sort
+     , convert(varchar(255), category_nm) depth_fullname
+  from category
+ where parent_category_cd = #{categoryCd}
+   and is_use = '1'
+ union all
+select a.category_cd
+     , a.category_nm
+     , a.parent_category_cd
+     , convert(varchar(255), convert(nvarchar,b.sort) + ' > ' + convert(varchar(255), a.category_cd)) sort
+     , convert(varchar(255), convert(nvarchar,b.depth_fullname) + ' > ' + convert(varchar(255), a.category_nm)) depth_fullname
+  from category a
+     , temp b
+ where a.parent_category_cd = b.category_cd
+   and a.is_use = '1'
+)
+select category_cd, parent_category_cd, depth_fullname
+  from temp
+ order by sort
+ OPTION(MAXRECURSION 5)
+</select>
+
+</mapper>

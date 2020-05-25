@@ -18,19 +18,18 @@ public class CategoryControllerTest extends BaseControllerTest {
 
 	@Test
 	@DisplayName("상품 카테고리 조회 테스트 - (정상)")
-	public void queryItems() throws Exception {
+	public void queryAllCategories() throws Exception {
 		// Given
-		
+
 		// When & Then
 		mockMvc.perform(get("/api/category")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
 				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
-//				.content(this.objectMapper.writeValueAsString(event))
 				)
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
-			.andDo(document("query-items"));
+			.andDo(document("query-categories"));
 	}
 }
