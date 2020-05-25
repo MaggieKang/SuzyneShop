@@ -72,7 +72,7 @@ select a.category_cd
      , a.category_nm
      , a.parent_category_cd
      , convert(varchar(255), convert(nvarchar,b.sort) + ' > ' + convert(varchar(255), a.category_cd)) sort
-     , convert(varchar(255), convert(nvarchar,b.depth_fullname) + ' > ' + convert(varchar(255), a.category_nm)) depth_full_nm
+     , convert(varchar(255), convert(nvarchar,b.depth_full_nm) + ' > ' + convert(varchar(255), a.category_nm)) depth_full_nm
   from category a
      , temp b
  where a.parent_category_cd = b.category_cd
