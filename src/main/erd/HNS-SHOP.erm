@@ -11,8 +11,8 @@
 	</page_setting>
 	<category_index>0</category_index>
 	<zoom>0.75</zoom>
-	<x>379</x>
-	<y>752</y>
+	<x>0</x>
+	<y>0</y>
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -49,13 +49,13 @@
 				<category_id>null</category_id>
 				<ddl_target>
 					<create_comment>true</create_comment>
-					<create_foreignKey>true</create_foreignKey>
+					<create_foreignKey>false</create_foreignKey>
 					<create_index>true</create_index>
 					<create_sequence>true</create_sequence>
 					<create_table>true</create_table>
 					<create_tablespace>true</create_tablespace>
-					<create_trigger>true</create_trigger>
-					<create_view>true</create_view>
+					<create_trigger>false</create_trigger>
+					<create_view>false</create_view>
 					<drop_index>true</drop_index>
 					<drop_sequence>true</drop_sequence>
 					<drop_table>true</drop_table>
@@ -64,9 +64,9 @@
 					<drop_view>true</drop_view>
 					<inline_column_comment>true</inline_column_comment>
 					<inline_table_comment>true</inline_table_comment>
-					<comment_value_description>true</comment_value_description>
+					<comment_value_description>false</comment_value_description>
 					<comment_value_logical_name>false</comment_value_logical_name>
-					<comment_value_logical_name_description>false</comment_value_logical_name_description>
+					<comment_value_logical_name_description>true</comment_value_logical_name_description>
 					<comment_replace_line_feed>false</comment_replace_line_feed>
 					<comment_replace_string></comment_replace_string>
 				</ddl_target>
@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2020-05-14 07:51:40</creation_date>
-			<updated_date>2020-05-25 16:04:48</updated_date>
+			<updated_date>2020-05-26 10:59:57</updated_date>
 			<model_property>
 				<name>프로젝트명</name>
 				<value></value>
