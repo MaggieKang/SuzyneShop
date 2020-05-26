@@ -57,6 +57,31 @@ select category_cd as categoryCd
  OPTION(MAXRECURSION 5)
 </select>
 
+<select id="findByCodeCount" parameterType="String" resultType="int">
+with temp as (
+select category_cd
+     , category_nm
+     , parent_category_cd
+     , convert(varchar(255), category_cd) sort
+     , convert(varchar(255), category_nm) depth_full_nm
+  from category
+ where parent_category_cd = #{categoryCd}
+   and is_use = '1'
+ union all
+select a.category_cd
+     , a.category_nm
+     , a.parent_category_cd
+     , convert(varchar(255), convert(nvarchar,b.sort) + ' > ' + convert(varchar(255), a.category_cd)) sort
+     , convert(varchar(255), convert(nvarchar,b.depth_full_nm) + ' > ' + convert(varchar(255), a.category_nm)) depth_full_nm
+  from category a
+     , temp b
+ where a.parent_category_cd = b.category_cd
+   and a.is_use = '1'
+)
+select count(category_cd) as totalCount
+  from temp
+option(maxrecursion 5)
+</select>
 <select id="findByCode" parameterType="String" resultType="com.hannamsm.shop.domain.category.vo.CategoryDto">
 with temp as (
 select category_cd

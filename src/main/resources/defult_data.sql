@@ -66,7 +66,8 @@ INSERT INTO store (store_id, store_nm, address, city, province, postal_cd, store
 INSERT INTO store (store_id, store_nm, address, city, province, postal_cd, store_open_time, telephone, is_use, reg_date, reg_person, last_mod_date, last_mod_person) VALUES('st004', 'HANNAM Supermarket, Langley', '6350 196 St.', 'Langley', 'British Columbia', 'V2Y1J2', '8:30 AM - 10:00 PM', '604-539-6267', 1, getDate(), 'sysadmin', getDate(), 'sysadmin');
 
 INSERT INTO category (category_cd, category_nm, category_desc, parent_category_cd, reg_date, reg_person, last_mod_date, last_mod_person) VALUES
-('L101','건식품','건식품', 'L000', getDate(),'sysadmin', getDate(),'sysadmin')
+ ('L000','ROOT','ROOT', '', getDate(),'sysadmin', getDate(),'sysadmin')
+,('L101','건식품','건식품', 'L000', getDate(),'sysadmin', getDate(),'sysadmin')
 ,('L102','곡류','곡류', 'L000', getDate(),'sysadmin', getDate(),'sysadmin')
 ,('L103','과자류','과자류', 'L000', getDate(),'sysadmin', getDate(),'sysadmin')
 ,('L104','김류','김류', 'L000', getDate(),'sysadmin', getDate(),'sysadmin')

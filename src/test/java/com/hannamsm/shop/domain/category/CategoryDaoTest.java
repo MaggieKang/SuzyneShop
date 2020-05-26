@@ -25,11 +25,11 @@ public class CategoryDaoTest extends BaseDaoTest {
 	public void findAll() throws Exception {
 		CategorySearch categorySearch = new CategorySearch(1, 10);
 
-		List<CategoryDto> items = this.categoryDao.findAll(categorySearch);
-		System.out.println(items.toString());
+		List<CategoryDto> list = this.categoryDao.findAll(categorySearch);
+		System.out.println(list.toString());
 
-		assertAll("items",
-				()->assertNotNull(items));
+		assertAll("categories",
+				()->assertNotNull(list));
 	}
 
 	@Test
@@ -47,11 +47,11 @@ public class CategoryDaoTest extends BaseDaoTest {
 	@Test
 	@DisplayName("ID로 카테고리 조회 테스트")
 	public void findByCode() throws Exception {
-		Optional<CategoryDto> item = this.categoryDao.findByCode("N111");
-		System.out.println(item.toString());
+		List<CategoryDto> list = this.categoryDao.findByCode("N111");
+		System.out.println(list.toString());
 
-		assertAll("category",
-				()->assertNotNull(item));
+		assertAll("categories",
+				()->assertNotNull(list));
 	}
 
 }

@@ -50,10 +50,10 @@ public class StoreController {
 	/*
 	 * Item 조회
 	 */
-	@GetMapping("/{id}")
-	public ResponseEntity queryItem(@PathVariable String id) throws Exception {
+	@GetMapping("/{code}")
+	public ResponseEntity queryItem(@PathVariable String code) throws Exception {
 
-		Optional<Store> optionaStore = this.storeService.findById(id);
+		Optional<Store> optionaStore = this.storeService.findById(code);
 		if(optionaStore.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

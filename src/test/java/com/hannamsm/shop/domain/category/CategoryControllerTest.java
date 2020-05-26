@@ -32,4 +32,21 @@ public class CategoryControllerTest extends BaseControllerTest {
 			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
 			.andDo(document("query-categories"));
 	}
+
+	@Test
+	@DisplayName("상품 카테고리 조회 테스트 - (정상)")
+	public void queryCategoryByCode() throws Exception {
+		// Given
+
+		// When & Then
+		mockMvc.perform(get("/api/category/")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaTypes.HAL_JSON)
+				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
+				)
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
+			.andDo(document("query-categories"));
+	}
 }

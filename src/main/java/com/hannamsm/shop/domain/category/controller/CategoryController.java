@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ public class CategoryController {
 	CategoryService categoryService;
 
 	/*
-	 * 상품 카테고리 조회
+	 * 카테고리 목록 조회
 	 */
 	@GetMapping
 	public ResponseEntity queryCategory(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -38,6 +39,25 @@ public class CategoryController {
     	ResponseResutlsByPaging<CategoryDto> resResult = new ResponseResutlsByPaging<CategoryDto>(page, listSize);
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(allCount);
+        resResult.setCurrentCount(list.size());
+        resResult.setResultList(list);
+        resResult.update();
+
+        return ResponseEntity.ok(resResult);
+	}
+
+	/*
+	 * 카테고리 조회
+	 */
+	@GetMapping("/{code}")
+	public ResponseEntity queryCategoryById(@PathVariable String code) throws Exception {
+
+		List<CategoryDto> list = this.categoryService.findByCode(code);
+
+		//return data
+    	ResponseResutlsByPaging<CategoryDto> resResult = new ResponseResutlsByPaging<CategoryDto>(1, 1000);
+		resResult.setMessage("조회되었습니다.");
+		resResult.setTotalCount(list.size());
         resResult.setCurrentCount(list.size());
         resResult.setResultList(list);
         resResult.update();
