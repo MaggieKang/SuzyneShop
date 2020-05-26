@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ public class CategoryDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("카테고리 전체 조회 테스트")
+	@Disabled
 	public void findAll() throws Exception {
 		CategorySearch categorySearch = new CategorySearch(1, 10);
 
@@ -34,6 +35,7 @@ public class CategoryDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("카테고리 전체 건수 조회 테스트")
+	@Disabled
 	public void findAllCount() throws Exception {
 		CategorySearch categorySearch = new CategorySearch(1, 10);
 
@@ -46,6 +48,7 @@ public class CategoryDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("ID로 카테고리 조회 테스트")
+	@Disabled
 	public void findByCode() throws Exception {
 		List<CategoryDto> list = this.categoryDao.findByCode("N111");
 		System.out.println(list.toString());
