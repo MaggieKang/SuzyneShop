@@ -30,8 +30,6 @@ CREATE TABLE [account]
 	[name] varchar(200),
 	-- 비밀번호 : 비밀번호
 	[password] varchar(500) NOT NULL,
-	-- 이메일 : email 
-	[email] varchar(200),
 	-- 만료여부 : 만료 여부
 	-- is Expired
 	[is_expired] bit NOT NULL,
