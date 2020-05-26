@@ -1,43 +1,63 @@
+IF ObJECt_ID('[oauth_client_details]') IS NOT NULL DROP TABLE [oauth_client_details];
+
+CREATE TABLE [oauth_client_details] (
+    client_id varchar(256) NOT NULL,
+    resource_ids varchar(256) NULL,
+    client_secret varchar(256) NULL,
+    [scope] varchar(256) NULL,
+    authorized_grant_types varchar(256) NULL,
+    web_server_redirect_uri varchar(256) NULL,
+    authorities varchar(256) NULL,
+    access_token_validity int NULL,
+    refresh_token_validity int NULL,
+    additional_information varchar(4096) NULL,
+    autoapprove varchar(256) NULL,
+    PRIMARY KEY (client_id)
+);
+
 INSERT INTO oauth_client_details (client_id,resource_ids,client_secret,[scope],authorized_grant_types,web_server_redirect_uri,authorities,access_token_validity,refresh_token_validity,additional_information,autoapprove) VALUES
 ('HNS-SHOP',NULL,'pass','read,write','password,refresh_token',NULL,NULL,3000,6000,NULL,'false');
 
-INSERT INTO account (seq,id,name,password,is_expired,is_locked,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
- (1,'1006','IT','1234',0,0,1,getdate(),'9000',getdate(),'9000')
-,(2,'9000','test9000','1234',0,0,1,getdate(),'9000',getdate(),'9000')
-,(3,'9001','test9002','1234',0,0,0,getdate(),'9001',getdate(),'9001');
+INSERT INTO account (account_id,password,is_expired,is_locked,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+ ('1006','1234',0,0,1,getdate(),'sysadmin',getdate(),'sysadmin')
+,('9000','1234',0,0,1,getdate(),'sysadmin',getdate(),'sysadmin')
+,('9001','1234',0,0,0,getdate(),'sysadmin',getdate(),'sysadmin');
 
-INSERT INTO authority (id,authority_code) VALUES ('1006','ADMIN'),('1006','USER'),('9000','ADMIN'),('9000','USER'),('9001','USER');
+INSERT INTO account_authority (account_id,auth_cd,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+ ('1006','ADMIN',getdate(),'sysadmin',getdate(),'sysadmin')
+,('1006','USER',getdate(),'sysadmin',getdate(),'sysadmin')
+,('9000','ADMIN',getdate(),'sysadmin',getdate(),'sysadmin')
+,('9000','USER',getdate(),'sysadmin',getdate(),'sysadmin')
+,('9001','USER',getdate(),'sysadmin',getdate(),'sysadmin');
 
-INSERT INTO item (item_id,upc,gal_code,prod_own_code,supp_code,prod_id,item_kr_nm,item_en_nm,item_size,item_type,item_type2,item_in_price,sale_price,regular_price,item_balance,tax_cd,sale_unit,deposit_cd,category_level1_cd,category_level2_cd,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
-('DK0101004135KR0101001','11121','DK0101004','135','KR0101001','11121','이천쌀 햅쌀','RHEE CHUN RICE NEW CROP','40LB','07','07',33.00,49.99,49.99,-28891.00,'N','EA',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0101114027KR0101001','4134','DK0101114','027','KR0101001','4134','선물용 후지사과 박스','FUJI APPLES GIFT BOX','','19','19',1.27,29.99,29.99,-99593.33,'N','BOX',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0101151015KR0101001','44082','DK0101151','015','KR0101001','44082','신고배 박스','ASIAN PEAR BOX','','19','19',0.00,29.99,29.99,-556.00,'N','BOX',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0101151051KR0101001','444081','DK0101151','051','KR0101001','444081','한국산김제신고배 8과','KOREAN SINGO PEAR 8UNIT','','19','19',22.50,29.99,29.99,-2961.00,'N','BOX',0,NULL,NULL,0,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0101208014KR0101001','1189','DK0101208','014','KR0101001','1189','딤채 DOEA-184DNG ','DIMCHAE ','180L','36','36',1250.00,1799.00,1799.00,-2.00,'B','EA',0,NULL,NULL,0,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0101208022KR0101001','3199','DK0101208','022','KR0101001','3199','딤채 스탠딩고저스DEPA424TJS(418L)','DIMCHAE STANDING DEPA424TJS','418L','36','36',3350.00,3699.00,3699.00,-4.00,'G','EA',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0101226015KR0101001','78415','DK0101226','015','KR0101001','78415','선물용 고구마 박스','SWEET POTATO BOX','10LB','18','18',23.00,29.99,29.99,-180252.82,'N','BOX',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0101956001KR0101001','031146850105','DK0101956','001','KR0101001','031146850105','농심 육개장 사발면 박스','BOWL NOODLE SOUP HOT & SPICY BOX','86GX12','02','02',13.00,22.99,22.99,-2137.00,'N','BOX',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0101961001KR0101001','031146853113','DK0101961','001','KR0101001','031146853113','농심 신 사발면 박스','SHIN BOWL BOX','86GX12','02','02',13.00,22.99,22.99,-692.00,'N','BOX',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0101963001KR0101001','031146853441','DK0101963','001','KR0101001','031146853441','농심 김치사발면 박스','KIMCHI BOWL NOODLE SOUP BOX','86GX12','02','02',13.00,22.99,22.99,-1880.00,'N','BOX',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-;
+INSERT INTO authority (auth_cd,auth_desc,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+ ('ADMIN','ADMIN',getdate(),'sysadmin',getdate(),'sysadmin')
+,('USER','USER',getdate(),'sysadmin',getdate(),'sysadmin');
 
-INSERT INTO item (item_id,upc,gal_code,prod_own_code,supp_code,prod_id,item_kr_nm,item_en_nm,item_size,item_type,item_type2,item_in_price,sale_price,regular_price,item_balance,tax_cd,sale_unit,deposit_cd,category_level1_cd,category_level2_cd,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
-('DK0102691090KR0101001','8801039253397','DK0102691','090','KR0101001','8801039253397','해표 고급유 세트 ( 6호)','GIFT SET','500ML * 3','02','02',9.33,18.99,18.99,-937.00,'N','BOX',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0104023001KR0101001','8801037019667','DK0104023','001','KR0101001','8801037019667','동서 맥심모카골드','MAXIM MOCHA GOLD MILD','12GX100','02','02',0.00,26.99,26.99,-9750.00,'N','PK',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0105033018KR0101001','819079011578','DK0105033','018','KR0101001','819079011578','정관장 홍삼원','RED GINSENG DRINK','30*50ML','02','02',25.00,49.99,49.99,-272.00,'G','BOX',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0105190109KR0101001','8807779049030','DK0105190','109','KR0101001','8807779049030','댕기머리 기골드프리미엄세트(L)','DENGIMORI  SET(L)','4*500ML,3*70ML','01','01',52.92,139.99,139.99,-36.00,'B','EA',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0105190131KR0101001','8807779084895','DK0105190','131','KR0101001','8807779084895','댕기머리 기골드프리미엄세트(L)','DENGIMORI  SET(L)','4*500ML,3*70ML','01','01',49.14,129.99,129.99,-36.00,'B','EA',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0105190134KR0101001','8807779087995','DK0105190','134','KR0101001','8807779087995','댕기머리 들애수 탈모방지 샴푸세트','DENGIMORI  SET','3*400ML','01','01',19.00,69.99,69.99,-36.00,'B','EA',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0105771031KR0101001','8809160439932','DK0105771','031','KR0101001','8809160439932','크린터치 비데','CLEAN TOUCH BIDET','ELONGATED','36','36',330.00,699.00,699.00,-4.00,'B','EA',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0106370007KR0101001','2011','DK0106370','007','KR0101001','2011','한국미 현미','BROWN RICE','15LB','07','07',12.50,27.99,27.99,-987.00,'N','PK',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK01081058KR0101001','8806151441363','DK0108','1058','KR0101001','8806151441363','딤채쿡 A060USDSH','IH PRESSURE RICE COOKER','6CUPS','36','36',479.00,599.00,599.00,-67.00,'B','EA',101,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0108108013KR0101001','8807779085137','DK0108108','013','KR0101001','8807779085137','수페온 바디케어 3종세트','BODY CARE 3SET','','01','01',9.00,39.99,39.99,-2.00,'B','EA',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-;
-
-INSERT INTO item (item_id,upc,gal_code,prod_own_code,supp_code,prod_id,item_kr_nm,item_en_nm,item_size,item_type,item_type2,item_in_price,sale_price,regular_price,item_balance,tax_cd,sale_unit,deposit_cd,category_level1_cd,category_level2_cd,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
-('DK01081097KR0101001','8809469880770','DK0108','1097','KR0101001','8809469880770','쿠첸 IR명품철정미작 10컵','DIGITAL PRESSURE COOKER','CJH-PH1000RCWUS','36','36',580.00,849.00,849.00,-69.00,'B','EA',101,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK01081098KR0101001','8809469880756','DK0108','1098','KR0101001','8809469880756','쿠첸 IR명품철정미작 6컵','DIGITAL PRESSURE COOKER','CJH-PH0610RCWUS','36','36',550.00,799.00,799.00,-68.00,'B','EA',101,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
-,('DK0108977KR0101001','450947','DK0108','977','KR0101001','450947','맥슨 프리미엄 와이드그릴','MAXUN PREMIUM WIDE GRILL ','','13','13',90.00,199.99,199.99,-84.00,'B','EA',0,NULL,NULL,1,'2020-05-25 16:05:32.633','sysadmin','2020-05-25 16:05:32.633','sysadmin')
+INSERT INTO item (item_id,upc,gal_code,prod_own_code,supp_code,prod_id,item_kr_nm,item_en_nm,item_size,item_type,item_type2,item_in_price,sale_price,regular_price,item_balance,tax_cd,sale_unit,deposit_cd,category_cd,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+('DK0101004135KR0101001','11121','DK0101004','135','KR0101001','11121','이천쌀 햅쌀','RHEE CHUN RICE NEW CROP','40LB','07','07',33.00,49.99,49.99,-28891.00,'N','EA',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0101114027KR0101001','4134','DK0101114','027','KR0101001','4134','선물용 후지사과 박스','FUJI APPLES GIFT BOX','','19','19',1.27,29.99,29.99,-99593.33,'N','BOX',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0101151015KR0101001','44082','DK0101151','015','KR0101001','44082','신고배 박스','ASIAN PEAR BOX','','19','19',0.00,29.99,29.99,-556.00,'N','BOX',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0101151051KR0101001','444081','DK0101151','051','KR0101001','444081','한국산김제신고배 8과','KOREAN SINGO PEAR 8UNIT','','19','19',22.50,29.99,29.99,-2961.00,'N','BOX',0,NULL,0,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0101208014KR0101001','1189','DK0101208','014','KR0101001','1189','딤채 DOEA-184DNG ','DIMCHAE ','180L','36','36',1250.00,1799.00,1799.00,-2.00,'B','EA',0,NULL,0,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0101208022KR0101001','3199','DK0101208','022','KR0101001','3199','딤채 스탠딩고저스DEPA424TJS(418L)','DIMCHAE STANDING DEPA424TJS','418L','36','36',3350.00,3699.00,3699.00,-4.00,'G','EA',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0101226015KR0101001','78415','DK0101226','015','KR0101001','78415','선물용 고구마 박스','SWEET POTATO BOX','10LB','18','18',23.00,29.99,29.99,-180252.82,'N','BOX',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0101956001KR0101001','031146850105','DK0101956','001','KR0101001','031146850105','농심 육개장 사발면 박스','BOWL NOODLE SOUP HOT & SPICY BOX','86GX12','02','02',13.00,22.99,22.99,-2137.00,'N','BOX',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0101961001KR0101001','031146853113','DK0101961','001','KR0101001','031146853113','농심 신 사발면 박스','SHIN BOWL BOX','86GX12','02','02',13.00,22.99,22.99,-692.00,'N','BOX',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0101963001KR0101001','031146853441','DK0101963','001','KR0101001','031146853441','농심 김치사발면 박스','KIMCHI BOWL NOODLE SOUP BOX','86GX12','02','02',13.00,22.99,22.99,-1880.00,'N','BOX',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0102691090KR0101001','8801039253397','DK0102691','090','KR0101001','8801039253397','해표 고급유 세트 ( 6호)','GIFT SET','500ML * 3','02','02',9.33,18.99,18.99,-937.00,'N','BOX',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0104023001KR0101001','8801037019667','DK0104023','001','KR0101001','8801037019667','동서 맥심모카골드','MAXIM MOCHA GOLD MILD','12GX100','02','02',0.00,26.99,26.99,-9750.00,'N','PK',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0105033018KR0101001','819079011578','DK0105033','018','KR0101001','819079011578','정관장 홍삼원','RED GINSENG DRINK','30*50ML','02','02',25.00,49.99,49.99,-272.00,'G','BOX',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0105190109KR0101001','8807779049030','DK0105190','109','KR0101001','8807779049030','댕기머리 기골드프리미엄세트(L)','DENGIMORI  SET(L)','4*500ML,3*70ML','01','01',52.92,139.99,139.99,-36.00,'B','EA',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0105190131KR0101001','8807779084895','DK0105190','131','KR0101001','8807779084895','댕기머리 기골드프리미엄세트(L)','DENGIMORI  SET(L)','4*500ML,3*70ML','01','01',49.14,129.99,129.99,-36.00,'B','EA',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0105190134KR0101001','8807779087995','DK0105190','134','KR0101001','8807779087995','댕기머리 들애수 탈모방지 샴푸세트','DENGIMORI  SET','3*400ML','01','01',19.00,69.99,69.99,-36.00,'B','EA',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0105771031KR0101001','8809160439932','DK0105771','031','KR0101001','8809160439932','크린터치 비데','CLEAN TOUCH BIDET','ELONGATED','36','36',330.00,699.00,699.00,-4.00,'B','EA',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0106370007KR0101001','2011','DK0106370','007','KR0101001','2011','한국미 현미','BROWN RICE','15LB','07','07',12.50,27.99,27.99,-987.00,'N','PK',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK01081058KR0101001','8806151441363','DK0108','1058','KR0101001','8806151441363','딤채쿡 A060USDSH','IH PRESSURE RICE COOKER','6CUPS','36','36',479.00,599.00,599.00,-67.00,'B','EA',101,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0108108013KR0101001','8807779085137','DK0108108','013','KR0101001','8807779085137','수페온 바디케어 3종세트','BODY CARE 3SET','','01','01',9.00,39.99,39.99,-2.00,'B','EA',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK01081097KR0101001','8809469880770','DK0108','1097','KR0101001','8809469880770','쿠첸 IR명품철정미작 10컵','DIGITAL PRESSURE COOKER','CJH-PH1000RCWUS','36','36',580.00,849.00,849.00,-69.00,'B','EA',101,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK01081098KR0101001','8809469880756','DK0108','1098','KR0101001','8809469880756','쿠첸 IR명품철정미작 6컵','DIGITAL PRESSURE COOKER','CJH-PH0610RCWUS','36','36',550.00,799.00,799.00,-68.00,'B','EA',101,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
+,('DK0108977KR0101001','450947','DK0108','977','KR0101001','450947','맥슨 프리미엄 와이드그릴','MAXUN PREMIUM WIDE GRILL ','','13','13',90.00,199.99,199.99,-84.00,'B','EA',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
 ;
 
 INSERT INTO store (store_id, store_nm, address, city, province, postal_cd, store_open_time, telephone, is_use, reg_date, reg_person, last_mod_date, last_mod_person) VALUES('st001', 'HANNAM Supermarket, Burnaby', '106-4501 North Rd', 'Burnaby', 'British Columbia', 'V3N4R7', '8:00 AM - 10:00 PM', '604-420-8856', 1, getDate(), 'sysadmin', getDate(), 'sysadmin');
@@ -81,7 +101,7 @@ INSERT INTO category (category_cd, category_nm, category_desc, parent_category_c
 ,('L133','반찬','반찬', 'L000', getDate(),'sysadmin', getDate(),'sysadmin')
 ,('L134','정육','정육', 'L000', getDate(),'sysadmin', getDate(),'sysadmin')
 ,('L135','야채/과일','야채/과일', 'L000', getDate(),'sysadmin', getDate(),'sysadmin')
-('L20101','마른나물','마른나물','L101', getDate(),'sysadmin', getDate(),'sysadmin')
+,('L20101','마른나물','마른나물','L101', getDate(),'sysadmin', getDate(),'sysadmin')
 ,('L20102','마른버섯','마른버섯','L101', getDate(),'sysadmin', getDate(),'sysadmin')
 ,('L20199','건식품 기타','건식품 기타','L101', getDate(),'sysadmin', getDate(),'sysadmin')
 ,('L20201','잡곡','잡곡','L102', getDate(),'sysadmin', getDate(),'sysadmin')

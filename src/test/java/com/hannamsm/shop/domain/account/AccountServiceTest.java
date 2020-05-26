@@ -31,7 +31,7 @@ public class AccountServiceTest extends BaseServiceTest {
 	@Disabled
 	public void findByUsername() {
 		// Given
-		String username = "1006";
+		String username = "9000";
 
 		// When
 		UserDetailsService userDetailsService = (UserDetailsService) this.accountService;
@@ -68,17 +68,17 @@ public class AccountServiceTest extends BaseServiceTest {
 		roles.add("USER");
 
 		Account account = Account.builder()
-				.id("9002")
+				.accountId("9002")
 				.password("1234")
 				.roles(roles)
 				.build();
 		this.accountService.createUser(account);
 
 		// When
-		UserDetails userDetails = this.accountService.loadUserByUsername(account.getId());
+		UserDetails userDetails = this.accountService.loadUserByUsername(account.getAccountId());
 
 		// Then
-		assertThat(userDetails.getUsername()).isEqualTo(account.getId());
+		assertThat(userDetails.getUsername()).isEqualTo(account.getAccountId());
 	}
 
 	@Test
@@ -97,12 +97,12 @@ public class AccountServiceTest extends BaseServiceTest {
 		roles.add("USER");
 
 		Account account = Account.builder()
-				.id("9001")
+				.accountId("9001")
 				.password("1234")
 				.roles(roles)
 				.build();
 //		this.accountService.createUser(account);
 
-		this.accountService.deleteAccount(account.getId());
+		this.accountService.deleteAccount(account.getAccountId());
 	}
 }

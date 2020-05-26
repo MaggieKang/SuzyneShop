@@ -30,9 +30,9 @@ public class AccountDaoTest extends BaseDaoTest {
 	@Disabled
 	public void findByUserId() throws Exception {
 
-		Optional<Account> account = this.accountDao.findByUserId("1006");
+		Optional<Account> account = this.accountDao.findByUserId("9000");
 		System.out.println("id:" + account.get().toString());
-		assertAll("2012",
+		assertAll("1234",
 				()->assertNotNull(account.get().getPassword()));
 	}
 
@@ -53,15 +53,15 @@ public class AccountDaoTest extends BaseDaoTest {
 		roles.add("ADMIN");
 
 		Account account = Account.builder()
-				.id("9000")
+				.accountId("9000")
 				.password("1234")
 				.roles(roles)
 				.build();
 		this.accountDao.createAccount(account);
 
-		Optional<Account> sAccount = this.accountDao.findByUserId(account.getId());
+		Optional<Account> sAccount = this.accountDao.findByUserId(account.getAccountId());
 		System.out.println("id:" + sAccount.get().toString());
-		assertAll(account.getId(),
+		assertAll(account.getAccountId(),
 				()->assertNotNull(sAccount.get().getPassword()));
 	}
 

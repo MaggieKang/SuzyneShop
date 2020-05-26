@@ -1,9 +1,10 @@
 
 /* Drop Tables */
 
-IF ObJECt_ID('[authority]') IS NOT NULL DROP TABLE [authority];
+IF ObJECt_ID('[account_authority]') IS NOT NULL DROP TABLE [account_authority];
 IF ObJECt_ID('[customer]') IS NOT NULL DROP TABLE [customer];
 IF ObJECt_ID('[account]') IS NOT NULL DROP TABLE [account];
+IF ObJECt_ID('[authority]') IS NOT NULL DROP TABLE [authority];
 IF ObJECt_ID('[item_file]') IS NOT NULL DROP TABLE [item_file];
 IF ObJECt_ID('[item]') IS NOT NULL DROP TABLE [item];
 IF ObJECt_ID('[category]') IS NOT NULL DROP TABLE [category];
@@ -22,12 +23,8 @@ IF ObJECt_ID('[store]') IS NOT NULL DROP TABLE [store];
 -- 계정
 CREATE TABLE [account]
 (
-	-- 순번
-	[seq] int NOT NULL UNIQUE IDENTITY ,
 	-- 계정ID : 계정 ID
-	[id] varchar(200) NOT NULL UNIQUE,
-	-- 이름 : 이름
-	[name] varchar(200),
+	[account_id] varchar(200) NOT NULL UNIQUE,
 	-- 비밀번호 : 비밀번호
 	[password] varchar(500) NOT NULL,
 	-- 만료여부 : 만료 여부
@@ -46,7 +43,26 @@ CREATE TABLE [account]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([seq])
+	PRIMARY KEY ([account_id])
+);
+
+
+-- 계정권한
+CREATE TABLE [account_authority]
+(
+	-- 계정ID : 계정 ID
+	[account_id] varchar(200) NOT NULL,
+	-- 권한코드 : authority code
+	[auth_cd] varchar(20) NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([account_id], [auth_cd])
 );
 
 
@@ -55,9 +71,17 @@ CREATE TABLE [authority]
 (
 	-- 권한코드 : authority code
 	[auth_cd] varchar(20) NOT NULL,
-	-- 순번
-	[seq] int NOT NULL UNIQUE,
-	PRIMARY KEY ([auth_cd], [seq])
+	-- 권한설명
+	[auth_desc] varchar(500),
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([auth_cd])
 );
 
 
@@ -182,24 +206,12 @@ CREATE TABLE [cmn_file]
 -- 회원
 CREATE TABLE [customer]
 (
-	-- 순번
-	[seq] int NOT NULL,
 	-- 계정ID : 계정 ID
-	[id] varchar(200) NOT NULL UNIQUE,
+	[account_id] varchar(200) NOT NULL UNIQUE,
 	-- 이름 : 이름
 	[name] varchar(200),
-	-- 비밀번호 : 비밀번호
-	[password] varchar(500) NOT NULL,
 	-- 이메일 : email 
 	[email] varchar(200),
-	-- 만료여부 : 만료 여부
-	-- is Expired
-	[is_expired] bit NOT NULL,
-	-- 잠김여부 : 잠김여부(입력 또는 일시 잠김 설정)
-	-- (locked:1, unlocked:0)
-	[is_locked] bit NOT NULL,
-	-- 사용여부
-	[is_use] bit,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -207,8 +219,7 @@ CREATE TABLE [customer]
 	-- 마지막변경일시 : last_mod_date
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
-	[last_mod_person] varchar(256),
-	PRIMARY KEY ([seq])
+	[last_mod_person] varchar(256)
 );
 
 

@@ -18,28 +18,28 @@ public class AccountService implements UserDetailsService{
 
 	@Autowired
 	AccountDao accountDao;
-	
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Account account = accountDao.findByUserId(username)
-				.orElseThrow(() -> new UsernameNotFoundException(username));
-		
-		List<String> roles = accountDao.findRolesByUserId(username);
+	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+		Account account = accountDao.findByUserId(userId)
+				.orElseThrow(() -> new UsernameNotFoundException(userId));
+
+		List<String> roles = accountDao.findRolesByUserId(userId);
 		account.setRoles(roles);
-		
+
 		return new AccountAdapter(account);
 	}
-	
+
     public UserDetails readAccount(String userId) {
 		Account account = accountDao.findByUserId(userId)
 				.orElseThrow(() -> new UsernameNotFoundException(userId));
-		
+
 		List<String> roles = accountDao.findRolesByUserId(userId);
 		account.setRoles(roles);
-		
+
 		return new AccountAdapter(account);
     }
 
@@ -47,12 +47,12 @@ public class AccountService implements UserDetailsService{
 		String rawPassword = account.getPassword();
 		String encodedPassword = this.passwordEncoder.encode(rawPassword);
 		account.setPassword(encodedPassword);
-		
+
 		accountDao.createAccount(account);
-		
+
 		List<String> list = account.getRoles();
 		for (String role : list) {
-			accountDao.createAuthority(account.getId(), role);	
+			accountDao.createAuthority(account.getAccountId(), role);
 		}
     }
 
@@ -60,7 +60,7 @@ public class AccountService implements UserDetailsService{
     	this.accountDao.deleteAccount(userId);
     	this.accountDao.deleteAuthorities(userId);
     }
-    
+
     public void deleteAuthoriry(String userId, String role) {
     	this.accountDao.deleteAuthority(userId, role);
     }

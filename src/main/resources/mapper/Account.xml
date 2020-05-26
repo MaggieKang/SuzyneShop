@@ -2,25 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.account.dao.AccountDao">
 <select id="findByUserId" parameterType="String" resultType="com.hannamsm.shop.domain.account.vo.Account">
- SELECT seq
-      , id
-      , name
+ select account_id as accountId
       , password
-      , is_expired AS isExpired
-      , is_locked AS isLocked
-      , is_use AS isUse
-   FROM account
-  WHERE id = #{id}
+      , is_expired as isExpired
+      , is_locked as isLocked
+      , is_use as isUse
+   from account
+  where account_id = #{accountId}
 </select>
 <select id="findRolesByUserId" parameterType="String" resultType="String">
-SELECT authority_code
-  FROM AUTHORITY
- WHERE id = #{id}
+select auth_cd
+  from account_authority
+ where account_id = #{accountId}
 </select>
 <insert id="createAccount" parameterType="com.hannamsm.shop.domain.account.vo.Account">
-INSERT INTO account
+insert into account
 (      id
-     , name
      , password
      , is_expired
      , is_locked
@@ -29,43 +26,50 @@ INSERT INTO account
      , reg_person
      , last_mod_date
      , last_mod_person
-) VALUES (
-       #{id}
-     , #{name}
+) values (
+       #{accountId}
      , #{password}
      , 0
      , 0
      , 0
      , 0
-     , #{id}
+     , #{accountId}
      , getDate()
-     , #{id}
+     , #{accountId}
      , getDate()
 )
 </insert>
-<delete id="deleteAccount" parameterType="String">
-UPDATE account
-   SET isEnabled = 1
+<delete id="deleteAccount" parameterType="com.hannamsm.shop.domain.account.vo.Account">
+update account
+   set isEnabled = 1
      , lastModDate = getDate()
-     , lastModPerson = #{id}
- WHERE id = #{id}
+     , lastModPerson = #{accountId}
+ where account_id = #{accountId}
 </delete>
-<insert id="createAuthority" parameterType="String">
-INSERT INTO AUTHORITY
-(      id
-     , authority_code
-) VALUES (
-       #{id}
-     , #{rols}
+<insert id="createAuthority" parameterType="com.hannamsm.shop.domain.account.vo.AccountAuthority">
+insert into account_authority
+(      account_id
+     , auth_cd
+     , reg_date
+     , reg_person
+     , last_mod_date
+     , last_mod_person
+) values (
+       #{accountId}
+     , #{authCd}
+     , getDate()
+     , #{reg_person}
+     , getDate()
+     , #{last_mod_person}
 );
 </insert>
-<delete id="deleteAuthority" parameterType="String">
-DELETE AUTHORITY
- WHERE id = #{id}
-   AND authority_code = #{rols}
+<delete id="deleteAuthority" parameterType="com.hannamsm.shop.domain.account.vo.AccountAuthority">
+delete account_authority
+ where id = #{accountId}
+   and authority_code = #{authCd}
 </delete>
-<delete id="deleteAuthorities" parameterType="String">
-DELETE AUTHORITY
- WHERE id = #{id}
+<delete id="deleteAuthorities" parameterType="com.hannamsm.shop.domain.account.vo.AccountAuthority">
+delete account_authority
+ where id = #{accountId}
 </delete>
 </mapper>
