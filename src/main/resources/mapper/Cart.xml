@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hannamsm.shop.domain.cart.dao.CartDao">
+<select id="findByAccountIdCount" parameterType="com.hannamsm.shop.domain.cart.vo.CartItemSearch" resultType="int">
+select count(a.item_id) as totalCount
+  from cart a
+       inner join item b on b.item_id = a.item_id and is_use = 1
+ where a.account_id = #{accountId}
+</select>
+
+<select id="findByAccountId" parameterType="com.hannamsm.shop.domain.cart.vo.CartItemSearch" resultType="com.hannamsm.shop.domain.cart.vo.CartItem">
+select a.item_id            as itemId
+     , a.item_qty           as itemQty
+     , b.upc                as upc
+     , b.gal_code           as galCode
+     , b.prod_own_code      as prodOwnCode
+     , b.supp_code          as suppCode
+     , b.prod_id            as prodId
+     , b.item_kr_nm         as itemKrNm
+     , b.item_en_nm         as itemEnNm
+     , b.item_size          as itemSize
+     , b.item_type          as itemType
+     , b.item_type2         as itemType2
+     , b.item_in_price      as itemInPrice
+     , b.sale_price         as salePrice
+     , b.regular_price      as regularPrice
+     , b.item_balance       as itemBalance
+     , b.tax_cd             as taxCd
+     , b.sale_unit          as saleUnit
+     , b.deposit_cd         as depositCd
+     , b.category_cd        as categoryCd
+     , a.reg_date           as regDate
+     , a.reg_person         as regPerson
+     , a.last_mod_date      as lastModDate
+     , a.last_mod_person    as lastModPerson
+  from cart a
+       inner join item b on b.item_id = a.item_id and is_use = 1
+ where a.account_id = #{accountId}
+ order by a.item_id
+offset #{startRownum} rows
+ fetch next #{listSize} row only
+</select>
+
+</mapper>

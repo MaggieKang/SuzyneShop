@@ -60,10 +60,11 @@ INSERT INTO item (item_id,upc,gal_code,prod_own_code,supp_code,prod_id,item_kr_n
 ,('DK0108977KR0101001','450947','DK0108','977','KR0101001','450947','맥슨 프리미엄 와이드그릴','MAXUN PREMIUM WIDE GRILL ','','13','13',90.00,199.99,199.99,-84.00,'B','EA',0,NULL,1,'2020-05-25 21:09:29.367','sysadmin','2020-05-25 21:09:29.367','sysadmin')
 ;
 
-INSERT INTO store (store_id, store_nm, address, city, province, postal_cd, store_open_time, telephone, is_use, reg_date, reg_person, last_mod_date, last_mod_person) VALUES('st001', 'HANNAM Supermarket, Burnaby', '106-4501 North Rd', 'Burnaby', 'British Columbia', 'V3N4R7', '8:00 AM - 10:00 PM', '604-420-8856', 1, getDate(), 'sysadmin', getDate(), 'sysadmin');
-INSERT INTO store (store_id, store_nm, address, city, province, postal_cd, store_open_time, telephone, is_use, reg_date, reg_person, last_mod_date, last_mod_person) VALUES('st002', 'HANNAM Supermarket, Surrey', '#1-15357 104 Ave.', 'Surrey', 'British Columbia', 'V3R1N5', '8:00 AM - 10:00 PM', '604-580-3433', 1, getDate(), 'sysadmin', getDate(), 'sysadmin');
-INSERT INTO store (store_id, store_nm, address, city, province, postal_cd, store_open_time, telephone, is_use, reg_date, reg_person, last_mod_date, last_mod_person) VALUES('st003', 'HANNAM Supermarket, Robson', '#202 1323 Robson St.', 'Vancouver', 'British Columbia', 'V6E2B1', '9:00 AM - 11:00 PM', '604-974-9684', 1, getDate(), 'sysadmin', getDate(), 'sysadmin');
-INSERT INTO store (store_id, store_nm, address, city, province, postal_cd, store_open_time, telephone, is_use, reg_date, reg_person, last_mod_date, last_mod_person) VALUES('st004', 'HANNAM Supermarket, Langley', '6350 196 St.', 'Langley', 'British Columbia', 'V2Y1J2', '8:30 AM - 10:00 PM', '604-539-6267', 1, getDate(), 'sysadmin', getDate(), 'sysadmin');
+INSERT INTO store (store_id, store_nm, address, city, province, postal_cd, store_open_time, telephone, is_use, reg_date, reg_person, last_mod_date, last_mod_person) VALUES
+ ('st001', 'HANNAM Supermarket, Burnaby', '106-4501 North Rd', 'Burnaby', 'British Columbia', 'V3N4R7', '8:00 AM - 10:00 PM', '604-420-8856', 1, getDate(), 'sysadmin', getDate(), 'sysadmin')
+,('st002', 'HANNAM Supermarket, Surrey', '#1-15357 104 Ave.', 'Surrey', 'British Columbia', 'V3R1N5', '8:00 AM - 10:00 PM', '604-580-3433', 1, getDate(), 'sysadmin', getDate(), 'sysadmin')
+,('st003', 'HANNAM Supermarket, Robson', '#202 1323 Robson St.', 'Vancouver', 'British Columbia', 'V6E2B1', '9:00 AM - 11:00 PM', '604-974-9684', 1, getDate(), 'sysadmin', getDate(), 'sysadmin')
+,('st004', 'HANNAM Supermarket, Langley', '6350 196 St.', 'Langley', 'British Columbia', 'V2Y1J2', '8:30 AM - 10:00 PM', '604-539-6267', 1, getDate(), 'sysadmin', getDate(), 'sysadmin');
 
 INSERT INTO category (category_cd, category_nm, category_desc, parent_category_cd, reg_date, reg_person, last_mod_date, last_mod_person) VALUES
  ('L000','ROOT','ROOT', '', getDate(),'sysadmin', getDate(),'sysadmin')
@@ -346,3 +347,28 @@ INSERT INTO category (category_cd, category_nm, category_desc, parent_category_c
 ,('L23598','야채 기타','야채 기타','L135', getDate(),'sysadmin', getDate(),'sysadmin')
 ,('L23599','과일 기타','과일 기타','L135', getDate(),'sysadmin', getDate(),'sysadmin')
 ,('L20108','기타','기타','L101', getDate(),'sysadmin', getDate(),'sysadmin');
+
+INSERT INTO cart (account_id,item_id,item_qty,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+('9000','DK0101004135KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0101114027KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0101151015KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0101151051KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0101208014KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0101208022KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0101226015KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0101956001KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0101961001KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0101963001KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0102691090KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0104023001KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0105033018KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0105190109KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0105190131KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0105190134KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0105771031KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0106370007KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK01081058KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0108108013KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK01081097KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK01081098KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
+,('9000','DK0108977KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000');

@@ -65,7 +65,7 @@ CREATE TABLE EVENT (
     location VARCHAR(256),
     basePrice DECIMAL(10,2),
     maxPrice DECIMAL(10,2),
-    limitOfEnrollment VARCHAR(256), 
+    limitOfEnrollment VARCHAR(256),
     offline VARCHAR(1),
     free VARCHAR(1),
     eventStatus VARCHAR(256),
@@ -74,27 +74,4 @@ CREATE TABLE EVENT (
     lastModDate DATETIME,
     lastModPerson VARCHAR(256),
     PRIMARY KEY (id)
-);
-
-CREATE TABLE ACCOUNT (
-    seq INTEGER NOT NULL,
-    id varchar(200),
-    name varchar(200),
-    password varchar(500),
-    email varchar(200),
-    isAccountNonExpired BIT,
-    isAccountNonLocked BIT,
-    isCredentialsNonExpired BIT,
-    isEnabled BIT,
-    regDate DATETIME,
-    regPerson VARCHAR(256),
-    lastModDate DATETIME,
-    lastModPerson VARCHAR(256),
-    PRIMARY KEY (seq)
-);
-
-CREATE TABLE AUTHORITY (
-    id VARCHAR(200),
-    authority_code VARCHAR(20),
-    PRIMARY KEY (id, authority_code)
 );

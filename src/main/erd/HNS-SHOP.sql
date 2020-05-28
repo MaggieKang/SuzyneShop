@@ -2,7 +2,11 @@
 /* Drop Tables */
 
 IF ObJECt_ID('[account_authority]') IS NOT NULL DROP TABLE [account_authority];
+IF ObJECt_ID('[cart]') IS NOT NULL DROP TABLE [cart];
+IF ObJECt_ID('[orders_detail]') IS NOT NULL DROP TABLE [orders_detail];
+IF ObJECt_ID('[orders]') IS NOT NULL DROP TABLE [orders];
 IF ObJECt_ID('[customer]') IS NOT NULL DROP TABLE [customer];
+IF ObJECt_ID('[favourite]') IS NOT NULL DROP TABLE [favourite];
 IF ObJECt_ID('[account]') IS NOT NULL DROP TABLE [account];
 IF ObJECt_ID('[authority]') IS NOT NULL DROP TABLE [authority];
 IF ObJECt_ID('[item_file]') IS NOT NULL DROP TABLE [item_file];
@@ -13,7 +17,14 @@ IF ObJECt_ID('[cmn_code]') IS NOT NULL DROP TABLE [cmn_code];
 IF ObJECt_ID('[cmn_cls_code]') IS NOT NULL DROP TABLE [cmn_cls_code];
 IF ObJECt_ID('[cmn_file]') IS NOT NULL DROP TABLE [cmn_file];
 IF ObJECt_ID('[mfProd]') IS NOT NULL DROP TABLE [mfProd];
+IF ObJECt_ID('[oauth_access_token]') IS NOT NULL DROP TABLE [oauth_access_token];
+IF ObJECt_ID('[oauth_approvals]') IS NOT NULL DROP TABLE [oauth_approvals];
+IF ObJECt_ID('[oauth_client_details]') IS NOT NULL DROP TABLE [oauth_client_details];
+IF ObJECt_ID('[oauth_client_token]') IS NOT NULL DROP TABLE [oauth_client_token];
+IF ObJECt_ID('[oauth_code]') IS NOT NULL DROP TABLE [oauth_code];
+IF ObJECt_ID('[oauth_refresh_token]') IS NOT NULL DROP TABLE [oauth_refresh_token];
 IF ObJECt_ID('[store]') IS NOT NULL DROP TABLE [store];
+IF ObJECt_ID('[tfCollection3]') IS NOT NULL DROP TABLE [tfCollection3];
 
 
 
@@ -24,7 +35,7 @@ IF ObJECt_ID('[store]') IS NOT NULL DROP TABLE [store];
 CREATE TABLE [account]
 (
 	-- 계정ID : 계정 ID
-	[account_id] varchar(200) NOT NULL UNIQUE,
+	[account_id] varchar(20) NOT NULL UNIQUE,
 	-- 비밀번호 : 비밀번호
 	[password] varchar(500) NOT NULL,
 	-- 만료여부 : 만료 여부
@@ -51,7 +62,7 @@ CREATE TABLE [account]
 CREATE TABLE [account_authority]
 (
 	-- 계정ID : 계정 ID
-	[account_id] varchar(200) NOT NULL,
+	[account_id] varchar(20) NOT NULL,
 	-- 권한코드 : authority code
 	[auth_cd] varchar(20) NOT NULL,
 	-- 최초등록일시 : 최초등록일시
@@ -82,6 +93,27 @@ CREATE TABLE [authority]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([auth_cd])
+);
+
+
+-- 장바구니
+CREATE TABLE [cart]
+(
+	-- 계정ID : 계정 ID
+	[account_id] varchar(20) NOT NULL,
+	-- 상품ID
+	[item_id] varchar(24) NOT NULL UNIQUE,
+	-- item_qty : item quantity
+	[item_qty] int DEFAULT 0 NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([account_id], [item_id])
 );
 
 
@@ -120,6 +152,14 @@ CREATE TABLE [cmn_cls_code]
 	[cls_cd_nm] varchar(60) NOT NULL,
 	-- 분류코드설명
 	[cls_cd_dc] varchar(200),
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
 	PRIMARY KEY ([cls_cd])
 );
 
@@ -207,7 +247,7 @@ CREATE TABLE [cmn_file]
 CREATE TABLE [customer]
 (
 	-- 계정ID : 계정 ID
-	[account_id] varchar(200) NOT NULL UNIQUE,
+	[account_id] varchar(20) NOT NULL UNIQUE,
 	-- 이름 : 이름
 	[name] varchar(200),
 	-- 이메일 : email 
@@ -220,6 +260,25 @@ CREATE TABLE [customer]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256)
+);
+
+
+-- 즐겨찾기상품
+CREATE TABLE [favourite]
+(
+	-- 상품ID
+	[item_id] varchar(24) NOT NULL UNIQUE,
+	-- 계정ID : 계정 ID
+	[account_id] varchar(20) NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([item_id])
 );
 
 
@@ -286,10 +345,10 @@ CREATE TABLE [item]
 -- 상품파일
 CREATE TABLE [item_file]
 (
-	-- 상품ID
-	[item_id] varchar(24) NOT NULL,
 	-- 공통파일ID
 	[cmn_file_id] varchar(100) NOT NULL,
+	-- 상품ID
+	[item_id] varchar(24) NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -297,7 +356,8 @@ CREATE TABLE [item_file]
 	-- 마지막변경일시 : last_mod_date
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
-	[last_mod_person] varchar(256)
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([cmn_file_id])
 );
 
 
@@ -506,6 +566,150 @@ CREATE TABLE [mfProd]
 );
 
 
+-- oauth_access_token
+CREATE TABLE [oauth_access_token]
+(
+	-- authentication_id
+	[authentication_id] varchar(256) NOT NULL,
+	-- token_id
+	[token_id] varchar(256),
+	-- token
+	[token] varbinary(max),
+	-- user_name
+	[user_name] varchar(256),
+	-- client_id
+	[client_id] varchar(256),
+	-- authentication
+	[authentication] varbinary(max),
+	-- refresh_token
+	[refresh_token] varchar(256),
+	PRIMARY KEY ([authentication_id])
+);
+
+
+-- oauth_approvals
+CREATE TABLE [oauth_approvals]
+(
+	-- userId
+	[userId] varchar(256),
+	-- clientId
+	[clientId] varchar(256),
+	-- scope
+	[scope] varchar(256),
+	-- status
+	[status] varchar(10),
+	-- expiresAt
+	[expiresAt] datetime,
+	-- lastModifiedAt
+	[lastModifiedAt] datetime
+);
+
+
+-- oauth_client_details
+CREATE TABLE [oauth_client_details]
+(
+	-- client_id
+	[client_id] varchar(256) NOT NULL,
+	-- resource_ids
+	[resource_ids] varchar(256),
+	-- client_secret
+	[client_secret] varchar(256),
+	-- scope
+	[scope] varchar(256),
+	-- authorized_grant_types
+	[authorized_grant_types] varchar(256),
+	-- web_server_redirect_uri
+	[web_server_redirect_uri] varchar(256),
+	-- authorities
+	[authorities] varchar(256),
+	-- access_token_validity
+	[access_token_validity] int,
+	-- refresh_token_validity
+	[refresh_token_validity] int,
+	-- additional_information
+	[additional_information] varchar(4096),
+	-- autoapprove
+	[autoapprove] varchar(256),
+	PRIMARY KEY ([client_id])
+);
+
+
+-- oauth_client_token
+CREATE TABLE [oauth_client_token]
+(
+	-- authentication_id
+	[authentication_id] varchar(256) NOT NULL,
+	-- token_id
+	[token_id] varchar(256),
+	-- token
+	[token] varbinary(max),
+	-- user_name
+	[user_name] varchar(256),
+	-- client_id
+	[client_id] varchar(256),
+	PRIMARY KEY ([authentication_id])
+);
+
+
+-- oauth_code
+CREATE TABLE [oauth_code]
+(
+	-- code
+	[code] varchar(256),
+	-- authentication
+	[authentication] varbinary(max)
+);
+
+
+-- oauth_refresh_token
+CREATE TABLE [oauth_refresh_token]
+(
+	-- token_id
+	[token_id] varchar(256),
+	-- token
+	[token] varbinary(max),
+	-- authentication
+	[authentication] varbinary(max)
+);
+
+
+-- 주문
+CREATE TABLE [orders]
+(
+	-- order_id
+	[order_id] varchar(20) NOT NULL,
+	-- 계정ID : 계정 ID
+	[account_id] varchar(20) NOT NULL UNIQUE,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([order_id])
+);
+
+
+-- 주문상세
+CREATE TABLE [orders_detail]
+(
+	-- 주문ID
+	[order_id] varchar(20) NOT NULL,
+	-- 상품ID
+	[item_id] varchar(24) NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256)
+);
+
+
 -- 매장
 CREATE TABLE [store]
 (
@@ -538,6 +742,110 @@ CREATE TABLE [store]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([store_id])
+);
+
+
+-- tfCollection3
+CREATE TABLE [tfCollection3]
+(
+	-- p_colID : ID (자동증가)
+	[colID] int,
+	-- p_판매일자 : 판매 일자 yyyy-mm-dd
+	[colDate] smalldatetime,
+	-- p_판매시간 : 판매 시간 00:00:00
+	[colTime] nvarchar(16),
+	-- p_현금판매 : 현금 판매
+	[colCash] float,
+	-- p_enterCash
+	[enterCash] float,
+	-- p_colUSD : UD$
+	[colUSD] float,
+	-- p_enterUSD
+	[enterUSD] float,
+	-- p_colVisa : Visa
+	[colVisa] float,
+	-- p_colMaster : Master
+	[colMaster] float,
+	-- p_colDebit : Debit
+	[colDebit] float,
+	-- p_colAmex : Amex
+	[colAmex] float,
+	-- p_colCredit
+	[colCredit] float,
+	-- p_쿠폰결제금액 : 쿠폰 결제 금액
+	[colCardEtc] float,
+	-- p_colCheck : Check
+	[colCheck] float,
+	-- p_enterCheck
+	[enterCheck] float,
+	-- p_colChkNo
+	[colChkNo] float,
+	-- p_상품권 : 상품권
+	[colGC] float,
+	-- p_colCPIncome
+	[colCPIncome] float,
+	-- p_colCPExpense
+	[colCPExpense] float,
+	-- p_colPromo1
+	[colPromo1] float,
+	-- p_colPromo2
+	[colPromo2] float,
+	-- p_colPromo3
+	[colPromo3] float,
+	-- p_colPromo4
+	[colPromo4] float,
+	-- p_colPromo5
+	[colPromo5] float,
+	-- p_colHST
+	[colHST] float,
+	-- p_Gst합계 : Gst 합계
+	[colGst] float,
+	-- p_Pst합계 : Pst 합계
+	[colPst] float,
+	-- p_인보이스번호 : 인보이스 번호
+	[colInvNo] int,
+	-- p_멤버쉽번호 : 멤버쉽 번호
+	[colCust] nchar(12),
+	-- p_구매포인트 : 구매 포인트
+	[colPoint] int,
+	-- p_멤버 현재 포인트 : 멤버 현재 포인트
+	[colCurPoint] int,
+	-- p_colPOption
+	[colPOption] nchar,
+	-- p_colSPOption
+	[colSPOption] nchar,
+	-- p_취소포인트 : 취소포인트
+	[colEstCancelledPoint] int,
+	-- p_취소일자 : 취소일자
+	[colEstCancelledDate] varchar(10),
+	-- p_colCClass
+	[colCClass] nvarchar(10),
+	-- p_결제Type : 결제 Type (000000001: 현금)
+	[colType] nvarchar(10),
+	-- p_캐시어POS번호 : 캐시어POS번호
+	[colStation] nchar(2),
+	-- p_colShift : 1
+	[colShift] nchar,
+	-- p_캐시어ID : 캐시어 ID
+	[colpassword] nvarchar(10),
+	-- p_결제금액 : 결제금액
+	[colPaid] float,
+	-- p_잔돈 : 잔돈
+	[colChange] float,
+	-- p_colCouponTotal : 멤버이면 당일 구매 쿠폰 적용 금액
+	[colCouponTotal] float,
+	-- p_colCouponIssued
+	[colCouponIssued] char,
+	-- p_colCouponBalance : 멤버이면 당일 구매 쿠폰 적용 금액 누적 $75 Clear
+	[colCouponBalance] float,
+	-- p_colSavedAmount : Save된금액
+	[colSavedAmount] float,
+	-- p_col777Event
+	[col777Event] nchar,
+	-- p_colNation
+	[colNation] nvarchar(2),
+	-- p_colReferencea : 전화번호 입력, 상품권으로 결제시
+	[colReference] nvarchar(15)
 );
 
 

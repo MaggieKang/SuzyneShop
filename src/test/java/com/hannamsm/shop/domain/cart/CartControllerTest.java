@@ -20,25 +20,26 @@ public class CartControllerTest extends BaseControllerTest {
 	@DisplayName("장바구니 목록 조회 테스트 - (정상)")
 	public void queryCart() throws Exception {
 		// Given
-		
+
 		// When & Then
 		mockMvc.perform(get("/api/cart")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
 				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
-//				.content(this.objectMapper.writeValueAsString(event))
-				)
+				.param("page", "1")
+				.param("listSize", "10")
+			)
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
-			.andDo(document("query-cart"));
+			.andDo(document("cart-query"));
 	}
-	
+
 	@Test
 	@DisplayName("장바구니 요약 조회 테스트 - (정상)")
 	public void queryCartSummery() throws Exception {
 		// Given
-		
+
 		// When & Then
 		mockMvc.perform(get("/api/cart/summery")
 				.contentType(MediaType.APPLICATION_JSON)
