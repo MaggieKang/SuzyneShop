@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hannamsm.shop.domain.order.dao.OrderDao">
+<select id="findAllCount" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="int">
+select count(a.order_id) as totalCount
+  from orders a
+ where a.account_id = #{accountId}
+</select>
+
+<select id="findAll" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="com.hannamsm.shop.domain.order.vo.Order">
+select a.order_id          as orderId
+     , a.order_date        as orderDate
+     , a.total_amount      as totalAmount
+     , a.total_gst_fee     as totalGstFee
+     , a.total_pst_fee     as totalPstFee
+     , a.total_hst_fee     as totalHstFee
+     , a.total_eco_fee     as totalEcoFee
+     , a.total_deposit_fee as totalDepositFee
+     , a.reg_date          as regDate
+     , a.reg_person        as regPerson
+     , a.last_mod_date     as lastModDate
+     , a.last_mod_person   as lastModPerson
+  from orders a
+ where a.account_id = #{accountId}
+ order by a.order_id
+offset #{startRownum} rows
+ fetch next #{listSize} row only
+</select>
+
+<select id="findByIdCount" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="int">
+select count(a.order_id) as totalCount
+  from orders_detail a
+ where a.order_id = #{orderId}
+</select>
+
+<select id="findById" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="com.hannamsm.shop.domain.order.vo.OrderDetail">
+select a.order_id         as orderId
+     , a.item_id          as itemId
+     , a.item_tax_cd      as itemTaxCd
+     , a.item_deposit_cd  as itemDepositCd
+     , a.item_eco_cd      as itemEcoCd
+     , a.order_qty        as orderQty
+     , a.amount           as amount
+     , a.each_sale_price  as eachSalePrice
+     , a.each_gst_fee     as eachGstFee
+     , a.each_pst_fee     as eachPstFee
+     , a.each_hst_fee     as eachHstFee
+     , a.each_eco_fee     as eachEcoFee
+     , a.each_deposit_fee as eachDepositFee
+     , a.receiving_price  as receivingPrice
+     , a.regular_price    as regularPrice
+     , a.invoice_id       as invoiceId
+     , a.reg_date         as regDate
+     , a.reg_person       as regPerson
+     , a.last_mod_date    as lastModDate
+     , a.last_mod_person  as lastModPerson
+  from orders_detail a
+ where a.order_id = #{orderId}
+ order by a.order_id
+offset #{startRownum} rows
+ fetch next #{listSize} row only
+</select>
+
+</mapper>

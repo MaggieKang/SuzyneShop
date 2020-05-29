@@ -16,7 +16,7 @@ IF ObJECt_ID('[cmn_code_detail]') IS NOT NULL DROP TABLE [cmn_code_detail];
 IF ObJECt_ID('[cmn_code]') IS NOT NULL DROP TABLE [cmn_code];
 IF ObJECt_ID('[cmn_cls_code]') IS NOT NULL DROP TABLE [cmn_cls_code];
 IF ObJECt_ID('[cmn_file]') IS NOT NULL DROP TABLE [cmn_file];
-IF ObJECt_ID('[mfProd]') IS NOT NULL DROP TABLE [mfProd];
+IF ObJECt_ID('[mfProd_b]') IS NOT NULL DROP TABLE [mfProd_b];
 IF ObJECt_ID('[oauth_access_token]') IS NOT NULL DROP TABLE [oauth_access_token];
 IF ObJECt_ID('[oauth_approvals]') IS NOT NULL DROP TABLE [oauth_approvals];
 IF ObJECt_ID('[oauth_client_details]') IS NOT NULL DROP TABLE [oauth_client_details];
@@ -24,8 +24,8 @@ IF ObJECt_ID('[oauth_client_token]') IS NOT NULL DROP TABLE [oauth_client_token]
 IF ObJECt_ID('[oauth_code]') IS NOT NULL DROP TABLE [oauth_code];
 IF ObJECt_ID('[oauth_refresh_token]') IS NOT NULL DROP TABLE [oauth_refresh_token];
 IF ObJECt_ID('[store]') IS NOT NULL DROP TABLE [store];
-IF ObJECt_ID('[tfCollection3]') IS NOT NULL DROP TABLE [tfCollection3];
-IF ObJECt_ID('[tfTran3]') IS NOT NULL DROP TABLE [tfTran3];
+IF ObJECt_ID('[tfCollection3_b]') IS NOT NULL DROP TABLE [tfCollection3_b];
+IF ObJECt_ID('[tfTran3_b]') IS NOT NULL DROP TABLE [tfTran3_b];
 
 
 
@@ -383,7 +383,7 @@ CREATE TABLE [item_file]
 -- 
 -- 온라인 Table 생성시 반드시 저장해야할 field
 -- GalCode, ProdOwnCode, SuppCode, prodId
-CREATE TABLE [mfProd]
+CREATE TABLE [mfProd_b]
 (
 	-- p_GalCode
 	[GalCode] varchar(9) NOT NULL,
@@ -723,10 +723,14 @@ CREATE TABLE [orders_detail]
 	-- 상품세금코드 : 세금유형 - GST, BOTH(GST+PST)
 	-- 
 	[item_tax_cd] nchar(1) NOT NULL,
+	-- 상품Deposit코드 : "값이 있을 경우 다음 Table 참조 Bottle Deposit / Ecofee 추가
+	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType' 
+	-- 100 보다 작으면 Select * FROM [dbgal].[dbo].[tblEncorp] WHERE ReturnType ='ReturnType'"
+	[item_deposit_cd] varchar(4),
 	-- 상품ECO코드
 	[item_eco_cd] varchar(4),
 	-- 주문수량
-	[order_qty] decimal(10,2),
+	[order_qty] int,
 	-- 총계
 	[amount] decimal(10,2),
 	-- 낱개판매가격
@@ -745,6 +749,14 @@ CREATE TABLE [orders_detail]
 	[receiving_price] decimal(10,2) NOT NULL,
 	-- 정규가격
 	[regular_price] decimal(10,2),
+	-- promotion묶음개수
+	[promotion_bundle_qty] int NOT NULL,
+	-- promotion시작일시
+	[promotion_start_date] datetime NOT NULL,
+	-- promotion종료일시
+	[promotion_end_date] datetime NOT NULL,
+	-- promotion가격
+	[promotion_price] decimal(10,2) NOT NULL,
 	-- 인보이스ID
 	[invoice_id] varchar(20),
 	-- 최초등록일시 : 최초등록일시
@@ -754,7 +766,8 @@ CREATE TABLE [orders_detail]
 	-- 마지막변경일시 : last_mod_date
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
-	[last_mod_person] varchar(256)
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([order_id], [item_id])
 );
 
 
@@ -794,7 +807,7 @@ CREATE TABLE [store]
 
 
 -- 결제for포스
-CREATE TABLE [tfCollection3]
+CREATE TABLE [tfCollection3_b]
 (
 	-- p_colID : ID (자동증가)
 	[colID] int,
@@ -898,7 +911,7 @@ CREATE TABLE [tfCollection3]
 
 
 -- 주문for포스
-CREATE TABLE [tfTran3]
+CREATE TABLE [tfTran3_b]
 (
 	-- p_인보이스 번호
 	[tInvNo] int NOT NULL,
