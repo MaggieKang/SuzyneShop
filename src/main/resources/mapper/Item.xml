@@ -7,30 +7,33 @@ select count(item_id) as totalCount
 </select>
 
 <select id="findAll" parameterType="com.hannamsm.shop.domain.item.vo.ItemSearch" resultType="com.hannamsm.shop.domain.item.vo.Item">
-select item_id            as itemId
-     , upc                as upc
-     , gal_code           as galCode
-     , prod_own_code      as prodOwnCode
-     , supp_code          as suppCode
-     , prod_id            as prodId
-     , item_kr_nm         as itemKrNm
-     , item_en_nm         as itemEnNm
-     , item_size          as itemSize
-     , item_type          as itemType
-     , item_type2         as itemType2
-     , item_in_price      as itemInPrice
-     , sale_price         as salePrice
-     , regular_price      as regularPrice
-     , item_balance       as itemBalance
-     , tax_cd             as taxCd
-     , sale_unit          as saleUnit
-     , deposit_cd         as depositCd
-     , category_cd        as categoryCd
-     , is_use             as isUse
-     , reg_date           as regDate
-     , reg_person         as regPerson
-     , last_mod_date      as lastModDate
-     , last_mod_person    as lastModPerson
+select item_id              as itemId
+     , upc                  as upc
+     , item_kr_nm           as itemKrNm
+     , item_en_nm           as itemEnNm
+     , receiving_price      as receivingPrice
+     , regular_price        as regularPrice
+     , category_cd          as categoryCd
+     , item_tax_cd          as itemTaxCd
+     , item_deposit_cd      as itemDepositCd
+     , item_eco_cd          as itemEcoCd
+     , item_size            as itemSize
+     , sale_unit            as saleUnit
+     , promotion_bundle_qty as promotionBundleQty
+     , promotion_start_date as promotionStartDate
+     , promotion_end_date   as promotionEndDate
+     , promotion_price      as promotionPrice
+     , gal_code             as galCode
+     , prod_own_code        as prodOwnCode
+     , supp_code            as suppCode
+     , prod_id              as prodId
+     , item_type            as itemType
+     , item_type2           as itemType2
+     , is_use               as isUse
+     , reg_date             as regDate
+     , reg_person           as regPerson
+     , last_mod_date        as lastModDate
+     , last_mod_person      as lastModPerson
   from item
  order by item_id
 offset #{startRownum} rows
@@ -38,59 +41,65 @@ offset #{startRownum} rows
 </select>
 
 <select id="findById" parameterType="com.hannamsm.shop.domain.item.vo.ItemSearch" resultType="com.hannamsm.shop.domain.item.vo.Item">
-select item_id            as itemId
-     , upc                as upc
-     , gal_code           as galCode
-     , prod_own_code      as prodOwnCode
-     , supp_code          as suppCode
-     , prod_id            as prodId
-     , item_kr_nm         as itemKrNm
-     , item_en_nm         as itemEnNm
-     , item_size          as itemSize
-     , item_type          as itemType
-     , item_type2         as itemType2
-     , item_in_price      as itemInPrice
-     , sale_price         as salePrice
-     , regular_price      as regularPrice
-     , item_balance       as itemBalance
-     , tax_cd             as taxCd
-     , sale_unit          as saleUnit
-     , deposit_cd         as depositCd
-     , category_cd        as categoryCd
-     , is_use             as isUse
-     , reg_date           as regDate
-     , reg_person         as regPerson
-     , last_mod_date      as lastModDate
-     , last_mod_person    as lastModPerson
+select item_id              as itemId
+     , upc                  as upc
+     , item_kr_nm           as itemKrNm
+     , item_en_nm           as itemEnNm
+     , receiving_price      as receivingPrice
+     , regular_price        as regularPrice
+     , category_cd          as categoryCd
+     , item_tax_cd          as itemTaxCd
+     , item_deposit_cd      as itemDepositCd
+     , item_eco_cd          as itemEcoCd
+     , item_size            as itemSize
+     , sale_unit            as saleUnit
+     , promotion_bundle_qty as promotionBundleQty
+     , promotion_start_date as promotionStartDate
+     , promotion_end_date   as promotionEndDate
+     , promotion_price      as promotionPrice
+     , gal_code             as galCode
+     , prod_own_code        as prodOwnCode
+     , supp_code            as suppCode
+     , prod_id              as prodId
+     , item_type            as itemType
+     , item_type2           as itemType2
+     , is_use               as isUse
+     , reg_date             as regDate
+     , reg_person           as regPerson
+     , last_mod_date        as lastModDate
+     , last_mod_person      as lastModPerson
   from item
  where item_id = #{item_id}
 </select>
 
 <select id="findByName" parameterType="com.hannamsm.shop.domain.item.vo.ItemSearch" resultType="com.hannamsm.shop.domain.item.vo.Item">
-select item_id            as itemId
-     , upc                as upc
-     , gal_code           as galCode
-     , prod_own_code      as prodOwnCode
-     , supp_code          as suppCode
-     , prod_id            as prodId
-     , item_kr_nm         as itemKrNm
-     , item_en_nm         as itemEnNm
-     , item_size          as itemSize
-     , item_type          as itemType
-     , item_type2         as itemType2
-     , item_in_price      as itemInPrice
-     , sale_price         as salePrice
-     , regular_price      as regularPrice
-     , item_balance       as itemBalance
-     , tax_cd             as taxCd
-     , sale_unit          as saleUnit
-     , deposit_cd         as depositCd
-     , category_cd        as categoryCd
-     , is_use             as isUse
-     , reg_date           as regDate
-     , reg_person         as regPerson
-     , last_mod_date      as lastModDate
-     , last_mod_person    as lastModPerson
+select item_id              as itemId
+     , upc                  as upc
+     , item_kr_nm           as itemKrNm
+     , item_en_nm           as itemEnNm
+     , receiving_price      as receivingPrice
+     , regular_price        as regularPrice
+     , category_cd          as categoryCd
+     , item_tax_cd          as itemTaxCd
+     , item_deposit_cd      as itemDepositCd
+     , item_eco_cd          as itemEcoCd
+     , item_size            as itemSize
+     , sale_unit            as saleUnit
+     , promotion_bundle_qty as promotionBundleQty
+     , promotion_start_date as promotionStartDate
+     , promotion_end_date   as promotionEndDate
+     , promotion_price      as promotionPrice
+     , gal_code             as galCode
+     , prod_own_code        as prodOwnCode
+     , supp_code            as suppCode
+     , prod_id              as prodId
+     , item_type            as itemType
+     , item_type2           as itemType2
+     , is_use               as isUse
+     , reg_date             as regDate
+     , reg_person           as regPerson
+     , last_mod_date        as lastModDate
+     , last_mod_person      as lastModPerson
   from item
  where 1=1
    and (item_kr_nm like '%'+ #{itemName} + '%' or item_en_nm like '%'+ #{itemName} +'%')

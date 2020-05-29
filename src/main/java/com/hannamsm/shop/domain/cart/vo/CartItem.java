@@ -14,29 +14,20 @@ import lombok.ToString;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
 public class CartItem {
-
 	private String accountId;
-	private String itemQty;
 	private String itemId;
+	private String itemQty;
 	private String upc;
-	private String galCode;
-	private String prodOwnCode;
-	private String suppCode;
-	private String prodId;
 	private String itemKrNm;
 	private String itemEnNm;
-	private String itemSize;
-	private String itemType;
-	private String itemType2;
-	private BigDecimal itemInPrice;
-	private BigDecimal salePrice;
+	private BigDecimal receivingPrice;
 	private BigDecimal regularPrice;
-	private int itemBalance;
-	private String taxCd;
-	private String saleUnit;
-	private String depositCd;
 	private String categoryCd;
-	private boolean isUse;
+	private String itemTaxCd;
+	private String itemDepositCd;
+	private String itemEcoCd;
+	private String itemSize;
+	private String saleUnit;
 	private LocalDateTime regDate;
 	private String regPerson;
 	private LocalDateTime lastModDate;

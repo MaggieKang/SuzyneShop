@@ -9,24 +9,16 @@ select count(a.item_id) as totalCount
 </select>
 
 <select id="findByAccountId" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItemSearch" resultType="com.hannamsm.shop.domain.favourite.vo.FavouriteItem">
-select a.item_id         as itemId
+select a.item_id        as itemId
      , b.upc             as upc
-     , b.gal_code        as galCode
-     , b.prod_own_code   as prodOwnCode
-     , b.supp_code       as suppCode
-     , b.prod_id         as prodId
      , b.item_kr_nm      as itemKrNm
      , b.item_en_nm      as itemEnNm
      , b.item_size       as itemSize
-     , b.item_type       as itemType
-     , b.item_type2      as itemType2
-     , b.item_in_price   as itemInPrice
-     , b.sale_price      as salePrice
+     , b.receiving_price as receiving_price
      , b.regular_price   as regularPrice
-     , b.item_balance    as itemBalance
-     , b.tax_cd          as taxCd
+     , b.item_tax_cd     as itemTaxCd
      , b.sale_unit       as saleUnit
-     , b.deposit_cd      as depositCd
+     , b.item_deposit_cd as itemDepositCd
      , b.category_cd     as categoryCd
      , a.reg_date        as regDate
      , a.reg_person      as regPerson

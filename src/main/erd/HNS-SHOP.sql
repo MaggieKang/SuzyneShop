@@ -25,6 +25,7 @@ IF ObJECt_ID('[oauth_code]') IS NOT NULL DROP TABLE [oauth_code];
 IF ObJECt_ID('[oauth_refresh_token]') IS NOT NULL DROP TABLE [oauth_refresh_token];
 IF ObJECt_ID('[store]') IS NOT NULL DROP TABLE [store];
 IF ObJECt_ID('[tfCollection3]') IS NOT NULL DROP TABLE [tfCollection3];
+IF ObJECt_ID('[tfTran3]') IS NOT NULL DROP TABLE [tfTran3];
 
 
 
@@ -289,45 +290,51 @@ CREATE TABLE [item]
 	[item_id] varchar(24) NOT NULL,
 	-- 바코드ID
 	[upc] varchar(20),
+	-- 상품한글이름
+	[item_kr_nm] varchar(150),
+	-- 상품영문이름
+	[item_en_nm] varchar(150),
+	-- 입고가격
+	[receiving_price] decimal(10,2),
+	-- 정규가격
+	[regular_price] decimal(10,2) NOT NULL,
+	-- 분류코드
+	[category_cd] varchar(10),
+	-- 상품세금코드 : 세금유형 - GST, BOTH(GST+PST)
+	-- 
+	[item_tax_cd] nchar(1),
+	-- 상품Deposit코드 : "값이 있을 경우 다음 Table 참조 Bottle Deposit / Ecofee 추가
+	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType' 
+	-- 100 보다 작으면 Select * FROM [dbgal].[dbo].[tblEncorp] WHERE ReturnType ='ReturnType'"
+	[item_deposit_cd] varchar(4),
+	-- 상품ECO코드
+	[item_eco_cd] varchar(4),
+	-- 상품규격
+	[item_size] nvarchar(30),
+	-- 판매단위 : 판매 단위 - EA, PK, LB
+	-- 
+	[sale_unit] nvarchar(4),
+	-- promotion묶음개수
+	[promotion_bundle_qty] int,
+	-- promotion시작일시
+	[promotion_start_date] datetime,
+	-- promotion종료일시
+	[promotion_end_date] datetime,
+	-- promotion가격
+	[promotion_price] decimal(10,2),
 	-- 포스Key1
 	[gal_code] varchar(9),
 	-- 포스Key2
 	[prod_own_code] varchar(4),
 	-- 포스Key3
 	[supp_code] varchar(9),
-	-- 포스 상품ID index key
+	-- 포스prodId
 	[prod_id] nvarchar(15),
-	-- 상품한글이름
-	[item_kr_nm] varchar(150),
-	-- 상품영문이름
-	[item_en_nm] varchar(150),
-	-- 상품규격
-	[item_size] nvarchar(30),
 	-- 상품유형 : tblCategory1 포스 테이블 참조
 	[item_type] nvarchar(2),
 	-- 상품유형2 : 상품 Type - "08" 베이커리 6개 이상 구매시 Non Tax
 	-- 
 	[item_type2] nvarchar(2),
-	-- 입고가격
-	[item_in_price] decimal(10,2),
-	-- 판매가격
-	[sale_price] decimal(10,2),
-	-- Regular가격
-	[regular_price] decimal(10,2),
-	-- 상품재고
-	[item_balance] decimal(10,2),
-	-- 세금코드 : 세금유형 - GST, BOTH(GST+PST)
-	-- 
-	[tax_cd] nchar(1),
-	-- 판매단위 : 판매 단위 - EA, PK, LB
-	-- 
-	[sale_unit] nvarchar(4),
-	-- Deposit코드 : "값이 있을 경우 다음 Table 참조 Bottle Deposit / Ecofee 추가
-	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType' 
-	-- 100 보다 작으면 Select * FROM [dbgal].[dbo].[tblEncorp] WHERE ReturnType ='ReturnType'"
-	[deposit_cd] int,
-	-- 분류코드
-	[category_cd] varchar(10),
 	-- 사용여부
 	[is_use] bit,
 	-- 최초등록일시 : 최초등록일시
@@ -676,10 +683,24 @@ CREATE TABLE [oauth_refresh_token]
 -- 주문
 CREATE TABLE [orders]
 (
-	-- order_id
+	-- 주문ID
 	[order_id] varchar(20) NOT NULL,
+	-- 주문일시
+	[order_date] datetime NOT NULL,
+	-- 총합계
+	[total_amount] decimal(10,2),
+	-- 총GST수수료
+	[total_gst_fee] decimal(10,2),
+	-- 총PST수수료
+	[total_pst_fee] decimal(10,2),
+	-- 총HST수수료
+	[total_hst_fee] decimal(10,2),
+	-- 총ECO수수료
+	[total_eco_fee] decimal(10,2),
+	-- 총Deposit수수료
+	[total_deposit_fee] decimal(10,2),
 	-- 계정ID : 계정 ID
-	[account_id] varchar(20) NOT NULL UNIQUE,
+	[account_id] varchar(20) NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -699,6 +720,33 @@ CREATE TABLE [orders_detail]
 	[order_id] varchar(20) NOT NULL,
 	-- 상품ID
 	[item_id] varchar(24) NOT NULL,
+	-- 상품세금코드 : 세금유형 - GST, BOTH(GST+PST)
+	-- 
+	[item_tax_cd] nchar(1) NOT NULL,
+	-- 상품ECO코드
+	[item_eco_cd] varchar(4),
+	-- 주문수량
+	[order_qty] decimal(10,2),
+	-- 총계
+	[amount] decimal(10,2),
+	-- 낱개판매가격
+	[each_sale_price] decimal(10,2),
+	-- 낱개GST수수료
+	[each_gst_fee] decimal(10,2),
+	-- 낱개PST수수료
+	[each_pst_fee] decimal(10,2),
+	-- 낱개HST수수료
+	[each_hst_fee] decimal(10,2),
+	-- 낱개ECO수수료
+	[each_eco_fee] decimal(10,2),
+	-- 낱개Deposit수수료
+	[each_deposit_fee] decimal(10,2),
+	-- 입고가격
+	[receiving_price] decimal(10,2) NOT NULL,
+	-- 정규가격
+	[regular_price] decimal(10,2),
+	-- 인보이스ID
+	[invoice_id] varchar(20),
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -745,7 +793,7 @@ CREATE TABLE [store]
 );
 
 
--- tfCollection3
+-- 결제for포스
 CREATE TABLE [tfCollection3]
 (
 	-- p_colID : ID (자동증가)
@@ -755,9 +803,9 @@ CREATE TABLE [tfCollection3]
 	-- p_판매시간 : 판매 시간 00:00:00
 	[colTime] nvarchar(16),
 	-- p_현금판매 : 현금 판매
-	[colCash] float,
+	[colCash] decimal(10,2),
 	-- p_enterCash
-	[enterCash] float,
+	[enterCash] decimal(10,2),
 	-- p_colUSD : UD$
 	[colUSD] float,
 	-- p_enterUSD
@@ -846,6 +894,107 @@ CREATE TABLE [tfCollection3]
 	[colNation] nvarchar(2),
 	-- p_colReferencea : 전화번호 입력, 상품권으로 결제시
 	[colReference] nvarchar(15)
+);
+
+
+-- 주문for포스
+CREATE TABLE [tfTran3]
+(
+	-- p_인보이스 번호
+	[tInvNo] int NOT NULL,
+	-- p_ID (자동증가)
+	[tID1] int NOT NULL IDENTITY ,
+	-- p_인보이스별 Seq
+	[tID] int,
+	-- p_상품 Code
+	[GalCode] varchar(9),
+	-- p_상품 Code
+	[ProdOwnCode] varchar(4),
+	-- p_상품 Code
+	[SUppCode] varchar(9),
+	-- p_상품 type
+	[tType] nvarchar(2),
+	-- p_PLU (Barcode)
+	[tProd] nvarchar(15),
+	-- p_판매일자
+	[tDate] smalldatetime,
+	-- p_상품 type
+	[tPtype] nvarchar(2),
+	-- p_판매 개수
+	[tQty] decimal(10,2),
+	-- p_입고 가격
+	[tIUprice] decimal(10,2),
+	-- p_Regular Sale Price
+	[tOUprice] decimal(10,2),
+	-- p_tWprice
+	[tWprice] decimal(10,2),
+	-- p_tNative
+	[tNative] decimal(10,2),
+	-- p_Sales Amount
+	[tAmt] decimal(10,2),
+	-- p_tHST
+	[tHST] decimal(10,2),
+	-- p_tGst
+	[tGst] decimal(10,2),
+	-- p_tPst
+	[tPst] decimal(10,2),
+	-- p_쿠폰 개수
+	[tCpnQty] varchar(2),
+	-- p_tPIQty
+	[tPIQty] nchar(2),
+	-- p_tPIUPoint
+	[tPIUPoint] int,
+	-- p_tPIPoint
+	[tPIPoint] int,
+	-- p_공급자 Code
+	[tSupp] nvarchar(4),
+	-- p_캐시어 ID
+	[tPassWord] nvarchar(10),
+	-- p_캐시어 POS No.
+	[tPassStation] nvarchar(2),
+	-- p_Tax형식
+	[tTax] nvarchar(1),
+	-- p_멤버쉽번호
+	[tCust] nchar(12),
+	-- p_tPOption
+	[tPOption] nchar(1),
+	-- p_멤버쉽판매개수
+	[tMemberQty] nchar(2),
+	-- p_판매시간
+	[tTime] nvarchar(16),
+	-- p_tUpCode
+	[tUpCode] nvarchar(1),
+	-- p_tSpecial
+	[tSpecial] nvarchar(1),
+	-- p_tFree
+	[tFree] int,
+	-- P_상품 Type
+	[tPtype2] nvarchar(2),
+	-- p_tShift
+	[tShift] nvarchar(1),
+	-- p_프로모션개수
+	[tPromo] nchar(2),
+	-- p_프로모션Unit
+	[tPunit] nvarchar(3),
+	-- Status
+	[tPriceStatus] varchar(1),
+	-- p_Dc제외
+	[tDCException] varchar(1),
+	-- p_tCRMCoupon
+	[tCRMCoupon] char,
+	-- p_tSpecialCoupon
+	[tSpecialCoupon] char,
+	-- p_tDID
+	[tDID] int,
+	-- p_tDCD
+	[tDCD] decimal(10,2),
+	-- p_리턴개수
+	[tReturnQty] int,
+	-- p_오리지널인보이스
+	[tReturnInvNo] int,
+	-- p_오지지널Seq
+	[tReturnID] int,
+	PRIMARY KEY ([tInvNo], [tID1])
 );
 
 

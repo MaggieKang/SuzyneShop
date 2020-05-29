@@ -5,14 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.hannamsm.shop.domain.cart.dao.CartDao;
-import com.hannamsm.shop.domain.cart.vo.CartItem;
-import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.domain.favourite.dao.FavouriteDao;
 import com.hannamsm.shop.domain.favourite.vo.FavouriteItem;
 import com.hannamsm.shop.domain.favourite.vo.FavouriteItemSearch;
