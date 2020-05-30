@@ -1,12 +1,13 @@
 
 /* Drop Tables */
 
+IF ObJECt_ID('[account_address]') IS NOT NULL DROP TABLE [account_address];
 IF ObJECt_ID('[account_authority]') IS NOT NULL DROP TABLE [account_authority];
 IF ObJECt_ID('[cart]') IS NOT NULL DROP TABLE [cart];
-IF ObJECt_ID('[orders_detail]') IS NOT NULL DROP TABLE [orders_detail];
-IF ObJECt_ID('[orders]') IS NOT NULL DROP TABLE [orders];
 IF ObJECt_ID('[customer]') IS NOT NULL DROP TABLE [customer];
 IF ObJECt_ID('[favourite]') IS NOT NULL DROP TABLE [favourite];
+IF ObJECt_ID('[orders_detail]') IS NOT NULL DROP TABLE [orders_detail];
+IF ObJECt_ID('[orders]') IS NOT NULL DROP TABLE [orders];
 IF ObJECt_ID('[account]') IS NOT NULL DROP TABLE [account];
 IF ObJECt_ID('[authority]') IS NOT NULL DROP TABLE [authority];
 IF ObJECt_ID('[item_file]') IS NOT NULL DROP TABLE [item_file];
@@ -56,6 +57,33 @@ CREATE TABLE [account]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([account_id])
+);
+
+
+-- 계정주소
+CREATE TABLE [account_address]
+(
+	-- 계정ID : 계정 ID
+	[account_id] varchar(20) NOT NULL UNIQUE,
+	-- 순번
+	[seq] int NOT NULL IDENTITY ,
+	-- 주소
+	[address] varchar(100),
+	-- 시
+	[city] varchar(20),
+	-- 주
+	[province] varchar(20),
+	-- 우편번호
+	[postal_cd] varchar(10) NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([account_id], [seq])
 );
 
 
@@ -249,10 +277,22 @@ CREATE TABLE [customer]
 (
 	-- 계정ID : 계정 ID
 	[account_id] varchar(20) NOT NULL UNIQUE,
-	-- 이름 : 이름
-	[name] varchar(200),
-	-- 이메일 : email 
-	[email] varchar(200),
+	-- 고객이름 : 고객이름
+	[customer_nm] varchar(200),
+	-- 고객이메일 : 고객이메일
+	[customer_email] varchar(200),
+	-- 고객전화번호 : customer phone number
+	[customer_phone_number] varchar(20),
+	-- 고객성별
+	[customer_gender] varchar(10),
+	-- 고객한글이름
+	[customer_kr_nm] varchar(150),
+	-- 고객영문이름
+	[customer_en_nm] varchar(150),
+	-- 고객언어코드
+	[customer_lang_cd] varchar(4),
+	-- 맴버쉽번호
+	[membership_no] int,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -260,7 +300,8 @@ CREATE TABLE [customer]
 	-- 마지막변경일시 : last_mod_date
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
-	[last_mod_person] varchar(256)
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([account_id])
 );
 
 
@@ -314,13 +355,13 @@ CREATE TABLE [item]
 	-- 판매단위 : 판매 단위 - EA, PK, LB
 	-- 
 	[sale_unit] nvarchar(4),
-	-- promotion묶음개수
+	-- 프로모션묶음개수
 	[promotion_bundle_qty] int,
-	-- promotion시작일시
+	-- 프로모션시작일시
 	[promotion_start_date] datetime,
-	-- promotion종료일시
+	-- 프로모션종료일시
 	[promotion_end_date] datetime,
-	-- promotion가격
+	-- 프로모션가격
 	[promotion_price] decimal(10,2),
 	-- 포스Key1
 	[gal_code] varchar(9),
@@ -749,13 +790,13 @@ CREATE TABLE [orders_detail]
 	[receiving_price] decimal(10,2) NOT NULL,
 	-- 정규가격
 	[regular_price] decimal(10,2),
-	-- promotion묶음개수
+	-- 프로모션묶음개수
 	[promotion_bundle_qty] int NOT NULL,
-	-- promotion시작일시
+	-- 프로모션시작일시
 	[promotion_start_date] datetime NOT NULL,
-	-- promotion종료일시
+	-- 프로모션종료일시
 	[promotion_end_date] datetime NOT NULL,
-	-- promotion가격
+	-- 프로모션가격
 	[promotion_price] decimal(10,2) NOT NULL,
 	-- 인보이스ID
 	[invoice_id] varchar(20),
@@ -774,25 +815,25 @@ CREATE TABLE [orders_detail]
 -- 매장
 CREATE TABLE [store]
 (
-	-- store_id
+	-- 매장ID
 	[store_id] varchar(10) NOT NULL,
-	-- store_nm
+	-- 매장이름
 	[store_nm] varchar(250),
-	-- address
+	-- 주소
 	[address] varchar(100),
-	-- city
+	-- 시
 	[city] varchar(20),
-	-- province
+	-- 주
 	[province] varchar(20),
-	-- postal_cd
+	-- 우편번호
 	[postal_cd] varchar(10),
-	-- store_open_time
+	-- 매장운영시간
 	[store_open_time] varchar(50),
-	-- telephone
+	-- 전화번호
 	[telephone] varchar(20),
 	-- 사용여부
 	[is_use] bit DEFAULT '1' NOT NULL,
-	-- store_manager_id
+	-- 매장관리자ID
 	[store_manager_id] varchar(200),
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
@@ -937,13 +978,13 @@ CREATE TABLE [tfTran3_b]
 	[tQty] decimal(10,2),
 	-- p_입고 가격
 	[tIUprice] decimal(10,2),
-	-- p_Regular Sale Price
+	-- p_RegularSalePrice
 	[tOUprice] decimal(10,2),
 	-- p_tWprice
 	[tWprice] decimal(10,2),
 	-- p_tNative
 	[tNative] decimal(10,2),
-	-- p_Sales Amount
+	-- p_SalesAmount
 	[tAmt] decimal(10,2),
 	-- p_tHST
 	[tHST] decimal(10,2),
@@ -959,7 +1000,7 @@ CREATE TABLE [tfTran3_b]
 	[tPIUPoint] int,
 	-- p_tPIPoint
 	[tPIPoint] int,
-	-- p_공급자 Code
+	-- p_공급자Code
 	[tSupp] nvarchar(4),
 	-- p_캐시어 ID
 	[tPassWord] nvarchar(10),
@@ -981,7 +1022,7 @@ CREATE TABLE [tfTran3_b]
 	[tSpecial] nvarchar(1),
 	-- p_tFree
 	[tFree] int,
-	-- P_상품 Type
+	-- p_상품 Type
 	[tPtype2] nvarchar(2),
 	-- p_tShift
 	[tShift] nvarchar(1),

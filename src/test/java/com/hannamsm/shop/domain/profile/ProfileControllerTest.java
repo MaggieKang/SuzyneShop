@@ -22,7 +22,7 @@ public class ProfileControllerTest extends BaseControllerTest {
 		// Given
 
 		// When & Then
-		mockMvc.perform(get("/api/profile")
+		mockMvc.perform(get("/api/profile/9000")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
 				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
@@ -30,6 +30,6 @@ public class ProfileControllerTest extends BaseControllerTest {
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
-		.andDo(document("query-profile"));
+		.andDo(document("profile-query"));
 	}
 }

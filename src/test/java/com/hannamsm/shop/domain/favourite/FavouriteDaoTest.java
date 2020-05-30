@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class FavouriteDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("즐겨찾기상품 목록 조회 테스트")
+	@Disabled
 	public void findByAccountId() throws Exception {
 		FavouriteItemSearch favouriteItemSearch = new FavouriteItemSearch(1, 10);
 		favouriteItemSearch.setAccountId("9000");
@@ -34,6 +36,7 @@ public class FavouriteDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("즐겨찾기상품 건수 조회 테스트")
+	@Disabled
 	public void findByAccountIdCount() throws Exception {
 		FavouriteItemSearch favouriteItemSearch = new FavouriteItemSearch(1, 10);
 		favouriteItemSearch.setAccountId("9000");

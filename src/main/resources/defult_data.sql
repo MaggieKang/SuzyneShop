@@ -372,3 +372,20 @@ INSERT INTO cart (account_id,item_id,item_qty,reg_date,reg_person,last_mod_date,
 ,('9000','DK01081097KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
 ,('9000','DK01081098KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000')
 ,('9000','DK0108977KR0101001',1,'2020-05-26 22:21:02.833','9000','2020-05-26 22:21:02.833','9000');
+
+INSERT INTO orders (order_id, order_date, total_amount, total_gst_fee, total_pst_fee, total_hst_fee, total_eco_fee, total_deposit_fee, account_id, reg_date, reg_person, last_mod_date, last_mod_person)
+VALUES ('1', getDate(), 0, 0, 0, 0, 0, 0, '9000', getDate(), 'sysadmin', getDate(), 'sysadmin');
+
+
+INSERT INTO orders_detail (order_id, item_id, item_tax_cd, item_deposit_cd, item_eco_cd, order_qty, amount, each_sale_price, each_gst_fee, each_pst_fee, each_hst_fee, each_eco_fee, each_deposit_fee, receiving_price, regular_price, promotion_bundle_qty, promotion_start_date,   promotion_end_date, promotion_price, invoice_id, reg_date , reg_person, last_mod_date, last_mod_person)
+VALUES                 ('1', 'DK0101151015KR0101001', 'N', null           , null       , 0        , 0     , 0              , 0           , 0           , 0           , 0           , 0               , 33.00          , 49.99        , 1                   ,'2020-05-09 00:00:00','2025-12-31 00:00:00', 38.99          , null      , getDate(), 'sysadmin', getDate()    , 'sysadmin')
+,                      ('1', 'DK0101114027KR0101001', 'N', null           , null       , 0        , 0     , 0              , 0           , 0           , 0           , 0           , 0               , 1.27           , 29.99        , 1                   ,'2019-12-16 00:00:00','2020-06-25 00:00:00', 19.99          , null      , getDate(), 'sysadmin', getDate()    , 'sysadmin')
+,                      ('1', 'DK0105033018KR0101001', 'G', null           , null       , 0        , 0     , 0              , 0           , 0           , 0           , 0           , 0               , 25             , 49.99        , 1                   ,'2018-02-19 00:00:00','2020-12-31 00:00:00', 34.99          , null      , getDate(), 'sysadmin', getDate()    , 'sysadmin')
+,                      ('1', 'DK0105190109KR0101001', 'B', null           , null       , 0        , 0     , 0              , 0           , 0           , 0           , 0           , 0               , 52.92          , 139.99       , 1                   ,'2014-09-26 00:00:00','2018-12-31 00:00:00', 79.99          , null      , getDate(), 'sysadmin', getDate()    , 'sysadmin')
+,                      ('1', 'DK01081058KR0101001'  , 'B', null           , '101'      , 0        , 0     , 0              , 0           , 0           , 0           , 0           , 0               , 479.00         , 599.00       , 1                   ,'2017-04-19 00:00:00','2018-12-31 00:00:00', 499.00         , null      , getDate(), 'sysadmin', getDate()    , 'sysadmin');
+
+
+INSERT INTO customer (account_id,customer_nm,customer_email,customer_phone_number,customer_gender,customer_kr_nm,customer_en_nm,customer_lang_cd,membership_no,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+ ('1006','customer_nm1006','1006_email@gmail.com','123-123-1234','mail','이름1006','en_name1006','kr',1234,getDate(),'sysadmin',getDate(),'sysadmin')
+,('9000','customer_nm9000','9000_email@gmail.com','123-123-1235','mail','이름9000','en_name9000','kr',1235,getDate(),'sysadmin',getDate(),'sysadmin')
+,('9001','customer_nm9001','9001_email@gmail.com','123-123-1236','mail','이름9001','en_name9001','en',1236,getDate(),'sysadmin',getDate(),'sysadmin');
