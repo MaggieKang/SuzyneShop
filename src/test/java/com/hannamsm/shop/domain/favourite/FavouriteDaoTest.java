@@ -47,4 +47,38 @@ public class FavouriteDaoTest extends BaseDaoTest {
 		assertAll("count",
 				()->assertNotNull(count));
 	}
+
+	@Test
+	@DisplayName("Favourite 추가 테스트")
+	@Disabled
+	public void addFavouriteItem() throws Exception {
+		FavouriteItem favouriteItem = FavouriteItem.builder()
+				.accountId("9000")
+				.itemId("DK0108977KR0101001")
+				.regPerson("test")
+				.lastModPerson("test")
+				.build();
+
+		int count = this.favouriteDao.add(favouriteItem);
+		System.out.println(count);
+
+		assertAll("saveCount",
+				()->assertNotNull(count));
+	}
+
+	@Test
+	@DisplayName("Favourite 삭제 테스트")
+	@Disabled
+	public void deleteFavouriteItem() throws Exception {
+		FavouriteItem favouriteItem = FavouriteItem.builder()
+				.accountId("9000")
+				.itemId("DK0108977KR0101001")
+				.build();
+
+		int count = this.favouriteDao.delete(favouriteItem);
+		System.out.println(count);
+
+		assertAll("deleteCount",
+				()->assertNotNull(count));
+	}
 }

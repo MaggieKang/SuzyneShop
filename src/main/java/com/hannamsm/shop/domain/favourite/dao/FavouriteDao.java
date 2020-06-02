@@ -9,4 +9,8 @@ public interface FavouriteDao {
 	public int findByAccountIdCount(FavouriteItemSearch favouriteItemSearch) throws Exception;
 
 	public List<FavouriteItem> findByAccountId(FavouriteItemSearch favouriteItemSearch) throws Exception;
+
+	public int add(FavouriteItem favouriteItem) throws Exception;
+
+	public int delete(FavouriteItem favouriteItem) throws Exception;
 }
