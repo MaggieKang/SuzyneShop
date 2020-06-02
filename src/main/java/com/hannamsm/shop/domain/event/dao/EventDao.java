@@ -12,11 +12,11 @@ public interface EventDao {
 	public int create(@Param("event")Event event) throws Exception;
 
 	public int selectEventId() throws Exception;
-	
-	public Optional<Event> findById(Integer id) throws Exception;
+
+	public Optional<Event> findById(int id) throws Exception;
 
 	public int findAllTotalCount(EventSearch eventSearch) throws Exception;
-	
+
 	public List<Event> findAll(EventSearch eventSearch) throws Exception;
 
 	public int update(Event event) throws Exception;

@@ -34,4 +34,57 @@ offset #{startRownum} rows
  fetch next #{listSize} row only
 </select>
 
+<select id="findByItemId" parameterType="com.hannamsm.shop.domain.cart.vo.CartItem" resultType="com.hannamsm.shop.domain.cart.vo.CartItem">
+select a.item_id            as itemId
+     , a.item_qty           as itemQty
+     , b.upc                as upc
+     , b.item_kr_nm         as itemKrNm
+     , b.item_en_nm         as itemEnNm
+     , b.receiving_price    as receivingPrice
+     , b.regular_price      as regularPrice
+     , b.category_cd        as categoryCd
+     , b.item_tax_cd        as itemTaxCd
+     , b.item_deposit_cd    as itemDepositCd
+     , b.item_eco_cd        as itemEcoCd
+     , b.item_size          as itemSize
+     , b.sale_unit          as saleUnit
+     , a.reg_date           as regDate
+     , a.reg_person         as regPerson
+     , a.last_mod_date      as lastModDate
+     , a.last_mod_person    as lastModPerson
+  from cart a
+       inner join item b on b.item_id = a.item_id and is_use = 1
+ where a.account_id = #{accountId}
+   and a.item_id = #{itemId}
+</select>
+
+<insert id="insert" parameterType="com.hannamsm.shop.domain.cart.vo.CartItem">
+insert into cart (
+       account_id
+     , item_id
+     , item_qty
+     , reg_date
+     , reg_person
+     , last_mod_date
+     , last_mod_person
+) values (
+       #{accountId}
+     , #{itemId}
+     , #{itemQty}
+     , getdate()
+     , #{regPerson}
+     , getdate()
+     , #{lastModPerson}
+)
+</insert>
+
+<update id="update" parameterType="com.hannamsm.shop.domain.cart.vo.CartItem">
+update cart
+   set last_mod_person = #{lastModPerson}
+     , last_mod_date = getdate()
+     , item_qty = #{itemQty}
+ where account_id = #{accountId}
+   and item_id = #{itemId}
+</update>
+
 </mapper>

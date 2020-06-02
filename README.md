@@ -257,6 +257,23 @@ __double underscores__
 *****
 ### 8. Error 작성 가이드
 
+Spring MVC exception 처리 방법
+@ControllerAdvice
+@ExchangeHandler
+
+스프링 부트가 제공하는 기본 예외 처리기
+BasicErrorController
+HTML과 JSON 응답 지원
+커스터마이징 방법
+ErrorController 구현
+
+커스텀 에러 페이지
+상태 코드 값에 따라 에러 페이지 보여주기
+src/main/resources/static|template/error/
+404.html
+5xx.html
+ErrorViewResolver|구현
+
 #### 에러코드 정의
 
 ##### ex) B12345678910

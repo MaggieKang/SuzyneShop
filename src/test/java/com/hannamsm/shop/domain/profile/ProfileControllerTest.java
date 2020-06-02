@@ -18,7 +18,7 @@ public class ProfileControllerTest extends BaseControllerTest {
 
 	@Test
 	@DisplayName("Profile 조회 테스트 - (정상)")
-	public void queryCart() throws Exception {
+	public void queryProfile() throws Exception {
 		// Given
 
 		// When & Then

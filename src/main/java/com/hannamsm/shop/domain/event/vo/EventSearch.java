@@ -11,18 +11,20 @@ import lombok.Setter;
 @Getter @Setter
 public class EventSearch {
 
-	private String name;
-	
+	private String accountId;
+	private String itemId;
+	private String itemNm;
+
 	private int startRownum;
 	private int page;
 	private int listSize;
-	
+
 	public EventSearch(int page, int listSize) {
 		this.page = page;
 		this.listSize = listSize;
 		updatePaging();
 	}
-	
+
 	public void updatePaging() {
 		this.startRownum = (page - 1) * listSize + 1 ;
 	}

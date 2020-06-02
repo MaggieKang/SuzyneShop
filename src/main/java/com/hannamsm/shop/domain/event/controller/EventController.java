@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +28,6 @@ import com.hannamsm.shop.domain.event.vo.EventDto;
 import com.hannamsm.shop.domain.event.vo.EventSearch;
 import com.hannamsm.shop.domain.event.vo.ResEventDto;
 import com.hannamsm.shop.global.adapter.CurrentUser;
-import com.hannamsm.shop.global.error.ErrorsResource;
 import com.hannamsm.shop.global.vo.ResponseResutl;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
@@ -49,15 +47,9 @@ public class EventController {
 
 	@PostMapping
 	public ResponseEntity createEvent(@RequestBody @Valid EventDto reqEventDto
-			, @CurrentUser Account account, Errors errors) throws Exception {
-		if(errors.hasErrors()) {
-			return badRequest(errors);
-		}
+			, @CurrentUser Account account) throws Exception {
 
-		this.eventValidator.validate(reqEventDto, errors);
-		if(errors.hasErrors()) {
-			return badRequest(errors);
-		}
+		this.eventValidator.validate(reqEventDto);
 
 		Event event = modelMapper.map(reqEventDto, Event.class);
 		event.update();
@@ -111,20 +103,13 @@ public class EventController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity updateEvent(@PathVariable Integer id, @RequestBody @Valid EventDto eventDto, Errors errors) throws Exception {
+	public ResponseEntity updateEvent(@PathVariable Integer id, @RequestBody @Valid EventDto eventDto) throws Exception {
 		Optional<Event> optionalEvent = this.eventService.findById(id);
 		if(optionalEvent.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 
-		if(errors.hasErrors()) {
-			return badRequest(errors);
-		}
-
-		this.eventValidator.validate(eventDto, errors);
-		if(errors.hasErrors()) {
-			return badRequest(errors);
-		}
+		this.eventValidator.validate(eventDto);
 
 		Event existingEvent = optionalEvent.get();
 		this.modelMapper.map(eventDto, existingEvent);
@@ -137,9 +122,5 @@ public class EventController {
 		resResult.setResult(resEventDto);
 
 		return ResponseEntity.ok(resResult);
-	}
-
-	private ResponseEntity<?> badRequest(Errors errors) {
-		return ResponseEntity.badRequest().body(new ErrorsResource(errors));
 	}
 }

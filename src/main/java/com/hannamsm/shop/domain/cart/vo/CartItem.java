@@ -16,7 +16,7 @@ import lombok.ToString;
 public class CartItem {
 	private String accountId;
 	private String itemId;
-	private String itemQty;
+	private int itemQty;
 	private String upc;
 	private String itemKrNm;
 	private String itemEnNm;
