@@ -21,8 +21,13 @@ public enum ErrorCode {
     CART_ITEM_END_EVENT_DATE_TIME(400, "CA004", "EndEventDateTime is wrong!"),
     //COUPON_EXPIRE(400, "CO004", "Coupon was already expired")
 
+    // EVENT
     EVENT_WRONG_PRICES(400, "EV001", "MaxPrics is wrong!"),
     EVENT_END_EVENT_DATE_TIME(400, "EV002", "EndEventDateTime is wrong!"),
+
+    // FILE
+    FILE_STORAGE_ERROR(400, "FI001", "Could not store file!"),
+    FILE_NOT_FOUND_ERROR(400, "FI002", "Could not found file!"),
 
     //999
     ETC_ERROR(500, "ZZ999", "Etc is Error!")
