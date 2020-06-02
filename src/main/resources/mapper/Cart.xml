@@ -58,33 +58,54 @@ select a.item_id            as itemId
    and a.item_id = #{itemId}
 </select>
 
-<insert id="insert" parameterType="com.hannamsm.shop.domain.cart.vo.CartItem">
-insert into cart (
-       account_id
-     , item_id
-     , item_qty
-     , reg_date
-     , reg_person
-     , last_mod_date
-     , last_mod_person
-) values (
-       #{accountId}
-     , #{itemId}
-     , #{itemQty}
-     , getdate()
-     , #{regPerson}
-     , getdate()
-     , #{lastModPerson}
-)
+<insert id="add" parameterType="com.hannamsm.shop.domain.cart.vo.CartItem">
+merge cart as a
+using (select #{accountId}     AS account_id
+            , #{itemId}        AS item_id
+            , #{itemQty}       AS item_qty
+            , getdate()        AS reg_date
+            , #{regPerson}     AS reg_person
+            , getdate()        AS last_mod_date
+            , #{lastModPerson} AS last_mod_person
+      ) as b
+        on (     a.account_id = b.account_id
+             and a.item_id = b.item_id)
+        when not matched then
+             insert ( account_id
+                    , item_id
+                    , item_qty
+                    , reg_date
+                    , reg_person
+                    , last_mod_date
+                    , last_mod_person
+             ) values (
+                      b.account_id
+                    , b.item_id
+                    , b.item_qty
+                    , b.reg_date
+                    , b.reg_person
+                    , b.last_mod_date
+                    , b.last_mod_person
+             )
+        when matched then
+             update set a.last_mod_person = b.last_mod_person
+                  , a.last_mod_date = b.last_mod_date
+                  , a.item_qty += b.item_qty;
 </insert>
 
-<update id="update" parameterType="com.hannamsm.shop.domain.cart.vo.CartItem">
+<update id="save" parameterType="com.hannamsm.shop.domain.cart.vo.CartItem">
 update cart
    set last_mod_person = #{lastModPerson}
-     , last_mod_date = getdate()
+     , last_mod_date = getDate()
      , item_qty = #{itemQty}
  where account_id = #{accountId}
    and item_id = #{itemId}
 </update>
+
+<delete id="delete" parameterType="com.hannamsm.shop.domain.cart.vo.CartItem">
+delete cart
+ where account_id = #{accountId}
+   and item_id = #{itemId}
+</delete>
 
 </mapper>

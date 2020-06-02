@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,7 +71,7 @@ public class CartController {
 	}
 
 	/*
-	 * 장바구니 상품 저장
+	 * 장바구니 상품 추가
 	 */
 	@PostMapping(value = "/{itemId}", produces = MediaTypes.HAL_JSON_VALUE)
 	public ResponseEntity addCartItem(@PathVariable String itemId
@@ -82,7 +83,7 @@ public class CartController {
 		cartService.addCartItem(reqCartItemDto);
 
 		ResponseResutl<CartItemDto> resResult = new ResponseResutl<CartItemDto>();
-		resResult.setMessage("생성되었습니다.");
+		resResult.setMessage("추가 되었습니다.");
 		resResult.setResult(reqCartItemDto);
 
         return ResponseEntity
@@ -91,30 +92,41 @@ public class CartController {
 	}
 
 	/*
-	 * 장바구니 상품 변경
+	 * 장바구니 상품 저장
 	 */
-	@PutMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
-	public ResponseEntity saveCartItem(@PathVariable String id
+	@PutMapping(value = "/{itemId}", produces = MediaTypes.HAL_JSON_VALUE)
+	public ResponseEntity saveCartItem(@PathVariable String itemId
+			, @RequestBody @Valid CartItemDto reqCartItemDto
 			, @CurrentUser Account currentUser) throws Exception {
-		CartItem cartItem = CartItem.builder()
-				.accountId(currentUser.getAccountId())
-				.itemId(id)
-				.itemQty(0)
-				.regPerson(id)
-				.lastModPerson(id)
-				.build();
+		reqCartItemDto.setAccountId(currentUser.getAccountId());
 
-		//1. 대상 Item 가능여부
-		//2. 대상 Item이 이미 있는경우 pass
-		cartService.updateCartItem(cartItem);
 
-		ResponseResutl<CartItem> resResult = new ResponseResutl<CartItem>();
-		resResult.setMessage("생성되었습니다.");
-		resResult.setResult(cartItem);
+		cartService.saveCartItem(reqCartItemDto);
 
-        return ResponseEntity
-        		.created(linkTo(this.getClass()).slash(cartItem.getItemId()).toUri())
-        		.body(cartItem);
+		ResponseResutl<CartItemDto> resResult = new ResponseResutl<CartItemDto>();
+		resResult.setMessage("저장 되었습니다.");
+		resResult.setResult(reqCartItemDto);
+
+        return ResponseEntity.ok(reqCartItemDto);
+	}
+
+	/*
+	 * 장바구니 상품 삭제
+	 */
+	@DeleteMapping(value = "/{itemId}", produces = MediaTypes.HAL_JSON_VALUE)
+	public ResponseEntity deleteCartItem(@PathVariable String itemId
+			, @RequestBody @Valid CartItemDto reqCartItemDto
+			, @CurrentUser Account currentUser) throws Exception {
+		reqCartItemDto.setAccountId(currentUser.getAccountId());
+
+
+		cartService.deleteCartItem(reqCartItemDto);
+
+		ResponseResutl<CartItemDto> resResult = new ResponseResutl<CartItemDto>();
+		resResult.setMessage("삭제 되었습니다.");
+		resResult.setResult(reqCartItemDto);
+
+        return ResponseEntity.ok(reqCartItemDto);
 	}
 
 

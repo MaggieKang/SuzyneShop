@@ -13,7 +13,9 @@ public interface CartDao {
 
 	public Optional<CartItem> findByItemId(CartItem cartItem) throws Exception;
 
-	public int insert(CartItem cartItem) throws Exception;
+	public int add(CartItem cartItem) throws Exception;
 
-	public int update(CartItem cartItem) throws Exception;
+	public int save(CartItem cartItem) throws Exception;
+
+	public int delete(CartItem cartItem) throws Exception;
 }

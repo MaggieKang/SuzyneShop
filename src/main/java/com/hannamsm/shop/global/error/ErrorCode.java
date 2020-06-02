@@ -2,12 +2,12 @@ package com.hannamsm.shop.global.error;
 
 public enum ErrorCode {
 	// Common
-    INVALID_INPUT_VALUE(400, "C001", " Invalid Input Value"),
-    METHOD_NOT_ALLOWED(405, "C002", " Invalid Input Value"),
-    ENTITY_NOT_FOUND(400, "C003", " Entity Not Found"),
-    INTERNAL_SERVER_ERROR(500, "C004", "Server Error"),
-    INVALID_TYPE_VALUE(400, "C005", " Invalid Type Value"),
-    HANDLE_ACCESS_DENIED(403, "C006", "Access is Denied"),
+    INVALID_INPUT_VALUE(400, "CM001", " Invalid Input Value"),
+    METHOD_NOT_ALLOWED(405, "CM002", " Invalid Input Value"),
+    ENTITY_NOT_FOUND(400, "CM003", " Entity Not Found"),
+    INTERNAL_SERVER_ERROR(500, "CM004", "Server Error"),
+    INVALID_TYPE_VALUE(400, "CM005", " Invalid Type Value"),
+    HANDLE_ACCESS_DENIED(403, "CM006", "Access is Denied"),
 
 
     // Member
@@ -25,7 +25,7 @@ public enum ErrorCode {
     EVENT_END_EVENT_DATE_TIME(400, "EV002", "EndEventDateTime is wrong!"),
 
     //999
-    ETC_ERROR(500, "Z999", "Etc is Error!")
+    ETC_ERROR(500, "ZZ999", "Etc is Error!")
     ;
 
     private final String code;

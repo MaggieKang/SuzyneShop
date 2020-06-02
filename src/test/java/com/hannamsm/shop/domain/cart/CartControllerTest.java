@@ -1,8 +1,10 @@
 package com.hannamsm.shop.domain.cart;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -23,7 +25,7 @@ import com.hannamsm.shop.global.BaseControllerTest;
 public class CartControllerTest extends BaseControllerTest {
 
 	@Test
-	@DisplayName("장바구니 목록 조회 테스트 - (정상)")
+	@DisplayName("Cart - 목록 조회 테스트 - (정상)")
 	public void queryCart() throws Exception {
 		// Given
 
@@ -42,7 +44,7 @@ public class CartControllerTest extends BaseControllerTest {
 	}
 
 	@Test
-	@DisplayName("장바구니 요약 조회 테스트 - (정상)")
+	@DisplayName("Cart - 요약 조회 테스트 - (정상)")
 	public void queryCartSummery() throws Exception {
 		// Given
 
@@ -60,7 +62,7 @@ public class CartControllerTest extends BaseControllerTest {
 	}
 
 	@Test
-	@DisplayName("장바구니 요약 조회장바구니 상품 저장 테스트 - (정상)")
+	@DisplayName("Cart - 상품 추가 테스트 - (정상)")
 	public void addCartItem() throws Exception {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
@@ -78,20 +80,145 @@ public class CartControllerTest extends BaseControllerTest {
 			.andDo(print())
 			.andExpect(status().isCreated())
 			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
-			.andDo(document("cart-save-item"));
+			.andDo(document("cart-add-item"));
 	}
 
 	@Test
-	@DisplayName("장바구니 요약 조회장바구니 상품 저장 400 Error 테스트 - (실패)")
-	public void addCartItem400Error() throws Exception {
+	@DisplayName("Cart - 상품 추가 400 Error 테스트 - (item 없음)")
+	public void addCartItem_NotFound_400Error() throws Exception {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
-				.itemId("DK0101004135KR0101001")
-				.itemQty(1)
+				.itemId("123123123")
+				.itemQty(100)
 				.build();
 
 		// When & Then
 		mockMvc.perform(post("/api/cart/{id}",cartItemDto.getItemId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaTypes.HAL_JSON)
+				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
+				.content(this.objectMapper.writeValueAsString(cartItemDto))
+			)
+			.andDo(print())
+			.andExpect(status().is4xxClientError())
+			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
+			;
+	}
+
+	@Test
+	@DisplayName("Cart - 상품 추가 405 Error 테스트 - (필수 필드)")
+	public void addCartItem_InvalidInputValue_405Error() throws Exception {
+		// Given
+		CartItemDto cartItemDto = CartItemDto.builder()
+				.build();
+
+		// When & Then
+		mockMvc.perform(post("/api/cart/{id}",cartItemDto.getItemId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaTypes.HAL_JSON)
+				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
+				.content(this.objectMapper.writeValueAsString(cartItemDto))
+			)
+			.andDo(print())
+			.andExpect(status().is4xxClientError())
+			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
+			;
+	}
+
+	@Test
+	@DisplayName("Cart - 상품 저장 테스트 - (정상)")
+	public void saveCartItem() throws Exception {
+		// Given
+		CartItemDto cartItemDto = CartItemDto.builder()
+				.itemId("DK0108977KR0101001")
+				.itemQty(10)
+				.build();
+
+		// When & Then
+		mockMvc.perform(put("/api/cart/{id}",cartItemDto.getItemId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaTypes.HAL_JSON)
+				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
+				.content(this.objectMapper.writeValueAsString(cartItemDto))
+			)
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
+			.andDo(document("cart-save-item"));
+	}
+
+	@Test
+	@DisplayName("Cart - 상품 저장 405 Error 테스트 - (필수 필드)")
+	public void saveCartItem_InvalidInputValue_405Error() throws Exception {
+		// Given
+		CartItemDto cartItemDto = CartItemDto.builder()
+				.build();
+
+		// When & Then
+		mockMvc.perform(put("/api/cart/{id}",cartItemDto.getItemId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaTypes.HAL_JSON)
+				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
+				.content(this.objectMapper.writeValueAsString(cartItemDto))
+			)
+			.andDo(print())
+			.andExpect(status().is4xxClientError())
+			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
+			;
+	}
+
+	@Test
+	@DisplayName("Cart - 상품 저장 400 Error 테스트 - (item 없음)")
+	public void saveCartItem_NotFound_400Error() throws Exception {
+		// Given
+		CartItemDto cartItemDto = CartItemDto.builder()
+				.itemId("123123123")
+				.itemQty(100)
+				.build();
+
+		// When & Then
+		mockMvc.perform(put("/api/cart/{id}",cartItemDto.getItemId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaTypes.HAL_JSON)
+				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
+				.content(this.objectMapper.writeValueAsString(cartItemDto))
+			)
+			.andDo(print())
+			.andExpect(status().is4xxClientError())
+			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
+			;
+	}
+
+	@Test
+	@DisplayName("Cart - 상품 삭제 테스트 - (정상)")
+	public void deleteCartItem() throws Exception {
+		// Given
+		CartItemDto cartItemDto = CartItemDto.builder()
+				.itemId("DK0108977KR0101001")
+				.build();
+
+		// When & Then
+		mockMvc.perform(delete("/api/cart/{id}",cartItemDto.getItemId())
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaTypes.HAL_JSON)
+				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
+				.content(this.objectMapper.writeValueAsString(cartItemDto))
+			)
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
+			.andDo(document("cart-delete-item"));
+	}
+
+	@Test
+	@DisplayName("Cart - 상품 삭제 405 Error 테스트 - (필수 필드)")
+	public void deleteCartItem_InvalidInputValue_405Error() throws Exception {
+		// Given
+		CartItemDto cartItemDto = CartItemDto.builder()
+				.build();
+
+		// When & Then
+		mockMvc.perform(delete("/api/cart/123123123")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
 				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
