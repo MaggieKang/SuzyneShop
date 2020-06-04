@@ -24,6 +24,7 @@ IF ObJECt_ID('[oauth_client_details]') IS NOT NULL DROP TABLE [oauth_client_deta
 IF ObJECt_ID('[oauth_client_token]') IS NOT NULL DROP TABLE [oauth_client_token];
 IF ObJECt_ID('[oauth_code]') IS NOT NULL DROP TABLE [oauth_code];
 IF ObJECt_ID('[oauth_refresh_token]') IS NOT NULL DROP TABLE [oauth_refresh_token];
+IF ObJECt_ID('[pickup_timeslot]') IS NOT NULL DROP TABLE [pickup_timeslot];
 IF ObJECt_ID('[store]') IS NOT NULL DROP TABLE [store];
 IF ObJECt_ID('[tfCollection3_b]') IS NOT NULL DROP TABLE [tfCollection3_b];
 IF ObJECt_ID('[tfTran3_b]') IS NOT NULL DROP TABLE [tfTran3_b];
@@ -809,6 +810,31 @@ CREATE TABLE [orders_detail]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([order_id], [item_id])
+);
+
+
+-- 픽업_시간표
+CREATE TABLE [pickup_timeslot]
+(
+	-- 슬롯날짜
+	[slot_dt] date NOT NULL,
+	-- 슬롯시간
+	[slot_time] time NOT NULL,
+	-- 할당수량
+	[allocation_qty] int DEFAULT 0 NOT NULL,
+	-- 완료수량
+	[completion_qty] int DEFAULT 0 NOT NULL,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([slot_dt], [slot_time])
 );
 
 

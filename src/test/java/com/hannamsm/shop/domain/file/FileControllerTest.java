@@ -21,7 +21,7 @@ public class FileControllerTest extends BaseControllerTest {
 				"file",
 				"test.txt",
 				"text/plain",
-				"hello file".getBytes());
+				"hello file222".getBytes());
 
 		// When & Then
 		mockMvc.perform(multipart("/api/file/uploadFile").file(file)

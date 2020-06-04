@@ -53,14 +53,14 @@ public class ItemController {
 	@GetMapping("/{id}")
 	public ResponseEntity queryItem(@PathVariable String id) throws Exception {
 
-		Optional<Item> optionalItem = this.itemService.findById(id);
-		if(optionalItem.isEmpty()) {
+		Optional<Item> optionalResult = this.itemService.findById(id);
+		if(optionalResult.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 
 		ResponseResutl<Item> result = new ResponseResutl<Item>();
 		result.setMessage("조회하였습니다.");
-		result.setResult(optionalItem.get());
+		result.setResult(optionalResult.get());
 		return ResponseEntity.ok(result);
 	}
 }

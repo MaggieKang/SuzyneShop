@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hannamsm.shop.domain.pickup.dao.PickupTimeslotDao">
+
+<select id="findBySlotDt" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
+select slot_dt         as slotDt
+     , slot_time       as slotTime
+     , store_id        as storeId
+     , allocation_qty  as allocationQty
+     , completion_qty  as completionQty
+     , reg_date        as regDate
+     , reg_person      as regPerson
+     , last_mod_date   as lastModDate
+     , last_mod_person as lastModPerson
+  from pickup_timeslot
+ where store_id = #{storeId}
+   and slot_dt = #{slotDt}
+</select>
+
+<select id="findBySlotTime" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
+select slot_dt         as slotDt
+     , slot_time       as slotTime
+     , store_id        as storeId
+     , allocation_qty  as allocationQty
+     , completion_qty  as completionQty
+     , reg_date        as regDate
+     , reg_person      as regPerson
+     , last_mod_date   as lastModDate
+     , last_mod_person as lastModPerson
+  from pickup_timeslot
+ where store_id = #{storeId}
+   and slot_dt = #{slotDt}
+   and slot_time = #{slotTime}
+</select>
+
+<insert id="saveSlotTime" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
+merge pickup_timeslot as a
+using (select #{slotDt}        as slot_dt
+            , #{slotTime}      as slot_time
+            , #{storeId}       as store_id
+            , #{allocationQty} as allocation_qty
+            , #{completionQty} as completion_qty
+            , getDate()        as reg_date
+            , #{regPerson}     as reg_person
+            , getDate()        as last_mod_date
+            , #{lastModPerson} as last_mod_person
+      ) as b
+        on (     a.store_id = b.store_id
+             and a.slot_dt = b.slot_dt
+             and a.slot_time = b.slot_time)
+        when not matched then
+             insert ( slot_dt
+                    , slot_time
+                    , store_id
+                    , allocation_qty
+                    , completion_qty
+                    , reg_date
+                    , reg_person
+                    , last_mod_date
+                    , last_mod_person
+             ) values (
+                      b.slot_dt
+                    , b.slot_time
+                    , b.store_id
+                    , b.allocation_qty
+                    , b.completion_qty
+                    , b.reg_date
+                    , b.reg_person
+                    , b.last_mod_date
+                    , b.last_mod_person
+             )
+        when matched then
+             update set a.last_mod_person = b.last_mod_person
+                  , a.last_mod_date = b.last_mod_date
+                  , a.allocation_qty = b.allocation_qty
+                  , a.completion_qty = b.completion_qty;
+</insert>
+
+<insert id="deleteTimeslot" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
+delete pickup_timeslot
+ where store_id = #{storeId}
+   and slot_dt = #{slotDt}
+</insert>
+
+</mapper>

@@ -389,3 +389,9 @@ INSERT INTO customer (account_id,customer_nm,customer_email,customer_phone_numbe
  ('1006','customer_nm1006','1006_email@gmail.com','123-123-1234','mail','이름1006','en_name1006','kr',1234,getDate(),'sysadmin',getDate(),'sysadmin')
 ,('9000','customer_nm9000','9000_email@gmail.com','123-123-1235','mail','이름9000','en_name9000','kr',1235,getDate(),'sysadmin',getDate(),'sysadmin')
 ,('9001','customer_nm9001','9001_email@gmail.com','123-123-1236','mail','이름9001','en_name9001','en',1236,getDate(),'sysadmin',getDate(),'sysadmin');
+
+INSERT INTO pickup_timeslot (slot_dt,slot_time,allocation_qty,completion_qty,store_id,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+ ('2020-06-13','09:00:00',0,0,'bbr','2020-06-03 22:18:46.227','sysadmin','2020-06-03 22:18:46.227','sysadmin')
+,('2020-06-13','10:00:00',0,0,'bbr','2020-06-03 22:18:50.883','sysadmin','2020-06-03 22:18:50.883','sysadmin')
+,('2020-06-13','11:00:00',0,0,'bbr','2020-06-03 22:18:53.673','sysadmin','2020-06-03 22:18:53.673','sysadmin')
+,('2020-06-13','12:00:00',0,0,'bbr','2020-06-03 22:18:54.990','sysadmin','2020-06-03 22:18:54.990','sysadmin');
