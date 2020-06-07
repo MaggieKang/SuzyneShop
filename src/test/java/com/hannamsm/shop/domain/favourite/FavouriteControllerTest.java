@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.MediaTypes;
@@ -65,6 +66,7 @@ public class FavouriteControllerTest extends BaseControllerTest {
 
 	@Test
 	@DisplayName("Favourite - 상품 삭제 테스트 - (정상)")
+	@Disabled
 	public void deleteFavouriteItem() throws Exception {
 		// Given
 		FavouriteItemDto favouriteItemDto = FavouriteItemDto.builder()

@@ -2,6 +2,8 @@ package com.hannamsm.shop.domain.favourite.vo;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +17,7 @@ import lombok.ToString;
 public class FavouriteItemDto {
 
 	private String accountId;
+	@NotNull
 	private String itemId;
 	private LocalDateTime regDate;
 	private String regPerson;

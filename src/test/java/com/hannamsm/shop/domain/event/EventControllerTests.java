@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDateTime;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -33,14 +34,15 @@ import com.hannamsm.shop.domain.event.vo.EventStatus;
 import com.hannamsm.shop.global.BaseControllerTest;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Disabled
 public class EventControllerTests extends BaseControllerTest {
-	
+
 	@Autowired
 	EventDao eventDao;
-	
+
 	@Autowired
 	ModelMapper modelMapper;
-	
+
 	/*
 	 * 입력 값들을 전달하면 json 응답으로 201이 나오는지 확인.
 	 * location 헤더에 생성된 이벤트를 조회할 수 있는 URI 담겨 있는지 확인.
@@ -62,7 +64,7 @@ public class EventControllerTests extends BaseControllerTest {
 			.limitOfEnrollment(100) //계산
 			.location("Kangs Way Station")
 			.build();
-		
+
 		// When
 		mockMvc.perform(post("/api/events/")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -117,16 +119,16 @@ public class EventControllerTests extends BaseControllerTest {
 				)
 			);
 	}
-	
+
 	@Test
 	@DisplayName("EVENT 생성 Bad_Request_Empty_Input 테스트 하기")
 	public void createEvent_Bad_Request_Empty_Input() throws Exception {
 		EventDto event = EventDto.builder().build();
-		
+
 		//Mockito를 사용해서 mock 객체를 만들고 빈으로 등록해 줌.
 		//(주의) 기존 빈을 테스트용 빈이 대체 한다.
 		//Mockito.when(eventService.save(event)).thenReturn(event);
-		
+
 		mockMvc.perform(post("/api/events/")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
@@ -136,7 +138,7 @@ public class EventControllerTests extends BaseControllerTest {
 			.andExpect(status().isBadRequest())
 			;
 	}
-	
+
 	@Test
 	@DisplayName("EVENT 생성 Bad_Request_Wrong_Input 테스트 하기")
 	public void createEvent_Bad_Request_Wrong_Input() throws Exception {
@@ -152,11 +154,11 @@ public class EventControllerTests extends BaseControllerTest {
 			.limitOfEnrollment(100) //계산
 			.location("Kang Way Station")
 			.build();
-		
+
 		//Mockito를 사용해서 mock 객체를 만들고 빈으로 등록해 줌.
 		//(주의) 기존 빈을 테스트용 빈이 대체 한다.
 		//Mockito.when(eventService.save(event)).thenReturn(event);
-		
+
 		mockMvc.perform(post("/api/events/")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
@@ -171,12 +173,12 @@ public class EventControllerTests extends BaseControllerTest {
 //			.andExpect(jsonPath("$[0].rejectedValue").exists())
 			;
 	}
-	
+
 	@Test
 	@DisplayName("이벤트 목록을 10개씩 두번째 페이지 조회하기")
 	public void queryEvents() throws Exception {
 		//Given
-		
+
 		//When
 		this.mockMvc.perform(get("/api/events")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -192,14 +194,14 @@ public class EventControllerTests extends BaseControllerTest {
 			.andDo(document("query-events"))
 			;
 	}
-	
+
 	@Test
 	@DisplayName("이벤트를 ID로 성공적으로 조회하는 테스트")
 	public void getEvent() throws Exception {
 		// Given
 		Event event = new Event();
 		event.setId(1);
-		
+
 		// When & Then
 		this.mockMvc.perform(get("/api/events/{id}", event.getId())
 				.contentType(MediaType.APPLICATION_JSON)
@@ -213,14 +215,14 @@ public class EventControllerTests extends BaseControllerTest {
 			.andDo(document("query-eventById"))
 			;
 	}
-	
+
 	@Test
 	@DisplayName("없는 이벤트를 ID로 조회했을 때 404 응답")
 	public void getEvent404() throws Exception {
 		// Given
 		Event event = new Event();
 		event.setId(999999);
-		
+
 		// When & Then
 		this.mockMvc.perform(get("/api/events/{id}", event.getId())
 				.contentType(MediaType.APPLICATION_JSON)
@@ -231,16 +233,16 @@ public class EventControllerTests extends BaseControllerTest {
 			.andExpect(status().isNotFound())
 			;
 	}
-	
+
 	@Test
 	@DisplayName("이벤트를 정상적으로 수정하기")
 	public void updateEvent() throws Exception {
 		String eventName = "Updated Event";
 		Event event = this.generateEvent(1);
-		
+
 		EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 		eventDto.setName(eventName);
-		
+
 		this.mockMvc.perform(put("/api/events/{id}", event.getId())
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
@@ -251,15 +253,15 @@ public class EventControllerTests extends BaseControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("result.name").value(eventName));
 	}
-	
+
 	@Test
 	@DisplayName("입력값이 비어있는 경우에 이벤트 수정 실패")
 	public void updateEvent400_Empty() throws Exception {
 		Event event = this.generateEvent(1);
-		
+
 		EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 		eventDto.setBeginEnrollmentDateTime(null);
-		
+
 		this.mockMvc.perform(put("/api/events/{id}", event.getId())
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
@@ -269,16 +271,16 @@ public class EventControllerTests extends BaseControllerTest {
 			.andDo(print())
 			.andExpect(status().isBadRequest());
 	}
-	
+
 	@Test
 	@DisplayName("입력값이 잘못된 경우에 이벤트 수정 실패")
 	public void updateEvent400_Wrong() throws Exception {
 		Event event = this.generateEvent(1);
-		
+
 		EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 		eventDto.setBasePrice(20000);
 		eventDto.setMaxPrice(1000);
-		
+
 		this.mockMvc.perform(put("/api/events/{id}", event.getId())
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
@@ -293,11 +295,11 @@ public class EventControllerTests extends BaseControllerTest {
 	@DisplayName("존재하지 않는 이벤트 수정 실패")
 	public void updateEvent404_NotFound() throws Exception {
 		Event event = this.generateEvent(200);
-		
+
 		EventDto eventDto = this.modelMapper.map(event, EventDto.class);
 		eventDto.setBasePrice(20000);
 		eventDto.setMaxPrice(1000);
-		
+
 		this.mockMvc.perform(put("/api/events/999999")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
@@ -307,7 +309,7 @@ public class EventControllerTests extends BaseControllerTest {
 			.andDo(print())
 			.andExpect(status().isNotFound());
 	}
-	
+
 	private Event generateEvent(int index) {
 		Event event = Event.builder()
 				.id(index)
