@@ -15,6 +15,7 @@
 	<name>HNS-SHOP</name>
 	<description>Hannam Online Shop</description>
 	<properties>
+        <finalName>${project.artifactId}</finalName>
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -46,7 +47,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-		
+
 		<!-- DB -->
 		<dependency>
 		    <groupId>org.mybatis.spring.boot</groupId>
@@ -58,14 +59,14 @@
             <artifactId>mssql-jdbc</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
+
         <!-- security -->
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
             <version>2.1.0.RELEASE</version>
         </dependency>
-        
+
         <!-- doc -->
         <dependency>
             <groupId>org.springframework.restdocs</groupId>
@@ -76,7 +77,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
-        
+
         <!-- test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -97,6 +98,7 @@
 	</dependencies>
 
 	<build>
+        <finalName>${finalName}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.asciidoctor</groupId>
@@ -127,7 +129,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
                 <version>1.5.3</version>
@@ -151,7 +153,7 @@
                         <version>2.0.2.RELEASE</version>
                     </dependency>
                 </dependencies>
-            </plugin>
+            </plugin> -->
 		</plugins>
 	</build>
 
