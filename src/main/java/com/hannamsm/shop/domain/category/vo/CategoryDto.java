@@ -1,5 +1,7 @@
 package com.hannamsm.shop.domain.category.vo;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,5 +18,6 @@ public class CategoryDto {
 	private String categoryNm;
 	private String categoryDesc;
 	private String parentCategoryCd;
+	private List<CategoryDto> subCategoryList;
 	private boolean isUse;
 }
