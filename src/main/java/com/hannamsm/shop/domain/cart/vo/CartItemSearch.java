@@ -23,6 +23,6 @@ public class CartItemSearch {
 	}
 
 	public void updatePaging() {
-		this.startRownum = (page - 1) * listSize + 1 ;
+		this.startRownum = (page - 1) * (listSize + 1) ;
 	}
 }
