@@ -1,7 +1,5 @@
 package com.hannamsm.shop.domain.cart.controller;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -60,13 +58,17 @@ public class CartController {
         return ResponseEntity.ok(resResult);
 	}
 
-	//TODO 장바구니 Summary 조회
+	// 장바구니 Summary 조회
 	@GetMapping("/summery")
 	public ResponseEntity queryCartSummery(@CurrentUser Account account) throws Exception {
+		CartItemSearch cartItemSearch = new CartItemSearch();
+		cartItemSearch.setAccountId(account.getAccountId());
+
+		CartSummery cartSummery = this.cartService.findSummeryByAccountId(cartItemSearch);
 
 		ResponseResutl<CartSummery> result = new ResponseResutl<CartSummery>();
 		result.setMessage("조회하였습니다.");
-		result.setResult(null);
+		result.setResult(cartSummery);
 		return ResponseEntity.ok(result);
 	}
 
@@ -86,9 +88,7 @@ public class CartController {
 		resResult.setMessage("추가 되었습니다.");
 		resResult.setResult(reqCartItemDto);
 
-        return ResponseEntity
-        		.created(linkTo(this.getClass()).slash(itemId).toUri())
-        		.body(reqCartItemDto);
+        return ResponseEntity.ok(resResult);
 	}
 
 	/*
@@ -107,7 +107,7 @@ public class CartController {
 		resResult.setMessage("저장 되었습니다.");
 		resResult.setResult(reqCartItemDto);
 
-        return ResponseEntity.ok(reqCartItemDto);
+        return ResponseEntity.ok(resResult);
 	}
 
 	/*
@@ -119,14 +119,13 @@ public class CartController {
 			, @CurrentUser Account currentUser) throws Exception {
 		reqCartItemDto.setAccountId(currentUser.getAccountId());
 
-
 		cartService.deleteCartItem(reqCartItemDto);
 
 		ResponseResutl<CartItemDto> resResult = new ResponseResutl<CartItemDto>();
 		resResult.setMessage("삭제 되었습니다.");
 		resResult.setResult(reqCartItemDto);
 
-        return ResponseEntity.ok(reqCartItemDto);
+        return ResponseEntity.ok(resResult);
 	}
 
 
