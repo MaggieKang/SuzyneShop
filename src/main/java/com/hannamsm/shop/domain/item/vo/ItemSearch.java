@@ -5,13 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Builder
 @AllArgsConstructor @NoArgsConstructor
-@Getter @Setter
+@Getter @Setter @ToString
 public class ItemSearch {
 	private String itemId;
 	private String itemName;
+	private String itemCategory;
+	private String itemSort;
 
 	private int startRownum;
 	private int page;
@@ -24,6 +27,6 @@ public class ItemSearch {
 	}
 
 	public void updatePaging() {
-		this.startRownum = (page - 1) * listSize + 1 ;
+		this.startRownum = (page - 1) * (listSize + 1) ;
 	}
 }
