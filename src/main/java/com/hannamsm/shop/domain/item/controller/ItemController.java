@@ -30,8 +30,21 @@ public class ItemController {
 	 */
 	@GetMapping
 	public ResponseEntity queryItems(@RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "listSize", defaultValue = "100") int listSize) throws Exception {
-		ItemSearch itemSearch = new ItemSearch(page, listSize);
+            @RequestParam(value = "listSize", defaultValue = "100") int listSize,
+            @RequestParam(value = "itemName", defaultValue = "") String itemName,
+            @RequestParam(value = "itemCategory", defaultValue = "") String itemCategory,
+            @RequestParam(value = "itemSort", defaultValue = "O0") String itemSort) throws Exception {
+//		ItemSearch itemSearch = new ItemSearch(page, listSize);
+		ItemSearch itemSearch = ItemSearch.builder()
+				.page(page)
+				.listSize(listSize)
+				.itemName(itemName)
+				.itemCategory(itemCategory)
+				.itemSort(itemSort)
+				.build();
+		itemSearch.updatePaging();
+
+		System.out.println(itemSearch.toString());
 
 		int allCount = this.itemService.findAllCount(itemSearch);
 		List<Item> list = this.itemService.findAll(itemSearch);
