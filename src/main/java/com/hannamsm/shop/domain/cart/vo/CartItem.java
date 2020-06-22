@@ -20,7 +20,6 @@ public class CartItem {
 	private String upc;
 	private String itemKrNm;
 	private String itemEnNm;
-	private BigDecimal receivingPrice;
 	private BigDecimal regularPrice;
 	private String categoryCd;
 	private String itemTaxCd;
@@ -28,6 +27,13 @@ public class CartItem {
 	private String itemEcoCd;
 	private String itemSize;
 	private String saleUnit;
+	private int promotionBundleQty;
+    private LocalDateTime promotionStartDate;
+    private LocalDateTime promotionEndDate;
+    private BigDecimal promotionPrice;
+    private BigDecimal salesPrice;
+    private int discountRate;
+	private String imgUrl;
 	private LocalDateTime regDate;
 	private String regPerson;
 	private LocalDateTime lastModDate;

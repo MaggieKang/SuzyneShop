@@ -14,7 +14,7 @@ import lombok.Setter;
 public class AppProperties {
 	@NotEmpty
 	private String testUsername;
-	
+
 	@NotEmpty
 	private String testPassword;
 
