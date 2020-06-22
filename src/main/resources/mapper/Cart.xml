@@ -9,23 +9,33 @@ select count(a.item_id) as totalCount
 </select>
 
 <select id="findByAccountId" parameterType="com.hannamsm.shop.domain.cart.vo.CartItemSearch" resultType="com.hannamsm.shop.domain.cart.vo.CartItem">
-select a.item_id            as itemId
-     , a.item_qty           as itemQty
-     , b.upc                as upc
-     , b.item_kr_nm         as itemKrNm
-     , b.item_en_nm         as itemEnNm
-     , b.receiving_price    as receivingPrice
-     , b.regular_price      as regularPrice
-     , b.category_cd        as categoryCd
-     , b.item_tax_cd        as itemTaxCd
-     , b.item_deposit_cd    as itemDepositCd
-     , b.item_eco_cd        as itemEcoCd
-     , b.item_size          as itemSize
-     , b.sale_unit          as saleUnit
-     , a.reg_date           as regDate
-     , a.reg_person         as regPerson
-     , a.last_mod_date      as lastModDate
-     , a.last_mod_person    as lastModPerson
+select a.item_id              as itemId
+     , a.item_qty             as itemQty
+     , b.upc                  as upc
+     , b.item_kr_nm           as itemKrNm
+     , b.item_en_nm           as itemEnNm
+     , b.regular_price        as regularPrice
+     , b.category_cd          as categoryCd
+     , b.item_tax_cd          as itemTaxCd
+     , b.item_deposit_cd      as itemDepositCd
+     , b.item_eco_cd          as itemEcoCd
+     , b.item_size            as itemSize
+     , b.sale_unit            as saleUnit
+     , b.promotion_bundle_qty as promotionBundleQty
+     , b.promotion_start_date as promotionStartDate
+     , b.promotion_end_date   as promotionEndDate
+     , b.promotion_price      as promotionPrice
+     , (case when b.promotion_start_date <![CDATA[<]]> getdate() and getdate() <![CDATA[<]]> b.promotion_end_date then b.promotion_price
+             else b.regular_price
+        end) as salesPrice
+     , (case when b.promotion_start_date <![CDATA[<]]> getdate() and getdate() <![CDATA[<]]> b.promotion_end_date then ceiling(((b.regular_price - b.promotion_price)/b.regular_price)*100)
+             else 0
+        end) as discountRate --(정가-할인가)/정가
+     , 'http://placehold.it/121x114' as imgUrl
+     , a.reg_date             as regDate
+     , a.reg_person           as regPerson
+     , a.last_mod_date        as lastModDate
+     , a.last_mod_person      as lastModPerson
   from cart a
        inner join item b on b.item_id = a.item_id and is_use = 1
  where a.account_id = #{accountId}
@@ -34,24 +44,64 @@ offset #{startRownum} rows
  fetch next #{listSize} row only
 </select>
 
+<select id="findSummeryByAccountId" parameterType="com.hannamsm.shop.domain.cart.vo.CartItemSearch" resultType="com.hannamsm.shop.domain.cart.vo.CartSummery">
+select sum(m.item_qty) as totalQty
+     , convert(numeric(10,2), sum(m.totalSalesPrice)) as totalSalesPrice
+     , convert(numeric(10,2), sum(m.gstFee)) as totalGstFee
+     , convert(numeric(10,2), sum(m.pstFee)) as totalPstFee
+     , convert(numeric(10,2), sum(m.ecoFee)) as totalEcoFee
+     , convert(numeric(10,2), sum(m.depositFee)) as totalDepositFee
+     , convert(numeric(10,2), sum(m.totalSalesPrice)+sum(m.gstFee)+sum(m.pstFee)+sum(m.ecoFee)+sum(m.depositFee)) as grandTotalPrice
+  from (
+         select item_qty
+              , (case when b.promotion_start_date <![CDATA[<]]> getdate() and getdate() <![CDATA[<]]> b.promotion_end_date then b.promotion_price * item_qty
+                      else b.regular_price * item_qty
+                 end) as totalSalesPrice
+              , (case when 'G' = b.item_tax_cd then b.regular_price * 0.05
+                      when 'B' = b.item_tax_cd then b.regular_price * 0.05
+                      else 0
+                end) as gstFee
+              , (case when 'B' = b.item_tax_cd then b.regular_price * 0.07
+                      else 0
+                end) as pstFee
+              , isnull((case when b.item_eco_cd is null then 0
+                      else (select EcoFee
+                              from mfProdEco
+                             where ReturnType = b.item_eco_cd)
+                end),0) as ecoFee
+              , isnull((case when b.item_deposit_cd is null then 0
+                      else (select TotalFee
+                              from tblEncorp
+                             where ReturnType = b.item_deposit_cd)
+                end),0) as depositFee
+           from cart a
+                inner join item b on b.item_id = a.item_id and is_use = 1
+          where a.account_id = #{accountId}
+       ) m
+</select>
+
 <select id="findByItemId" parameterType="com.hannamsm.shop.domain.cart.vo.CartItem" resultType="com.hannamsm.shop.domain.cart.vo.CartItem">
-select a.item_id            as itemId
-     , a.item_qty           as itemQty
-     , b.upc                as upc
-     , b.item_kr_nm         as itemKrNm
-     , b.item_en_nm         as itemEnNm
-     , b.receiving_price    as receivingPrice
-     , b.regular_price      as regularPrice
-     , b.category_cd        as categoryCd
-     , b.item_tax_cd        as itemTaxCd
-     , b.item_deposit_cd    as itemDepositCd
-     , b.item_eco_cd        as itemEcoCd
-     , b.item_size          as itemSize
-     , b.sale_unit          as saleUnit
-     , a.reg_date           as regDate
-     , a.reg_person         as regPerson
-     , a.last_mod_date      as lastModDate
-     , a.last_mod_person    as lastModPerson
+select a.item_id              as itemId
+     , a.item_qty             as itemQty
+     , b.upc                  as upc
+     , b.item_kr_nm           as itemKrNm
+     , b.item_en_nm           as itemEnNm
+     , b.regular_price        as regularPrice
+     , b.category_cd          as categoryCd
+     , b.item_tax_cd          as itemTaxCd
+     , b.item_deposit_cd      as itemDepositCd
+     , b.item_eco_cd          as itemEcoCd
+     , b.item_size            as itemSize
+     , b.sale_unit            as saleUnit
+     , b.promotion_bundle_qty as promotionBundleQty
+     , b.promotion_start_date as promotionStartDate
+     , b.promotion_end_date   as promotionEndDate
+     , b.promotion_price      as promotionPrice
+     , 'http://placehold.it/121x114' as imgUrl
+     , a.reg_date             as regDate
+     , a.reg_person           as regPerson
+     , a.last_mod_date        as lastModDate
+     , a.last_mod_person      as lastModPerson
   from cart a
        inner join item b on b.item_id = a.item_id and is_use = 1
  where a.account_id = #{accountId}
