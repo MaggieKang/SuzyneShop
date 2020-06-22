@@ -38,6 +38,9 @@ public class Item {
 	private String prodId;
 	private String itemType;
 	private String itemType2;
+	private BigDecimal salesPrice;
+    private int discountRate;
+    private String imgUrl;
 	private boolean isUse;
 	private LocalDateTime regDate;
 	private String regPerson;
