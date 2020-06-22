@@ -27,7 +27,33 @@ select count(category_cd) as totalCount
  OPTION(MAXRECURSION 5)
 </select>
 
-<select id="findAll" parameterType="com.hannamsm.shop.domain.category.vo.CategorySearch" resultType="com.hannamsm.shop.domain.category.vo.CategoryDto">
+<resultMap type="com.hannamsm.shop.domain.category.vo.CategoryDto" id="categoryMap">
+    <id property="categoryCd" column="categoryCd" />
+    <id property="categoryNm" column="categoryNm" />
+    <id property="parentCategoryCd" column="parentCategoryCd" />
+
+    <collection property="subCategoryList" ofType="com.hannamsm.shop.domain.category.vo.CategoryDto">
+        <id property="categoryCd" column="subCategoryCd" />
+        <id property="categoryNm" column="subCategoryNm" />
+        <id property="parentCategoryCd" column="subParentCategoryCd" />
+    </collection>
+</resultMap>
+
+<select id="findAll" parameterType="com.hannamsm.shop.domain.category.vo.CategorySearch" resultMap="categoryMap">
+select l1.category_cd        as categoryCd
+     , l1.category_nm        as categoryNm
+     , l1.parent_category_cd as parentCategoryCd
+     , l2.category_cd        as subCategoryCd
+     , l2.category_nm        as subCategoryNm
+     , l2.parent_category_cd as subParentCategoryCd
+  from category l1
+     , category l2
+ where l1.parent_category_cd = 'L000'
+   and l1.category_cd = l2.parent_category_cd
+ order by l1.category_cd, l2.parent_category_cd
+</select>
+
+<select id="findAll2" parameterType="com.hannamsm.shop.domain.category.vo.CategorySearch" resultType="com.hannamsm.shop.domain.category.vo.CategoryDto">
 with temp as (
 select category_cd
      , category_nm
