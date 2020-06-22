@@ -17,6 +17,7 @@ IF ObJECt_ID('[cmn_code_detail]') IS NOT NULL DROP TABLE [cmn_code_detail];
 IF ObJECt_ID('[cmn_code]') IS NOT NULL DROP TABLE [cmn_code];
 IF ObJECt_ID('[cmn_cls_code]') IS NOT NULL DROP TABLE [cmn_cls_code];
 IF ObJECt_ID('[cmn_file]') IS NOT NULL DROP TABLE [cmn_file];
+IF ObJECt_ID('[mfProdEco]') IS NOT NULL DROP TABLE [mfProdEco];
 IF ObJECt_ID('[mfProd_b]') IS NOT NULL DROP TABLE [mfProd_b];
 IF ObJECt_ID('[oauth_access_token]') IS NOT NULL DROP TABLE [oauth_access_token];
 IF ObJECt_ID('[oauth_approvals]') IS NOT NULL DROP TABLE [oauth_approvals];
@@ -26,6 +27,7 @@ IF ObJECt_ID('[oauth_code]') IS NOT NULL DROP TABLE [oauth_code];
 IF ObJECt_ID('[oauth_refresh_token]') IS NOT NULL DROP TABLE [oauth_refresh_token];
 IF ObJECt_ID('[pickup_timeslot]') IS NOT NULL DROP TABLE [pickup_timeslot];
 IF ObJECt_ID('[store]') IS NOT NULL DROP TABLE [store];
+IF ObJECt_ID('[tblEncorp]') IS NOT NULL DROP TABLE [tblEncorp];
 IF ObJECt_ID('[tfCollection3_b]') IS NOT NULL DROP TABLE [tfCollection3_b];
 IF ObJECt_ID('[tfTran3_b]') IS NOT NULL DROP TABLE [tfTran3_b];
 
@@ -343,10 +345,10 @@ CREATE TABLE [item]
 	-- 분류코드
 	[category_cd] varchar(10),
 	-- 상품세금코드 : 세금유형 - GST, BOTH(GST+PST)
-	--
+	-- 
 	[item_tax_cd] nchar(1),
 	-- 상품Deposit코드 : "값이 있을 경우 다음 Table 참조 Bottle Deposit / Ecofee 추가
-	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType'
+	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType' 
 	-- 100 보다 작으면 Select * FROM [dbgal].[dbo].[tblEncorp] WHERE ReturnType ='ReturnType'"
 	[item_deposit_cd] varchar(4),
 	-- 상품ECO코드
@@ -354,7 +356,7 @@ CREATE TABLE [item]
 	-- 상품규격
 	[item_size] nvarchar(30),
 	-- 판매단위 : 판매 단위 - EA, PK, LB
-	--
+	-- 
 	[sale_unit] nvarchar(4),
 	-- 프로모션묶음개수
 	[promotion_bundle_qty] int,
@@ -375,7 +377,7 @@ CREATE TABLE [item]
 	-- 상품유형 : tblCategory1 포스 테이블 참조
 	[item_type] nvarchar(2),
 	-- 상품유형2 : 상품 Type - "08" 베이커리 6개 이상 구매시 Non Tax
-	--
+	-- 
 	[item_type2] nvarchar(2),
 	-- 사용여부
 	[is_use] bit,
@@ -410,6 +412,19 @@ CREATE TABLE [item_file]
 );
 
 
+-- mfProdEco
+CREATE TABLE [mfProdEco]
+(
+	-- ReturnType
+	[ReturnType] varchar(4) NOT NULL,
+	-- EcoSection
+	[EcoSection] varchar(50),
+	-- EcoFee
+	[EcoFee] decimal(9,2),
+	PRIMARY KEY ([ReturnType])
+);
+
+
 -- 상품for포스 : ※ 참고
 -- 상품의 가격 우선 순위
 -- 1. Menual Price
@@ -418,11 +433,11 @@ CREATE TABLE [item_file]
 -- 4. 쿠폰 가격
 -- 5. 포인트 가격
 -- 6. Regular 가격
---
+-- 
 -- 온라인에서 가격 적용
 --  - Manual 가격적용  제외
 --  - Promotion or Regular Price
---
+-- 
 -- 온라인 Table 생성시 반드시 저장해야할 field
 -- GalCode, ProdOwnCode, SuppCode, prodId
 CREATE TABLE [mfProd_b]
@@ -438,8 +453,8 @@ CREATE TABLE [mfProd_b]
 	-- p_상품영문명 : 어느 하나 입력 없는 경우 있음
 	[prodName] nvarchar(60),
 	-- p_상품한글명 : 어느 하나 입력 없는 경우 있음
-	--
-	--
+	-- 
+	-- 
 	[prodKname] nvarchar(60),
 	-- p_상품유형 : 상품 Type
 	[prodType] nvarchar(2),
@@ -450,7 +465,7 @@ CREATE TABLE [mfProd_b]
 	-- p_RegularPrice
 	[prodOUprice] float,
 	-- p_재고수량 : Balance - 현재 재고 관리하지 않으므로 판매된 아이템은 "- " 재고
-	--
+	-- 
 	[prodBal] float,
 	-- p_prodBalw
 	[prodBalw] float,
@@ -459,30 +474,30 @@ CREATE TABLE [mfProd_b]
 	-- p_prodAisle
 	[prodAisle] nvarchar(12),
 	-- p_상품세금 : 상품 TAX - GST, BOTH(GST+PST)
-	--
+	-- 
 	[prodTax] nvarchar(1),
 	-- p_판매단위 : 판매 단위 - EA, PK, LB
-	--
+	-- 
 	[prodUnit] nvarchar(4),
 	-- p_prodDeposit : "값이 있을 경우 다음 Table 참조 Bottle Deposit / Ecofee 추가
-	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType'
+	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType' 
 	-- 100 보다 작으면 Select * FROM [dbgal].[dbo].[tblEncorp] WHERE ReturnType ='ReturnType'"
-	--
-	--
+	-- 
+	-- 
 	[prodDeposit] float,
 	-- p_prodPromo : promotion 묶음 개수
-	--
+	-- 
 	[prodPromo] nvarchar(2),
 	-- p_Promotion시작일 : promotion 시작일
 	-- promotion 종료일
-	--
+	-- 
 	[promoSdate] smalldatetime,
 	-- p_Promotion종료일 : promotion 시작일
 	-- promotion 종료일
-	--
+	-- 
 	[promoEdate] smalldatetime,
 	-- p_Promotion가격 : promotion 가격
-	--
+	-- 
 	[promoPrice] float,
 	-- p_WeeklySaleYN
 	[WeeklySaleYN] bit,
@@ -517,7 +532,7 @@ CREATE TABLE [mfProd_b]
 	-- p_멤버가격1 : 멤버가격
 	[memberprice1] float,
 	-- p_멤버가격2 : 멤버 가격
-	--
+	-- 
 	[memberprice2] float,
 	-- p_멤버가격3 : p_멤버가격
 	[memberprice3] float,
@@ -526,12 +541,12 @@ CREATE TABLE [mfProd_b]
 	-- p_멤버가격적용시작일 : 멤버 가격 적용 시작일
 	[memberSdate] smalldatetime,
 	-- p_멤버 가격 적용 종료일 : 멤버 가격 적용 종료일
-	--
+	-- 
 	[memberEdate] smalldatetime,
 	-- p_묶음개수 : 묶음 개수
 	[memberQty] nchar(2),
 	-- p_제한개수 : 멤버 가격 적용 기간내 구입할 수 있는 개수
-	--
+	-- 
 	[MemberLimitQty] varchar(2),
 	-- p_PTStime
 	[PTStime] nvarchar(16),
@@ -542,18 +557,18 @@ CREATE TABLE [mfProd_b]
 	-- p_PTPrice
 	[PTPrice] float,
 	-- p_할인여부 : discount 여부
-	--
+	-- 
 	[dcYN] varchar(1),
 	-- p_DiscountRate당일첫번째 : discount rate 당일 첫번째
-	--
+	-- 
 	[dc1Per] int,
 	-- p_DiscountTime : discount time
 	[dc1TM] varchar(5),
 	-- p_DiscountRate당일두번째 : discount rate 당일 두번째
-	--
+	-- 
 	[dc2Per] int,
 	-- p_DiscountTime2 : Discount time
-	--
+	-- 
 	[dc2TM] varchar(5),
 	-- p_포인트아이템개수 : 포인트 아이템 개수
 	[PIQty] varchar(2),
@@ -592,7 +607,7 @@ CREATE TABLE [mfProd_b]
 	-- p_자동영수증 : 체크시 영수증 한장 더 출력
 	[AutoReprint] int,
 	-- p_배송여부 : 배송 여부
-	--
+	-- 
 	[IsDelivery] bit,
 	-- p_나이제한상품 : 나이제한 상품
 	[AgeValidation] bit,
@@ -603,7 +618,7 @@ CREATE TABLE [mfProd_b]
 	-- p_마지막수정자 : 레코드 수정자 정보
 	[LastModPerson] nvarchar(20),
 	-- p_마지막수정날짜 : 레코드 수정 날짜
-	--
+	-- 
 	[LastModDate] smalldatetime,
 	-- p_레코드수정시간 : 레코드 수정 시간
 	[LastModTime] nvarchar(16),
@@ -763,10 +778,10 @@ CREATE TABLE [orders_detail]
 	-- 상품ID
 	[item_id] varchar(24) NOT NULL,
 	-- 상품세금코드 : 세금유형 - GST, BOTH(GST+PST)
-	--
+	-- 
 	[item_tax_cd] nchar(1) NOT NULL,
 	-- 상품Deposit코드 : "값이 있을 경우 다음 Table 참조 Bottle Deposit / Ecofee 추가
-	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType'
+	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType' 
 	-- 100 보다 작으면 Select * FROM [dbgal].[dbo].[tblEncorp] WHERE ReturnType ='ReturnType'"
 	[item_deposit_cd] varchar(4),
 	-- 상품ECO코드
@@ -870,6 +885,31 @@ CREATE TABLE [store]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([store_id])
+);
+
+
+-- tblEncorp
+CREATE TABLE [tblEncorp]
+(
+	-- ReturnType
+	[ReturnType] varchar(4) NOT NULL,
+	-- Code
+	[Code] varchar(10),
+	-- EncorpSectionKor
+	[EncorpSectionKor] varchar(50),
+	-- EncorpSection
+	[EncorpSection] varchar(50),
+	-- EncorpSize
+	[EncorpSize] varchar(50),
+	-- ConNumber
+	[ConNumber] int,
+	-- DepositValue
+	[DepositValue] decimal(9,2),
+	-- RecyclingFee
+	[RecyclingFee] decimal(9,2),
+	-- TotalFee
+	[TotalFee] decimal(9,2),
+	PRIMARY KEY ([ReturnType])
 );
 
 
