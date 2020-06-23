@@ -9,15 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hannamsm.shop.domain.pickup.service.PickupTimeslotService;
-import com.hannamsm.shop.domain.pickup.vo.PickupTimeslot;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch;
+import com.hannamsm.shop.domain.pickup.vo.PickupTimeslot;
 import com.hannamsm.shop.global.vo.ResponseResutl;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
@@ -32,7 +32,14 @@ public class PickupTimeslotController {
 	 * 픽업 날짜 시간표 조회
 	 */
 	@GetMapping(value = "/slotdate")
-	public ResponseEntity getPickupSlogDt(@RequestBody @Valid PickupSlogDtSearch pickupSlogDtSearch) throws Exception {
+	public ResponseEntity getPickupSlogDt(
+			@RequestParam(value = "slotDt") String slotDt,
+            @RequestParam(value = "storeId") String storeId) throws Exception {
+
+		PickupSlogDtSearch pickupSlogDtSearch = PickupSlogDtSearch.builder()
+				.slotDt(slotDt)
+				.storeId(storeId)
+				.build();
 
 		List<PickupTimeslot> list = pickupTimeslotService.findBySlotDt(pickupSlogDtSearch);
 
