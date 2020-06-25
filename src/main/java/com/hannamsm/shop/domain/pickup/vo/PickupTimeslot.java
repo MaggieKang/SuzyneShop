@@ -16,6 +16,8 @@ import lombok.ToString;
 public class PickupTimeslot {
 	private LocalDate slotDt;
 	private String slotTime;
+	private String startDisplaySlotTime;
+	private String endDisplaySlotTime;
 	private String storeId;
 	private int allocationQty;
 	private int completionQty;

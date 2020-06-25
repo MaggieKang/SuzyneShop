@@ -4,7 +4,9 @@
 
 <select id="findBySlotDt" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
 select slot_dt         as slotDt
-     , slot_time       as slotTime
+     , FORMAT(CAST(slot_time AS datetime), 'hh:mm') as slotTime
+     , format(cast(slot_time AS datetime), 'hh tt') as startDisplaySlotTime
+     , format(cast(dateadd(hour, 1, slot_time) AS datetime), 'hh tt') as endDisplaySlotTime
      , store_id        as storeId
      , allocation_qty  as allocationQty
      , completion_qty  as completionQty
@@ -19,7 +21,9 @@ select slot_dt         as slotDt
 
 <select id="findBySlotTime" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
 select slot_dt         as slotDt
-     , slot_time       as slotTime
+     , FORMAT(CAST(slot_time AS datetime), 'hh:mm') as slotTime
+     , format(cast(slot_time AS datetime), 'hh tt') as startDisplaySlotTime
+     , format(cast(dateadd(hour, 1, slot_time) AS datetime), 'hh tt') as endDisplaySlotTime
      , store_id        as storeId
      , allocation_qty  as allocationQty
      , completion_qty  as completionQty
