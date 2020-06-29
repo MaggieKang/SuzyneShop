@@ -34,6 +34,7 @@ public class FavouriteControllerTest extends BaseControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
 				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
+				.param("storeId","st002")
 				.param("page", "1")
 				.param("listSize", "10")
 			)
@@ -49,6 +50,7 @@ public class FavouriteControllerTest extends BaseControllerTest {
 		// Given
 		FavouriteItemDto favouriteItemDto = FavouriteItemDto.builder()
 				.itemId("DK0108977KR0101001")
+				.storeId("st002")
 				.build();
 
 		// When & Then
@@ -71,6 +73,7 @@ public class FavouriteControllerTest extends BaseControllerTest {
 		// Given
 		FavouriteItemDto favouriteItemDto = FavouriteItemDto.builder()
 				.itemId("DK0108977KR0101001")
+				.storeId("st002")
 				.build();
 
 		// When & Then

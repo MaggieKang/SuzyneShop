@@ -6,6 +6,7 @@ IF ObJECt_ID('[account_authority]') IS NOT NULL DROP TABLE [account_authority];
 IF ObJECt_ID('[cart]') IS NOT NULL DROP TABLE [cart];
 IF ObJECt_ID('[customer]') IS NOT NULL DROP TABLE [customer];
 IF ObJECt_ID('[favourite]') IS NOT NULL DROP TABLE [favourite];
+IF ObJECt_ID('[odrders_pickup]') IS NOT NULL DROP TABLE [odrders_pickup];
 IF ObJECt_ID('[orders_detail]') IS NOT NULL DROP TABLE [orders_detail];
 IF ObJECt_ID('[orders]') IS NOT NULL DROP TABLE [orders];
 IF ObJECt_ID('[account]') IS NOT NULL DROP TABLE [account];
@@ -135,6 +136,8 @@ CREATE TABLE [cart]
 	[account_id] varchar(20) NOT NULL,
 	-- 상품ID
 	[item_id] varchar(24) NOT NULL UNIQUE,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
 	-- item_qty : item quantity
 	[item_qty] int DEFAULT 0 NOT NULL,
 	-- 최초등록일시 : 최초등록일시
@@ -145,7 +148,7 @@ CREATE TABLE [cart]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([account_id], [item_id])
+	PRIMARY KEY ([account_id], [item_id], [store_id])
 );
 
 
@@ -154,12 +157,18 @@ CREATE TABLE [category]
 (
 	-- 분류코드
 	[category_cd] varchar(10) NOT NULL,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
 	-- 분류명
 	[category_nm] varchar(45),
+	-- 부모분류코드
+	[parent_category_cd2] varchar(10),
 	-- 분류설명
 	[category_desc] varchar(250),
 	-- 부모분류코드
 	[parent_category_cd] varchar(10),
+	-- 부모매장ID
+	[parent_store_id] varchar(10),
 	-- 사용여부
 	[is_use] bit DEFAULT '1',
 	-- 최초등록일시 : 최초등록일시
@@ -170,7 +179,7 @@ CREATE TABLE [category]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([category_cd])
+	PRIMARY KEY ([category_cd], [store_id])
 );
 
 
@@ -311,10 +320,12 @@ CREATE TABLE [customer]
 -- 즐겨찾기상품
 CREATE TABLE [favourite]
 (
-	-- 상품ID
-	[item_id] varchar(24) NOT NULL UNIQUE,
 	-- 계정ID : 계정 ID
 	[account_id] varchar(20) NOT NULL,
+	-- 상품ID
+	[item_id] varchar(24) NOT NULL UNIQUE,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -323,7 +334,7 @@ CREATE TABLE [favourite]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([item_id])
+	PRIMARY KEY ([account_id], [item_id], [store_id])
 );
 
 
@@ -332,6 +343,8 @@ CREATE TABLE [item]
 (
 	-- 상품ID
 	[item_id] varchar(24) NOT NULL,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
 	-- 바코드ID
 	[upc] varchar(20),
 	-- 상품한글이름
@@ -342,8 +355,6 @@ CREATE TABLE [item]
 	[receiving_price] decimal(10,2),
 	-- 정규가격
 	[regular_price] decimal(10,2) NOT NULL,
-	-- 분류코드
-	[category_cd] varchar(10),
 	-- 상품세금코드 : 세금유형 - GST, BOTH(GST+PST)
 	-- 
 	[item_tax_cd] nchar(1),
@@ -355,6 +366,10 @@ CREATE TABLE [item]
 	[item_eco_cd] varchar(4),
 	-- 상품규격
 	[item_size] nvarchar(30),
+	-- 분류코드
+	[category_cd] varchar(10),
+	-- 분류매장ID
+	[category_store_id] varchar(10),
 	-- 판매단위 : 판매 단위 - EA, PK, LB
 	-- 
 	[sale_unit] nvarchar(4),
@@ -389,7 +404,7 @@ CREATE TABLE [item]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([item_id])
+	PRIMARY KEY ([item_id], [store_id])
 );
 
 
@@ -400,6 +415,8 @@ CREATE TABLE [item_file]
 	[cmn_file_id] varchar(100) NOT NULL,
 	-- 상품ID
 	[item_id] varchar(24) NOT NULL,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -737,11 +754,38 @@ CREATE TABLE [oauth_refresh_token]
 );
 
 
+-- 주문픽업
+CREATE TABLE [odrders_pickup]
+(
+	-- 주문ID
+	[order_id] varchar(20) NOT NULL,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
+	-- 슬롯날짜
+	[slot_dt] date NOT NULL,
+	-- 슬롯시간
+	[slot_time] time NOT NULL,
+	-- 주문픽업상태코드
+	[order_picup_status_cd] varchar(10) NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([order_id], [store_id], [slot_dt], [slot_time])
+);
+
+
 -- 주문
 CREATE TABLE [orders]
 (
 	-- 주문ID
 	[order_id] varchar(20) NOT NULL,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
 	-- 주문일시
 	[order_date] datetime NOT NULL,
 	-- 총합계
@@ -766,7 +810,7 @@ CREATE TABLE [orders]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([order_id])
+	PRIMARY KEY ([order_id], [store_id])
 );
 
 
@@ -775,6 +819,8 @@ CREATE TABLE [orders_detail]
 (
 	-- 주문ID
 	[order_id] varchar(20) NOT NULL,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
 	-- 상품ID
 	[item_id] varchar(24) NOT NULL,
 	-- 상품세금코드 : 세금유형 - GST, BOTH(GST+PST)
@@ -824,7 +870,7 @@ CREATE TABLE [orders_detail]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([order_id], [item_id])
+	PRIMARY KEY ([order_id], [store_id], [item_id])
 );
 
 

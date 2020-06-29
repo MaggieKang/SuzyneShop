@@ -16,6 +16,7 @@ import lombok.ToString;
 public class FavouriteItem {
 
 	private String accountId;
+	private String storeId;
 	private String itemId;
 	private String upc;
 	private String itemKrNm;

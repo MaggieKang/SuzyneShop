@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter @Setter
 public class FavouriteItemSearch {
 	private String accountId;
+	private String storeId;
 
 	private int startRownum;
 	private int page;

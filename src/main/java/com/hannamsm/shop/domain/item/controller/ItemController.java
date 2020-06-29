@@ -31,13 +31,18 @@ public class ItemController {
 	@GetMapping
 	public ResponseEntity queryItems(@RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "listSize", defaultValue = "100") int listSize,
+            @RequestParam(value = "storeId", defaultValue = "") String storeId,
             @RequestParam(value = "itemName", defaultValue = "") String itemName,
             @RequestParam(value = "itemCategory", defaultValue = "") String itemCategory,
             @RequestParam(value = "itemSort", defaultValue = "O0") String itemSort) throws Exception {
-//		ItemSearch itemSearch = new ItemSearch(page, listSize);
+		if(storeId == null || storeId.isEmpty()) {
+			throw new Exception("storeId is null!!!");
+		}
+
 		ItemSearch itemSearch = ItemSearch.builder()
 				.page(page)
 				.listSize(listSize)
+				.storeId(storeId)
 				.itemName(itemName)
 				.itemCategory(itemCategory)
 				.itemSort(itemSort)
@@ -64,9 +69,18 @@ public class ItemController {
 	 * Item 조회
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity queryItem(@PathVariable String id) throws Exception {
+	public ResponseEntity queryItem(@PathVariable String id,
+			@RequestParam(value = "storeId", defaultValue = "") String storeId) throws Exception {
+		if(storeId == null || storeId.isEmpty()) {
+			throw new Exception("Store id is null!!!");
+		}
 
-		Optional<Item> optionalResult = this.itemService.findById(id);
+		ItemSearch itemSearch = ItemSearch.builder()
+				.storeId(storeId)
+				.itemId(id)
+				.build();
+
+		Optional<Item> optionalResult = this.itemService.findById(itemSearch);
 		if(optionalResult.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

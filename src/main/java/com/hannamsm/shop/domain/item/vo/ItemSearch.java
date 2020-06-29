@@ -11,6 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
 public class ItemSearch {
+	private String storeId;
 	private String itemId;
 	private String itemName;
 	private String itemCategory;

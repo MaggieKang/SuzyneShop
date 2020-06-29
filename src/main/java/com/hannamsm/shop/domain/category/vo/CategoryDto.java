@@ -15,9 +15,11 @@ import lombok.ToString;
 public class CategoryDto {
 
 	private String categoryCd;
+	private String storeId;
 	private String categoryNm;
 	private String categoryDesc;
 	private String parentCategoryCd;
+	private String parentStoreId;
 	private List<CategoryDto> subCategoryList;
 	private boolean isUse;
 }

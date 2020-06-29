@@ -11,7 +11,7 @@ public interface ItemDao {
 
 	public List<Item> findAll(ItemSearch itemSearch) throws Exception;
 
-	public Optional<Item> findById(String id) throws Exception;
+	public Optional<Item> findById(ItemSearch itemSearch) throws Exception;
 
 	public List<Item> findByName(ItemSearch itemSearch) throws Exception;
 

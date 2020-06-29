@@ -18,6 +18,8 @@ public class FavouriteItemDto {
 
 	private String accountId;
 	@NotNull
+	private String storeId;
+	@NotNull
 	private String itemId;
 	private LocalDateTime regDate;
 	private String regPerson;

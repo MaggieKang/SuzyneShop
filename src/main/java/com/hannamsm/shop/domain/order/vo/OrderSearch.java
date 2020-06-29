@@ -12,6 +12,7 @@ import lombok.Setter;
 public class OrderSearch {
 	private String accountId;
 	private String orderId;
+	private String storeId;
 
 	private int startRownum;
 	private int page;

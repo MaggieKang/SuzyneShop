@@ -17,6 +17,7 @@ public class Item {
 
 	/* 상품ID */
 	private String itemId;
+	private String storeId;
 	private String upc;
 	private String itemKrNm;
 	private String itemEnNm;

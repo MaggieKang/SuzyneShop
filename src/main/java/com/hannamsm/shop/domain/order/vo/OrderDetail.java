@@ -16,6 +16,7 @@ import lombok.ToString;
 public class OrderDetail {
 	private String orderId;
 	private String itemId;
+	private String storeId;
 	private String itemTaxCd;
 	private String item_deposit_cd;
 	private String itemEcoCd;

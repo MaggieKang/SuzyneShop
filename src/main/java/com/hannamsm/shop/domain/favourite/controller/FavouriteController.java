@@ -38,11 +38,17 @@ public class FavouriteController {
 	 * 즐겨찾기 상품 목록 조회
 	 */
 	@GetMapping
-	public ResponseEntity queryFavourites(@RequestParam(value = "page", defaultValue = "1") int page,
+	public ResponseEntity queryFavourites(@RequestParam(value = "storeId", defaultValue = "") String storeId,
+			@RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "listSize", defaultValue = "100") int listSize,
             @CurrentUser Account account) throws Exception {
+		if(storeId == null || storeId.isEmpty()) {
+			throw new Exception("storeId is null!!!!");
+		}
+
 		FavouriteItemSearch favouriteItemSearch = new FavouriteItemSearch(page, listSize);
 		favouriteItemSearch.setAccountId(account.getAccountId());
+		favouriteItemSearch.setStoreId(storeId);
 
 		int allCount = this.favouriteService.findByAccountIdCount(favouriteItemSearch);
 		List<FavouriteItem> list = this.favouriteService.findByAccountId(favouriteItemSearch);

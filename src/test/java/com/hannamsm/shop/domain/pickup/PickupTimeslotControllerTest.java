@@ -16,7 +16,6 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch;
 import com.hannamsm.shop.global.BaseControllerTest;
 
@@ -26,20 +25,16 @@ public class PickupTimeslotControllerTest extends BaseControllerTest {
 	@DisplayName("픽업 날짜 시간표 조회 테스트 - (정상)")
 	public void getPickupSlogDt() throws Exception {
 		// Given
-		String targetDay = LocalDate.of(2020,6,13).toString();
-
-		PickupSlogDtSearch input = PickupSlogDtSearch.builder()
-				.storeId("bbr")
-				.slotDt(targetDay)
-				.build();
-
+		String targetDay = LocalDate.of(2020,6,29).toString();
 
 		// When & Then
 		mockMvc.perform(get("/api/pickup/slotdate")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
 				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
-				.content(this.objectMapper.writeValueAsString(input))
+				.param("storeId", "st002")
+				.param("slotDt", targetDay)
+//				.content(this.objectMapper.writeValueAsString(input))
 			)
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -53,11 +48,11 @@ public class PickupTimeslotControllerTest extends BaseControllerTest {
 	@DisplayName("픽업 시간 조회 테스트 - (정상)")
 	public void queryStore() throws Exception {
 		// Given
-		String targetDay = LocalDate.of(2020,6,13).toString();
-		String targetTime = LocalTime.of(9,0,0,0).toString();
+		String targetDay = LocalDate.of(2020,6,29).toString();
+		String targetTime = LocalTime.of(11,0,0,0).toString();
 
 		PickupSlotTimeSearch pickupTimeslot = PickupSlotTimeSearch.builder()
-				.storeId("bbr")
+				.storeId("st002")
 				.slotDt(targetDay)
 				.slotTime(targetTime)
 				.build();

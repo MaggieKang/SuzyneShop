@@ -6,10 +6,12 @@ select count(a.item_id) as totalCount
   from favourite a
        inner join item b on b.item_id = a.item_id and is_use = 1
  where a.account_id = #{accountId}
+   and a.store_id = #{storeId}
 </select>
 
 <select id="findByAccountId" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItemSearch" resultType="com.hannamsm.shop.domain.favourite.vo.FavouriteItem">
-select a.item_id        as itemId
+select a.item_id         as itemId
+     , a.store_id        as storeId
      , b.upc             as upc
      , b.item_kr_nm      as itemKrNm
      , b.item_en_nm      as itemEnNm
@@ -25,8 +27,9 @@ select a.item_id        as itemId
      , a.last_mod_date   as lastModDate
      , a.last_mod_person as lastModPerson
   from favourite a
-       inner join item b on b.item_id = a.item_id and is_use = 1
+       inner join item b on b.item_id = a.item_id and b.store_id = a.store_id and is_use = 1
  where a.account_id = #{accountId}
+   and a.store_id = #{storeId}
  order by a.item_id
 offset #{startRownum} rows
  fetch next #{listSize} row only
@@ -34,17 +37,20 @@ offset #{startRownum} rows
 
 <insert id="add" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItem">
 merge favourite as a
-using (select #{accountId}     AS account_id
-            , #{itemId}        AS item_id
-            , getdate()        AS reg_date
-            , #{regPerson}     AS reg_person
-            , getdate()        AS last_mod_date
-            , #{lastModPerson} AS last_mod_person
+using (select #{accountId}     as account_id
+            , #{storeId}       as store_id
+            , #{itemId}        as item_id
+            , getdate()        as reg_date
+            , #{regPerson}     as reg_person
+            , getdate()        as last_mod_date
+            , #{lastModPerson} as last_mod_person
       ) as b
         on (     a.account_id = b.account_id
+             and a.store_id = b.store_id
              and a.item_id = b.item_id)
         when not matched then
              insert ( account_id
+                    , store_id
                     , item_id
                     , reg_date
                     , reg_person
@@ -52,6 +58,7 @@ using (select #{accountId}     AS account_id
                     , last_mod_person
              ) values (
                       b.account_id
+                    , b.store_id
                     , b.item_id
                     , b.reg_date
                     , b.reg_person
@@ -59,12 +66,14 @@ using (select #{accountId}     AS account_id
                     , b.last_mod_person
              )
         when matched then
-             update set a.last_mod_person = b.last_mod_person
+             update
+                set a.last_mod_person = b.last_mod_person
                   , a.last_mod_date = b.last_mod_date;
 </insert>
 <delete id="delete" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItem">
 delete favourite
  where account_id = #{accountId}
+   and store_id = #{storeId}
    and item_id = #{itemId}
 </delete>
 </mapper>

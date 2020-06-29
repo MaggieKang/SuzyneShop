@@ -31,6 +31,7 @@ public class FavouriteService {
 
 		FavouriteItem favouriteItem = FavouriteItem.builder()
 				.accountId(accountId)
+				.storeId(favouriteItemDto.getStoreId())
 				.itemId(favouriteItemDto.getItemId())
 				.regPerson(accountId)
 				.lastModPerson(accountId)
@@ -44,6 +45,7 @@ public class FavouriteService {
 
 		FavouriteItem favouriteItem = FavouriteItem.builder()
 				.accountId(accountId)
+				.storeId(favouriteItemDto.getStoreId())
 				.itemId(favouriteItemDto.getItemId())
 				.regPerson(accountId)
 				.lastModPerson(accountId)

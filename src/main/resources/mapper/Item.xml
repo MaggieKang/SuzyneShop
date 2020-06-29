@@ -4,7 +4,7 @@
 <select id="findAllCount" parameterType="com.hannamsm.shop.domain.item.vo.ItemSearch" resultType="int">
 select count(item_id) as totalCount
   from item
- where 1=1
+ where store_id = #{storeId}
     <if test="itemName != null and itemName != ''">
    and (item_kr_nm like '%'+#{itemName}+'%' or item_en_nm like '%'+#{itemName}+'%')
     </if>
@@ -15,6 +15,7 @@ select count(item_id) as totalCount
 
 <select id="findAll" parameterType="com.hannamsm.shop.domain.item.vo.ItemSearch" resultType="com.hannamsm.shop.domain.item.vo.Item">
 select item_id              as itemId
+     , store_id             as storeId
      , upc                  as upc
      , item_kr_nm           as itemKrNm
      , item_en_nm           as itemEnNm
@@ -49,7 +50,7 @@ select item_id              as itemId
      , last_mod_date        as lastModDate
      , last_mod_person      as lastModPerson
   from item
- where 1=1
+ where store_id = #{storeId}
     <if test="itemName != null and itemName != ''">
    and (item_kr_nm like '%'+#{itemName}+'%' or item_en_nm like '%'+#{itemName}+'%')
     </if>
@@ -71,6 +72,7 @@ offset #{startRownum} rows
 
 <select id="findById" parameterType="com.hannamsm.shop.domain.item.vo.ItemSearch" resultType="com.hannamsm.shop.domain.item.vo.Item">
 select item_id              as itemId
+     , store_id             as storeId
      , upc                  as upc
      , item_kr_nm           as itemKrNm
      , item_en_nm           as itemEnNm
@@ -98,11 +100,13 @@ select item_id              as itemId
      , last_mod_date        as lastModDate
      , last_mod_person      as lastModPerson
   from item
- where item_id = #{item_id}
+ where store_id = #{storeId}
+   and item_id = #{itemId}
 </select>
 
 <select id="findByName" parameterType="com.hannamsm.shop.domain.item.vo.ItemSearch" resultType="com.hannamsm.shop.domain.item.vo.Item">
 select item_id              as itemId
+     , store_id             as storeId
      , upc                  as upc
      , item_kr_nm           as itemKrNm
      , item_en_nm           as itemEnNm
@@ -130,7 +134,7 @@ select item_id              as itemId
      , last_mod_date        as lastModDate
      , last_mod_person      as lastModPerson
   from item
- where 1=1
+ where store_id = #{storeId}
    and (item_kr_nm like '%'+ #{itemName} + '%' or item_en_nm like '%'+ #{itemName} +'%')
 </select>
 

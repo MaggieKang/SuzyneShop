@@ -27,10 +27,15 @@ public class CategoryController {
 	 * 카테고리 목록 조회
 	 */
 	@GetMapping
-	public ResponseEntity queryCategory(@RequestParam(value = "page", defaultValue = "1") int page,
+	public ResponseEntity queryCategory(@RequestParam(value = "storeId") String storeId,
+			@RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "listSize", defaultValue = "100") int listSize) throws Exception {
+		if(storeId == null || storeId.isEmpty()) {
+			throw new Exception("storeId is empty!!!");
+		}
 
 		CategorySearch itemSearch = new CategorySearch(page, listSize);
+		itemSearch.setStoreId(storeId);
 
 		int allCount = this.categoryService.findAllCount(itemSearch);
 		List<CategoryDto> list = this.categoryService.findAll(itemSearch);
@@ -50,9 +55,13 @@ public class CategoryController {
 	 * 카테고리 조회
 	 */
 	@GetMapping("/{code}")
-	public ResponseEntity queryCategoryById(@PathVariable String code) throws Exception {
+	public ResponseEntity queryCategoryById(@PathVariable String code, @PathVariable String storeId) throws Exception {
+		CategorySearch categorySearch = CategorySearch.builder()
+				.categoryCd(code)
+				.storeId(storeId)
+				.build();
 
-		List<CategoryDto> list = this.categoryService.findByCode(code);
+		List<CategoryDto> list = this.categoryService.findByCode(categorySearch);
 
 		//return data
     	ResponseResutlsByPaging<CategoryDto> resResult = new ResponseResutlsByPaging<CategoryDto>(1, 1000);

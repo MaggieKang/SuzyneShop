@@ -22,10 +22,10 @@ public class CategoryService {
 		return categoryDao.findAll(categorySearch);
 	}
 
-	public int findByCodeCount(String code) throws Exception {
-		return this.categoryDao.findByCodeCount(code);
+	public int findByCodeCount(CategorySearch categorySearch) throws Exception {
+		return this.categoryDao.findByCodeCount(categorySearch);
 	}
-	public List<CategoryDto> findByCode(String code) throws Exception {
-		return this.categoryDao.findByCode(code);
+	public List<CategoryDto> findByCode(CategorySearch categorySearch) throws Exception {
+		return this.categoryDao.findByCode(categorySearch);
 	}
 }

@@ -42,11 +42,11 @@ public class PickupTimeslotDaoTest extends BaseDaoTest {
 	@Test
 	@DisplayName("픽업 시간 조회 테스트")
 	public void findBySlotTime() throws Exception {
-		String targetDay = LocalDate.of(2020,6,13).toString();
-		String targetTime = LocalTime.of(9,0,0,0).toString();
+		String targetDay = LocalDate.of(2020,6,25).toString();
+		String targetTime = LocalTime.of(11,0,0,0).toString();
 
 		PickupSlotTimeSearch inPickupTimeslot = PickupSlotTimeSearch.builder()
-				.storeId("bbr")
+				.storeId("st002")
 				.slotDt(targetDay)
 				.slotTime(targetTime)
 				.build();

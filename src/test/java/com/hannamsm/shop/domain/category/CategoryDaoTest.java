@@ -15,6 +15,7 @@ import com.hannamsm.shop.domain.category.vo.CategoryDto;
 import com.hannamsm.shop.domain.category.vo.CategorySearch;
 import com.hannamsm.shop.global.BaseDaoTest;
 
+@Disabled
 public class CategoryDaoTest extends BaseDaoTest {
 
 	@Autowired
@@ -22,9 +23,9 @@ public class CategoryDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("카테고리 전체 조회 테스트")
-	@Disabled
 	public void findAll() throws Exception {
 		CategorySearch categorySearch = new CategorySearch(1, 10);
+		categorySearch.setStoreId("st002");
 
 		List<CategoryDto> list = this.categoryDao.findAll(categorySearch);
 		System.out.println(list.toString());
@@ -35,9 +36,9 @@ public class CategoryDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("카테고리 전체 건수 조회 테스트")
-	@Disabled
 	public void findAllCount() throws Exception {
 		CategorySearch categorySearch = new CategorySearch(1, 10);
+		categorySearch.setStoreId("st002");
 
 		int count = this.categoryDao.findAllCount(categorySearch);
 		System.out.println(count);
@@ -48,9 +49,13 @@ public class CategoryDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("ID로 카테고리 조회 테스트")
-	@Disabled
 	public void findByCode() throws Exception {
-		List<CategoryDto> list = this.categoryDao.findByCode("N111");
+		CategorySearch categorySearch = CategorySearch.builder()
+				.parentCategoryCd("L133")
+				.parentStoreId("st002")
+				.build();
+
+		List<CategoryDto> list = this.categoryDao.findByCode(categorySearch);
 		System.out.println(list.toString());
 
 		assertAll("categories",

@@ -16,6 +16,7 @@ import com.hannamsm.shop.domain.item.vo.Item;
 import com.hannamsm.shop.domain.item.vo.ItemSearch;
 import com.hannamsm.shop.global.BaseDaoTest;
 
+@Disabled
 public class ItemDaoTest extends BaseDaoTest {
 
 	@Autowired
@@ -23,9 +24,10 @@ public class ItemDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("상품 전체 조회 테스트")
-	@Disabled
 	public void findAll() throws Exception {
 		ItemSearch itemSearch = new ItemSearch(1, 10);
+		itemSearch.setStoreId("st002");
+		itemSearch.setItemSort("O0");
 
 		List<Item> items = this.itemDao.findAll(itemSearch);
 		System.out.println(items.toString());
@@ -36,9 +38,9 @@ public class ItemDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("상품 전체 건수 조회 테스트")
-	@Disabled
 	public void findAllCount() throws Exception {
 		ItemSearch itemSearch = new ItemSearch(1, 10);
+		itemSearch.setStoreId("st002");
 
 		int count = this.itemDao.findAllCount(itemSearch);
 		System.out.println(count);
@@ -49,9 +51,12 @@ public class ItemDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("ID로 상품 조회 테스트")
-	@Disabled
 	public void findById() throws Exception {
-		Optional<Item> item = this.itemDao.findById("ABC123123");
+		ItemSearch itemSearch = new ItemSearch(1, 10);
+		itemSearch.setItemId("ABC123123");
+		itemSearch.setStoreId("st002");
+
+		Optional<Item> item = this.itemDao.findById(itemSearch);
 		System.out.println(item.toString());
 
 		assertAll("items",
@@ -60,10 +65,10 @@ public class ItemDaoTest extends BaseDaoTest {
 
 	@Test
 	@DisplayName("Name으로 상품 조회 테스트")
-	@Disabled
 	public void findByName() throws Exception {
 		ItemSearch itemSearch = new ItemSearch(1, 10);
 		itemSearch.setItemName("asdasd");
+		itemSearch.setStoreId("st002");
 
 		List<Item> items = this.itemDao.findByName(itemSearch);
 		System.out.println(items.toString());

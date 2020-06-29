@@ -16,6 +16,7 @@ import lombok.ToString;
 public class Order {
 	private String order_id;
 	private LocalDateTime orderDate;
+	private String storeId;
 	private BigDecimal totalAmount;
 	private BigDecimal totalGstFee;
 	private BigDecimal totalPstFee;

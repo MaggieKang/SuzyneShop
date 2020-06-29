@@ -24,8 +24,8 @@ public class ItemService {
 		return this.itemDao.findAllCount(itemSearch);
 	}
 
-	public Optional<Item> findById(String id) throws Exception {
-		return this.itemDao.findById(id);
+	public Optional<Item> findById(ItemSearch itemSearch) throws Exception {
+		return this.itemDao.findById(itemSearch);
 	}
 
 }

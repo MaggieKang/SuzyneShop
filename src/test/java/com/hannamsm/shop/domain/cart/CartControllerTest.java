@@ -34,6 +34,7 @@ public class CartControllerTest extends BaseControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaTypes.HAL_JSON)
 				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
+				.param("storeId","st002")
 				.param("page", "1")
 				.param("listSize", "10")
 			)
@@ -54,6 +55,7 @@ public class CartControllerTest extends BaseControllerTest {
 				.accept(MediaTypes.HAL_JSON)
 				.header(HttpHeaders.AUTHORIZATION, super.getBearerToken())
 //				.content(this.objectMapper.writeValueAsString(event))
+				.param("storeId","st002")
 				)
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -66,7 +68,8 @@ public class CartControllerTest extends BaseControllerTest {
 	public void addCartItem() throws Exception {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
-				.itemId("DK0108977KR0101001")
+				.itemId("DK0101004135KR0101001")
+				.storeId("st002")
 				.itemQty(1)
 				.build();
 
@@ -78,7 +81,7 @@ public class CartControllerTest extends BaseControllerTest {
 				.content(this.objectMapper.writeValueAsString(cartItemDto))
 			)
 			.andDo(print())
-			.andExpect(status().isCreated())
+			.andExpect(status().isOk())
 			.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
 			.andDo(document("cart-add-item"));
 	}
@@ -89,6 +92,7 @@ public class CartControllerTest extends BaseControllerTest {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
 				.itemId("123123123")
+				.storeId("st002")
 				.itemQty(100)
 				.build();
 
@@ -110,6 +114,7 @@ public class CartControllerTest extends BaseControllerTest {
 	public void addCartItem_InvalidInputValue_405Error() throws Exception {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
+				.storeId("st002")
 				.build();
 
 		// When & Then
@@ -131,6 +136,7 @@ public class CartControllerTest extends BaseControllerTest {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
 				.itemId("DK0108977KR0101001")
+				.storeId("st002")
 				.itemQty(10)
 				.build();
 
@@ -152,6 +158,7 @@ public class CartControllerTest extends BaseControllerTest {
 	public void saveCartItem_InvalidInputValue_405Error() throws Exception {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
+				.storeId("st002")
 				.build();
 
 		// When & Then
@@ -173,6 +180,7 @@ public class CartControllerTest extends BaseControllerTest {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
 				.itemId("123123123")
+				.storeId("st002")
 				.itemQty(100)
 				.build();
 
@@ -195,6 +203,7 @@ public class CartControllerTest extends BaseControllerTest {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
 				.itemId("DK0108977KR0101001")
+				.storeId("st002")
 				.build();
 
 		// When & Then
@@ -215,6 +224,7 @@ public class CartControllerTest extends BaseControllerTest {
 	public void deleteCartItem_InvalidInputValue_405Error() throws Exception {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
+				.storeId("st002")
 				.build();
 
 		// When & Then

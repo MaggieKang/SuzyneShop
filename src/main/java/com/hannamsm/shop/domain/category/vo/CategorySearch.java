@@ -11,8 +11,10 @@ import lombok.Setter;
 @Getter @Setter
 public class CategorySearch {
 	private String categoryCd;
+	private String storeId;
 	private String categoryNm;
 	private String parentCategoryCd;
+	private String parentStoreId;
 
 	private int startRownum;
 	private int page;

@@ -38,11 +38,17 @@ public class CartController {
 	 * 장바구니 목록 조회
 	 */
 	@GetMapping
-	public ResponseEntity queryCartItems(@RequestParam(value = "page", defaultValue = "1") int page,
+	public ResponseEntity queryCartItems(@RequestParam(value = "storeId", defaultValue = "") String storeId,
+			@RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "listSize", defaultValue = "100") int listSize,
             @CurrentUser Account account) throws Exception {
+		if(storeId==null || storeId.isEmpty()) {
+			throw new Exception("storeId is null!!!");
+		}
+
 		CartItemSearch cartItemSearch = new CartItemSearch(page, listSize);
 		cartItemSearch.setAccountId(account.getAccountId());
+		cartItemSearch.setStoreId(storeId);
 
 		int allCount = this.cartService.findByAccountIdCount(cartItemSearch);
 		List<CartItem> list = this.cartService.findByAccountId(cartItemSearch);
@@ -60,9 +66,15 @@ public class CartController {
 
 	// 장바구니 Summary 조회
 	@GetMapping("/summery")
-	public ResponseEntity queryCartSummery(@CurrentUser Account account) throws Exception {
+	public ResponseEntity queryCartSummery(@RequestParam(value = "storeId", defaultValue = "") String storeId,
+			@CurrentUser Account account) throws Exception {
+		if(storeId==null || storeId.isEmpty()) {
+			throw new Exception("storeId is null!!!");
+		}
+
 		CartItemSearch cartItemSearch = new CartItemSearch();
 		cartItemSearch.setAccountId(account.getAccountId());
+		cartItemSearch.setStoreId(storeId);
 
 		CartSummery cartSummery = this.cartService.findSummeryByAccountId(cartItemSearch);
 
@@ -100,7 +112,6 @@ public class CartController {
 			, @CurrentUser Account currentUser) throws Exception {
 		reqCartItemDto.setAccountId(currentUser.getAccountId());
 
-
 		cartService.saveCartItem(reqCartItemDto);
 
 		ResponseResutl<CartItemDto> resResult = new ResponseResutl<CartItemDto>();
@@ -127,6 +138,4 @@ public class CartController {
 
         return ResponseEntity.ok(resResult);
 	}
-
-
 }

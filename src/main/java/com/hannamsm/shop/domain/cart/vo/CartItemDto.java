@@ -16,6 +16,8 @@ import lombok.ToString;
 public class CartItemDto {
 	private String accountId;
 	@NotEmpty
+	private String storeId;
+	@NotEmpty
 	private String itemId;
 	@Min(0)
 	private int itemQty;

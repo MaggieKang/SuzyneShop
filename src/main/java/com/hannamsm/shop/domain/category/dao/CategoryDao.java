@@ -10,7 +10,7 @@ public interface CategoryDao {
 
 	public List<CategoryDto> findAll(CategorySearch ctemSearch) throws Exception;
 
-	public int findByCodeCount(String code) throws Exception;
+	public int findByCodeCount(CategorySearch ctemSearch) throws Exception;
 
-	public List<CategoryDto> findByCode(String code) throws Exception;
+	public List<CategoryDto> findByCode(CategorySearch ctemSearch) throws Exception;
 }

@@ -16,6 +16,7 @@ import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.domain.cart.vo.CartSummery;
 import com.hannamsm.shop.domain.item.dao.ItemDao;
 import com.hannamsm.shop.domain.item.vo.Item;
+import com.hannamsm.shop.domain.item.vo.ItemSearch;
 
 @Service
 public class CartService {
@@ -43,14 +44,21 @@ public class CartService {
 
 		CartItem cartItem = CartItem.builder()
 				.accountId(accountId)
+				.storeId(cartItemDto.getStoreId())
 				.itemId(cartItemDto.getItemId())
 				.itemQty(cartItemDto.getItemQty())
 				.regPerson(accountId)
 				.lastModPerson(accountId)
 				.build();
+
+		ItemSearch itemSearch = ItemSearch.builder()
+				.storeId(cartItemDto.getStoreId())
+				.itemId(cartItem.getItemId())
+				.build();
+
 		//상품 검색
-		Optional<Item> optionalItem = this.itemDao.findById(cartItem.getItemId());
-		optionalItem.orElseThrow(() -> new CartItemNotFoundException(cartItem.getItemId()));
+		Optional<Item> optionalItem = this.itemDao.findById(itemSearch);
+		optionalItem.orElseThrow(() -> new CartItemNotFoundException(itemSearch.getItemId()));
 
 		return cartDao.add(cartItem);
 	}
@@ -60,6 +68,7 @@ public class CartService {
 
 		CartItem cartItem = CartItem.builder()
 				.accountId(accountId)
+				.storeId(cartItemDto.getStoreId())
 				.itemId(cartItemDto.getItemId())
 				.itemQty(cartItemDto.getItemQty())
 				.regPerson(accountId)
