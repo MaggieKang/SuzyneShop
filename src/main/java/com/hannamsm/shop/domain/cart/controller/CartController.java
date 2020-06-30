@@ -64,6 +64,31 @@ public class CartController {
         return ResponseEntity.ok(resResult);
 	}
 
+	/*
+	 * 장바구니 건수 조회
+	 */
+	@GetMapping("/count")
+	public ResponseEntity queryCartCount(@RequestParam(value = "storeId", defaultValue = "") String storeId,
+            @CurrentUser Account account) throws Exception {
+		if(storeId==null || storeId.isEmpty()) {
+			throw new Exception("storeId is null!!!");
+		}
+
+		CartItemSearch cartItemSearch = CartItemSearch.builder()
+				.accountId(account.getAccountId())
+				.storeId(storeId)
+				.build();
+
+		int allCount = this.cartService.findByAccountIdCount(cartItemSearch);
+
+		//return data
+        ResponseResutl<Integer> resResult = new ResponseResutl<Integer>();
+		resResult.setMessage("조회되었습니다.");
+		resResult.setResult(allCount);
+
+        return ResponseEntity.ok(resResult);
+	}
+
 	// 장바구니 Summary 조회
 	@GetMapping("/summery")
 	public ResponseEntity queryCartSummery(@RequestParam(value = "storeId", defaultValue = "") String storeId,

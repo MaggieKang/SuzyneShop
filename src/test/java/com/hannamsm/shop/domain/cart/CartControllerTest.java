@@ -135,7 +135,7 @@ public class CartControllerTest extends BaseControllerTest {
 	public void saveCartItem() throws Exception {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
-				.itemId("DK0108977KR0101001")
+				.itemId("DK0101226015KR0101001")
 				.storeId("st002")
 				.itemQty(10)
 				.build();

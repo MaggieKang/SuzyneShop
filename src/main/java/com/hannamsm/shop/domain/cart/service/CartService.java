@@ -87,6 +87,7 @@ public class CartService {
 
 		CartItem cartItem = CartItem.builder()
 				.accountId(accountId)
+				.storeId(cartItemDto.getStoreId())
 				.itemId(cartItemDto.getItemId())
 				.itemQty(cartItemDto.getItemQty())
 				.regPerson(accountId)

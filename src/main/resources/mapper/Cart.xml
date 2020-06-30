@@ -81,6 +81,13 @@ select sum(m.item_qty) as totalQty
                 inner join item b on b.item_id = a.item_id and b.store_id = a.store_id and is_use = 1
           where a.account_id = #{accountId}
             and a.store_id = #{storeId}
+          union
+         select 0 as item_qty
+              , 0 as totalSalesPrice
+              , 0 as gstFee
+              , 0 as pstFee
+              , 0 as ecoFee
+              , 0 as depositFee
        ) m
 </select>
 
