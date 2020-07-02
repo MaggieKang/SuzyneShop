@@ -1,3 +1,10 @@
+create sequence seq_order_id as int
+start with 0
+increment by 1
+minvalue -2147483648
+maxvalue 2147483647
+cache;
+
 IF ObJECt_ID('[oauth_client_details]') IS NOT NULL DROP TABLE [oauth_client_details];
 
 CREATE TABLE [oauth_client_details] (

@@ -21,4 +21,6 @@ public interface CartDao {
 	public int save(CartItem cartItem) throws Exception;
 
 	public int delete(CartItem cartItem) throws Exception;
+
+	public int deleteAllForOrder(CartItemSearch cartItemSearch) throws Exception;
 }
