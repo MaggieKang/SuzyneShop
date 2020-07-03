@@ -17,13 +17,17 @@ public class Customer {
 	private String customerNm;
 	private String customerEmail;
 	private String customerPhoneNumber;
-	private String customerGender;
-	private String customerKrNm;
-	private String customerEnNm;
-	private String customerLangCd;
-	private int membershipNo;
-	private LocalDateTime regDate;
-	private String regPerson;
-	private LocalDateTime lastModDate;
-	private String lastModPerson;
+	private String Address;
+	private String City;
+	private String Province;
+	private String postalCd;	
+//	private String customerGender;
+//	private String customerKrNm;
+//	private String customerEnNm;
+//	private String customerLangCd;
+//	private int membershipNo;
+//	private LocalDateTime regDate;
+//	private String regPerson;
+//	private LocalDateTime lastModDate;
+//	private String lastModPerson;
 }
