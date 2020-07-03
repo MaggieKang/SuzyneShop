@@ -15,6 +15,11 @@ select count(a.order_id) as totalCount
 select a.order_id          as orderId
      , a.store_id          as storeId
      , a.order_date        as orderDate
+     , (select top 1 s2.item_kr_nm +'/'+ s2.item_en_nm +' '+ s2.item_size +'...'
+         from orders_detail s1
+              inner join item s2 on s2.store_id = s1.store_id and s2.item_id = s1.item_id and s2.is_use = 1
+        where s1.store_id = a.store_id
+          and s1.order_id = a.order_id ) as titleNm
      , a.total_amount      as totalAmount
      , a.total_gst_fee     as totalGstFee
      , a.total_pst_fee     as totalPstFee

@@ -16,6 +16,7 @@ import lombok.ToString;
 public class Order {
 	private String orderId;
 	private LocalDateTime orderDate;
+	private String titleNm;
 	private String customerContactNumber;
 	private String storeId;
 	private BigDecimal totalAmount;
