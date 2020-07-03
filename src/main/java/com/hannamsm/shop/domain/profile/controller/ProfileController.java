@@ -22,12 +22,12 @@ public class ProfileController {
 	private ProfileService profileService;
 
 	/*
-	 * Item 조회
+	 * Profile 조회
 	 */
-	@GetMapping("/{id}")
-	public ResponseEntity queryItem(@PathVariable String id) throws Exception {
+	@GetMapping("/{accountId}")
+	public ResponseEntity queryProfile(@PathVariable String accountId) throws Exception {
 
-		Optional<Customer> optionaProfile = this.profileService.findById(id);
+		Optional<Customer> optionaProfile = this.profileService.findById(accountId);
 		if(optionaProfile.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
