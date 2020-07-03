@@ -16,4 +16,8 @@ public interface PickupTimeslotDao {
 	public int saveSlotTime(PickupTimeslot pickupTimeslot) throws Exception;
 
 	public int deleteTimeslot(PickupTimeslot pickupTimeslot) throws Exception;
+
+	public int getNumberAvailable(PickupSlotTimeSearch pickupTimeslotSearch) throws Exception;
+
+	public int updatePickReservation(PickupSlotTimeSearch pickupTimeslotSearch) throws Exception;
 }

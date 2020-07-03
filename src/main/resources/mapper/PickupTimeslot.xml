@@ -37,6 +37,16 @@ select slot_dt         as slotDt
    and slot_time = #{slotTime}
 </select>
 
+<select id="getNumberAvailable" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="int">
+select isnull((
+	select (allocation_qty - completion_qty) as  numberAvailable
+	  from pickup_timeslot
+	 where store_id = #{storeId}
+	   and slot_dt = #{slotDt}
+	   and slot_time = #{slotTime}
+       ),0) as numberAvailable
+</select>
+
 <insert id="saveSlotTime" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
 merge pickup_timeslot as a
 using (select #{slotDt}        as slot_dt
@@ -85,5 +95,13 @@ delete pickup_timeslot
  where store_id = #{storeId}
    and slot_dt = #{slotDt}
 </insert>
+
+<update id="updatePickReservation" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch">
+update pickup_timeslot
+   set completion_qty += 1
+ where store_id = #{storeId}
+   and slot_dt = #{slotDt}
+   and slot_time = #{slotTime}
+</update>
 
 </mapper>

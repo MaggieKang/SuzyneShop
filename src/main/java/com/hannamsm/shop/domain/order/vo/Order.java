@@ -14,8 +14,10 @@ import lombok.ToString;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
 public class Order {
-	private String order_id;
+	private String orderId;
 	private LocalDateTime orderDate;
+	private String titleNm;
+	private String customerContactNumber;
 	private String storeId;
 	private BigDecimal totalAmount;
 	private BigDecimal totalGstFee;
@@ -24,6 +26,8 @@ public class Order {
 	private BigDecimal totalEcoFee;
 	private BigDecimal totalDepositFee;
 	private String accountId;
+	private String slotDt;
+	private String slotTime;
 	private LocalDateTime regDate;
 	private String regPerson;
 	private LocalDateTime lastModDate;

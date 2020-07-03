@@ -27,10 +27,10 @@ select a.store_id             as storeId
      , b.promotion_start_date as promotionStartDate
      , b.promotion_end_date   as promotionEndDate
      , b.promotion_price      as promotionPrice
-     , (case when b.promotion_start_date <![CDATA[<]]> getdate() and getdate() <![CDATA[<]]> b.promotion_end_date then b.promotion_price
+     , (case when getdate() > b.promotion_start_date and b.promotion_end_date > getdate() then b.promotion_price
              else b.regular_price
         end) as salesPrice
-     , (case when b.promotion_start_date <![CDATA[<]]> getdate() and getdate() <![CDATA[<]]> b.promotion_end_date then ceiling(((b.regular_price - b.promotion_price)/b.regular_price)*100)
+     , (case when getdate() > b.promotion_start_date and b.promotion_end_date > getdate() then ceiling(((b.regular_price - b.promotion_price)/b.regular_price)*100)
              else 0
         end) as discountRate --(정가-할인가)/정가
      , 'http://placehold.it/121x114' as imgUrl
@@ -57,7 +57,7 @@ select sum(m.item_qty) as totalQty
      , convert(numeric(10,2), sum(m.totalSalesPrice)+sum(m.gstFee)+sum(m.pstFee)+sum(m.ecoFee)+sum(m.depositFee)) as grandTotalPrice
   from (
          select item_qty
-              , (case when b.promotion_start_date <![CDATA[<]]> getdate() and getdate() <![CDATA[<]]> b.promotion_end_date then b.promotion_price * item_qty
+              , (case when getdate() > b.promotion_start_date and b.promotion_end_date > getdate() then b.promotion_price * item_qty
                       else b.regular_price * item_qty
                  end) as totalSalesPrice
               , (case when 'G' = b.item_tax_cd then b.regular_price * 0.05
@@ -176,6 +176,12 @@ delete cart
  where account_id = #{accountId}
    and store_id = #{storeId}
    and item_id = #{itemId}
+</delete>
+
+<delete id="deleteAllForOrder" parameterType="com.hannamsm.shop.domain.cart.vo.CartItemSearch">
+delete cart
+ where account_id = #{accountId}
+   and store_id = #{storeId}
 </delete>
 
 </mapper>

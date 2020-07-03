@@ -6,8 +6,8 @@ IF ObJECt_ID('[account_authority]') IS NOT NULL DROP TABLE [account_authority];
 IF ObJECt_ID('[cart]') IS NOT NULL DROP TABLE [cart];
 IF ObJECt_ID('[customer]') IS NOT NULL DROP TABLE [customer];
 IF ObJECt_ID('[favourite]') IS NOT NULL DROP TABLE [favourite];
-IF ObJECt_ID('[odrders_pickup]') IS NOT NULL DROP TABLE [odrders_pickup];
 IF ObJECt_ID('[orders_detail]') IS NOT NULL DROP TABLE [orders_detail];
+IF ObJECt_ID('[orders_pickup]') IS NOT NULL DROP TABLE [orders_pickup];
 IF ObJECt_ID('[orders]') IS NOT NULL DROP TABLE [orders];
 IF ObJECt_ID('[account]') IS NOT NULL DROP TABLE [account];
 IF ObJECt_ID('[authority]') IS NOT NULL DROP TABLE [authority];
@@ -135,7 +135,7 @@ CREATE TABLE [cart]
 	-- 계정ID : 계정 ID
 	[account_id] varchar(20) NOT NULL,
 	-- 상품ID
-	[item_id] varchar(24) NOT NULL UNIQUE,
+	[item_id] varchar(24) NOT NULL,
 	-- 매장ID
 	[store_id] varchar(10) NOT NULL,
 	-- item_qty : item quantity
@@ -754,31 +754,6 @@ CREATE TABLE [oauth_refresh_token]
 );
 
 
--- 주문픽업
-CREATE TABLE [odrders_pickup]
-(
-	-- 주문ID
-	[order_id] varchar(20) NOT NULL,
-	-- 매장ID
-	[store_id] varchar(10) NOT NULL,
-	-- 슬롯날짜
-	[slot_dt] date NOT NULL,
-	-- 슬롯시간
-	[slot_time] time NOT NULL,
-	-- 주문픽업상태코드
-	[order_picup_status_cd] varchar(10) NOT NULL,
-	-- 최초등록일시 : 최초등록일시
-	[reg_date] datetime,
-	-- 최초등록사용자 : 최초등록사용자
-	[reg_person] varchar(256),
-	-- 마지막변경일시 : last_mod_date
-	[last_mod_date] datetime,
-	-- 마지막변경사용자 : 마지막 변경 사용자
-	[last_mod_person] varchar(256),
-	PRIMARY KEY ([order_id], [store_id], [slot_dt], [slot_time])
-);
-
-
 -- 주문
 CREATE TABLE [orders]
 (
@@ -788,6 +763,8 @@ CREATE TABLE [orders]
 	[store_id] varchar(10) NOT NULL,
 	-- 주문일시
 	[order_date] datetime NOT NULL,
+	-- 고객연락번호
+	[customer_contact_number] varchar(20) NOT NULL,
 	-- 총합계
 	[total_amount] decimal(10,2),
 	-- 총GST수수료
@@ -871,6 +848,33 @@ CREATE TABLE [orders_detail]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([order_id], [store_id], [item_id])
+);
+
+
+-- 주문픽업
+CREATE TABLE [orders_pickup]
+(
+	-- 주문ID
+	[order_id] varchar(20) NOT NULL,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
+	-- 슬롯날짜
+	[slot_dt] date NOT NULL,
+	-- 슬롯시간
+	[slot_time] time NOT NULL,
+	-- 매장ID
+	[pickup_store_id] varchar(10) NOT NULL,
+	-- 주문픽업상태코드
+	[order_picup_status_cd] varchar(10) NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([order_id], [store_id])
 );
 
 

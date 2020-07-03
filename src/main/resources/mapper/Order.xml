@@ -5,23 +5,40 @@
 select count(a.order_id) as totalCount
   from orders a
  where a.account_id = #{accountId}
+   and a.store_id = #{storeId}
+    <if test="orderId != null and orderId != ''">
+   and a.order_id = #{orderId}
+    </if>
 </select>
 
 <select id="findAll" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="com.hannamsm.shop.domain.order.vo.Order">
 select a.order_id          as orderId
+     , a.store_id          as storeId
      , a.order_date        as orderDate
+     , (select top 1 s2.item_kr_nm +'/'+ s2.item_en_nm +' '+ s2.item_size +'...'
+         from orders_detail s1
+              inner join item s2 on s2.store_id = s1.store_id and s2.item_id = s1.item_id and s2.is_use = 1
+        where s1.store_id = a.store_id
+          and s1.order_id = a.order_id ) as titleNm
      , a.total_amount      as totalAmount
      , a.total_gst_fee     as totalGstFee
      , a.total_pst_fee     as totalPstFee
      , a.total_hst_fee     as totalHstFee
      , a.total_eco_fee     as totalEcoFee
      , a.total_deposit_fee as totalDepositFee
+     , b.slot_dt           as slotDt
+     , FORMAT(CAST(b.slot_time AS datetime), 'hh:mm') as slotTime
      , a.reg_date          as regDate
      , a.reg_person        as regPerson
      , a.last_mod_date     as lastModDate
      , a.last_mod_person   as lastModPerson
   from orders a
+       left join orders_pickup b on b.store_id = a.store_id and b.order_id = a.order_id
  where a.account_id = #{accountId}
+   and a.store_id = #{storeId}
+    <if test="orderId != null and orderId != ''">
+   and a.order_id = #{orderId}
+    </if>
  order by a.order_id
 offset #{startRownum} rows
  fetch next #{listSize} row only
@@ -61,4 +78,147 @@ offset #{startRownum} rows
  fetch next #{listSize} row only
 </select>
 
+<select id="createOrderId" resultType="String">
+select (next value for seq_order_id) as order_id
+</select>
+
+<insert id="createOrdersDetailFromCart" parameterType="com.hannamsm.shop.domain.order.vo.NewOrderDto">
+insert into orders_detail (
+       order_id
+     , store_id
+     , item_id
+     , item_tax_cd
+     , item_deposit_cd
+     , item_eco_cd
+     , order_qty
+     , amount
+     , each_sale_price
+     , each_gst_fee
+     , each_pst_fee
+     , each_hst_fee
+     , each_eco_fee
+     , each_deposit_fee
+     , receiving_price
+     , regular_price
+     , promotion_bundle_qty
+     , promotion_start_date
+     , promotion_end_date
+     , promotion_price
+     , invoice_id
+     , reg_date
+     , reg_person
+     , last_mod_date
+     , last_mod_person)
+select #{orderId} as order_id
+     , a.store_id as store_id
+     , a.item_id
+     , b.item_tax_cd as item_tax_cd
+     , b.item_deposit_cd as item_deposit_cd
+     , b.item_eco_cd as item_eco_cd
+     , a.item_qty as order_qty
+     , (case when getdate() > b.promotion_start_date and b.promotion_end_date > getdate() then b.promotion_price * item_qty
+             else b.regular_price * item_qty
+        end) as amount
+     , (case when getdate() > b.promotion_start_date and b.promotion_end_date > getdate() then b.promotion_price
+             else b.regular_price
+        end) as each_sale_price
+     , (case when 'G' = b.item_tax_cd then b.regular_price * 0.05
+             when 'B' = b.item_tax_cd then b.regular_price * 0.05
+             else 0
+        end) as each_gst_fee
+     , (case when 'B' = b.item_tax_cd then b.regular_price * 0.07
+             else 0
+        end) as each_pst_fee
+     , 0 as each_hst_fee
+     , isnull((case when b.item_eco_cd is null then 0
+                    else (select EcoFee
+                            from mfProdEco
+                           where ReturnType = b.item_eco_cd)
+               end),0) as each_eco_fee
+     , isnull((case when b.item_deposit_cd is null then 0
+                    else (select TotalFee
+                            from tblEncorp
+                           where ReturnType = b.item_deposit_cd)
+               end),0) as each_deposit_fee
+     , b.receiving_price as receiving_price
+     , b.regular_price as regular_price
+     , b.promotion_bundle_qty as promotion_bundle_qty
+     , b.promotion_start_date as promotion_start_date
+     , b.promotion_end_date as promotion_end_date
+     , b.promotion_price as promotion_price
+     , null as invoice_id
+     , getDate() as reg_date
+     , #{accountId} as reg_person
+     , getDate() as last_mod_date
+     , #{accountId} as last_mod_person
+  from cart a
+       inner join item b on b.store_id = a.store_id and b.item_id = a.item_id
+ where a.account_id = #{accountId}
+   and a.store_id = #{storeId}
+</insert>
+
+<insert id="createOrdersFromCart" parameterType="com.hannamsm.shop.domain.order.vo.NewOrderDto">
+insert into orders (
+       order_id
+     , store_id
+     , order_date
+     , customer_contact_number
+     , total_amount
+     , total_gst_fee
+     , total_pst_fee
+     , total_hst_fee
+     , total_eco_fee
+     , total_deposit_fee
+     , account_id
+     , reg_date
+     , reg_person
+     , last_mod_date
+     , last_mod_person
+)
+select a.order_id               as order_id
+     , a.store_id               as store_id
+     , getDate()                as order_date
+     , #{customerContactNumber} as customer_contact_number
+     , sum(a.amount)            as total_amount
+     , sum(a.each_gst_fee)      as total_gst_fee
+     , sum(a.each_pst_fee)      as total_pst_fee
+     , sum(a.each_hst_fee)      as total_hst_fee
+     , sum(a.each_eco_fee)      as total_eco_fee
+     , sum(a.each_deposit_fee)  as total_deposit_fee
+     , #{accountId}             as account_id
+     , getDate()                as reg_date
+     , #{accountId}             as reg_person
+     , getDate()                as last_mod_date
+     , #{accountId}             as last_mod_person
+  from orders_detail a
+ where a.store_id = #{storeId}
+   and a.order_id = #{orderId}
+ group by a.order_id, a.store_id;
+</insert>
+
+<insert id="createOrderPickup" parameterType="com.hannamsm.shop.domain.order.vo.OrderPickup">
+insert into orders_pickup (
+       order_id
+     , store_id
+     , slot_dt
+     , slot_time
+     , pickup_store_id
+     , order_picup_status_cd
+     , reg_date
+     , reg_person
+     , last_mod_date
+     , last_mod_person
+) values (
+       #{orderId}
+     , #{storeId}
+     , #{slotDt}
+     , #{slotTime}
+     , #{pickupStoreId}
+     , #{orderPicupStatusCd}
+     , getDate()
+     , #{regPerson}
+     , getDate()
+     , #{lastModPerson}
+)
+</insert>
 </mapper>
