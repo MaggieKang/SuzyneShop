@@ -38,24 +38,23 @@ Local DB 환경구성 (Docker 추천)
 >1. 이미지 다운로드
 >docker pull mcr.microsoft.com/mssql/server:2019-latest
 >
->2. 이미지 조회
+>2. 이미지 조회  
 >docker images
 >
->2. 컨테이너 생성
->docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pa33word" -p1433:1433 --name sql2019 -d 이미지ID
->
->3. SQL Server 연결
+>2. 컨테이너 생성  
+>docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pa33word" -p1433:1433 -v /etc/localtime:/etc/localtime:ro -e TZ=Canada/Pacific --name sql2019 -d 이미지ID
+>3. SQL Server 연결  
 >sql2019은 컨테이너 생성 시 지정한 이름
 >실행 중인 컨테이너 내에서 대화형 bash 셸 시작
 >docker exec -it sql2019 "bash"
 >
->4. 컨테이너 내부로 들어가면 sqlcmd를 사용하여 로컬로 연결
+>4. 컨테이너 내부로 들어가면 sqlcmd를 사용하여 로컬로 연결  
 >/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Pa33word'
 >
->5. db 생성
->create database wholesaleDB
+>5. db 생성  
+>create database hnsshop
 >
->6. db 조회
+>6. db 조회  
 >SELECT Name from sys.Databases
 
 프로젝트 필수 스크립트 DDL & Data 사용 (DBeaver 사용 권장)
