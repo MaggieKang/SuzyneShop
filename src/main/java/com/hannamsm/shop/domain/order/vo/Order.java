@@ -19,6 +19,7 @@ public class Order {
 	private String titleNm;
 	private String customerContactNumber;
 	private String storeId;
+	private BigDecimal grandTotalPrice;
 	private BigDecimal totalAmount;
 	private BigDecimal totalGstFee;
 	private BigDecimal totalPstFee;
@@ -28,6 +29,9 @@ public class Order {
 	private String accountId;
 	private String slotDt;
 	private String slotTime;
+	private String startDisplaySlotTime;
+	private String endDisplaySlotTime;
+	private int itemCount;
 	private LocalDateTime regDate;
 	private String regPerson;
 	private LocalDateTime lastModDate;

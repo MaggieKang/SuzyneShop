@@ -47,7 +47,7 @@ offset #{startRownum} rows
  fetch next #{listSize} row only
 </select>
 
-<select id="findSummeryByAccountId" parameterType="com.hannamsm.shop.domain.cart.vo.CartItemSearch" resultType="com.hannamsm.shop.domain.cart.vo.CartSummery">
+<select id="findSummaryByAccountId" parameterType="com.hannamsm.shop.domain.cart.vo.CartItemSearch" resultType="com.hannamsm.shop.domain.cart.vo.CartSummary">
 select sum(m.item_qty) as totalQty
      , convert(numeric(10,2), sum(m.totalSalesPrice)) as totalSalesPrice
      , convert(numeric(10,2), sum(m.gstFee)) as totalGstFee

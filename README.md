@@ -50,7 +50,7 @@ Local DB 환경구성 (Docker 추천)
 >/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Pa33word'
 >
 >5. db 생성  
->create database hnsshop
+>create database hnsshop collate korean_wansung_ci_as
 >
 >6. db 조회  
 >SELECT Name from sys.Databases

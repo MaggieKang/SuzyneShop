@@ -21,6 +21,7 @@ public class PickupTimeslot {
 	private String storeId;
 	private int allocationQty;
 	private int completionQty;
+	private boolean pickupAvailable;
 	private LocalDateTime regDate;
 	private String regPerson;
 	private LocalDateTime lastModDate;

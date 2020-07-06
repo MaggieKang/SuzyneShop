@@ -20,6 +20,7 @@ select a.order_id          as orderId
               inner join item s2 on s2.store_id = s1.store_id and s2.item_id = s1.item_id and s2.is_use = 1
         where s1.store_id = a.store_id
           and s1.order_id = a.order_id ) as titleNm
+     , (a.total_amount + a.total_gst_fee + a.total_pst_fee + a.total_hst_fee + a.total_eco_fee + a.total_deposit_fee) as grandTotalPrice
      , a.total_amount      as totalAmount
      , a.total_gst_fee     as totalGstFee
      , a.total_pst_fee     as totalPstFee
@@ -27,7 +28,10 @@ select a.order_id          as orderId
      , a.total_eco_fee     as totalEcoFee
      , a.total_deposit_fee as totalDepositFee
      , b.slot_dt           as slotDt
-     , FORMAT(CAST(b.slot_time AS datetime), 'hh:mm') as slotTime
+     , FORMAT(CAST(b.slot_time AS datetime), 'HH:mm') as slotTime
+     , format(cast(slot_time AS datetime), 'hh tt') as startDisplaySlotTime
+     , format(cast(dateadd(hour, 1, slot_time) AS datetime), 'hh tt') as endDisplaySlotTime
+     , (select count(od.item_id) from orders_detail od where od.store_id = a.store_id and od.order_id = a.order_id) as itemCount
      , a.reg_date          as regDate
      , a.reg_person        as regPerson
      , a.last_mod_date     as lastModDate
@@ -45,34 +49,48 @@ offset #{startRownum} rows
 </select>
 
 <select id="findByIdCount" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="int">
-select count(a.order_id) as totalCount
-  from orders_detail a
- where a.order_id = #{orderId}
+select count(b.item_id) as totalCount
+  from orders a
+       inner join orders_detail b on b.store_id = a.store_id and b.order_id = a.order_id
+       left join item c on c.store_id = b.store_id and c.item_id = b.item_id
+ where a.account_id = #{accountId}
+   and a.store_id = #{storeId}
+   and a.order_id = #{orderId}
 </select>
 
 <select id="findById" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="com.hannamsm.shop.domain.order.vo.OrderDetail">
 select a.order_id         as orderId
-     , a.item_id          as itemId
-     , a.item_tax_cd      as itemTaxCd
-     , a.item_deposit_cd  as itemDepositCd
-     , a.item_eco_cd      as itemEcoCd
-     , a.order_qty        as orderQty
-     , a.amount           as amount
-     , a.each_sale_price  as eachSalePrice
-     , a.each_gst_fee     as eachGstFee
-     , a.each_pst_fee     as eachPstFee
-     , a.each_hst_fee     as eachHstFee
-     , a.each_eco_fee     as eachEcoFee
-     , a.each_deposit_fee as eachDepositFee
-     , a.receiving_price  as receivingPrice
-     , a.regular_price    as regularPrice
-     , a.invoice_id       as invoiceId
-     , a.reg_date         as regDate
-     , a.reg_person       as regPerson
-     , a.last_mod_date    as lastModDate
-     , a.last_mod_person  as lastModPerson
-  from orders_detail a
- where a.order_id = #{orderId}
+     , a.store_id         as storeId
+     , b.item_id          as itemId
+     , c.item_kr_nm       as itemKrNm
+     , c.item_en_nm       as itemEnNm
+     , c.item_size        as itemSize
+     , b.item_tax_cd      as itemTaxCd
+     , b.item_deposit_cd  as itemDepositCd
+     , b.item_eco_cd      as itemEcoCd
+     , b.order_qty        as orderQty
+     , b.amount           as amount
+     , b.each_sale_price  as eachSalePrice
+     , b.each_gst_fee     as eachGstFee
+     , b.each_pst_fee     as eachPstFee
+     , b.each_hst_fee     as eachHstFee
+     , b.each_eco_fee     as eachEcoFee
+     , b.each_deposit_fee as eachDepositFee
+     , b.receiving_price  as receivingPrice
+     , b.regular_price    as regularPrice
+     , ceiling(((b.regular_price - b.each_sale_price)/b.regular_price)*100) as discountRate --(정가-할인가)/정가
+     , b.invoice_id       as invoiceId
+     , 'http://placehold.it/121x114' as imgUrl
+     , b.reg_date         as regDate
+     , b.reg_person       as regPerson
+     , b.last_mod_date    as lastModDate
+     , b.last_mod_person  as lastModPerson
+  from orders a
+       inner join orders_detail b on b.store_id = a.store_id and b.order_id = a.order_id
+       left join item c on c.store_id = b.store_id and c.item_id = b.item_id
+ where a.account_id = #{accountId}
+   and a.store_id = #{storeId}
+   and a.order_id = #{orderId}
  order by a.order_id
 offset #{startRownum} rows
  fetch next #{listSize} row only

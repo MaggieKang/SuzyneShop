@@ -2,28 +2,17 @@ spring:
   profiles:
     active: local
 
+## MULTIPART (MultipartProperties)
+# 1.Enable multipart uploads
+# 2.Threshold after which files are written to disk.
+# 3.Max file size.
+# 4.Max Request Size
   servlet:
     multipart:
       enabled: true
       file-size-threshold: 2KB
       max-file-size: 200MB
       max-request-size: 215MB
-
-#Server HTTP port
-server:
-  port: 8081
-
-#Server AJP port
-tomcat:
-  ajp-enabled: true
-  ajp-protocol: AJP/1.3
-  ajp-port: 18009
-
-## MULTIPART (MultipartProperties)
-# 1.Enable multipart uploads
-# 2.Threshold after which files are written to disk.
-# 3.Max file size.
-# 4.Max Request Size
 
 ## File Storage Properties
 # All files uploaded through the REST API will be stored in this directory
@@ -38,26 +27,33 @@ my-app:
   client-id: HNS-SHOP
   client-secret: pass
 
-#log:
-#  config:
-#    path: C:/Hannam/hns-shop-sry/logs
-#    filename: dev_log
-#    err-filename: dev_errorlog
 
+logging:
+#  config: classpath:logback-spring.xml
+#  file.path: C:/Hannam/hns-shop-sry/logs
+#  file: hns-shop-local
+  level:
+    root: info
+    
 --- #local 환경
 spring:
   profiles: local
 
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://192.168.99.100:1433;databaseName=wholesaleDB
+    url: jdbc:sqlserver://192.168.99.100:1433;databaseName=hnsshop
     username: sa
     password: Pa33word
 
-logging:
-  level:
-    root: info
-    com.hannamsm.shop: debug
+#Server HTTP port
+server:
+  port: 8081
+
+#Server AJP port
+tomcat:
+  ajp-enabled: true
+  ajp-protocol: AJP/1.3
+  ajp-port: 18009
 
 --- #test 환경
 spring:
@@ -69,10 +65,15 @@ spring:
     username: shopdev
     password: WVit#2020
 
-logging:
-  level:
-    root: info
-    com.hannamsm.shop: debug
+#Server HTTP port
+server:
+  port: 8081
+
+#Server AJP port
+tomcat:
+  ajp-enabled: true
+  ajp-protocol: AJP/1.3
+  ajp-port: 18009
 
 --- #real 환경
 spring:
@@ -84,7 +85,12 @@ spring:
     username: shopdev
     password: WVit#2020
 
-logging:
-  level:
-    root: info
-    com.hannamsm.shop: debug
+#Server HTTP port
+server:
+  port: 8081
+
+#Server AJP port
+tomcat:
+  ajp-enabled: true
+  ajp-protocol: AJP/1.3
+  ajp-port: 18009
