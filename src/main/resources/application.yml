@@ -27,13 +27,6 @@ my-app:
   client-id: HNS-SHOP
   client-secret: pass
 
-
-logging:
-#  config: classpath:logback-spring.xml
-#  file.path: C:/Hannam/hns-shop-sry/logs
-#  file: hns-shop-local
-  level:
-    root: info
     
 --- #local 환경
 spring:
@@ -54,6 +47,12 @@ tomcat:
   ajp-enabled: true
   ajp-protocol: AJP/1.3
   ajp-port: 18009
+  
+logging:
+  file:
+    path: C:/Hannam/hns-shop-sry/logs
+  level:
+    root: info
 
 --- #test 환경
 spring:
@@ -75,6 +74,12 @@ tomcat:
   ajp-protocol: AJP/1.3
   ajp-port: 18009
 
+logging:
+  file:
+    path: C:/Hannam/hns-shop-sry/logs
+  level:
+    root: info
+
 --- #real 환경
 spring:
   profiles: real
@@ -94,3 +99,9 @@ tomcat:
   ajp-enabled: true
   ajp-protocol: AJP/1.3
   ajp-port: 18009
+  
+logging:
+  file:
+    path: C:/Hannam/hns-shop-sry/logs
+  level:
+    root: info
