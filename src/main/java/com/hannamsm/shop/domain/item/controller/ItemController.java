@@ -3,6 +3,8 @@ package com.hannamsm.shop.domain.item.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +20,11 @@ import com.hannamsm.shop.domain.item.vo.ItemSearch;
 import com.hannamsm.shop.global.vo.ResponseResutl;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
+
 @RestController
 @RequestMapping(value="/api/item", produces = MediaTypes.HAL_JSON_VALUE)
 public class ItemController {
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private ItemService itemService;
@@ -35,6 +39,9 @@ public class ItemController {
             @RequestParam(value = "itemName", defaultValue = "") String itemName,
             @RequestParam(value = "itemCategory", defaultValue = "") String itemCategory,
             @RequestParam(value = "itemSort", defaultValue = "O0") String itemSort) throws Exception {
+		log.debug("================= queryItems start =================");
+
+
 		if(storeId == null || storeId.isEmpty()) {
 			throw new Exception("storeId is null!!!");
 		}
@@ -62,6 +69,7 @@ public class ItemController {
         resResult.setResultList(list);
         resResult.update();
 
+        log.debug("================= queryItems end =================");
         return ResponseEntity.ok(resResult);
 	}
 

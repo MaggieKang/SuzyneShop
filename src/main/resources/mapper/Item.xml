@@ -5,6 +5,7 @@
 select count(item_id) as totalCount
   from item
  where store_id = #{storeId}
+   and is_use = 1
     <if test="itemName != null and itemName != ''">
    and (item_kr_nm like '%'+#{itemName}+'%' or item_en_nm like '%'+#{itemName}+'%')
     </if>
@@ -22,6 +23,11 @@ select item_id              as itemId
      , receiving_price      as receivingPrice
      , regular_price        as regularPrice
      , category_cd          as categoryCd
+     , (select category_nm from category where store_id = a.store_id and category_cd = a.category_cd) as categoryNm
+     , (select c.category_nm
+          from category b
+               left join category c on c.store_id = b.parent_store_id and c.category_cd = b.parent_category_cd
+         where b.store_id = a.store_id and b.category_cd = a.category_cd) as parentCategoryNm
      , item_tax_cd          as itemTaxCd
      , item_deposit_cd      as itemDepositCd
      , item_eco_cd          as itemEcoCd
@@ -37,10 +43,10 @@ select item_id              as itemId
      , prod_id              as prodId
      , item_type            as itemType
      , item_type2           as itemType2
-     , (case when promotion_start_date <![CDATA[<]]> getdate() and getdate() <![CDATA[<]]> promotion_end_date then promotion_price
+     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then promotion_price
              else regular_price
         end) as salesPrice
-     , (case when promotion_start_date <![CDATA[<]]> getdate() and getdate() <![CDATA[<]]> promotion_end_date then ceiling(((regular_price - promotion_price)/regular_price)*100)
+     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then ceiling(((regular_price - promotion_price)/regular_price)*100)
              else 0
         end) as discountRate --(정가-할인가)/정가
      , 'http://placehold.it/160x180' as imgUrl
@@ -49,8 +55,9 @@ select item_id              as itemId
      , reg_person           as regPerson
      , last_mod_date        as lastModDate
      , last_mod_person      as lastModPerson
-  from item
+  from item a
  where store_id = #{storeId}
+   and is_use = 1
     <if test="itemName != null and itemName != ''">
    and (item_kr_nm like '%'+#{itemName}+'%' or item_en_nm like '%'+#{itemName}+'%')
     </if>
@@ -79,6 +86,11 @@ select item_id              as itemId
      , receiving_price      as receivingPrice
      , regular_price        as regularPrice
      , category_cd          as categoryCd
+     , (select category_nm from category where store_id = a.store_id and category_cd = a.category_cd) as categoryNm
+     , (select c.category_nm
+          from category b
+               left join category c on c.store_id = b.parent_store_id and c.category_cd = b.parent_category_cd
+         where b.store_id = a.store_id and b.category_cd = a.category_cd) as parentCategoryNm
      , item_tax_cd          as itemTaxCd
      , item_deposit_cd      as itemDepositCd
      , item_eco_cd          as itemEcoCd
@@ -94,14 +106,22 @@ select item_id              as itemId
      , prod_id              as prodId
      , item_type            as itemType
      , item_type2           as itemType2
+     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then promotion_price
+             else regular_price
+        end) as salesPrice
+     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then ceiling(((regular_price - promotion_price)/regular_price)*100)
+             else 0
+        end) as discountRate --(정가-할인가)/정가
+     , 'http://placehold.it/300x265' as imgUrl
      , is_use               as isUse
      , reg_date             as regDate
      , reg_person           as regPerson
      , last_mod_date        as lastModDate
      , last_mod_person      as lastModPerson
-  from item
+  from item a
  where store_id = #{storeId}
    and item_id = #{itemId}
+   and is_use = 1
 </select>
 
 <select id="findByName" parameterType="com.hannamsm.shop.domain.item.vo.ItemSearch" resultType="com.hannamsm.shop.domain.item.vo.Item">
@@ -113,6 +133,11 @@ select item_id              as itemId
      , receiving_price      as receivingPrice
      , regular_price        as regularPrice
      , category_cd          as categoryCd
+     , (select category_nm from category where store_id = a.store_id and category_cd = a.category_cd) as categoryNm
+     , (select c.category_nm
+          from category b
+               left join category c on c.store_id = b.parent_store_id and c.category_cd = b.parent_category_cd
+         where b.store_id = a.store_id and b.category_cd = a.category_cd) as parentCategoryNm
      , item_tax_cd          as itemTaxCd
      , item_deposit_cd      as itemDepositCd
      , item_eco_cd          as itemEcoCd
@@ -128,14 +153,22 @@ select item_id              as itemId
      , prod_id              as prodId
      , item_type            as itemType
      , item_type2           as itemType2
+     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then promotion_price
+             else regular_price
+        end) as salesPrice
+     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then ceiling(((regular_price - promotion_price)/regular_price)*100)
+             else 0
+        end) as discountRate --(정가-할인가)/정가
+     , 'http://placehold.it/300x265' as imgUrl
      , is_use               as isUse
      , reg_date             as regDate
      , reg_person           as regPerson
      , last_mod_date        as lastModDate
      , last_mod_person      as lastModPerson
-  from item
+  from item a
  where store_id = #{storeId}
    and (item_kr_nm like '%'+ #{itemName} + '%' or item_en_nm like '%'+ #{itemName} +'%')
+   and is_use = 1
 </select>
 
 </mapper>

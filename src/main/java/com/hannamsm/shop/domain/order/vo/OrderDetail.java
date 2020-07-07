@@ -15,8 +15,11 @@ import lombok.ToString;
 @Getter @Setter @ToString
 public class OrderDetail {
 	private String orderId;
-	private String itemId;
 	private String storeId;
+	private String itemId;
+	private String itemKrNm;
+	private String itemEnNm;
+	private String itemSize;
 	private String itemTaxCd;
 	private String item_deposit_cd;
 	private String itemEcoCd;
@@ -30,11 +33,13 @@ public class OrderDetail {
 	private BigDecimal eachDepositFee;
 	private BigDecimal receivingPrice;
 	private BigDecimal regularPrice;
+	private int discountRate;
 	private int promotionBundleQty;
 	private LocalDateTime promotionStartDate;
 	private LocalDateTime promotionEndDate;
 	private BigDecimal promotionPrice;
 	private String invoiceId;
+	private String imgUrl;
 	private LocalDateTime regDate;
 	private String regPerson;
 	private LocalDateTime lastModDate;

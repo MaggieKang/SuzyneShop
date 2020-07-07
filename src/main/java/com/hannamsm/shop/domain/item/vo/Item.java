@@ -24,6 +24,8 @@ public class Item {
 	private BigDecimal receivingPrice;
 	private BigDecimal regularPrice;
 	private String categoryCd;
+	private String categoryNm;
+	private String parentCategoryNm;
 	private String itemTaxCd;
 	private String itemDepositCd;
 	private String itemEcoCd;

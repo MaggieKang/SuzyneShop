@@ -4,12 +4,16 @@
 
 <select id="findBySlotDt" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
 select slot_dt         as slotDt
-     , FORMAT(CAST(slot_time AS datetime), 'hh:mm') as slotTime
+     , FORMAT(CAST(slot_time AS datetime), 'HH:mm') as slotTime
      , format(cast(slot_time AS datetime), 'hh tt') as startDisplaySlotTime
      , format(cast(dateadd(hour, 1, slot_time) AS datetime), 'hh tt') as endDisplaySlotTime
      , store_id        as storeId
      , allocation_qty  as allocationQty
      , completion_qty  as completionQty
+     , (case when completion_qty >= allocation_qty then 0
+             when dateadd(hour,1,getdate()) > convert(datetime, CONVERT(varchar,slot_dt,23) +' '+ CONVERT(varchar,FORMAT(CAST(slot_time AS datetime), 'HH:mm:ss'),114), 121) then 0
+             else 1
+       end) as pickupAvailable
      , reg_date        as regDate
      , reg_person      as regPerson
      , last_mod_date   as lastModDate
@@ -21,12 +25,16 @@ select slot_dt         as slotDt
 
 <select id="findBySlotTime" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
 select slot_dt         as slotDt
-     , FORMAT(CAST(slot_time AS datetime), 'hh:mm') as slotTime
+     , FORMAT(CAST(slot_time AS datetime), 'HH:mm') as slotTime
      , format(cast(slot_time AS datetime), 'hh tt') as startDisplaySlotTime
      , format(cast(dateadd(hour, 1, slot_time) AS datetime), 'hh tt') as endDisplaySlotTime
      , store_id        as storeId
      , allocation_qty  as allocationQty
      , completion_qty  as completionQty
+     , (case when completion_qty >= allocation_qty then 0
+             when dateadd(hour,1,getdate()) > convert(datetime, CONVERT(varchar,slot_dt,23) +' '+ CONVERT(varchar,FORMAT(CAST(slot_time AS datetime), 'HH:mm:ss'),114), 121) then 0
+             else 1
+       end) as pickupAvailable
      , reg_date        as regDate
      , reg_person      as regPerson
      , last_mod_date   as lastModDate
@@ -39,7 +47,9 @@ select slot_dt         as slotDt
 
 <select id="getNumberAvailable" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="int">
 select isnull((
-	select (allocation_qty - completion_qty) as  numberAvailable
+	select (case when dateadd(hour,1,getdate()) > convert(datetime, CONVERT(varchar,slot_dt,23) +' '+ CONVERT(varchar,FORMAT(CAST(slot_time AS datetime), 'HH:mm:ss'),114), 121) then 0
+                 else (allocation_qty - completion_qty)
+           end) as numberAvailable
 	  from pickup_timeslot
 	 where store_id = #{storeId}
 	   and slot_dt = #{slotDt}

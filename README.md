@@ -35,45 +35,42 @@
 
 Local DB 환경구성 (Docker 추천)
 >docker sql server 설치
->1. 이미지 다운로드
+>1. 이미지 다운로드  
 >docker pull mcr.microsoft.com/mssql/server:2019-latest
 >
->2. 이미지 조회
+>2. 이미지 조회  
 >docker images
 >
->2. 컨테이너 생성
->docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pa33word" -p1433:1433 --name sql2019 -d 이미지ID
->
->3. SQL Server 연결
->sql2019은 컨테이너 생성 시 지정한 이름
->실행 중인 컨테이너 내에서 대화형 bash 셸 시작
+>2. 컨테이너 생성  
+>docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Pa33word" -p1433:1433 -v /etc/localtime:/etc/localtime:ro -e TZ=Canada/Pacific --name sql2019 -d 이미지ID
+>3. SQL Server 연결  
 >docker exec -it sql2019 "bash"
 >
->4. 컨테이너 내부로 들어가면 sqlcmd를 사용하여 로컬로 연결
+>4. 컨테이너 내부로 들어가면 sqlcmd를 사용하여 로컬로 연결  
 >/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Pa33word'
 >
->5. db 생성
->create database wholesaleDB
+>5. db 생성  
+>create database hnsshop collate korean_wansung_ci_as
 >
->6. db 조회
+>6. db 조회  
 >SELECT Name from sys.Databases
 
 프로젝트 필수 스크립트 DDL & Data 사용 (DBeaver 사용 권장)
->/HNS-SHOP/src/main/resources/sechema.sql
+>/HNS-SHOP/src/main/resources/sechema.sql  
 >/HNS-SHOP/src/main/resources/defult_data.sql
 
 sts 환경구성
-> openJdk 11 설정
-> utf-8 설정
-> ERD 플러그인 설정
+> openJdk 11 설정  
+> utf-8 설정  
+> ERD 플러그인 설정  
 > [lombok설치][lombokInstall-link]
 
 [lombokInstall-link]: https://medium.com/@dongchimi/%EC%9D%B4%ED%81%B4%EB%A6%BD%EC%8A%A4%EC%97%90-lombok-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-b3489875780b "lombok설치"
 
 
 소스 복사
-> workspace 에서 git clone 사용
-> sts forder import 사용
+> workspace 에서 git clone 사용  
+> sts forder import 사용  
 
 로컬 환경 Windows 10 64bit에 IIS와 Spring boot를 설치하고 연동하기
 [IIS Spring boot Connector 연결][iis2springbootlink]
@@ -81,7 +78,7 @@ sts 환경구성
 [iis2springbootlink]: https://offbyone.tistory.com/322 "IIS Spring boot Connector 연결"
 
 
-Junit5
+Junit5  
 테스트는 테스트 참고하세요.
 
 
