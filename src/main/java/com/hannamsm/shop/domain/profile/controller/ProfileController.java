@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hannamsm.shop.domain.account.vo.Account;
 import com.hannamsm.shop.domain.profile.service.ProfileService;
 import com.hannamsm.shop.domain.profile.vo.Customer;
+import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResutl;
 
 @RestController
@@ -24,10 +25,13 @@ public class ProfileController {
 	/*
 	 * Profile 조회
 	 */
-	@GetMapping("/{accountId}")
-	public ResponseEntity queryProfile(@PathVariable String accountId) throws Exception {
+	@GetMapping
+	public ResponseEntity queryProfile(@CurrentUser Account account) throws Exception {
+		
+		Customer customer = new Customer();
+		customer.setAccountId(account.getAccountId());
 
-		Optional<Customer> optionaProfile = this.profileService.findById(accountId);
+		Optional<Customer> optionaProfile = this.profileService.findById(customer);
 		if(optionaProfile.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
