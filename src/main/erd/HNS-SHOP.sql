@@ -78,8 +78,12 @@ CREATE TABLE [account_address]
 	[city] varchar(20),
 	-- 주
 	[province] varchar(20),
+	-- 국가
+	[country] varchar(20),
 	-- 우편번호
 	[postal_cd] varchar(10) NOT NULL,
+	-- 기본주소여부
+	[is_default_address] bit DEFAULT '0',
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -323,6 +327,8 @@ CREATE TABLE [customer]
 	[customer_email] varchar(200),
 	-- 고객전화번호 : customer phone number
 	[customer_phone_number] varchar(20),
+	-- 내선번호
+	[extension_nember] varchar(10),
 	-- 고객성별
 	[customer_gender] varchar(10),
 	-- 고객한글이름
