@@ -30,6 +30,9 @@ public class Item {
 	private String itemDepositCd;
 	private String itemEcoCd;
 	private String itemSize;
+	private String itemBrand;
+    private String itemWeight;
+    private String itemWeightUnit;
 	private String saleUnit;
     private int promotionBundleQty;
 	private LocalDateTime promotionStartDate;

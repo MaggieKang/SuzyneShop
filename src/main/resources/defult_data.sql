@@ -27,9 +27,11 @@ INSERT INTO oauth_client_details (client_id,resource_ids,client_secret,[scope],a
 ('HNS-SHOP',NULL,'pass','read,write','password,refresh_token',NULL,NULL,3000,6000,NULL,'false');
 
 INSERT INTO account (account_id,password,is_expired,is_locked,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
- ('1006','1234',0,0,1,getdate(),'sysadmin',getdate(),'sysadmin')
-,('9000','1234',0,0,1,getdate(),'sysadmin',getdate(),'sysadmin')
+ ('9000','1234',0,0,1,getdate(),'sysadmin',getdate(),'sysadmin')
 ,('9001','1234',0,0,0,getdate(),'sysadmin',getdate(),'sysadmin');
+
+INSERT INTO admin_account (account_id,password,is_expired,is_locked,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+ ('admin1','1234',0,0,1,getdate(),'sysadmin',getdate(),'sysadmin');
 
 INSERT INTO account_authority (account_id,auth_cd,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
  ('1006','ADMIN',getdate(),'sysadmin',getdate(),'sysadmin')
@@ -366,10 +368,10 @@ INSERT INTO category (store_id, parent_store_id, category_cd, category_nm, categ
 ,('st002','st002','L23599','과일 기타','과일 기타','L135', getDate(),'sysadmin', getDate(),'sysadmin')
 ,('st002','st002','L20108','기타','기타','L101', getDate(),'sysadmin', getDate(),'sysadmin');
 
-INSERT INTO customer (account_id,customer_nm,customer_email,customer_phone_number,customer_gender,customer_kr_nm,customer_en_nm,customer_lang_cd,membership_no,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
- ('1006','customer_nm1006','1006_email@gmail.com','123-123-1234','mail','이름1006','en_name1006','kr',1234,getDate(),'sysadmin',getDate(),'sysadmin')
-,('9000','customer_nm9000','9000_email@gmail.com','123-123-1235','mail','이름9000','en_name9000','kr',1235,getDate(),'sysadmin',getDate(),'sysadmin')
-,('9001','customer_nm9001','9001_email@gmail.com','123-123-1236','mail','이름9001','en_name9001','en',1236,getDate(),'sysadmin',getDate(),'sysadmin');
+INSERT INTO customer (account_id,first_name, last_name ,customer_email,customer_phone_number,customer_gender,customer_kr_nm,customer_en_nm,customer_lang_cd,membership_no,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+ ('1006','first_name','last_name','1006_email@gmail.com','123-123-1234','mail','이름1006','en_name1006','kr',1234,getDate(),'sysadmin',getDate(),'sysadmin')
+,('9000','first_name','last_name','9000_email@gmail.com','123-123-1235','mail','이름9000','en_name9000','kr',1235,getDate(),'sysadmin',getDate(),'sysadmin')
+,('9001','first_name','last_name','9001_email@gmail.com','123-123-1236','mail','이름9001','en_name9001','en',1236,getDate(),'sysadmin',getDate(),'sysadmin');
 
 INSERT INTO pickup_timeslot (slot_dt,slot_time,allocation_qty,completion_qty,store_id,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
  ('2020-07-01','09:00:00',10,0,'st002',getDate(),'sysadmin',getDate(),'sysadmin')

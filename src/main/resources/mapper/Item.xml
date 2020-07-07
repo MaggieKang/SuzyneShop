@@ -32,6 +32,9 @@ select item_id              as itemId
      , item_deposit_cd      as itemDepositCd
      , item_eco_cd          as itemEcoCd
      , item_size            as itemSize
+     , item_brand           as itemBrand
+     , item_weight          as itemWeight
+     , item_weight_unit     as itemWeightUnit
      , sale_unit            as saleUnit
      , promotion_bundle_qty as promotionBundleQty
      , promotion_start_date as promotionStartDate
@@ -95,6 +98,9 @@ select item_id              as itemId
      , item_deposit_cd      as itemDepositCd
      , item_eco_cd          as itemEcoCd
      , item_size            as itemSize
+     , item_brand           as itemBrand
+     , item_weight          as itemWeight
+     , item_weight_unit     as itemWeightUnit
      , sale_unit            as saleUnit
      , promotion_bundle_qty as promotionBundleQty
      , promotion_start_date as promotionStartDate
@@ -142,6 +148,9 @@ select item_id              as itemId
      , item_deposit_cd      as itemDepositCd
      , item_eco_cd          as itemEcoCd
      , item_size            as itemSize
+     , item_brand           as itemBrand
+     , item_weight          as itemWeight
+     , item_weight_unit     as itemWeightUnit
      , sale_unit            as saleUnit
      , promotion_bundle_qty as promotionBundleQty
      , promotion_start_date as promotionStartDate
