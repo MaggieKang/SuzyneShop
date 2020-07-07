@@ -12,7 +12,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
-public class CartSummery {
+public class CartSummary {
 	private int totalQty;
 	private BigDecimal totalSalesPrice;
 	private BigDecimal totalGstFee;

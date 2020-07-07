@@ -5,14 +5,14 @@ import java.util.Optional;
 
 import com.hannamsm.shop.domain.cart.vo.CartItem;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
-import com.hannamsm.shop.domain.cart.vo.CartSummery;
+import com.hannamsm.shop.domain.cart.vo.CartSummary;
 
 public interface CartDao {
 	public int findByAccountIdCount(CartItemSearch cartItemSearch) throws Exception;
 
 	public List<CartItem> findByAccountId(CartItemSearch cartItemSearch) throws Exception;
 
-	public CartSummery findSummeryByAccountId(CartItemSearch cartItemSearch) throws Exception;
+	public CartSummary findSummaryByAccountId(CartItemSearch cartItemSearch) throws Exception;
 
 	public Optional<CartItem> findByItemId(CartItem cartItem) throws Exception;
 

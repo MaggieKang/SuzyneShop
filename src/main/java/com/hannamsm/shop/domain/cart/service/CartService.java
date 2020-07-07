@@ -13,7 +13,7 @@ import com.hannamsm.shop.domain.cart.exception.CartItemNotFoundException;
 import com.hannamsm.shop.domain.cart.vo.CartItem;
 import com.hannamsm.shop.domain.cart.vo.CartItemDto;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
-import com.hannamsm.shop.domain.cart.vo.CartSummery;
+import com.hannamsm.shop.domain.cart.vo.CartSummary;
 import com.hannamsm.shop.domain.item.dao.ItemDao;
 import com.hannamsm.shop.domain.item.vo.Item;
 import com.hannamsm.shop.domain.item.vo.ItemSearch;
@@ -35,8 +35,8 @@ public class CartService {
 		return cartDao.findByAccountId(cartItemSearch);
 	}
 
-	public CartSummery findSummeryByAccountId(CartItemSearch cartItemSearch) throws Exception {
-		return cartDao.findSummeryByAccountId(cartItemSearch);
+	public CartSummary findSummaryByAccountId(CartItemSearch cartItemSearch) throws Exception {
+		return cartDao.findSummaryByAccountId(cartItemSearch);
 	}
 
 	public int addCartItem(CartItemDto cartItemDto) throws Exception {

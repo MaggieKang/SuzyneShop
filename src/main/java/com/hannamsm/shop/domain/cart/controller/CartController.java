@@ -22,7 +22,7 @@ import com.hannamsm.shop.domain.cart.service.CartService;
 import com.hannamsm.shop.domain.cart.vo.CartItem;
 import com.hannamsm.shop.domain.cart.vo.CartItemDto;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
-import com.hannamsm.shop.domain.cart.vo.CartSummery;
+import com.hannamsm.shop.domain.cart.vo.CartSummary;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResutl;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
@@ -90,8 +90,8 @@ public class CartController {
 	}
 
 	// 장바구니 Summary 조회
-	@GetMapping("/summery")
-	public ResponseEntity queryCartSummery(@RequestParam(value = "storeId", defaultValue = "") String storeId,
+	@GetMapping("/summary")
+	public ResponseEntity queryCartSummary(@RequestParam(value = "storeId", defaultValue = "") String storeId,
 			@CurrentUser Account account) throws Exception {
 		if(storeId==null || storeId.isEmpty()) {
 			throw new Exception("storeId is null!!!");
@@ -101,11 +101,11 @@ public class CartController {
 		cartItemSearch.setAccountId(account.getAccountId());
 		cartItemSearch.setStoreId(storeId);
 
-		CartSummery cartSummery = this.cartService.findSummeryByAccountId(cartItemSearch);
+		CartSummary cartSummary = this.cartService.findSummaryByAccountId(cartItemSearch);
 
-		ResponseResutl<CartSummery> result = new ResponseResutl<CartSummery>();
+		ResponseResutl<CartSummary> result = new ResponseResutl<CartSummary>();
 		result.setMessage("조회하였습니다.");
-		result.setResult(cartSummery);
+		result.setResult(cartSummary);
 		return ResponseEntity.ok(result);
 	}
 
