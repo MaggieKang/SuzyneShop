@@ -2,20 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.profile.dao.ProfileDao">
 <select id="findById" parameterType="String" resultType="com.hannamsm.shop.domain.profile.vo.Customer">
-select account_id            as accountId
-     , customer_nm           as customerNm
-     , customer_email        as customerEmail
-     , customer_phone_number as customerPhoneNumber
-     , customer_gender       as customerGender
-     , customer_kr_nm        as customerKrNm
-     , customer_en_nm        as customerEnNm
-     , customer_lang_cd      as customerLangCd
-     , membership_no         as membershipNo
-     , reg_date              as regDate
-     , reg_person            as regPerson
-     , last_mod_date         as lastModDate
-     , last_mod_person       as lastModPerson
-  from customer
- where account_id = #{accountId}
+SELECT a.account_id AS accountId
+	   ,b.customer_nm AS customerNm
+	   ,b.customer_email AS customerEmail	   
+	   ,b.customer_phone_number  AS customerPhoneNumber
+	   ,c.address AS Address
+	   ,c.city AS City
+	   ,c.province AS Province
+	   ,c.postal_cd AS postalCd	   
+FROM account a 
+LEFT OUTER JOIN customer b ON b.account_id = a.account_id 
+LEFT OUTER JOIN account_address c ON c.account_id = a.account_id 
+WHERE a.account_id = #{accountId}
 </select>
 </mapper>

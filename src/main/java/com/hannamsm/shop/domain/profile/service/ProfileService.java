@@ -14,8 +14,8 @@ public class ProfileService {
 	@Autowired
 	ProfileDao profileDao;
 
-	public Optional<Customer> findById(String id) throws Exception {
-		return this.profileDao.findById(id);
+	public Optional<Customer> findById(Customer customer) throws Exception {
+		return this.profileDao.findById(customer);
 	}
 
 }

@@ -21,7 +21,11 @@ public class ProfileDaoTest extends BaseDaoTest {
 	@Test
 	@DisplayName("고객 Profile 조회 테스트")
 	public void findById() throws Exception {
-		Optional<Customer> profile = this.profileDao.findById("9000");
+		Customer customer = Customer.builder()
+				.accountId("9000")
+				.build();
+		
+		Optional<Customer> profile = this.profileDao.findById(customer);
 		System.out.println(profile.toString());
 
 		assertAll("profile",
