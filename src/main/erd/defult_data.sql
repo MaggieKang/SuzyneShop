@@ -24,7 +24,8 @@ CREATE TABLE [oauth_client_details] (
 );
 
 INSERT INTO oauth_client_details (client_id,resource_ids,client_secret,[scope],authorized_grant_types,web_server_redirect_uri,authorities,access_token_validity,refresh_token_validity,additional_information,autoapprove) VALUES
-('HNS-SHOP',NULL,'pass','read,write','password,refresh_token',NULL,NULL,3000,6000,NULL,'false');
+ ('HNS-SHOP',NULL,'pass','read,write','password,refresh_token',NULL,NULL,3000,6000,NULL,'false')
+,('HNS-SHOP-ADMIN',NULL,'pass','read,write','password,refresh_token',NULL,NULL,3000,6000,NULL,'false');
 
 INSERT INTO account (account_id,password,is_expired,is_locked,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
  ('9000','1234',0,0,1,getdate(),'sysadmin',getdate(),'sysadmin')
