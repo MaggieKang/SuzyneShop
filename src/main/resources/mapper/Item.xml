@@ -52,7 +52,8 @@ select item_id              as itemId
      , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then ceiling(((regular_price - promotion_price)/regular_price)*100)
              else 0
         end) as discountRate
-     , 'http://placehold.it/300x263' as imgUrl
+     --, 'http://placehold.it/300x263' as imgUrl
+     , '/upload/items/2016072001736_1.jpg' as imgUrl
      , is_use               as isUse
      , reg_date             as regDate
      , reg_person           as regPerson
@@ -118,7 +119,8 @@ select item_id              as itemId
      , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then ceiling(((regular_price - promotion_price)/regular_price)*100)
              else 0
         end) as discountRate --(정가-할인가)/정가
-     , 'http://placehold.it/300x263' as imgUrl
+     --, 'http://placehold.it/300x263' as imgUrl
+     , '/upload/items/2016072001736_1.jpg' as imgUrl
      , is_use               as isUse
      , reg_date             as regDate
      , reg_person           as regPerson
