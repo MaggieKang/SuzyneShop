@@ -3,13 +3,17 @@
 <mapper namespace="com.hannamsm.shop.domain.profile.dao.ProfileDao">
 <select id="findById" parameterType="String" resultType="com.hannamsm.shop.domain.profile.vo.Customer">
 SELECT a.account_id AS accountId
-	   ,b.customer_nm AS customerNm
+	   ,b.first_name AS firstName
+	   ,b.last_name AS lastName
 	   ,b.customer_email AS customerEmail	   
 	   ,b.customer_phone_number  AS customerPhoneNumber
-	   ,c.address AS Address
-	   ,c.city AS City
-	   ,c.province AS Province
-	   ,c.postal_cd AS postalCd	   
+	   ,b.extension_nember  AS extensionNumber
+	   ,c.address AS address
+	   ,c.city AS city
+	   ,c.province AS province
+	   ,c.country AS country
+	   ,c.postal_cd AS postalCd
+	   ,c.is_default_address AS isDefaultAddress
 FROM account a 
 LEFT OUTER JOIN customer b ON b.account_id = a.account_id 
 LEFT OUTER JOIN account_address c ON c.account_id = a.account_id 

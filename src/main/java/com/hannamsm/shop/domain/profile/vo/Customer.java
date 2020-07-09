@@ -1,7 +1,5 @@
 package com.hannamsm.shop.domain.profile.vo;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,20 +12,16 @@ import lombok.ToString;
 @Getter @Setter @ToString
 public class Customer {
 	private String accountId;
-	private String customerNm;
+	private String firstName;
+	private String lastName;
 	private String customerEmail;
 	private String customerPhoneNumber;
-	private String Address;
-	private String City;
-	private String Province;
-	private String postalCd;	
-//	private String customerGender;
-//	private String customerKrNm;
-//	private String customerEnNm;
-//	private String customerLangCd;
-//	private int membershipNo;
-//	private LocalDateTime regDate;
-//	private String regPerson;
-//	private LocalDateTime lastModDate;
-//	private String lastModPerson;
+	private String extensionNumber;
+	private String address;
+	private String city;
+	private String province;
+	private String country;
+	private String postalCd;
+	private boolean isDefaultAddress;
+
 }
