@@ -23,6 +23,6 @@ public class StoreSearch {
 	}
 
 	public void updatePaging() {
-		this.startRownum = (page - 1) * listSize + 1 ;
+		this.startRownum = (page - 1) * listSize;
 	}
 }

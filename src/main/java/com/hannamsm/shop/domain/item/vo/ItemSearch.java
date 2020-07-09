@@ -28,6 +28,6 @@ public class ItemSearch {
 	}
 
 	public void updatePaging() {
-		this.startRownum = (page - 1) * (listSize + 1) ;
+		this.startRownum = (page - 1) * listSize;
 	}
 }
