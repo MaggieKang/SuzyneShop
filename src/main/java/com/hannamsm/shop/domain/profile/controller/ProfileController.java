@@ -2,10 +2,15 @@ package com.hannamsm.shop.domain.profile.controller;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,5 +45,31 @@ public class ProfileController {
 		result.setMessage("조회하였습니다.");
 		result.setResult(optionaProfile.get());
 		return ResponseEntity.ok(result);
+	}
+	
+	@PutMapping(value = "/saveProfile", produces = MediaTypes.HAL_JSON_VALUE)
+	public ResponseEntity saveProfile(@RequestBody @Valid Customer reqCustomer
+									, @CurrentUser Account account) throws Exception {
+		
+		reqCustomer.setAccountId(account.getAccountId());
+		profileService.saveProfile(reqCustomer);
+		
+		ResponseResutl<Customer> resResult = new ResponseResutl<Customer>();
+		resResult.setMessage("저장 되었습니다.");
+		resResult.setResult(reqCustomer);			
+		return ResponseEntity.ok(resResult);
+	}
+	@PutMapping(value = "/saveAddress", produces = MediaTypes.HAL_JSON_VALUE)
+	public ResponseEntity saveAddress(@RequestBody @Valid Customer reqCustomer
+									, @CurrentUser Account account) throws Exception {
+		
+		reqCustomer.setAccountId(account.getAccountId());
+		profileService.saveAddress(reqCustomer);	
+		System.out.println(reqCustomer.toString());
+		
+		ResponseResutl<Customer> resResult = new ResponseResutl<Customer>();
+		resResult.setMessage("저장 되었습니다.");
+		resResult.setResult(reqCustomer);			
+		return ResponseEntity.ok(resResult);
 	}
 }
