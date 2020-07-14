@@ -28,7 +28,7 @@ public class AccountController {
 	@Autowired
 	AccountService accountService;
 
-	//회원가입 ok 
+	//회원가입 test
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public AuthenticationToken join(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {
 		String userEmail = authenticationRequest.getUsername();
