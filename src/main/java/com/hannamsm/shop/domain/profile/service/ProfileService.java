@@ -17,5 +17,11 @@ public class ProfileService {
 	public Optional<Customer> findById(Customer customer) throws Exception {
 		return this.profileDao.findById(customer);
 	}
+	public int saveProfile(Customer customer) throws Exception{	
+		return profileDao.saveProfile(customer);
+	}
+	public int saveAddress(Customer customer) throws Exception{	
+		return profileDao.saveAddress(customer);
+	}
 
 }

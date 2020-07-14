@@ -31,4 +31,22 @@ public class ProfileDaoTest extends BaseDaoTest {
 		assertAll("profile",
 				()->assertNotNull(profile));
 	}
+	
+	@Test
+	@DisplayName("profile 저장 테스트")
+	public void save() throws Exception{
+		Customer customer = Customer.builder()
+				.accountId("9000")
+				.firstName("ss")
+				.lastName("baek")
+				.customerEmail("1234@gmail.com")
+				.customerPhoneNumber("123-456-7897")
+				.extensionNumber(null)
+				.build();
+		int count = this.profileDao.saveProfile(customer);
+		System.out.println(count);
+		
+		assertAll("saveCount",
+						()->assertNotNull(count));
+	}
 }
