@@ -43,6 +43,8 @@ CREATE TABLE [account]
 (
 	-- 계정ID : 계정 ID
 	[account_id] varchar(20) NOT NULL UNIQUE,
+	-- 계정이메일
+	[account_email] varchar(200) NOT NULL,
 	-- 비밀번호 : 비밀번호
 	[password] varchar(500) NOT NULL,
 	-- 만료여부 : 만료 여부
@@ -52,7 +54,7 @@ CREATE TABLE [account]
 	-- (locked:1, unlocked:0)
 	[is_locked] bit NOT NULL,
 	-- 사용여부
-	[is_use] bit,
+	[is_use] bit NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -434,8 +436,14 @@ CREATE TABLE [item]
 	-- 상품유형2 : 상품 Type - "08" 베이커리 6개 이상 구매시 Non Tax
 	-- 
 	[item_type2] nvarchar(2),
+	-- 이벤트태그
+	[event_tag] varchar(10),
+	-- 상품설명
+	[item_description] varchar(max),
+	-- 설명출력여부
+	[is_description_display] bit DEFAULT '1',
 	-- 사용여부
-	[is_use] bit,
+	[is_use] bit DEFAULT '1',
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자

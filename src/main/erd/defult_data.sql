@@ -27,9 +27,9 @@ INSERT INTO oauth_client_details (client_id,resource_ids,client_secret,[scope],a
  ('HNS-SHOP',NULL,'pass','read,write','password,refresh_token',NULL,NULL,3000,6000,NULL,'false')
 ,('HNS-SHOP-ADMIN',NULL,'pass','read,write','password,refresh_token',NULL,NULL,3000,6000,NULL,'false');
 
-INSERT INTO account (account_id,password,is_expired,is_locked,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
- ('9000','1234',0,0,1,getdate(),'sysadmin',getdate(),'sysadmin')
-,('9001','1234',0,0,0,getdate(),'sysadmin',getdate(),'sysadmin');
+INSERT INTO account (account_id,account_email,password,is_expired,is_locked,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+ ('9000','dev9000@gmail.com','1234',0,0,1,getdate(),'sysadmin',getdate(),'sysadmin')
+,('9001','dev9001@gmail.com','1234',0,0,0,getdate(),'sysadmin',getdate(),'sysadmin');
 
 INSERT INTO admin_account (account_id,password,is_expired,is_locked,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
  ('admin1','1234',0,0,1,getdate(),'sysadmin',getdate(),'sysadmin');

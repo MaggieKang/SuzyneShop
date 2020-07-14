@@ -47,6 +47,8 @@ public class Item {
 	private BigDecimal salesPrice;
     private int discountRate;
     private String imgUrl;
+    private String eventTag;
+    private String itemDescription;
 	private boolean isUse;
 	private LocalDateTime regDate;
 	private String regPerson;

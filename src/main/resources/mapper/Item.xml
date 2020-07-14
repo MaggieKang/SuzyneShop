@@ -54,6 +54,8 @@ select item_id              as itemId
         end) as discountRate
      --, 'http://placehold.it/300x263' as imgUrl
      , '/upload/items/2016072001736_1.jpg' as imgUrl
+     , event_tag            as eventTag
+     , item_description     as itemDescription
      , is_use               as isUse
      , reg_date             as regDate
      , reg_person           as regPerson
@@ -121,6 +123,8 @@ select item_id              as itemId
         end) as discountRate --(정가-할인가)/정가
      --, 'http://placehold.it/300x263' as imgUrl
      , '/upload/items/2016072001736_1.jpg' as imgUrl
+     , event_tag            as eventTag
+     , item_description     as itemDescription
      , is_use               as isUse
      , reg_date             as regDate
      , reg_person           as regPerson
@@ -171,6 +175,8 @@ select item_id              as itemId
              else 0
         end) as discountRate --(정가-할인가)/정가
      , 'http://placehold.it/300x265' as imgUrl
+     , event_tag            as eventTag
+     , item_description     as itemDescription
      , is_use               as isUse
      , reg_date             as regDate
      , reg_person           as regPerson
