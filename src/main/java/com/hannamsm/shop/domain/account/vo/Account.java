@@ -18,6 +18,7 @@ public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 
     private String accountId;
+    private String accountEmail;
     private String password;
     //계정이 만료되었는지
     private boolean isExpired;

@@ -23,21 +23,21 @@ public class AccountService implements UserDetailsService{
 	PasswordEncoder passwordEncoder;
 
 	@Override
-	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-		Account account = accountDao.findByUserId(userId)
-				.orElseThrow(() -> new UsernameNotFoundException(userId));
+	public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
+		Account account = accountDao.findByUserEmail(userEmail)
+				.orElseThrow(() -> new UsernameNotFoundException(userEmail));
 
-		List<String> roles = accountDao.findRolesByUserId(userId);
+		List<String> roles = accountDao.findRolesByUserId(account.getAccountId());
 		account.setRoles(roles);
 
 		return new AccountAdapter(account);
 	}
 
-    public UserDetails readAccount(String userId) {
-		Account account = accountDao.findByUserId(userId)
-				.orElseThrow(() -> new UsernameNotFoundException(userId));
+    public UserDetails readAccount(String userEmail) {
+		Account account = accountDao.findByUserEmail(userEmail)
+				.orElseThrow(() -> new UsernameNotFoundException(userEmail));
 
-		List<String> roles = accountDao.findRolesByUserId(userId);
+		List<String> roles = accountDao.findRolesByUserId(account.getAccountId());
 		account.setRoles(roles);
 
 		return new AccountAdapter(account);
@@ -56,13 +56,19 @@ public class AccountService implements UserDetailsService{
 		}
     }
 
-    public void deleteAccount(String userId) {
-    	this.accountDao.deleteAccount(userId);
-    	this.accountDao.deleteAuthorities(userId);
+    public void deleteAccount(String userEmail) {
+    	Account account = accountDao.findByUserEmail(userEmail)
+				.orElseThrow(() -> new UsernameNotFoundException(userEmail));
+
+    	this.accountDao.deleteAccount(account.getAccountId());
+    	this.accountDao.deleteAuthorities(account.getAccountId());
     }
 
-    public void deleteAuthoriry(String userId, String role) {
-    	this.accountDao.deleteAuthority(userId, role);
+    public void deleteAuthoriry(String userEmail, String role) {
+    	Account account = accountDao.findByUserEmail(userEmail)
+				.orElseThrow(() -> new UsernameNotFoundException(userEmail));
+
+    	this.accountDao.deleteAuthority(account.getAccountId(), role);
     }
 
 }

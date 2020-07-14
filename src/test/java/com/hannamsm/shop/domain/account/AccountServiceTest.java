@@ -103,6 +103,6 @@ public class AccountServiceTest extends BaseServiceTest {
 				.build();
 //		this.accountService.createUser(account);
 
-		this.accountService.deleteAccount(account.getAccountId());
+		this.accountService.deleteAccount(account.getAccountEmail());
 	}
 }

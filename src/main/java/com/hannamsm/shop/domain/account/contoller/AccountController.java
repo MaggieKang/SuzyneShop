@@ -31,15 +31,15 @@ public class AccountController {
 	//회원가입 ok 
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public AuthenticationToken join(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {
-		String userId = authenticationRequest.getUsername();
+		String userEmail = authenticationRequest.getUsername();
 		String password = authenticationRequest.getPassword();
 
-		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userId, password);
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userEmail, password);
 		Authentication authentication = authenticationManager.authenticate(token);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
 
-		UserDetails account = this.accountService.loadUserByUsername(userId);
+		UserDetails account = this.accountService.loadUserByUsername(userEmail);
 		return new AuthenticationToken(account.getUsername(), account.getAuthorities(), session.getId());
 	}
 
