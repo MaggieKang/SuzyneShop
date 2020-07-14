@@ -1,0 +1,107 @@
+spring:
+  profiles:
+    active: local
+
+## MULTIPART (MultipartProperties)
+# 1.Enable multipart uploads
+# 2.Threshold after which files are written to disk.
+# 3.Max file size.
+# 4.Max Request Size
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+
+## File Storage Properties
+# All files uploaded through the REST API will be stored in this directory
+file:
+  upload-dir: ./uploads
+
+#받기로 한 값 이외는 에러
+#spring.jackson.deserialization.fail-on-unknown-properties=true
+my-app:
+  test-username: 9000
+  test-password: 1234
+  client-id: HNS-SHOP
+  client-secret: pass
+
+    
+--- #local 환경
+spring:
+  profiles: local
+
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://192.168.99.100:1433;databaseName=hnsshop
+    username: sa
+    password: Pa33word
+
+#Server HTTP port
+server:
+  port: 8081
+
+#Server AJP port
+tomcat:
+  ajp-enabled: true
+  ajp-protocol: AJP/1.3
+  ajp-port: 18009
+  
+logging:
+  file:
+    path: C:/Hannam/hns-shop-sry/logs
+  level:
+    root: info
+
+--- #test 환경
+spring:
+  profiles: test
+
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://172.16.3.60:1433;databaseName=hnsshop
+    username: shopdev
+    password: WVit#2020
+
+#Server HTTP port
+server:
+  port: 8081
+
+#Server AJP port
+tomcat:
+  ajp-enabled: true
+  ajp-protocol: AJP/1.3
+  ajp-port: 18009
+
+logging:
+  file:
+    path: C:/Hannam/hns-shop-sry/logs
+  level:
+    root: info
+
+--- #real 환경
+spring:
+  profiles: real
+
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://172.16.3.60:1433;databaseName=hnsshop
+    username: shopdev
+    password: WVit#2020
+
+#Server HTTP port
+server:
+  port: 8081
+
+#Server AJP port
+tomcat:
+  ajp-enabled: true
+  ajp-protocol: AJP/1.3
+  ajp-port: 18009
+  
+logging:
+  file:
+    path: C:/Hannam/hns-shop-sry/logs
+  level:
+    root: info
