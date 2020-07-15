@@ -28,7 +28,9 @@ select auth_cd
 </select>
 <insert id="createAccount" parameterType="com.hannamsm.shop.domain.account.vo.Account">
 insert into account
-(      id
+(    
+	account_id
+	  , account_email
      , password
      , is_expired
      , is_locked
@@ -38,16 +40,16 @@ insert into account
      , last_mod_date
      , last_mod_person
 ) values (
-       #{accountId}
+		#{accountId}
+     ,  #{accountEmail}
      , #{password}
      , 0
      , 0
-     , 0
-     , 0
-     , #{accountId}
+     , 1
      , getDate()
      , #{accountId}
      , getDate()
+     , #{accountId}
 )
 </insert>
 <delete id="deleteAccount" parameterType="com.hannamsm.shop.domain.account.vo.Account">
