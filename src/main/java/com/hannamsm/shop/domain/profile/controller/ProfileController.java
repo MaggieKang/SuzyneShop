@@ -34,7 +34,7 @@ public class ProfileController {
 	public ResponseEntity queryProfile(@CurrentUser Account account) throws Exception {
 		
 		Customer customer = new Customer();
-		customer.setAccountId(account.getAccountId());
+		customer.setAccountNo(account.getAccountNo());
 
 		Optional<Customer> optionaProfile = this.profileService.findById(customer);
 		if(optionaProfile.isEmpty()) {
@@ -51,7 +51,7 @@ public class ProfileController {
 	public ResponseEntity saveProfile(@RequestBody @Valid Customer reqCustomer
 									, @CurrentUser Account account) throws Exception {
 		
-		reqCustomer.setAccountId(account.getAccountId());
+		reqCustomer.setAccountNo(account.getAccountNo());
 		profileService.saveProfile(reqCustomer);
 		
 		ResponseResutl<Customer> resResult = new ResponseResutl<Customer>();
@@ -63,7 +63,7 @@ public class ProfileController {
 	public ResponseEntity saveAddress(@RequestBody @Valid Customer reqCustomer
 									, @CurrentUser Account account) throws Exception {
 		
-		reqCustomer.setAccountId(account.getAccountId());
+		reqCustomer.setAccountNo(account.getAccountNo());
 		profileService.saveAddress(reqCustomer);	
 		System.out.println(reqCustomer.toString());
 		

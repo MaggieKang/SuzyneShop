@@ -34,13 +34,13 @@ public class ProfileControllerTest extends BaseControllerTest {
 		.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
 		.andDo(document("profile-query"));
 	}
-	
+
 	@Test
 	@DisplayName("Profile 저장테스트 -(정상)")
 	public void saveProfile() throws Exception{
 		// Given
 		Customer customer = Customer.builder()
-					.accountId("9000")
+					.accountNo(1)
 					.firstName("ss")
 					.lastName("baek")
 					.customerEmail("1234@gmail.com")
@@ -59,5 +59,5 @@ public class ProfileControllerTest extends BaseControllerTest {
 		.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
 		.andDo(document("profile-save-query"));
 	}
-	
+
 }
