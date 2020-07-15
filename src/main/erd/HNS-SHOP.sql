@@ -41,8 +41,8 @@ IF ObJECt_ID('[tfTran3_b]') IS NOT NULL DROP TABLE [tfTran3_b];
 -- 계정
 CREATE TABLE [account]
 (
-	-- 계정ID : 계정 ID
-	[account_id] varchar(20) NOT NULL UNIQUE,
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL UNIQUE IDENTITY ,
 	-- 계정이메일
 	[account_email] varchar(200) NOT NULL,
 	-- 비밀번호 : 비밀번호
@@ -63,15 +63,15 @@ CREATE TABLE [account]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([account_id])
+	PRIMARY KEY ([account_no])
 );
 
 
 -- 계정주소
 CREATE TABLE [account_address]
 (
-	-- 계정ID : 계정 ID
-	[account_id] varchar(20) NOT NULL UNIQUE,
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL UNIQUE,
 	-- 순번
 	[seq] int NOT NULL IDENTITY ,
 	-- 주소
@@ -94,7 +94,7 @@ CREATE TABLE [account_address]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([account_id], [seq])
+	PRIMARY KEY ([account_no], [seq])
 );
 
 
@@ -103,8 +103,8 @@ CREATE TABLE [account_authority]
 (
 	-- 권한코드 : authority code
 	[auth_cd] varchar(20) NOT NULL,
-	-- 계정ID : 계정 ID
-	[account_id] varchar(20) NOT NULL,
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -113,14 +113,16 @@ CREATE TABLE [account_authority]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([auth_cd], [account_id])
+	PRIMARY KEY ([auth_cd], [account_no])
 );
 
 
 -- 관리자계정
 CREATE TABLE [admin_account]
 (
-	-- 계정ID : 계정 ID
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL UNIQUE IDENTITY ,
+	-- 계정ID
 	[account_id] varchar(20) NOT NULL UNIQUE,
 	-- 비밀번호 : 비밀번호
 	[password] varchar(500) NOT NULL,
@@ -140,7 +142,7 @@ CREATE TABLE [admin_account]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([account_id])
+	PRIMARY KEY ([account_no])
 );
 
 
@@ -166,8 +168,8 @@ CREATE TABLE [authority]
 -- 장바구니
 CREATE TABLE [cart]
 (
-	-- 계정ID : 계정 ID
-	[account_id] varchar(20) NOT NULL,
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL,
 	-- 상품ID
 	[item_id] varchar(24) NOT NULL,
 	-- 매장ID
@@ -182,7 +184,7 @@ CREATE TABLE [cart]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([account_id], [item_id], [store_id])
+	PRIMARY KEY ([account_no], [item_id], [store_id])
 );
 
 
@@ -319,8 +321,8 @@ CREATE TABLE [cmn_file]
 -- 회원
 CREATE TABLE [customer]
 (
-	-- 계정ID : 계정 ID
-	[account_id] varchar(20) NOT NULL UNIQUE,
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL UNIQUE,
 	-- first_name
 	[first_name] varchar(100),
 	-- last_name
@@ -349,15 +351,15 @@ CREATE TABLE [customer]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([account_id])
+	PRIMARY KEY ([account_no])
 );
 
 
 -- 즐겨찾기상품
 CREATE TABLE [favourite]
 (
-	-- 계정ID : 계정 ID
-	[account_id] varchar(20) NOT NULL,
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL,
 	-- 상품ID
 	[item_id] varchar(24) NOT NULL UNIQUE,
 	-- 매장ID
@@ -370,7 +372,7 @@ CREATE TABLE [favourite]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([account_id], [item_id], [store_id])
+	PRIMARY KEY ([account_no], [item_id], [store_id])
 );
 
 
@@ -825,8 +827,8 @@ CREATE TABLE [orders]
 	[total_eco_fee] decimal(10,2),
 	-- 총Deposit수수료
 	[total_deposit_fee] decimal(10,2),
-	-- 계정ID : 계정 ID
-	[account_id] varchar(20) NOT NULL,
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
