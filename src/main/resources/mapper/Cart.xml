@@ -5,7 +5,7 @@
 select count(a.item_id) as totalCount
   from cart a
        inner join item b on b.item_id = a.item_id and b.store_id = a.store_id and is_use = 1
- where a.account_id = #{accountId}
+ where a.account_no = #{accountNo}
    and a.store_id = #{storeId}
 </select>
 
@@ -40,7 +40,7 @@ select a.store_id             as storeId
      , a.last_mod_person      as lastModPerson
   from cart a
        inner join item b on b.item_id = a.item_id and b.store_id = a.store_id and is_use = 1
- where a.account_id = #{accountId}
+ where a.account_no = #{accountNo}
    and a.store_id = #{storeId}
  order by a.item_id
 offset #{startRownum} rows
@@ -79,7 +79,7 @@ select sum(m.item_qty) as totalQty
                 end),0) as depositFee
            from cart a
                 inner join item b on b.item_id = a.item_id and b.store_id = a.store_id and is_use = 1
-          where a.account_id = #{accountId}
+          where a.account_no = #{accountNo}
             and a.store_id = #{storeId}
           union
          select 0 as item_qty
@@ -116,14 +116,14 @@ select a.store_id             as storeId
      , a.last_mod_person      as lastModPerson
   from cart a
        inner join item b on b.item_id = a.item_id and b.store_id = a.store_id and is_use = 1
- where a.account_id = #{accountId}
+ where a.account_no = #{accountNo}
    and a.store_id = #{storeId}
    and a.item_id = #{itemId}
 </select>
 
 <insert id="add" parameterType="com.hannamsm.shop.domain.cart.vo.CartItem">
 merge cart as a
-using (select #{accountId}     as account_id
+using (select #{accountNo}     as account_no
             , #{storeId}       as store_id
             , #{itemId}        as item_id
             , #{itemQty}       as item_qty
@@ -132,11 +132,11 @@ using (select #{accountId}     as account_id
             , getdate()        as last_mod_date
             , #{lastModPerson} as last_mod_person
       ) as b
-        on (     a.account_id = b.account_id
+        on (     a.account_no = b.account_no
              and a.store_id = b.store_id
              and a.item_id = b.item_id)
         when not matched then
-             insert ( account_id
+             insert ( account_no
                     , store_id
                     , item_id
                     , item_qty
@@ -145,7 +145,7 @@ using (select #{accountId}     as account_id
                     , last_mod_date
                     , last_mod_person
              ) values (
-                      b.account_id
+                      b.account_no
                     , b.store_id
                     , b.item_id
                     , b.item_qty
@@ -166,21 +166,21 @@ update cart
    set last_mod_person = #{lastModPerson}
      , last_mod_date = getDate()
      , item_qty = #{itemQty}
- where account_id = #{accountId}
+ where account_no = #{accountNo}
    and store_id = #{storeId}
    and item_id = #{itemId}
 </update>
 
 <delete id="delete" parameterType="com.hannamsm.shop.domain.cart.vo.CartItem">
 delete cart
- where account_id = #{accountId}
+ where account_no = #{accountNo}
    and store_id = #{storeId}
    and item_id = #{itemId}
 </delete>
 
 <delete id="deleteAllForOrder" parameterType="com.hannamsm.shop.domain.cart.vo.CartItemSearch">
 delete cart
- where account_id = #{accountId}
+ where account_no = #{accountNo}
    and store_id = #{storeId}
 </delete>
 

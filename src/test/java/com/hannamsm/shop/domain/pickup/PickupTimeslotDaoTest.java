@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch;
 import com.hannamsm.shop.global.BaseDaoTest;
 
+@Disabled
 public class PickupTimeslotDaoTest extends BaseDaoTest {
 
 	@Autowired

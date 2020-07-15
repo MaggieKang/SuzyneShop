@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
 public class OrderPickup {
-	private String accountId;
+	private int accountNo;
 	private String orderId;
 	private String storeId;
 	private String slotDt;

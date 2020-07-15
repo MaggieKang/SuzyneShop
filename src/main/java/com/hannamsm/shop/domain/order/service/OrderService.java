@@ -77,21 +77,21 @@ public class OrderService {
 		orderDao.createOrdersFromCart(newOrderDto);
 
 		OrderPickup orderPickup = OrderPickup.builder()
-				.accountId(newOrderDto.getAccountId())
+				.accountNo(newOrderDto.getAccountNo())
 				.orderId(newOrderDto.getOrderId())
 				.storeId(newOrderDto.getStoreId())
 				.slotDt(newOrderDto.getSlotDt())
 				.slotTime(newOrderDto.getSlotTime())
 				.pickupStoreId(newOrderDto.getStoreId())
 				.orderPicupStatusCd("READY")
-				.regPerson(newOrderDto.getAccountId())
-				.lastModPerson(newOrderDto.getAccountId())
+				.regPerson(String.valueOf(newOrderDto.getAccountNo()))
+				.lastModPerson(String.valueOf(newOrderDto.getAccountNo()))
 				.build();
 		//주문픽업 저장
 		orderDao.createOrderPickup(orderPickup);
 
 		CartItemSearch cartItemSearch = CartItemSearch.builder()
-				.accountId(newOrderDto.getAccountId())
+				.accountNo(newOrderDto.getAccountNo())
 				.storeId(newOrderDto.getStoreId())
 				.build();
 

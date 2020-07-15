@@ -47,7 +47,7 @@ public class CartController {
 		}
 
 		CartItemSearch cartItemSearch = new CartItemSearch(page, listSize);
-		cartItemSearch.setAccountId(account.getAccountId());
+		cartItemSearch.setAccountNo(account.getAccountNo());
 		cartItemSearch.setStoreId(storeId);
 
 		int allCount = this.cartService.findByAccountIdCount(cartItemSearch);
@@ -75,7 +75,7 @@ public class CartController {
 		}
 
 		CartItemSearch cartItemSearch = CartItemSearch.builder()
-				.accountId(account.getAccountId())
+				.accountNo(account.getAccountNo())
 				.storeId(storeId)
 				.build();
 
@@ -98,7 +98,7 @@ public class CartController {
 		}
 
 		CartItemSearch cartItemSearch = new CartItemSearch();
-		cartItemSearch.setAccountId(account.getAccountId());
+		cartItemSearch.setAccountNo(account.getAccountNo());
 		cartItemSearch.setStoreId(storeId);
 
 		CartSummary cartSummary = this.cartService.findSummaryByAccountId(cartItemSearch);
@@ -116,8 +116,7 @@ public class CartController {
 	public ResponseEntity addCartItem(@PathVariable String itemId
 			, @RequestBody @Valid CartItemDto reqCartItemDto
 			, @CurrentUser Account currentUser) throws Exception {
-
-		reqCartItemDto.setAccountId(currentUser.getAccountId());
+		reqCartItemDto.setAccountNo(currentUser.getAccountNo());
 
 		cartService.addCartItem(reqCartItemDto);
 
@@ -135,7 +134,7 @@ public class CartController {
 	public ResponseEntity saveCartItem(@PathVariable String itemId
 			, @RequestBody @Valid CartItemDto reqCartItemDto
 			, @CurrentUser Account currentUser) throws Exception {
-		reqCartItemDto.setAccountId(currentUser.getAccountId());
+		reqCartItemDto.setAccountNo(currentUser.getAccountNo());
 
 		cartService.saveCartItem(reqCartItemDto);
 
@@ -153,7 +152,7 @@ public class CartController {
 	public ResponseEntity deleteCartItem(@PathVariable String itemId
 			, @RequestBody @Valid CartItemDto reqCartItemDto
 			, @CurrentUser Account currentUser) throws Exception {
-		reqCartItemDto.setAccountId(currentUser.getAccountId());
+		reqCartItemDto.setAccountNo(currentUser.getAccountNo());
 
 		cartService.deleteCartItem(reqCartItemDto);
 

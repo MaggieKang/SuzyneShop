@@ -25,7 +25,7 @@ public class FavouriteDaoTest extends BaseDaoTest {
 	@Disabled
 	public void findByAccountId() throws Exception {
 		FavouriteItemSearch favouriteItemSearch = new FavouriteItemSearch(1, 10);
-		favouriteItemSearch.setAccountId("9000");
+		favouriteItemSearch.setAccountNo(1);
 
 		List<FavouriteItem> list = this.favouriteDao.findByAccountId(favouriteItemSearch);
 		System.out.println(list.toString());
@@ -39,7 +39,7 @@ public class FavouriteDaoTest extends BaseDaoTest {
 	@Disabled
 	public void findByAccountIdCount() throws Exception {
 		FavouriteItemSearch favouriteItemSearch = new FavouriteItemSearch(1, 10);
-		favouriteItemSearch.setAccountId("9000");
+		favouriteItemSearch.setAccountNo(1);
 
 		int count = this.favouriteDao.findByAccountIdCount(favouriteItemSearch);
 		System.out.println(count);
@@ -53,7 +53,7 @@ public class FavouriteDaoTest extends BaseDaoTest {
 	@Disabled
 	public void addFavouriteItem() throws Exception {
 		FavouriteItem favouriteItem = FavouriteItem.builder()
-				.accountId("9000")
+				.accountNo(1)
 				.itemId("DK0108977KR0101001")
 				.regPerson("test")
 				.lastModPerson("test")
@@ -71,7 +71,7 @@ public class FavouriteDaoTest extends BaseDaoTest {
 	@Disabled
 	public void deleteFavouriteItem() throws Exception {
 		FavouriteItem favouriteItem = FavouriteItem.builder()
-				.accountId("9000")
+				.accountNo(1)
 				.itemId("DK0108977KR0101001")
 				.build();
 

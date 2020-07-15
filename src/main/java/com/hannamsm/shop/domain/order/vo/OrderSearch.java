@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
 public class OrderSearch {
-	private String accountId;
+	private int accountNo;
 	private String orderId;
 	private String storeId;
 

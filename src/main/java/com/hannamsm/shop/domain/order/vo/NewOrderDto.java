@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
 public class NewOrderDto {
-	private String accountId;
+	private int accountNo;
 	private String orderId;
 	@NotEmpty
 	private String customerContactNumber;

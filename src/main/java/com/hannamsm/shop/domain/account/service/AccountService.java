@@ -27,7 +27,7 @@ public class AccountService implements UserDetailsService{
 		Account account = accountDao.findByUserEmail(userEmail)
 				.orElseThrow(() -> new UsernameNotFoundException(userEmail));
 
-		List<String> roles = accountDao.findRolesByUserId(account.getAccountId());
+		List<String> roles = accountDao.findRolesByUserNo(account.getAccountNo());
 		account.setRoles(roles);
 
 		return new AccountAdapter(account);
@@ -37,7 +37,7 @@ public class AccountService implements UserDetailsService{
 		Account account = accountDao.findByUserEmail(userEmail)
 				.orElseThrow(() -> new UsernameNotFoundException(userEmail));
 
-		List<String> roles = accountDao.findRolesByUserId(account.getAccountId());
+		List<String> roles = accountDao.findRolesByUserNo(account.getAccountNo());
 		account.setRoles(roles);
 
 		return new AccountAdapter(account);
@@ -52,7 +52,7 @@ public class AccountService implements UserDetailsService{
 
 		List<String> list = account.getRoles();
 		for (String role : list) {
-			accountDao.createAuthority(account.getAccountId(), role);
+			accountDao.createAuthority(account.getAccountNo(), role);
 		}
     }
 
@@ -60,15 +60,15 @@ public class AccountService implements UserDetailsService{
     	Account account = accountDao.findByUserEmail(userEmail)
 				.orElseThrow(() -> new UsernameNotFoundException(userEmail));
 
-    	this.accountDao.deleteAccount(account.getAccountId());
-    	this.accountDao.deleteAuthorities(account.getAccountId());
+    	this.accountDao.deleteAccount(account.getAccountNo());
+    	this.accountDao.deleteAuthorities(account.getAccountNo());
     }
 
     public void deleteAuthoriry(String userEmail, String role) {
     	Account account = accountDao.findByUserEmail(userEmail)
 				.orElseThrow(() -> new UsernameNotFoundException(userEmail));
 
-    	this.accountDao.deleteAuthority(account.getAccountId(), role);
+    	this.accountDao.deleteAuthority(account.getAccountNo(), role);
     }
 
 }
