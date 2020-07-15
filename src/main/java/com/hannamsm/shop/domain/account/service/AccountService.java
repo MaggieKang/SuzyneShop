@@ -50,10 +50,10 @@ public class AccountService implements UserDetailsService{
 
 		accountDao.createAccount(account);
 
-		List<String> list = account.getRoles();
-		for (String role : list) {
-			accountDao.createAuthority(account.getAccountNo(), role);
-		}
+//		List<String> list = account.getRoles();
+//		for (String role : list) {
+//			accountDao.createAuthority(account.getAccountNo(), role);
+//		}
     }
 
     public void deleteAccount(String userEmail) {

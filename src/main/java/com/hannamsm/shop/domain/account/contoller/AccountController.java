@@ -43,7 +43,7 @@ public class AccountController {
 	@Autowired
 	AccountService accountService;
 
-	//회원가입 test
+	//회원가입 리얼
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public ResponseEntity queryCreateAccount(@RequestParam(value = "accountEmail", defaultValue = "") String accountEmail,
 			@RequestParam(value = "password", defaultValue = "") String password
