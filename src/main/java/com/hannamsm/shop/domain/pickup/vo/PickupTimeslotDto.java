@@ -16,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
 public class PickupTimeslotDto {
-	private String accountId;
+	private int accountNo;
 	@NotEmpty
 	private LocalDate slotDt;
 	@NotEmpty

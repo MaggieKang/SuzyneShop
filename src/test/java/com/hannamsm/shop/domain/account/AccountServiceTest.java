@@ -68,17 +68,17 @@ public class AccountServiceTest extends BaseServiceTest {
 		roles.add("USER");
 
 		Account account = Account.builder()
-				.accountId("9002")
+				.accountEmail("dev9000@gmail.com")
 				.password("1234")
 				.roles(roles)
 				.build();
 		this.accountService.createUser(account);
 
 		// When
-		UserDetails userDetails = this.accountService.loadUserByUsername(account.getAccountId());
+		UserDetails userDetails = this.accountService.loadUserByUsername(account.getAccountEmail());
 
 		// Then
-		assertThat(userDetails.getUsername()).isEqualTo(account.getAccountId());
+		assertThat(userDetails.getUsername()).isEqualTo(account.getAccountEmail());
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class AccountServiceTest extends BaseServiceTest {
 		roles.add("USER");
 
 		Account account = Account.builder()
-				.accountId("9001")
+				.accountEmail("9001")
 				.password("1234")
 				.roles(roles)
 				.build();

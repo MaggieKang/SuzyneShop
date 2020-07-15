@@ -40,15 +40,15 @@ public class CartService {
 	}
 
 	public int addCartItem(CartItemDto cartItemDto) throws Exception {
-		String accountId = cartItemDto.getAccountId();
+		int accountNo = cartItemDto.getAccountNo();
 
 		CartItem cartItem = CartItem.builder()
-				.accountId(accountId)
+				.accountNo(accountNo)
 				.storeId(cartItemDto.getStoreId())
 				.itemId(cartItemDto.getItemId())
 				.itemQty(cartItemDto.getItemQty())
-				.regPerson(accountId)
-				.lastModPerson(accountId)
+				.regPerson(String.valueOf(accountNo))
+				.lastModPerson(String.valueOf(accountNo))
 				.build();
 
 		ItemSearch itemSearch = ItemSearch.builder()
@@ -64,15 +64,15 @@ public class CartService {
 	}
 
 	public int saveCartItem(CartItemDto cartItemDto) throws Exception {
-		String accountId = cartItemDto.getAccountId();
+		int accountNo = cartItemDto.getAccountNo();
 
 		CartItem cartItem = CartItem.builder()
-				.accountId(accountId)
+				.accountNo(accountNo)
 				.storeId(cartItemDto.getStoreId())
 				.itemId(cartItemDto.getItemId())
 				.itemQty(cartItemDto.getItemQty())
-				.regPerson(accountId)
-				.lastModPerson(accountId)
+				.regPerson(String.valueOf(accountNo))
+				.lastModPerson(String.valueOf(accountNo))
 				.build();
 
 		//Cart 상품 검색
@@ -83,18 +83,17 @@ public class CartService {
 	}
 
 	public int deleteCartItem(@Valid CartItemDto cartItemDto) throws Exception {
-		String accountId = cartItemDto.getAccountId();
+		int accountNo = cartItemDto.getAccountNo();
 
 		CartItem cartItem = CartItem.builder()
-				.accountId(accountId)
+				.accountNo(accountNo)
 				.storeId(cartItemDto.getStoreId())
 				.itemId(cartItemDto.getItemId())
 				.itemQty(cartItemDto.getItemQty())
-				.regPerson(accountId)
-				.lastModPerson(accountId)
+				.regPerson(String.valueOf(accountNo))
+				.lastModPerson(String.valueOf(accountNo))
 				.build();
 
 		return cartDao.delete(cartItem);
 	}
-
 }

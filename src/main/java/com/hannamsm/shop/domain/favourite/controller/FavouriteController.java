@@ -47,7 +47,7 @@ public class FavouriteController {
 		}
 
 		FavouriteItemSearch favouriteItemSearch = new FavouriteItemSearch(page, listSize);
-		favouriteItemSearch.setAccountId(account.getAccountId());
+		favouriteItemSearch.setAccountNo(account.getAccountNo());
 		favouriteItemSearch.setStoreId(storeId);
 
 		int allCount = this.favouriteService.findByAccountIdCount(favouriteItemSearch);
@@ -72,7 +72,7 @@ public class FavouriteController {
 			, @RequestBody @Valid FavouriteItemDto favouriteItemDto
 			, @CurrentUser Account currentUser) throws Exception {
 
-		favouriteItemDto.setAccountId(currentUser.getAccountId());
+		favouriteItemDto.setAccountNo(currentUser.getAccountNo());
 
 		favouriteService.addFavouriteItem(favouriteItemDto);
 
@@ -93,7 +93,7 @@ public class FavouriteController {
 			, @RequestBody @Valid FavouriteItemDto favouriteItemDto
 			, @CurrentUser Account currentUser) throws Exception {
 
-		favouriteItemDto.setAccountId(currentUser.getAccountId());
+		favouriteItemDto.setAccountNo(currentUser.getAccountNo());
 
 		favouriteService.deleteFavouriteItem(favouriteItemDto);
 

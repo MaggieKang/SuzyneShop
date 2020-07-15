@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter @Setter @EqualsAndHashCode(of = "accountId")
+@Getter @Setter @EqualsAndHashCode(of = "accountNo")
 @Builder @NoArgsConstructor @AllArgsConstructor
 @ToString
 public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-    private String accountId;
+    private int accountNo;
     private String accountEmail;
     private String password;
     //계정이 만료되었는지

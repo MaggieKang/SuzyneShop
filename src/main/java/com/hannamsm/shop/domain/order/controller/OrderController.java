@@ -43,7 +43,7 @@ public class OrderController {
             @CurrentUser Account account) throws Exception {
 
 		OrderSearch orderSearch = new OrderSearch(page, listSize);
-		orderSearch.setAccountId(account.getAccountId());
+		orderSearch.setAccountNo(account.getAccountNo());
 		orderSearch.setStoreId(storeId);
 		orderSearch.setOrderId(orderId);
 
@@ -72,7 +72,7 @@ public class OrderController {
             @CurrentUser Account account) throws Exception {
 
 		OrderSearch orderSearch = new OrderSearch(page, listSize);
-		orderSearch.setAccountId(account.getAccountId());
+		orderSearch.setAccountNo(account.getAccountNo());
 		orderSearch.setStoreId(storeId);
 		orderSearch.setOrderId(orderId);
 
@@ -97,7 +97,7 @@ public class OrderController {
 	public ResponseEntity saveNewOrder(@RequestBody @Valid NewOrderDto newOrderDto
 			, @CurrentUser Account currentUser) throws Exception {
 
-		newOrderDto.setAccountId(currentUser.getAccountId());
+		newOrderDto.setAccountNo(currentUser.getAccountNo());
 
 		NewOrderDto resultNewOrderDto = orderService.saveCartToOrder(newOrderDto);
 

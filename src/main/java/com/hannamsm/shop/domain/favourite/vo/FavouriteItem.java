@@ -15,7 +15,7 @@ import lombok.ToString;
 @Getter @Setter @ToString
 public class FavouriteItem {
 
-	private String accountId;
+	private int accountNo;
 	private String storeId;
 	private String itemId;
 	private String upc;

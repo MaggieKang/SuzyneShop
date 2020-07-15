@@ -16,7 +16,7 @@ import lombok.ToString;
 @Getter @Setter @ToString
 public class FavouriteItemDto {
 
-	private String accountId;
+	private int accountNo;
 	@NotNull
 	private String storeId;
 	@NotNull

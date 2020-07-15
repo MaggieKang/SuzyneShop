@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
 public class FavouriteItemSearch {
-	private String accountId;
+	private int accountNo;
 	private String storeId;
 
 	private int startRownum;

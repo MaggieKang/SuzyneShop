@@ -3,7 +3,6 @@ package com.hannamsm.shop.domain.account;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +29,7 @@ public class AccountDaoTest extends BaseDaoTest {
 	@Disabled
 	public void findByUserId() throws Exception {
 
-		Optional<Account> account = this.accountDao.findByUserId("9000");
+		Optional<Account> account = this.accountDao.findByUserNo(1);
 		System.out.println("id:" + account.get().toString());
 		assertAll("1234",
 				()->assertNotNull(account.get().getPassword()));
@@ -40,7 +39,7 @@ public class AccountDaoTest extends BaseDaoTest {
 	@DisplayName("username Role 조회 테스트")
 	@Disabled
 	public void findRolesByUserId() throws Exception {
-		List<String> rols = this.accountDao.findRolesByUserId("1006");
+		List<String> rols = this.accountDao.findRolesByUserNo(1);
 		System.out.println("rols:" + rols.toString());
 		assertAll("ADMIN",()->assertNotNull(rols));
 	}
@@ -49,20 +48,19 @@ public class AccountDaoTest extends BaseDaoTest {
 	@DisplayName("Account 생성 테스트")
 	@Disabled
 	public void createAccount() {
-		List<String> roles = new ArrayList<String>();
-		roles.add("ADMIN");
-
-		Account account = Account.builder()
-				.accountId("9000")
-				.password("1234")
-				.roles(roles)
-				.build();
-		this.accountDao.createAccount(account);
-
-		Optional<Account> sAccount = this.accountDao.findByUserId(account.getAccountId());
-		System.out.println("id:" + sAccount.get().toString());
-		assertAll(account.getAccountId(),
-				()->assertNotNull(sAccount.get().getPassword()));
+//		List<String> roles = new ArrayList<String>();
+//		roles.add("ADMIN");
+//
+//		Account account = Account.builder()
+//				.password("1234")
+//				.roles(roles)
+//				.build();
+//		this.accountDao.createAccount(account);
+//
+//		Optional<Account> sAccount = this.accountDao.findByUserId(account.getAccountId());
+//		System.out.println("id:" + sAccount.get().toString());
+//		assertAll(account.getAccountId(),
+//				()->assertNotNull(sAccount.get().getPassword()));
 	}
 
 	@Test

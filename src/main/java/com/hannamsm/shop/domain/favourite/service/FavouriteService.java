@@ -27,32 +27,30 @@ public class FavouriteService {
 	}
 
 	public int addFavouriteItem(@Valid FavouriteItemDto favouriteItemDto) throws Exception {
-		String accountId = favouriteItemDto.getAccountId();
+		int accountNo = favouriteItemDto.getAccountNo();
 
 		FavouriteItem favouriteItem = FavouriteItem.builder()
-				.accountId(accountId)
+				.accountNo(accountNo)
 				.storeId(favouriteItemDto.getStoreId())
 				.itemId(favouriteItemDto.getItemId())
-				.regPerson(accountId)
-				.lastModPerson(accountId)
+				.regPerson(String.valueOf(accountNo))
+				.lastModPerson(String.valueOf(accountNo))
 				.build();
 
 		return favouriteDao.add(favouriteItem);
 	}
 
 	public int deleteFavouriteItem(@Valid FavouriteItemDto favouriteItemDto) throws Exception {
-		String accountId = favouriteItemDto.getAccountId();
+		int accountNo = favouriteItemDto.getAccountNo();
 
 		FavouriteItem favouriteItem = FavouriteItem.builder()
-				.accountId(accountId)
+				.accountNo(accountNo)
 				.storeId(favouriteItemDto.getStoreId())
 				.itemId(favouriteItemDto.getItemId())
-				.regPerson(accountId)
-				.lastModPerson(accountId)
+				.regPerson(String.valueOf(accountNo))
+				.lastModPerson(String.valueOf(accountNo))
 				.build();
 
 		return favouriteDao.delete(favouriteItem);
 	}
-
-
 }

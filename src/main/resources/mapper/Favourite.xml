@@ -5,7 +5,7 @@
 select count(a.item_id) as totalCount
   from favourite a
        inner join item b on b.item_id = a.item_id and is_use = 1
- where a.account_id = #{accountId}
+ where a.account_no = #{accountNo}
    and a.store_id = #{storeId}
 </select>
 
@@ -28,7 +28,7 @@ select a.item_id         as itemId
      , a.last_mod_person as lastModPerson
   from favourite a
        inner join item b on b.item_id = a.item_id and b.store_id = a.store_id and is_use = 1
- where a.account_id = #{accountId}
+ where a.account_no = #{accountNo}
    and a.store_id = #{storeId}
  order by a.item_id
 offset #{startRownum} rows
@@ -37,7 +37,7 @@ offset #{startRownum} rows
 
 <insert id="add" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItem">
 merge favourite as a
-using (select #{accountId}     as account_id
+using (select #{accountNo}     as account_no
             , #{storeId}       as store_id
             , #{itemId}        as item_id
             , getdate()        as reg_date
@@ -45,11 +45,11 @@ using (select #{accountId}     as account_id
             , getdate()        as last_mod_date
             , #{lastModPerson} as last_mod_person
       ) as b
-        on (     a.account_id = b.account_id
+        on (     a.account_no = b.account_no
              and a.store_id = b.store_id
              and a.item_id = b.item_id)
         when not matched then
-             insert ( account_id
+             insert ( account_no
                     , store_id
                     , item_id
                     , reg_date
@@ -57,7 +57,7 @@ using (select #{accountId}     as account_id
                     , last_mod_date
                     , last_mod_person
              ) values (
-                      b.account_id
+                      b.account_no
                     , b.store_id
                     , b.item_id
                     , b.reg_date
@@ -72,7 +72,7 @@ using (select #{accountId}     as account_id
 </insert>
 <delete id="delete" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItem">
 delete favourite
- where account_id = #{accountId}
+ where account_no = #{accountNo}
    and store_id = #{storeId}
    and item_id = #{itemId}
 </delete>

@@ -53,8 +53,8 @@ public class EventController {
 
 		Event event = modelMapper.map(reqEventDto, Event.class);
 		event.update();
-		event.setRegPerson(account.getAccountId());
-		event.setLastModPerson(account.getAccountId());
+		event.setRegPerson(String.valueOf(account.getAccountNo()));
+		event.setLastModPerson(String.valueOf(account.getAccountNo()));
 
 		Event savedEvent = this.eventService.create(event);
 

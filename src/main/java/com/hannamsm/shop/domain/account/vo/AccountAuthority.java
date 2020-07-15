@@ -10,7 +10,7 @@ import lombok.ToString;
 @Getter @Setter @ToString
 @Builder @NoArgsConstructor @AllArgsConstructor
 public class AccountAuthority {
-	private String accountId;
+	private int accountNo;
 	private String authCd;
 	private String regDate;
 	private String regPerson;
