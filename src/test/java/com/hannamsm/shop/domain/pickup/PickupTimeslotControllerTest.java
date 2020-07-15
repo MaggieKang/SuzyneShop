@@ -25,7 +25,7 @@ public class PickupTimeslotControllerTest extends BaseControllerTest {
 	@DisplayName("픽업 날짜 시간표 조회 테스트 - (정상)")
 	public void getPickupSlogDt() throws Exception {
 		// Given
-		String targetDay = LocalDate.of(2020,6,29).toString();
+		String targetDay = LocalDate.of(2020,7,15).toString();
 
 		// When & Then
 		mockMvc.perform(get("/api/pickup/slotdate")
@@ -48,7 +48,7 @@ public class PickupTimeslotControllerTest extends BaseControllerTest {
 	@DisplayName("픽업 시간 조회 테스트 - (정상)")
 	public void queryStore() throws Exception {
 		// Given
-		String targetDay = LocalDate.of(2020,6,29).toString();
+		String targetDay = LocalDate.of(2020,7,15).toString();
 		String targetTime = LocalTime.of(11,0,0,0).toString();
 
 		PickupSlotTimeSearch pickupTimeslot = PickupSlotTimeSearch.builder()

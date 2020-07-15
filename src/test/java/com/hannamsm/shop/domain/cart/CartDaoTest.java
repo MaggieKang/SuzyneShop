@@ -17,6 +17,7 @@ import com.hannamsm.shop.domain.cart.vo.CartItem;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.global.BaseDaoTest;
 
+@Disabled
 @Transactional
 @Rollback
 public class CartDaoTest extends BaseDaoTest {
