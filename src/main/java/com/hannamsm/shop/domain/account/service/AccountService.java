@@ -1,16 +1,20 @@
 package com.hannamsm.shop.domain.account.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
 import com.hannamsm.shop.domain.account.dao.AccountDao;
+import com.hannamsm.shop.domain.account.exception.AccountAlreadyMemberException;
 import com.hannamsm.shop.domain.account.vo.Account;
+import com.hannamsm.shop.domain.cart.exception.CartItemNotFoundException;
 import com.hannamsm.shop.global.adapter.AccountAdapter;
 
 @Service
@@ -42,18 +46,17 @@ public class AccountService implements UserDetailsService{
 
 		return new AccountAdapter(account);
     }
+   
 
+  
+    public String dupCheckAccount(String accountEmail) {
+    	Optional<Account> account  = accountDao.findByUserEmail(accountEmail);
+    	//account.orElseThrow(() -> new AccountAlreadyMemberException());
+    	return account.equals(Optional.empty()) ? "" : account.get().getAccountEmail() ;
+    }
+    
     public void createUser(Account account) {
-		String rawPassword = account.getPassword();
-		String encodedPassword = this.passwordEncoder.encode(rawPassword);
-		account.setPassword(encodedPassword);
-
 		accountDao.createAccount(account);
-
-//		List<String> list = account.getRoles();
-//		for (String role : list) {
-//			accountDao.createAuthority(account.getAccountNo(), role);
-//		}
     }
 
     public void deleteAccount(String userEmail) {
