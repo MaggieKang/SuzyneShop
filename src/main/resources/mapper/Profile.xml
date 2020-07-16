@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.profile.dao.ProfileDao">
-<select id="findById" parameterType="int" resultType="com.hannamsm.shop.domain.profile.vo.Customer">
+<select id="findById" parameterType="com.hannamsm.shop.domain.profile.vo.Customer" resultType="com.hannamsm.shop.domain.profile.vo.Customer">
 SELECT a.account_no AS accountNo
+	   ,a.account_email AS accountEmail
 	   ,b.first_name AS firstName
 	   ,b.last_name AS lastName
 	   ,b.customer_email AS customerEmail
