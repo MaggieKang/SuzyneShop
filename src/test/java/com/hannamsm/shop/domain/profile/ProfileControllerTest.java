@@ -36,7 +36,7 @@ public class ProfileControllerTest extends BaseControllerTest {
 		.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
 		.andDo(document("profile-query"));
 	}
-	
+
 	@Test
 	@DisplayName("Profile 저장테스트 -(정상)")
 	public void saveProfile() throws Exception{
@@ -61,5 +61,5 @@ public class ProfileControllerTest extends BaseControllerTest {
 		.andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
 		.andDo(document("profile-save-query"));
 	}
-	
+
 }

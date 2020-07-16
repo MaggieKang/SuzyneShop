@@ -32,7 +32,7 @@ public class ProfileController {
 	 */
 	@GetMapping
 	public ResponseEntity queryProfile(@CurrentUser Account account) throws Exception {
-		
+
 		Customer customer = new Customer();
 		customer.setAccountNo(account.getAccountNo());
 
@@ -46,30 +46,29 @@ public class ProfileController {
 		result.setResult(optionaProfile.get());
 		return ResponseEntity.ok(result);
 	}
-	
-	@PutMapping(value = "/saveProfile", produces = MediaTypes.HAL_JSON_VALUE)
+
+	@PutMapping(produces = MediaTypes.HAL_JSON_VALUE)
 	public ResponseEntity saveProfile(@RequestBody @Valid Customer reqCustomer
 									, @CurrentUser Account account) throws Exception {
-		
 		reqCustomer.setAccountNo(account.getAccountNo());
 		profileService.saveProfile(reqCustomer);
-		
+
 		ResponseResutl<Customer> resResult = new ResponseResutl<Customer>();
 		resResult.setMessage("저장 되었습니다.");
-		resResult.setResult(reqCustomer);			
+		resResult.setResult(reqCustomer);
 		return ResponseEntity.ok(resResult);
 	}
 	@PutMapping(value = "/saveAddress", produces = MediaTypes.HAL_JSON_VALUE)
 	public ResponseEntity saveAddress(@RequestBody @Valid Customer reqCustomer
 									, @CurrentUser Account account) throws Exception {
-		
+
 		reqCustomer.setAccountNo(account.getAccountNo());
-		profileService.saveAddress(reqCustomer);	
+		profileService.saveAddress(reqCustomer);
 		System.out.println(reqCustomer.toString());
-		
+
 		ResponseResutl<Customer> resResult = new ResponseResutl<Customer>();
 		resResult.setMessage("저장 되었습니다.");
-		resResult.setResult(reqCustomer);			
+		resResult.setResult(reqCustomer);
 		return ResponseEntity.ok(resResult);
 	}
 }

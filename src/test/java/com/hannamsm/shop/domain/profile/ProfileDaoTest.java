@@ -9,12 +9,17 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 
 import com.hannamsm.shop.domain.profile.dao.ProfileDao;
 import com.hannamsm.shop.domain.profile.vo.Customer;
 import com.hannamsm.shop.global.BaseDaoTest;
 
+<<<<<<< HEAD
 @Disabled
+=======
+@Rollback
+>>>>>>> branch 'master' of https://github.com/westviewIT/HNS-SHOP.git
 public class ProfileDaoTest extends BaseDaoTest {
 
 	@Autowired
@@ -26,14 +31,14 @@ public class ProfileDaoTest extends BaseDaoTest {
 		Customer customer = Customer.builder()
 				.accountNo(1)
 				.build();
-		
+
 		Optional<Customer> profile = this.profileDao.findById(customer);
 		System.out.println(profile.toString());
 
 		assertAll("profile",
 				()->assertNotNull(profile));
 	}
-	
+
 	@Test
 	@DisplayName("profile 저장 테스트")
 	public void save() throws Exception{
@@ -47,7 +52,7 @@ public class ProfileDaoTest extends BaseDaoTest {
 				.build();
 		int count = this.profileDao.saveProfile(customer);
 		System.out.println(count);
-		
+
 		assertAll("saveCount",
 						()->assertNotNull(count));
 	}

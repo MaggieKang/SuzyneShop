@@ -45,6 +45,7 @@ public class CartControllerTest extends BaseControllerTest {
 			.andDo(document("cart-query"));
 	}
 
+	@Disabled
 	@Test
 	@DisplayName("Cart - 요약 조회 테스트 - (정상)")
 	@Disabled
@@ -132,6 +133,7 @@ public class CartControllerTest extends BaseControllerTest {
 			;
 	}
 
+	@Disabled
 	@Test
 	@DisplayName("Cart - 상품 저장 테스트 - (정상)")
 	@Disabled

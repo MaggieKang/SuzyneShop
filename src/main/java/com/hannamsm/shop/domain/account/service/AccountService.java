@@ -47,7 +47,6 @@ public class AccountService implements UserDetailsService{
 		return new AccountAdapter(account);
     }
    
-
   
     public String dupCheckAccount(String accountEmail) {
     	Optional<Account> account  = accountDao.findByUserEmail(accountEmail);
