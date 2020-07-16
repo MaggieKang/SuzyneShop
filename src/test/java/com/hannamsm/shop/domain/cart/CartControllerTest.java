@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.MediaTypes;
@@ -44,6 +45,7 @@ public class CartControllerTest extends BaseControllerTest {
 			.andDo(document("cart-query"));
 	}
 
+	@Disabled
 	@Test
 	@DisplayName("Cart - 요약 조회 테스트 - (정상)")
 	public void queryCartSummery() throws Exception {
@@ -130,6 +132,7 @@ public class CartControllerTest extends BaseControllerTest {
 			;
 	}
 
+	@Disabled
 	@Test
 	@DisplayName("Cart - 상품 저장 테스트 - (정상)")
 	public void saveCartItem() throws Exception {
