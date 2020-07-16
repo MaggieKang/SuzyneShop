@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.MediaTypes;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import com.hannamsm.shop.global.BaseControllerTest;
 import com.hannamsm.shop.domain.profile.vo.Customer;
 
+@Disabled
 public class ProfileControllerTest extends BaseControllerTest {
 
 	@Test
@@ -40,7 +42,7 @@ public class ProfileControllerTest extends BaseControllerTest {
 	public void saveProfile() throws Exception{
 		// Given
 		Customer customer = Customer.builder()
-					.accountId("9000")
+					.accountNo(1)
 					.firstName("ss")
 					.lastName("baek")
 					.customerEmail("1234@gmail.com")
