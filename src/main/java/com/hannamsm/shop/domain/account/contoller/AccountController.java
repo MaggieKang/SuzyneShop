@@ -1,6 +1,7 @@
 package com.hannamsm.shop.domain.account.contoller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -53,15 +54,20 @@ public class AccountController {
 		System.out.println("queryCreateAccount username :"+reqAccount.getAccountEmail());
 		System.out.println("queryCreateAccount password :"+reqAccount.getPassword());
 		
-		//Account reqAccount = new Account();
-		//reqAccount.setAccountEmail(reqAccount.getAccountEmail());
-		//reqAccount.setPassword(reqAccount.getPassword());
+		//이메일 중복 체크
+		String dupAccount = accountService.dupCheckAccount(reqAccount.getAccountEmail());
 		
-		accountService.createUser(reqAccount);
-
 		//return data
-		ResponseResutl<Account> resResult = new ResponseResutl<Account>();
+		ResponseResutl<Account> resResult = new ResponseResutl<Account>();	
+		System.out.println("queryCreateAccount dupAccount :"+dupAccount);
+		if(dupAccount.equals("")) {
+		accountService.createUser(reqAccount);
 		resResult.setMessage("회원가입이 완료 되었습니다.");
+		}else {
+			resResult.setMessage("이미 가입된 회원정보가 있습니다.");
+		}
+		
+		
 		resResult.setResult(reqAccount);			
 		return ResponseEntity.ok(resResult);
 	}
