@@ -15,11 +15,8 @@ import com.hannamsm.shop.domain.profile.dao.ProfileDao;
 import com.hannamsm.shop.domain.profile.vo.Customer;
 import com.hannamsm.shop.global.BaseDaoTest;
 
-<<<<<<< HEAD
 @Disabled
-=======
 @Rollback
->>>>>>> branch 'master' of https://github.com/westviewIT/HNS-SHOP.git
 public class ProfileDaoTest extends BaseDaoTest {
 
 	@Autowired

@@ -48,7 +48,6 @@ public class CartControllerTest extends BaseControllerTest {
 	@Disabled
 	@Test
 	@DisplayName("Cart - 요약 조회 테스트 - (정상)")
-	@Disabled
 	public void queryCartSummery() throws Exception {
 		// Given
 
@@ -136,7 +135,6 @@ public class CartControllerTest extends BaseControllerTest {
 	@Disabled
 	@Test
 	@DisplayName("Cart - 상품 저장 테스트 - (정상)")
-	@Disabled
 	public void saveCartItem() throws Exception {
 		// Given
 		CartItemDto cartItemDto = CartItemDto.builder()
