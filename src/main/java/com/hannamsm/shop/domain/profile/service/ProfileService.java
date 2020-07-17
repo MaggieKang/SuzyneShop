@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.hannamsm.shop.domain.profile.dao.ProfileDao;
 import com.hannamsm.shop.domain.profile.vo.Customer;
+import com.hannamsm.shop.domain.profile.vo.ProfileDto;
+import com.hannamsm.shop.domain.profile.vo.AddressDto;
 
 @Service
 public class ProfileService {
@@ -17,11 +19,11 @@ public class ProfileService {
 	public Optional<Customer> findById(Customer customer) throws Exception {
 		return this.profileDao.findById(customer);
 	}
-	public int saveProfile(Customer customer) throws Exception{	
-		return profileDao.saveProfile(customer);
+	public int saveProfile(ProfileDto profileDto) throws Exception{	
+		return profileDao.saveProfile(profileDto);
 	}
-	public int saveAddress(Customer customer) throws Exception{	
-		return profileDao.saveAddress(customer);
+	public int saveAddress(AddressDto addressDto) throws Exception{	
+		return profileDao.saveAddress(addressDto);
 	}
 
 }

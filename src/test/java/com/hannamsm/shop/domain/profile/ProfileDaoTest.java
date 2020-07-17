@@ -13,6 +13,7 @@ import org.springframework.test.annotation.Rollback;
 
 import com.hannamsm.shop.domain.profile.dao.ProfileDao;
 import com.hannamsm.shop.domain.profile.vo.Customer;
+import com.hannamsm.shop.domain.profile.vo.ProfileDto;
 import com.hannamsm.shop.global.BaseDaoTest;
 
 @Disabled
@@ -39,7 +40,7 @@ public class ProfileDaoTest extends BaseDaoTest {
 	@Test
 	@DisplayName("profile 저장 테스트")
 	public void save() throws Exception{
-		Customer customer = Customer.builder()
+		ProfileDto profileDto = ProfileDto.builder()
 				.accountNo(1)
 				.firstName("ss")
 				.lastName("baek")
@@ -47,7 +48,7 @@ public class ProfileDaoTest extends BaseDaoTest {
 				.customerPhoneNumber("123-456-7897")
 				.extensionNumber(null)
 				.build();
-		int count = this.profileDao.saveProfile(customer);
+		int count = this.profileDao.saveProfile(profileDto);
 		System.out.println(count);
 
 		assertAll("saveCount",

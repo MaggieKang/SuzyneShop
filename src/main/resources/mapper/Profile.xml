@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.profile.dao.ProfileDao">
-<select id="findById" parameterType="int" resultType="com.hannamsm.shop.domain.profile.vo.Customer">
+<select id="findById" parameterType="com.hannamsm.shop.domain.profile.vo.Customer" resultType="com.hannamsm.shop.domain.profile.vo.Customer">
 SELECT a.account_no AS accountNo
+	   ,a.account_email AS accountEmail
 	   ,b.first_name AS firstName
 	   ,b.last_name AS lastName
 	   ,b.customer_email AS customerEmail
@@ -19,7 +20,7 @@ LEFT OUTER JOIN customer b ON b.account_no = a.account_no
 LEFT OUTER JOIN account_address c ON c.account_no = a.account_no
 WHERE a.account_no = #{accountNo}
 </select>
-<insert id="saveProfile" parameterType="com.hannamsm.shop.domain.profile.vo.Customer">
+<insert id="saveProfile" parameterType="com.hannamsm.shop.domain.profile.vo.ProfileDto">
 MERGE customer AS a
 USING (SELECT #{accountNo} AS account_no
 			, #{firstName} AS first_name
@@ -75,7 +76,7 @@ USING (SELECT #{accountNo} AS account_no
                   , a.last_mod_date = getdate()
                   , a.last_mod_person = b.account_no;
 </insert>
-<insert id="saveAddress" parameterType="com.hannamsm.shop.domain.profile.vo.Customer">
+<insert id="saveAddress" parameterType="com.hannamsm.shop.domain.profile.vo.AddressDto">
 MERGE account_address AS a
 USING (SELECT #{accountNo} AS account_no
 			, #{address}   AS address
