@@ -20,7 +20,7 @@ LEFT OUTER JOIN customer b ON b.account_no = a.account_no
 LEFT OUTER JOIN account_address c ON c.account_no = a.account_no
 WHERE a.account_no = #{accountNo}
 </select>
-<insert id="saveProfile" parameterType="com.hannamsm.shop.domain.profile.vo.Customer">
+<insert id="saveProfile" parameterType="com.hannamsm.shop.domain.profile.vo.ProfileDto">
 MERGE customer AS a
 USING (SELECT #{accountNo} AS account_no
 			, #{firstName} AS first_name
@@ -76,7 +76,7 @@ USING (SELECT #{accountNo} AS account_no
                   , a.last_mod_date = getdate()
                   , a.last_mod_person = b.account_no;
 </insert>
-<insert id="saveAddress" parameterType="com.hannamsm.shop.domain.profile.vo.Customer">
+<insert id="saveAddress" parameterType="com.hannamsm.shop.domain.profile.vo.AddressDto">
 MERGE account_address AS a
 USING (SELECT #{accountNo} AS account_no
 			, #{address}   AS address

@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hannamsm.shop.domain.account.vo.Account;
+import com.hannamsm.shop.domain.profile.exception.AccountNoNotFoundException;
 import com.hannamsm.shop.domain.profile.service.ProfileService;
 import com.hannamsm.shop.domain.profile.vo.Customer;
+import com.hannamsm.shop.domain.profile.vo.ProfileDto;
+import com.hannamsm.shop.domain.profile.vo.AddressDto;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResutl;
 
@@ -36,6 +38,7 @@ public class ProfileController {
 		Customer customer = new Customer();
 		customer.setAccountNo(account.getAccountNo());		
 		Optional<Customer> optionaProfile = this.profileService.findById(customer);
+		optionaProfile.orElseThrow(() -> new AccountNoNotFoundException(customer.getAccountNo()));		
 		if(optionaProfile.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
@@ -48,27 +51,27 @@ public class ProfileController {
 	}
 
 	@PutMapping
-	public ResponseEntity saveProfile(@RequestBody @Valid Customer reqCustomer
+	public ResponseEntity saveProfile(@RequestBody @Valid ProfileDto reqProfileDto
 									, @CurrentUser Account account) throws Exception {
-		reqCustomer.setAccountNo(account.getAccountNo());
-		profileService.saveProfile(reqCustomer);
+		reqProfileDto.setAccountNo(account.getAccountNo());
+		profileService.saveProfile(reqProfileDto);
 
-		ResponseResutl<Customer> resResult = new ResponseResutl<Customer>();
+		ResponseResutl<ProfileDto> resResult = new ResponseResutl<ProfileDto>();
 		resResult.setMessage("저장 되었습니다.");
-		resResult.setResult(reqCustomer);
-		System.out.println(reqCustomer.toString());
+		resResult.setResult(reqProfileDto);
+		System.out.println(reqProfileDto.toString());
 		return ResponseEntity.ok(resResult);
 	}
 	@PutMapping(value = "/address")
-	public ResponseEntity saveAddress(@RequestBody @Valid Customer reqCustomer
+	public ResponseEntity saveAddress(@RequestBody @Valid AddressDto reqAddressDto
 									, @CurrentUser Account account) throws Exception {
 
-		reqCustomer.setAccountNo(account.getAccountNo());
-		profileService.saveAddress(reqCustomer);		
+		reqAddressDto.setAccountNo(account.getAccountNo());
+		profileService.saveAddress(reqAddressDto);		
 
-		ResponseResutl<Customer> resResult = new ResponseResutl<Customer>();
+		ResponseResutl<AddressDto> resResult = new ResponseResutl<AddressDto>();
 		resResult.setMessage("저장 되었습니다.");
-		resResult.setResult(reqCustomer);
+		resResult.setResult(reqAddressDto);
 		return ResponseEntity.ok(resResult);
 	}
 }
