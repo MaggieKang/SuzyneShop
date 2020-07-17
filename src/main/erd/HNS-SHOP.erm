@@ -83,7 +83,7 @@
 				<is_use_logical_name>true</is_use_logical_name>
 			</export_excel_setting>
 			<export_html_setting>
-				<output_dir></output_dir>
+				<output_dir>C:\Hannam\hns-shop-sry\erd</output_dir>
 				<with_category_image>true</with_category_image>
 				<with_image>true</with_image>
 				<is_open_after_saved>true</is_open_after_saved>
@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2020-05-14 07:51:40</creation_date>
-			<updated_date>2020-07-14 16:18:10</updated_date>
+			<updated_date>2020-07-16 13:59:25</updated_date>
 			<model_property>
 				<name>프로젝트명</name>
 				<value></value>
