@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.hannamsm.shop.domain.favourite.vo.FavouriteItem;
 import com.hannamsm.shop.domain.favourite.vo.FavouriteItemSearch;
+import com.hannamsm.shop.global.mapper.HnsShopConnMapper;
 
+@HnsShopConnMapper
 public interface FavouriteDao {
 	public int findByAccountIdCount(FavouriteItemSearch favouriteItemSearch) throws Exception;
 

@@ -6,7 +6,9 @@ import java.util.Optional;
 import com.hannamsm.shop.domain.cart.vo.CartItem;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.domain.cart.vo.CartSummary;
+import com.hannamsm.shop.global.mapper.HnsShopConnMapper;
 
+@HnsShopConnMapper
 public interface CartDao {
 	public int findByAccountIdCount(CartItemSearch cartItemSearch) throws Exception;
 

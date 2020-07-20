@@ -7,7 +7,9 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hannamsm.shop.domain.event.vo.Event;
 import com.hannamsm.shop.domain.event.vo.EventSearch;
+import com.hannamsm.shop.global.mapper.HnsShopConnMapper;
 
+@HnsShopConnMapper
 public interface EventDao {
 	public int create(@Param("event")Event event) throws Exception;
 

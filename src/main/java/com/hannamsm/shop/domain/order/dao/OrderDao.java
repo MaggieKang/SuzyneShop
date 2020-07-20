@@ -7,7 +7,9 @@ import com.hannamsm.shop.domain.order.vo.Order;
 import com.hannamsm.shop.domain.order.vo.OrderDetail;
 import com.hannamsm.shop.domain.order.vo.OrderPickup;
 import com.hannamsm.shop.domain.order.vo.OrderSearch;
+import com.hannamsm.shop.global.mapper.HnsShopConnMapper;
 
+@HnsShopConnMapper
 public interface OrderDao {
 	public int findAllCount(OrderSearch orderSearch) throws Exception;
 

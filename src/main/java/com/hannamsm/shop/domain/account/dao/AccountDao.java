@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Param;
 
 import com.hannamsm.shop.domain.account.vo.Account;
+import com.hannamsm.shop.global.mapper.HnsShopConnMapper;
 
+@HnsShopConnMapper
 public interface AccountDao {
 	public Optional<Account> findByUserNo(int userNo);
 

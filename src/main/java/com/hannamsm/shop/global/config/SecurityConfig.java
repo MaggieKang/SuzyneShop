@@ -3,6 +3,7 @@ package com.hannamsm.shop.global.config;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,17 +23,17 @@ import com.hannamsm.shop.domain.account.service.AccountService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
+	@Qualifier("hnsshopDataSource")
 	DataSource dataSource;
-	
+
 	@Autowired
 	AccountService accountService;
-	
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
 	@Bean
 	public TokenStore tokenStore() {
-		//return new InMemoryTokenStore();
 		return new JdbcTokenStore(dataSource);
 	}
 
@@ -53,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().mvcMatchers("/docs/index.html");
 		web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
 	}
-	
-	
-	
+
+
+
 }
