@@ -42,9 +42,9 @@ IF ObJECt_ID('[tfTran3_b]') IS NOT NULL DROP TABLE [tfTran3_b];
 CREATE TABLE [account]
 (
 	-- 계정번호 : 계정번호
-	[account_no] int NOT NULL UNIQUE IDENTITY ,
+	[account_no] int NOT NULL IDENTITY ,
 	-- 계정이메일
-	[account_email] varchar(200) NOT NULL,
+	[account_email] varchar(200) NOT NULL UNIQUE,
 	-- 비밀번호 : 비밀번호
 	[password] varchar(500) NOT NULL,
 	-- 만료여부 : 만료 여부
@@ -71,7 +71,7 @@ CREATE TABLE [account]
 CREATE TABLE [account_address]
 (
 	-- 계정번호 : 계정번호
-	[account_no] int NOT NULL UNIQUE,
+	[account_no] int NOT NULL,
 	-- 순번
 	[seq] int NOT NULL IDENTITY ,
 	-- 주소
@@ -121,7 +121,7 @@ CREATE TABLE [account_authority]
 CREATE TABLE [admin_account]
 (
 	-- 계정번호 : 계정번호
-	[account_no] int NOT NULL UNIQUE IDENTITY ,
+	[account_no] int NOT NULL IDENTITY ,
 	-- 계정ID
 	[account_id] varchar(20) NOT NULL UNIQUE,
 	-- 비밀번호 : 비밀번호
