@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hannamsm.shop.domain.order.dao.SryposOrderDao">
+<select id="findAll" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="com.hannamsm.shop.domain.order.vo.Order">
+select a.order_id          as orderId
+     , a.store_id          as storeId
+     , a.order_date        as orderDate
+     , (select top 1 s2.item_kr_nm +'/'+ s2.item_en_nm +' '+ s2.item_size +'...'
+         from orders_detail s1
+              inner join item s2 on s2.store_id = s1.store_id and s2.item_id = s1.item_id and s2.is_use = 1
+        where s1.store_id = a.store_id
+          and s1.order_id = a.order_id ) as titleNm
+     , (a.total_amount + a.total_gst_fee + a.total_pst_fee + a.total_hst_fee + a.total_eco_fee + a.total_deposit_fee) as grandTotalPrice
+     , a.total_amount      as totalAmount
+     , a.total_gst_fee     as totalGstFee
+     , a.total_pst_fee     as totalPstFee
+     , a.total_hst_fee     as totalHstFee
+     , a.total_eco_fee     as totalEcoFee
+     , a.total_deposit_fee as totalDepositFee
+     , b.slot_dt           as slotDt
+     , FORMAT(CAST(b.slot_time AS datetime), 'HH:mm') as slotTime
+     , format(cast(slot_time AS datetime), 'hh tt') as startDisplaySlotTime
+     , format(cast(dateadd(hour, 1, slot_time) AS datetime), 'hh tt') as endDisplaySlotTime
+     , (select count(od.item_id) from orders_detail od where od.store_id = a.store_id and od.order_id = a.order_id) as itemCount
+     , a.reg_date          as regDate
+     , a.reg_person        as regPerson
+     , a.last_mod_date     as lastModDate
+     , a.last_mod_person   as lastModPerson
+  from orders a
+       left join orders_pickup b on b.store_id = a.store_id and b.order_id = a.order_id
+ where a.account_no = #{accountNo}
+   and a.store_id = #{storeId}
+    <if test="orderId != null and orderId != ''">
+   and a.order_id = #{orderId}
+    </if>
+ order by a.order_id
+offset #{startRownum} rows
+ fetch next #{listSize} row only
+</select>
+</mapper>
