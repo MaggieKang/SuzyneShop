@@ -22,7 +22,7 @@ file:
 #받기로 한 값 이외는 에러
 #spring.jackson.deserialization.fail-on-unknown-properties=true
 my-app:
-  test-username: 9000
+  test-username: dev9000@gmail.com
   test-password: 1234
   client-id: HNS-SHOP
   client-secret: pass
@@ -31,12 +31,19 @@ my-app:
 --- #local 환경
 spring:
   profiles: local
-
-  datasource:
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://192.168.99.100:1433;databaseName=hnsshop
-    username: sa
-    password: Pa33word
+  
+  hnsshop:
+    datasource:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      jdbc-url: jdbc:sqlserver://192.168.99.100:1433;databaseName=hnsshop
+      username: sa
+      password: Pa33word
+  srypos:
+    datasource:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      jdbc-url: jdbc:sqlserver://192.168.99.100:1433;databaseName=wholesaleDB
+      username: sa
+      password: Pa33word
 
 #Server HTTP port
 server:
@@ -57,12 +64,19 @@ logging:
 --- #test 환경
 spring:
   profiles: test
-
-  datasource:
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://172.16.3.60:1433;databaseName=hnsshop
-    username: shopdev
-    password: WVit#2020
+  
+  hnsshop:
+    datasource:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      jdbc-url: jdbc:sqlserver://172.16.3.60:1433;databaseName=hnsshop
+      username: shopdev
+      password: WVit#2020
+  srypos:
+    datasource:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      jdbc-url: jdbc:sqlserver://172.16.1.29:1433;databaseName=wholesaleDB
+      username: wssale
+      password: w2015
 
 #Server HTTP port
 server:
@@ -84,11 +98,18 @@ logging:
 spring:
   profiles: real
 
-  datasource:
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://172.16.3.60:1433;databaseName=hnsshop
-    username: shopdev
-    password: WVit#2020
+  hnsshop:
+    datasource:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      jdbc-url: jdbc:sqlserver://172.16.3.60:1433;databaseName=hnsshop
+      username: shopdev
+      password: WVit#2020
+  srypos:
+    datasource:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      jdbc-url: jdbc:sqlserver://172.16.1.29:1433;databaseName=wholesaleDB
+      username: wssale
+      password: w2015
 
 #Server HTTP port
 server:
