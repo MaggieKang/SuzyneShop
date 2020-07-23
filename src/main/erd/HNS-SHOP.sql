@@ -827,6 +827,8 @@ CREATE TABLE [orders]
 	[total_eco_fee] decimal(10,2),
 	-- 총Deposit수수료
 	[total_deposit_fee] decimal(10,2),
+	-- 주문상태코드
+	[order_status_cd] varchar(10) NOT NULL,
 	-- 계정번호 : 계정번호
 	[account_no] int NOT NULL,
 	-- 최초등록일시 : 최초등록일시
@@ -860,7 +862,9 @@ CREATE TABLE [orders_detail]
 	-- 상품ECO코드
 	[item_eco_cd] varchar(4),
 	-- 주문수량
-	[order_qty] int,
+	[order_qty] int DEFAULT 0 NOT NULL,
+	-- 집품수량
+	[pickup_qty] int DEFAULT 0 NOT NULL,
 	-- 총계
 	[amount] decimal(10,2),
 	-- 낱개판매가격
@@ -891,6 +895,8 @@ CREATE TABLE [orders_detail]
 	[promotion_price] decimal(10,2) NOT NULL,
 	-- 인보이스ID
 	[invoice_id] varchar(20),
+	-- 주문상세상태코드
+	[order_detail_status_cd] varchar(10) NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
