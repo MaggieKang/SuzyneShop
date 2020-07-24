@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hannamsm.shop.domain.address.dao.AddressDao">
+<select id="findAll" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddress" resultType="com.hannamsm.shop.domain.address.vo.AccountAddress">
+SELECT a.account_no
+	  ,a.account_email AS accountEmail
+	  ,b.seq AS seq
+	  ,b.address AS address
+	  ,b.city AS city
+	  ,b.province AS province
+	  ,b.country AS country
+	  ,b.postal_cd AS postalCd
+	  ,b.is_default_address AS isDefalutAddress
+FROM account a
+LEFT OUTER JOIN account_address b ON b.account_no = a.account_no
+WHERE a.account_no = '1'
+order by is_default_address DESC, seq ASC
+</select>
+</mapper>

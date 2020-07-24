@@ -11,7 +11,8 @@ import lombok.ToString;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
 public class AddressDto {	
-	private int accountNo;	
+	private int accountNo;
+	private int seq;
 	private String address;
 	private String city;
 	private String province;

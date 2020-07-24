@@ -1,4 +1,4 @@
-package com.hannamsm.shop.domain.profile.vo;
+package com.hannamsm.shop.domain.address.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,20 +10,15 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
-public class Customer {
+public class AccountAddress {
 	private int accountNo;
-	private String accountEmail;	
-	private String firstName;
-	private String lastName;
-	private String customerEmail;
-	private String customerPhoneNumber;
-	private String extensionNumber;
+	private String accountEmail;
 	private int seq;
 	private String address;
 	private String city;
 	private String province;
 	private String country;
 	private String postalCd;
-	private boolean isDefaultAddress;
+	private boolean isDefalultAddress; 
 
 }

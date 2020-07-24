@@ -45,8 +45,7 @@ public class ProfileController {
 
 		ResponseResutl<Customer> result = new ResponseResutl<Customer>();
 		result.setMessage("조회하였습니다.");
-		result.setResult(optionaProfile.get());	
-		System.out.println(result.toString());
+		result.setResult(optionaProfile.get());			
 		return ResponseEntity.ok(result);
 	}
 
@@ -58,8 +57,7 @@ public class ProfileController {
 
 		ResponseResutl<ProfileDto> resResult = new ResponseResutl<ProfileDto>();
 		resResult.setMessage("저장 되었습니다.");
-		resResult.setResult(reqProfileDto);
-		System.out.println(reqProfileDto.toString());
+		resResult.setResult(reqProfileDto);		
 		return ResponseEntity.ok(resResult);
 	}
 	@PutMapping(value = "/address")
@@ -71,7 +69,7 @@ public class ProfileController {
 
 		ResponseResutl<AddressDto> resResult = new ResponseResutl<AddressDto>();
 		resResult.setMessage("저장 되었습니다.");
-		resResult.setResult(reqAddressDto);
+		resResult.setResult(reqAddressDto);		
 		return ResponseEntity.ok(resResult);
 	}
 }

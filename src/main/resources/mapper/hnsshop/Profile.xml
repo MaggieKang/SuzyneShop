@@ -2,13 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.profile.dao.ProfileDao">
 <select id="findById" parameterType="com.hannamsm.shop.domain.profile.vo.Customer" resultType="com.hannamsm.shop.domain.profile.vo.Customer">
-SELECT a.account_no AS accountNo
+SELECT TOP 1 a.account_no AS accountNo
 	   ,a.account_email AS accountEmail
 	   ,b.first_name AS firstName
 	   ,b.last_name AS lastName
 	   ,b.customer_email AS customerEmail
 	   ,b.customer_phone_number  AS customerPhoneNumber
 	   ,b.extension_nember  AS extensionNumber
+	   ,c.seq  as seq
 	   ,c.address AS address
 	   ,c.city AS city
 	   ,c.province AS province
@@ -19,6 +20,7 @@ FROM account a
 LEFT OUTER JOIN customer b ON b.account_no = a.account_no
 LEFT OUTER JOIN account_address c ON c.account_no = a.account_no
 WHERE a.account_no = #{accountNo}
+Order By is_default_address DESC, seq ASC
 </select>
 <insert id="saveProfile" parameterType="com.hannamsm.shop.domain.profile.vo.ProfileDto">
 MERGE customer AS a
@@ -79,6 +81,7 @@ USING (SELECT #{accountNo} AS account_no
 <insert id="saveAddress" parameterType="com.hannamsm.shop.domain.profile.vo.AddressDto">
 MERGE account_address AS a
 USING (SELECT #{accountNo} AS account_no
+			, #{seq}   AS seq
 			, #{address}   AS address
 			, #{city}  	   AS city
 			, #{province}  AS province
@@ -87,7 +90,8 @@ USING (SELECT #{accountNo} AS account_no
 			, #{isDefaultAddress}  AS is_default_address
 	   ) AS b
 	ON(
-			a.account_no =b.account_no
+			a.account_no = b.account_no
+			and a.seq = b.seq
 	   )
 	   WHEN NOT MATCHED THEN
 	   		INSERT ( account_no
@@ -116,7 +120,7 @@ USING (SELECT #{accountNo} AS account_no
 	   		)
 	  WHEN MATCHED THEN
 	  		UPDATE
-	  		SET   a.account_no = b.account_no
+	  		SET   a.account_no = b.account_no	  			  
                   , a.address = b.address
                   , a.city = b.city
                   , a.province = b.province
