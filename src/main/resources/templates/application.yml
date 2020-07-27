@@ -1,6 +1,19 @@
 spring:
   profiles:
     active: local
+  
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: westViewM001@gmail.com
+    password: wvIt2019!
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls: 
+            enable: true
+  
 
 ## MULTIPART (MultipartProperties)
 # 1.Enable multipart uploads
@@ -64,18 +77,6 @@ logging:
 --- #test 환경
 spring:
   profiles: test
-  
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: westViewM001@gmail.com
-    password: wvIt2019!
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls: 
-            enable: true
   
   hnsshop:
     datasource:
