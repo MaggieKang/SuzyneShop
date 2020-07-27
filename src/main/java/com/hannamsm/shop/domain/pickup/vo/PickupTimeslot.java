@@ -20,7 +20,7 @@ public class PickupTimeslot {
 	private String endDisplaySlotTime;
 	private String storeId;
 	private int allocationQty;
-	private int completionQty;
+	private int reservedQty;
 	private boolean pickupAvailable;
 	private LocalDateTime regDate;
 	private String regPerson;

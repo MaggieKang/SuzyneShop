@@ -4,12 +4,12 @@
 
 <select id="findBySlotDt" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
 select slot_dt         as slotDt
-     , FORMAT(CAST(slot_time AS datetime), 'HH:mm') as slotTime
+     , format(cast(slot_time AS datetime), 'HH:mm') as slotTime
      , format(cast(slot_time AS datetime), 'hh tt') as startDisplaySlotTime
      , format(cast(dateadd(hour, 1, slot_time) AS datetime), 'hh tt') as endDisplaySlotTime
      , store_id        as storeId
      , allocation_qty  as allocationQty
-     , completion_qty  as completionQty
+     , reserved_qty    as reservedQty
      , (case when completion_qty >= allocation_qty then 0
              when dateadd(hour,1,getdate()) > convert(datetime, CONVERT(varchar,slot_dt,23) +' '+ CONVERT(varchar,FORMAT(CAST(slot_time AS datetime), 'HH:mm:ss'),114), 121) then 0
              else 1
@@ -30,7 +30,7 @@ select slot_dt         as slotDt
      , format(cast(dateadd(hour, 1, slot_time) AS datetime), 'hh tt') as endDisplaySlotTime
      , store_id        as storeId
      , allocation_qty  as allocationQty
-     , completion_qty  as completionQty
+     , reserved_qty    as reservedQty
      , (case when completion_qty >= allocation_qty then 0
              when dateadd(hour,1,getdate()) > convert(datetime, CONVERT(varchar,slot_dt,23) +' '+ CONVERT(varchar,FORMAT(CAST(slot_time AS datetime), 'HH:mm:ss'),114), 121) then 0
              else 1
@@ -48,7 +48,7 @@ select slot_dt         as slotDt
 <select id="getNumberAvailable" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="int">
 select isnull((
 	select (case when dateadd(hour,1,getdate()) > convert(datetime, CONVERT(varchar,slot_dt,23) +' '+ CONVERT(varchar,FORMAT(CAST(slot_time AS datetime), 'HH:mm:ss'),114), 121) then 0
-                 else (allocation_qty - completion_qty)
+                 else (allocation_qty - reserved_qty)
            end) as numberAvailable
 	  from pickup_timeslot
 	 where store_id = #{storeId}
@@ -63,7 +63,7 @@ using (select #{slotDt}        as slot_dt
             , #{slotTime}      as slot_time
             , #{storeId}       as store_id
             , #{allocationQty} as allocation_qty
-            , #{completionQty} as completion_qty
+            , #{reservedQty} as reserved_qty
             , getDate()        as reg_date
             , #{regPerson}     as reg_person
             , getDate()        as last_mod_date
@@ -77,7 +77,7 @@ using (select #{slotDt}        as slot_dt
                     , slot_time
                     , store_id
                     , allocation_qty
-                    , completion_qty
+                    , reserved_qty
                     , reg_date
                     , reg_person
                     , last_mod_date
@@ -87,7 +87,7 @@ using (select #{slotDt}        as slot_dt
                     , b.slot_time
                     , b.store_id
                     , b.allocation_qty
-                    , b.completion_qty
+                    , b.reserved_qty
                     , b.reg_date
                     , b.reg_person
                     , b.last_mod_date
@@ -97,7 +97,7 @@ using (select #{slotDt}        as slot_dt
              update set a.last_mod_person = b.last_mod_person
                   , a.last_mod_date = b.last_mod_date
                   , a.allocation_qty = b.allocation_qty
-                  , a.completion_qty = b.completion_qty;
+                  , a.reserved_qty = b.reserved_qty;
 </insert>
 
 <insert id="deleteTimeslot" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
@@ -108,7 +108,7 @@ delete pickup_timeslot
 
 <update id="updatePickReservation" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch">
 update pickup_timeslot
-   set completion_qty += 1
+   set reserved_qty += 1
  where store_id = #{storeId}
    and slot_dt = #{slotDt}
    and slot_time = #{slotTime}

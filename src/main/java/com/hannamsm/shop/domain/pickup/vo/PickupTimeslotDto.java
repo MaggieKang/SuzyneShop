@@ -26,5 +26,5 @@ public class PickupTimeslotDto {
 	@Min(0)
 	private int allocationQty;
 	@Min(0)
-	private int completionQty;
+	private int reservedQty;
 }

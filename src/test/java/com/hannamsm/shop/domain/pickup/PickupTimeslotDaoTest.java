@@ -71,7 +71,7 @@ public class PickupTimeslotDaoTest extends BaseDaoTest {
 				.slotDt(targetDay)
 				.slotTime(targetTime)
 				.allocationQty(999)
-				.completionQty(0)
+				.reservedQty(0)
 				.regPerson("sysadmin")
 				.lastModPerson("sysadmin")
 				.build();
