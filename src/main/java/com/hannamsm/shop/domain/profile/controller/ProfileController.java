@@ -20,7 +20,7 @@ import com.hannamsm.shop.domain.profile.vo.Customer;
 import com.hannamsm.shop.domain.profile.vo.ProfileDto;
 import com.hannamsm.shop.domain.profile.vo.AddressDto;
 import com.hannamsm.shop.global.adapter.CurrentUser;
-import com.hannamsm.shop.global.vo.ResponseResutl;
+import com.hannamsm.shop.global.vo.ResponseResult;
 
 @RestController
 @RequestMapping(value="/api/profile", produces = MediaTypes.HAL_JSON_VALUE)
@@ -43,7 +43,7 @@ public class ProfileController {
 			return ResponseEntity.notFound().build();
 		}
 
-		ResponseResutl<Customer> result = new ResponseResutl<Customer>();
+		ResponseResult<Customer> result = new ResponseResult<Customer>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(optionaProfile.get());			
 		return ResponseEntity.ok(result);
@@ -55,7 +55,7 @@ public class ProfileController {
 		reqProfileDto.setAccountNo(account.getAccountNo());
 		profileService.saveProfile(reqProfileDto);
 
-		ResponseResutl<ProfileDto> resResult = new ResponseResutl<ProfileDto>();
+		ResponseResult<ProfileDto> resResult = new ResponseResult<ProfileDto>();
 		resResult.setMessage("저장 되었습니다.");
 		resResult.setResult(reqProfileDto);		
 		return ResponseEntity.ok(resResult);
@@ -67,7 +67,7 @@ public class ProfileController {
 		reqAddressDto.setAccountNo(account.getAccountNo());
 		profileService.saveAddress(reqAddressDto);		
 
-		ResponseResutl<AddressDto> resResult = new ResponseResutl<AddressDto>();
+		ResponseResult<AddressDto> resResult = new ResponseResult<AddressDto>();
 		resResult.setMessage("저장 되었습니다.");
 		resResult.setResult(reqAddressDto);		
 		return ResponseEntity.ok(resResult);

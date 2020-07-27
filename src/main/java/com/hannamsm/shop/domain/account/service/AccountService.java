@@ -46,16 +46,24 @@ public class AccountService implements UserDetailsService{
 
 		return new AccountAdapter(account);
     }
-   
-  
+
+
     public String dupCheckAccount(String accountEmail) {
-    	Optional<Account> account  = accountDao.findByUserEmail(accountEmail);
+    	//Optional<Account> account  = accountDao.findByUserEmail(accountEmail);
+    	String strEmail = accountDao.dupAccount(accountEmail);
     	//account.orElseThrow(() -> new AccountAlreadyMemberException());
-    	return account.equals(Optional.empty()) ? "" : account.get().getAccountEmail() ;
+    	//return account.equals(Optional.empty()) ? "" : account.get().getAccountEmail() ;
+    	return strEmail != null ? strEmail : "";
     }
-    
+
     public void createUser(Account account) {
 		accountDao.createAccount(account);
+    }
+
+    public String checkOldPassword(String oldPassword) {
+    	String strReturn = "";
+    	accountDao.checkOldPassword(oldPassword);
+    	return strReturn;
     }
 
     public void deleteAccount(String userEmail) {

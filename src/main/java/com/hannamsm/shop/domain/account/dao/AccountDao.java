@@ -16,6 +16,12 @@ public interface AccountDao {
 
 	public List<String> findRolesByUserNo(int userNo);
 
+	public String dupAccount(String userEmail);
+
+	public String checkOldPassword(String oldPassword);
+
+	public void updatePassword(String oldPassword);
+
 	public void createAccount(Account account);
 
 	public void deleteAccount(@Param("accountNo") int userNo);

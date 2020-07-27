@@ -28,7 +28,7 @@ import com.hannamsm.shop.domain.event.vo.EventDto;
 import com.hannamsm.shop.domain.event.vo.EventSearch;
 import com.hannamsm.shop.domain.event.vo.ResEventDto;
 import com.hannamsm.shop.global.adapter.CurrentUser;
-import com.hannamsm.shop.global.vo.ResponseResutl;
+import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
 @RestController
@@ -60,7 +60,7 @@ public class EventController {
 
 		ResEventDto resEventDto = modelMapper.map(savedEvent, ResEventDto.class);
 
-		ResponseResutl<ResEventDto> resResult = new ResponseResutl<ResEventDto>();
+		ResponseResult<ResEventDto> resResult = new ResponseResult<ResEventDto>();
 		resResult.setMessage("생성되었습니다.");
 		resResult.setResult(resEventDto);
 
@@ -96,7 +96,7 @@ public class EventController {
 			return ResponseEntity.notFound().build();
 		}
 
-		ResponseResutl<Event> result = new ResponseResutl<Event>();
+		ResponseResult<Event> result = new ResponseResult<Event>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(optionalEvent.get());
 		return ResponseEntity.ok(result);
@@ -117,7 +117,7 @@ public class EventController {
 
 		ResEventDto resEventDto = modelMapper.map(savedEvent, ResEventDto.class);
 
-		ResponseResutl<ResEventDto> resResult = new ResponseResutl<ResEventDto>();
+		ResponseResult<ResEventDto> resResult = new ResponseResult<ResEventDto>();
 		resResult.setMessage("변경되었습니다.");
 		resResult.setResult(resEventDto);
 

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.hannamsm.shop.domain.event.vo.Event;
-import com.hannamsm.shop.global.vo.ResponseResutl;
+import com.hannamsm.shop.global.vo.ResponseResult;
 
 public class NotificationController {
 
@@ -13,7 +13,7 @@ public class NotificationController {
 	@GetMapping("/{id}")
 	public ResponseEntity sendResetEmail(@PathVariable Integer id) throws Exception {
 		
-		ResponseResutl<Event> result = new ResponseResutl<Event>();
+		ResponseResult<Event> result = new ResponseResult<Event>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(null);
 		return ResponseEntity.ok(result);
@@ -23,7 +23,7 @@ public class NotificationController {
 	@GetMapping("/{id}")
 	public ResponseEntity sendCheckEmail(@PathVariable Integer id) throws Exception {
 		
-		ResponseResutl<Event> result = new ResponseResutl<Event>();
+		ResponseResult<Event> result = new ResponseResult<Event>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(null);
 		return ResponseEntity.ok(result);
@@ -33,7 +33,7 @@ public class NotificationController {
 	@GetMapping("/{id}")
 	public ResponseEntity sendCompleteOrder(@PathVariable Integer id) throws Exception {
 		
-		ResponseResutl<Event> result = new ResponseResutl<Event>();
+		ResponseResult<Event> result = new ResponseResult<Event>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(null);
 		return ResponseEntity.ok(result);
@@ -43,7 +43,7 @@ public class NotificationController {
 	@GetMapping("/{id}")
 	public ResponseEntity sendCompletePayment(@PathVariable Integer id) throws Exception {
 		
-		ResponseResutl<Event> result = new ResponseResutl<Event>();
+		ResponseResult<Event> result = new ResponseResult<Event>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(null);
 		return ResponseEntity.ok(result);

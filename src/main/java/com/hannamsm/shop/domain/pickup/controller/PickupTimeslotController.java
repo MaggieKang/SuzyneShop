@@ -18,7 +18,7 @@ import com.hannamsm.shop.domain.pickup.service.PickupTimeslotService;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupTimeslot;
-import com.hannamsm.shop.global.vo.ResponseResutl;
+import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
 @RestController
@@ -66,7 +66,7 @@ public class PickupTimeslotController {
 		}
 
 		//return data
-		ResponseResutl<PickupTimeslot> result = new ResponseResutl<PickupTimeslot>();
+		ResponseResult<PickupTimeslot> result = new ResponseResult<PickupTimeslot>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(optionalResult.get());
 		return ResponseEntity.ok(result);

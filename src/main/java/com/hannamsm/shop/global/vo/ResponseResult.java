@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ResponseResutl<T> {
+public class ResponseResult<T> {
 
 	private String message;
 

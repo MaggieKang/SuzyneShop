@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hannamsm.shop.domain.event.vo.Event;
-import com.hannamsm.shop.global.vo.ResponseResutl;
+import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
 @RestController
@@ -42,7 +42,7 @@ public class InvoiceController {
 	@GetMapping("/{id}")
 	public ResponseEntity queryInvoice(@PathVariable Integer id) throws Exception {
 		
-		ResponseResutl<Event> result = new ResponseResutl<Event>();
+		ResponseResult<Event> result = new ResponseResult<Event>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(null);
 		return ResponseEntity.ok(result);

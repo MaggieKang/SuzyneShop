@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hannamsm.shop.domain.item.service.ItemService;
 import com.hannamsm.shop.domain.item.vo.Item;
 import com.hannamsm.shop.domain.item.vo.ItemSearch;
-import com.hannamsm.shop.global.vo.ResponseResutl;
+import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
 
@@ -93,7 +93,7 @@ public class ItemController {
 			return ResponseEntity.notFound().build();
 		}
 
-		ResponseResutl<Item> result = new ResponseResutl<Item>();
+		ResponseResult<Item> result = new ResponseResult<Item>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(optionalResult.get());
 		return ResponseEntity.ok(result);

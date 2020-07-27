@@ -24,7 +24,7 @@ import com.hannamsm.shop.domain.cart.vo.CartItemDto;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.domain.cart.vo.CartSummary;
 import com.hannamsm.shop.global.adapter.CurrentUser;
-import com.hannamsm.shop.global.vo.ResponseResutl;
+import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
 @RestController
@@ -82,7 +82,7 @@ public class CartController {
 		int allCount = this.cartService.findByAccountIdCount(cartItemSearch);
 
 		//return data
-        ResponseResutl<Integer> resResult = new ResponseResutl<Integer>();
+        ResponseResult<Integer> resResult = new ResponseResult<Integer>();
 		resResult.setMessage("조회되었습니다.");
 		resResult.setResult(allCount);
 
@@ -103,7 +103,7 @@ public class CartController {
 
 		CartSummary cartSummary = this.cartService.findSummaryByAccountId(cartItemSearch);
 
-		ResponseResutl<CartSummary> result = new ResponseResutl<CartSummary>();
+		ResponseResult<CartSummary> result = new ResponseResult<CartSummary>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(cartSummary);
 		return ResponseEntity.ok(result);
@@ -120,7 +120,7 @@ public class CartController {
 
 		cartService.addCartItem(reqCartItemDto);
 
-		ResponseResutl<CartItemDto> resResult = new ResponseResutl<CartItemDto>();
+		ResponseResult<CartItemDto> resResult = new ResponseResult<CartItemDto>();
 		resResult.setMessage("추가 되었습니다.");
 		resResult.setResult(reqCartItemDto);
 
@@ -138,7 +138,7 @@ public class CartController {
 
 		cartService.saveCartItem(reqCartItemDto);
 
-		ResponseResutl<CartItemDto> resResult = new ResponseResutl<CartItemDto>();
+		ResponseResult<CartItemDto> resResult = new ResponseResult<CartItemDto>();
 		resResult.setMessage("저장 되었습니다.");
 		resResult.setResult(reqCartItemDto);
 
@@ -156,7 +156,7 @@ public class CartController {
 
 		cartService.deleteCartItem(reqCartItemDto);
 
-		ResponseResutl<CartItemDto> resResult = new ResponseResutl<CartItemDto>();
+		ResponseResult<CartItemDto> resResult = new ResponseResult<CartItemDto>();
 		resResult.setMessage("삭제 되었습니다.");
 		resResult.setResult(reqCartItemDto);
 

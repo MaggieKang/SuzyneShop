@@ -22,7 +22,7 @@ import com.hannamsm.shop.domain.order.vo.Order;
 import com.hannamsm.shop.domain.order.vo.OrderDetail;
 import com.hannamsm.shop.domain.order.vo.OrderSearch;
 import com.hannamsm.shop.global.adapter.CurrentUser;
-import com.hannamsm.shop.global.vo.ResponseResutl;
+import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
 @RestController
@@ -101,7 +101,7 @@ public class OrderController {
 
 		NewOrderDto resultNewOrderDto = orderService.saveCartToOrder(newOrderDto);
 
-		ResponseResutl<NewOrderDto> resResult = new ResponseResutl<NewOrderDto>();
+		ResponseResult<NewOrderDto> resResult = new ResponseResult<NewOrderDto>();
 		resResult.setMessage("저장 되었습니다.");
 		resResult.setResult(resultNewOrderDto);
 

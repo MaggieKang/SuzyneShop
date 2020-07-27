@@ -123,6 +123,7 @@ insert into orders_detail (
      , promotion_end_date
      , promotion_price
      , invoice_id
+     , order_detail_status_cd
      , reg_date
      , reg_person
      , last_mod_date
@@ -165,6 +166,7 @@ select #{orderId} as order_id
      , b.promotion_end_date as promotion_end_date
      , b.promotion_price as promotion_price
      , null as invoice_id
+     , 'READY' as orderDetailStatusCd
      , getDate() as reg_date
      , #{accountNo} as reg_person
      , getDate() as last_mod_date
@@ -188,6 +190,7 @@ insert into orders (
      , total_eco_fee
      , total_deposit_fee
      , account_no
+     , order_status_cd
      , reg_date
      , reg_person
      , last_mod_date
@@ -204,6 +207,7 @@ select a.order_id               as order_id
      , sum(a.each_eco_fee)      as total_eco_fee
      , sum(a.each_deposit_fee)  as total_deposit_fee
      , #{accountNo}             as account_no
+     , 'ORDERED' as order_status_cd
      , getDate()                as reg_date
      , #{accountNo}             as reg_person
      , getDate()                as last_mod_date

@@ -20,6 +20,7 @@ public class Account implements Serializable {
     private int accountNo;
     private String accountEmail;
     private String password;
+    private String newPassword;
     //계정이 만료되었는지
     private boolean isExpired;
     //계정이 잠겼는지(패스워드를 몇회 틀려서)

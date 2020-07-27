@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hannamsm.shop.domain.event.vo.Event;
-import com.hannamsm.shop.global.vo.ResponseResutl;
+import com.hannamsm.shop.global.vo.ResponseResult;
 
 @RestController
 @RequestMapping(value="/api/item-image", produces = MediaTypes.HAL_JSON_VALUE)
@@ -18,7 +18,7 @@ public class ItemImageController {
 	@GetMapping("/{id}")
 	public ResponseEntity getItemImage(@PathVariable Integer id) throws Exception {
 		
-		ResponseResutl<Event> result = new ResponseResutl<Event>();
+		ResponseResult<Event> result = new ResponseResult<Event>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(null);
 		return ResponseEntity.ok(result);

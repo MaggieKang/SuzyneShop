@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hannamsm.shop.domain.store.service.StoreService;
 import com.hannamsm.shop.domain.store.vo.Store;
 import com.hannamsm.shop.domain.store.vo.StoreSearch;
-import com.hannamsm.shop.global.vo.ResponseResutl;
+import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
 @RestController
@@ -58,7 +58,7 @@ public class StoreController {
 			return ResponseEntity.notFound().build();
 		}
 
-		ResponseResutl<Store> result = new ResponseResutl<Store>();
+		ResponseResult<Store> result = new ResponseResult<Store>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(optionaStore.get());
 		return ResponseEntity.ok(result);

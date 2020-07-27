@@ -33,8 +33,8 @@ select account_email
 </select>
 <insert id="createAccount" parameterType="com.hannamsm.shop.domain.account.vo.Account">
 insert into account
-(    
-	   account_email
+(
+       account_email
      , password
      , is_expired
      , is_locked

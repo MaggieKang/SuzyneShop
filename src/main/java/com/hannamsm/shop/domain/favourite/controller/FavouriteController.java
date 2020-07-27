@@ -24,7 +24,7 @@ import com.hannamsm.shop.domain.favourite.vo.FavouriteItem;
 import com.hannamsm.shop.domain.favourite.vo.FavouriteItemDto;
 import com.hannamsm.shop.domain.favourite.vo.FavouriteItemSearch;
 import com.hannamsm.shop.global.adapter.CurrentUser;
-import com.hannamsm.shop.global.vo.ResponseResutl;
+import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
 @RestController
@@ -76,7 +76,7 @@ public class FavouriteController {
 
 		favouriteService.addFavouriteItem(favouriteItemDto);
 
-		ResponseResutl<FavouriteItemDto> resResult = new ResponseResutl<FavouriteItemDto>();
+		ResponseResult<FavouriteItemDto> resResult = new ResponseResult<FavouriteItemDto>();
 		resResult.setMessage("추가 되었습니다.");
 		resResult.setResult(favouriteItemDto);
 
@@ -97,7 +97,7 @@ public class FavouriteController {
 
 		favouriteService.deleteFavouriteItem(favouriteItemDto);
 
-		ResponseResutl<FavouriteItemDto> resResult = new ResponseResutl<FavouriteItemDto>();
+		ResponseResult<FavouriteItemDto> resResult = new ResponseResult<FavouriteItemDto>();
 		resResult.setMessage("삭제 되었습니다.");
 		resResult.setResult(favouriteItemDto);
 
