@@ -923,7 +923,7 @@ CREATE TABLE [orders_pickup]
 	-- 매장ID
 	[pickup_store_id] varchar(10) NOT NULL,
 	-- 주문픽업상태코드
-	[order_picup_status_cd] varchar(10) NOT NULL,
+	[order_pickup_status_cd] varchar(10) NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -947,8 +947,8 @@ CREATE TABLE [pickup_timeslot]
 	[store_id] varchar(10) NOT NULL,
 	-- 할당수량
 	[allocation_qty] int DEFAULT 0 NOT NULL,
-	-- 완료수량
-	[completion_qty] int DEFAULT 0 NOT NULL,
+	-- 예약수량
+	[reserved_qty] int DEFAULT 0 NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자

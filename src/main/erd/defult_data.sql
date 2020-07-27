@@ -370,7 +370,7 @@ INSERT INTO customer (account_no,first_name, last_name ,customer_email,customer_
  (1,'first_name','last_name','1006_email@gmail.com','123-123-1234','mail','이름1006','en_name1006','kr',1234,getDate(),'sysadmin',getDate(),'sysadmin')
 ,(2,'first_name','last_name','9001_email@gmail.com','123-123-1236','mail','이름9001','en_name9001','en',1236,getDate(),'sysadmin',getDate(),'sysadmin');
 
-INSERT INTO pickup_timeslot (slot_dt,slot_time,allocation_qty,completion_qty,store_id,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+INSERT INTO pickup_timeslot (slot_dt,slot_time,allocation_qty,reserved_qty,store_id,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
  ('2020-07-15','09:00:00',10,0,'st002',getDate(),'sysadmin',getDate(),'sysadmin')
 ,('2020-07-15','10:00:00',10,0,'st002',getDate(),'sysadmin',getDate(),'sysadmin')
 ,('2020-07-15','11:00:00',10,0,'st002',getDate(),'sysadmin',getDate(),'sysadmin')
