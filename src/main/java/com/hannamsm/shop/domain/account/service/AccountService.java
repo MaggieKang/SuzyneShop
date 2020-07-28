@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import com.hannamsm.shop.domain.account.dao.AccountDao;
 import com.hannamsm.shop.domain.account.exception.AccountAlreadyMemberException;
+import com.hannamsm.shop.domain.account.exception.AccountNotMatchPasswordException;
 import com.hannamsm.shop.domain.account.vo.Account;
 import com.hannamsm.shop.domain.cart.exception.CartItemNotFoundException;
+import com.hannamsm.shop.domain.profile.vo.Customer;
 import com.hannamsm.shop.global.adapter.AccountAdapter;
 
 @Service
@@ -47,7 +49,7 @@ public class AccountService implements UserDetailsService{
 		return new AccountAdapter(account);
     }
 
-
+ //아이디 중복 체크
     public String dupCheckAccount(String accountEmail) {
     	//Optional<Account> account  = accountDao.findByUserEmail(accountEmail);
     	String strEmail = accountDao.dupAccount(accountEmail);
@@ -55,17 +57,27 @@ public class AccountService implements UserDetailsService{
     	//return account.equals(Optional.empty()) ? "" : account.get().getAccountEmail() ;
     	return strEmail != null ? strEmail : "";
     }
-
+//아이디 생성
     public void createUser(Account account) {
 		accountDao.createAccount(account);
     }
-
-    public String checkOldPassword(String oldPassword) {
-    	String strReturn = "";
-    	accountDao.checkOldPassword(oldPassword);
-    	return strReturn;
+//이전 패스워드 인증(비밀번호 변경시)
+    public Account checkOldPassword(Account account) {
+    	//String strReturn = "";
+    	//Account resultAccount = accountDao.checkOldPassword(account).orElseThrow(() -> new AccountNotMatchPasswordException());
+    	Account resultAccount = accountDao.checkOldPassword(account);
+    	return resultAccount;
     }
-
+//password update
+    public void resetPassword(Account account) {
+    	 accountDao.resetPassword(account);
+    	return; 
+    }
+ //find ID
+    public String findUserID(Customer customer) {
+    	String returnStr = accountDao.findUserID(customer);
+    	return returnStr; 
+    }
     public void deleteAccount(String userEmail) {
     	Account account = accountDao.findByUserEmail(userEmail)
 				.orElseThrow(() -> new UsernameNotFoundException(userEmail));

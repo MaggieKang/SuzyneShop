@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hannamsm.shop.domain.account.service.AccountService;
 import com.hannamsm.shop.domain.account.vo.Account;
+import com.hannamsm.shop.domain.profile.vo.Customer;
 import com.hannamsm.shop.global.email.EmailDto;
 import com.hannamsm.shop.global.email.EmailService;
 import com.hannamsm.shop.global.vo.ResponseResult;
@@ -60,54 +61,51 @@ public class AccountController {
 		resResult.setResult(reqAccount);
 		return ResponseEntity.ok(resResult);
 	}
-
-	@PostMapping(value = "/password", produces = MediaTypes.HAL_JSON_VALUE)
+	//changePassword
+	@PostMapping(value = "/changePassword", produces = MediaTypes.HAL_JSON_VALUE)
 	public ResponseEntity queryChangePassword(@RequestBody @Valid Account reqAccount
             ) throws Exception {
 		//accountEmail  password
 		System.out.println("queryCreateAccount oldPassword :"+reqAccount.getPassword());
 		System.out.println("queryCreateAccount newPassword :"+reqAccount.getNewPassword());
-
-		//현제 패스워드 확인
-		String checkPassword = accountService.checkOldPassword(reqAccount.getAccountEmail());
-
+		System.out.println("queryCreateAccount userId :"+reqAccount.getAccountEmail());
+		//current 패스워드 확인 
+		Account checkPassword = accountService.checkOldPassword(reqAccount);
+		System.out.println("checkPassword getAccountEmail :"+checkPassword.getAccountEmail());
+		
+		accountService.resetPassword(reqAccount);
+		//System.out.println("checkPassword resultStr :"+resultStr);
 		//return data
 		ResponseResult<Account> resResult = new ResponseResult<Account>();
-		System.out.println("queryCreateAccount checkPassword :"+checkPassword);
-		if(checkPassword.equals(reqAccount.getAccountEmail())) {
-			resResult.setMessage("이미 가입된 회원정보가 있습니다.");
-		}else {
-			accountService.createUser(reqAccount);
-			resResult.setMessage("회원가입이 완료 되었습니다.");
-		}
-
+		resResult.setMessage("패스워드 변경이 완료되었습니다.");
 		resResult.setResult(reqAccount);
 		return ResponseEntity.ok(resResult);
 	}
-
-	@PostMapping(value = "/changePassword", produces = MediaTypes.HAL_JSON_VALUE)
+	//resetPassword
+	@PostMapping(value = "/resetPassword", produces = MediaTypes.HAL_JSON_VALUE)
 	public ResponseEntity queryResetPassword(@RequestBody @Valid Account reqAccount
             ) throws Exception {
-		//accountEmail  password
-		//System.out.println("queryCreateAccount oldPassword :"+reqAccount.getPassword());
-		System.out.println("queryCreateAccount newPassword :"+reqAccount.getNewPassword());
-
-		//현제 패스워드 확인
-		String checkPassword = accountService.checkOldPassword(reqAccount.getAccountEmail());
-
+		
+		accountService.resetPassword(reqAccount);
 		//return data
 		ResponseResult<Account> resResult = new ResponseResult<Account>();
-		System.out.println("queryCreateAccount checkPassword :"+checkPassword);
-		if(checkPassword.equals(reqAccount.getAccountEmail())) {
-			resResult.setMessage("이미 가입된 회원정보가 있습니다.");
-		}else {
-			accountService.createUser(reqAccount);
-			resResult.setMessage("회원가입이 완료 되었습니다.");
-		}
-
+		accountService.createUser(reqAccount);
+		resResult.setMessage("패스워드 변경이 완료되었습니다.");
+	
 		resResult.setResult(reqAccount);
 		return ResponseEntity.ok(resResult);
 	}
+	//find Id
+		@PostMapping(value = "/findId", produces = MediaTypes.HAL_JSON_VALUE)
+		public ResponseEntity queryFindId(@RequestBody @Valid Customer reqCustomer
+	            ) throws Exception {
+			String resultId = accountService.findUserID(reqCustomer);
+			//return data
+			ResponseResult<Customer> resResult = new ResponseResult<Customer>();
+			resResult.setMessage("고객님의 회원아이디는"+resultId+"입니다.");
+			resResult.setResult(reqCustomer);
+			return ResponseEntity.ok(resResult);
+		}
 
 //	@RequestMapping(value="/join", method=RequestMethod.POST)
 //	public AuthenticationToken join(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {

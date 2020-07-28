@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Param;
 
 import com.hannamsm.shop.domain.account.vo.Account;
+import com.hannamsm.shop.domain.profile.vo.Customer;
 import com.hannamsm.shop.global.mapper.HnsShopConnMapper;
 
 @HnsShopConnMapper
@@ -18,9 +19,11 @@ public interface AccountDao {
 
 	public String dupAccount(String userEmail);
 
-	public String checkOldPassword(String oldPassword);
+	public Account checkOldPassword(Account account);
+	
+	public String findUserID(Customer customer);
 
-	public void updatePassword(String oldPassword);
+	public void resetPassword(Account account);
 
 	public void createAccount(Account account);
 

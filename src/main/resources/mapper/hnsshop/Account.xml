@@ -31,6 +31,29 @@ select account_email
   from account
  where account_email = #{accountEmail}
 </select>
+<select id="checkOldPassword" parameterType="com.hannamsm.shop.domain.account.vo.Account" resultType="com.hannamsm.shop.domain.account.vo.Account">
+select   account_no		as accountNo
+		, account_email	as accountEmail
+		, is_expired		as isExpired
+		, is_locked		as isLocked
+		, is_use			as isUse
+	FROM account 
+	WHERE account_email 	= #{accountEmail}
+	AND password 			= #{password}
+</select>
+<select id="findUserID" parameterType="com.hannamsm.shop.domain.profile.vo.Customer" resultType="String">
+SELECT account_email 
+	FROM account a
+	LEFT OUTER JOIN customer b ON b.account_no = a.account_no
+	WHERE customer_phone_number = #{customerPhoneNumber}
+	AND b.last_name 		= #{lastName}
+</select>
+<select id="resetPassword" parameterType="com.hannamsm.shop.domain.account.vo.Account">
+UPDATE account
+	SET password = #{newPassword}
+	WHERE account_email = #{accountEmail}
+	AND password = #{password}
+</select>
 <insert id="createAccount" parameterType="com.hannamsm.shop.domain.account.vo.Account">
 insert into account
 (
