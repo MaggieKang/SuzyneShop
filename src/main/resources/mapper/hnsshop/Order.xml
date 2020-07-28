@@ -225,7 +225,7 @@ insert into orders_pickup (
      , slot_dt
      , slot_time
      , pickup_store_id
-     , order_picup_status_cd
+     , order_pickup_status_cd
      , reg_date
      , reg_person
      , last_mod_date
@@ -236,7 +236,7 @@ insert into orders_pickup (
      , #{slotDt}
      , #{slotTime}
      , #{pickupStoreId}
-     , #{orderPicupStatusCd}
+     , #{orderPickupStatusCd}
      , getDate()
      , #{regPerson}
      , getDate()

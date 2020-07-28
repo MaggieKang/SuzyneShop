@@ -17,7 +17,7 @@ public class OrderPickup {
 	private String slotDt;
 	private String slotTime;
 	private String pickupStoreId;
-	private String orderPicupStatusCd;
+	private String orderPickupStatusCd;
 	private String regDate;
 	private String regPerson;
 	private String lastModDate;

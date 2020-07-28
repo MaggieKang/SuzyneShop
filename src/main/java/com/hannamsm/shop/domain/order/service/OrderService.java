@@ -83,7 +83,7 @@ public class OrderService {
 				.slotDt(newOrderDto.getSlotDt())
 				.slotTime(newOrderDto.getSlotTime())
 				.pickupStoreId(newOrderDto.getStoreId())
-				.orderPicupStatusCd("READY")
+				.orderPickupStatusCd("ORDERED")
 				.regPerson(String.valueOf(newOrderDto.getAccountNo()))
 				.lastModPerson(String.valueOf(newOrderDto.getAccountNo()))
 				.build();
