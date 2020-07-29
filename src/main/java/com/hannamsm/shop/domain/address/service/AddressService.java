@@ -18,4 +18,7 @@ public class AddressService {
 	public List<AccountAddress> findAll(AccountAddress accountAddress) throws Exception{
 		return addressDao.findAll(accountAddress);
 	}
+	public int saveAddress(AccountAddress accountAddress) throws Exception{
+		return addressDao.saveAddress(accountAddress);
+	}
 }

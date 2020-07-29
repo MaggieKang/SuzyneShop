@@ -7,5 +7,7 @@ import com.hannamsm.shop.global.mapper.HnsShopConnMapper;
 
 @HnsShopConnMapper
 public interface AddressDao {
-	public List<AccountAddress> findAll(AccountAddress accountAddress) throws Exception; 
+	public List<AccountAddress> findAll(AccountAddress accountAddress) throws Exception;
+	
+	public int saveAddress(AccountAddress accountAddress) throws Exception;
 }

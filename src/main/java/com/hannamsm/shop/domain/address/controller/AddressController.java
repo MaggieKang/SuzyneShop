@@ -3,10 +3,14 @@ package com.hannamsm.shop.domain.address.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +18,7 @@ import com.hannamsm.shop.domain.account.vo.Account;
 import com.hannamsm.shop.domain.address.service.AddressService;
 import com.hannamsm.shop.domain.address.vo.AccountAddress;
 import com.hannamsm.shop.global.adapter.CurrentUser;
+import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutls;
 
 @RestController
@@ -38,5 +43,20 @@ public class AddressController {
 		
 		return ResponseEntity.ok(resResult);
 	}
+	
+	@PutMapping
+	public ResponseEntity saveAddress(@RequestBody @Valid AccountAddress reqAccountAddress
+									 , @CurrentUser Account account) throws Exception{
+		
+		reqAccountAddress.setAccountNo(account.getAccountNo());
+		addressService.saveAddress(reqAccountAddress);
+		
+		ResponseResult<AccountAddress> resResult = new ResponseResult<AccountAddress>();
+		resResult.setMessage("저장 되었습니다.");
+		resResult.setResult(reqAccountAddress);
+		
+		return ResponseEntity.ok(resResult);
+	}
+	
 
 }
