@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hannamsm.shop.domain.membership.dao.MembershipDao">
+<select id="findMembership" parameterType="com.hannamsm.shop.domain.membership.vo.MembershipDto" resultType="com.hannamsm.shop.domain.membership.vo.MembershipDto">
+SELECT top 1
+	 cardKey
+   ,CardNo
+   ,WebID
+   ,Lang_cd
+   ,StoreCode
+   ,CustLanguage
+   ,Sex
+   ,EnName
+   ,Phone
+   ,Address
+   ,city_cd
+   ,City
+   ,province_cd
+   ,Province
+   ,country_cd
+   ,PostalCode
+   ,EMail
+   ,KrName
+   ,CardIssueDate
+   ,LastModDate
+FROM
+	tblCustomer 
+WHERE EnName = #{enName} or KrName = #{krName}
+AND Phone = #{phone}
+ORDER BY LastTranDate DESC
+</select>
+</mapper>
