@@ -180,6 +180,23 @@ public class EmailService {
        // helper.setFrom("abc@gmail.com"); 
         mailSender.send(mimeMessage);
     }
+    //after shopping send Invoice Email
+    public void sendInvoice(EmailDto mailDto) throws MessagingException {
+        SimpleMailMessage message = new SimpleMailMessage();
+        MimeMessage mimeMessage = mailSender.createMimeMessage(); 
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8"); 
+        
+        message.setTo(mailDto.getAddress());
+        //message.setFrom(EmailService.FROM_ADDRESS); 세팅하지 않으면 application.yml 에서 세팅
+        message.setSubject(mailDto.getTitle());
+        message.setText(mailDto.getMessage());
+
+        mimeMessage.setContent(mailDto.getMessage(), "text/html"); 
+        helper.setTo(mailDto.getAddress()); 
+        helper.setSubject(mailDto.getTitle()); 
+       // helper.setFrom("abc@gmail.com"); 
+        mailSender.send(mimeMessage);
+    }
     public void mailSend(EmailDto mailDto) {
         SimpleMailMessage message = new SimpleMailMessage();
          

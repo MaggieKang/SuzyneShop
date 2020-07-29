@@ -26,8 +26,8 @@ select auth_cd
   from account_authority
  where account_no = #{accountNo}
 </select>
-<select id="dupAccount" parameterType="String" resultType="String">
-select account_email
+<select id="dupAccount" parameterType="String" resultType="int">
+select count(account_email) as cntEmail
   from account
  where account_email = #{accountEmail}
 </select>

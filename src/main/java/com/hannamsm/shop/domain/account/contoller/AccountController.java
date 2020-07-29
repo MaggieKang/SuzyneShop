@@ -1,5 +1,7 @@
 package com.hannamsm.shop.domain.account.contoller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -42,22 +44,18 @@ public class AccountController {
 		System.out.println("queryCreateAccount password :"+reqAccount.getPassword());
 
 		EmailDto emaildto = new EmailDto();
-		//이메일 중복 체크
-		String dupAccount = accountService.dupCheckAccount(reqAccount.getAccountEmail());
-
 		//return data
 		ResponseResult<Account> resResult = new ResponseResult<Account>();
-		System.out.println("queryCreateAccount dupAccount :"+dupAccount);
-		emaildto.setAddress(reqAccount.getAccountEmail());
-
-		if(dupAccount.equals(reqAccount.getAccountEmail())) {
-			resResult.setMessage("이미 가입된 회원정보가 있습니다.");
+		//이메일 중복 체크
+		int dupAccount = accountService.dupCheckAccount(reqAccount.getAccountEmail());
+		if(dupAccount > 0) {
+			resResult.setMessage("중복된 회원 아이디가 있습니다.");
 		}else {
+			emaildto.setAddress(reqAccount.getAccountEmail());
 			accountService.createUser(reqAccount);
 			emailService.newCustomerMailSend(emaildto);
 			resResult.setMessage("회원가입이 완료 되었습니다.");
 		}
-
 		resResult.setResult(reqAccount);
 		return ResponseEntity.ok(resResult);
 	}
@@ -70,12 +68,10 @@ public class AccountController {
 		System.out.println("queryCreateAccount newPassword :"+reqAccount.getNewPassword());
 		System.out.println("queryCreateAccount userId :"+reqAccount.getAccountEmail());
 		//current 패스워드 확인 
-		Account checkPassword = accountService.checkOldPassword(reqAccount);
-		System.out.println("checkPassword getAccountEmail :"+checkPassword.getAccountEmail());
+		Optional<Account> checkPassword =  accountService.checkOldPassword(reqAccount);
 		
 		accountService.resetPassword(reqAccount);
-		//System.out.println("checkPassword resultStr :"+resultStr);
-		//return data
+		
 		ResponseResult<Account> resResult = new ResponseResult<Account>();
 		resResult.setMessage("패스워드 변경이 완료되었습니다.");
 		resResult.setResult(reqAccount);
@@ -89,20 +85,32 @@ public class AccountController {
 		accountService.resetPassword(reqAccount);
 		//return data
 		ResponseResult<Account> resResult = new ResponseResult<Account>();
-		accountService.createUser(reqAccount);
 		resResult.setMessage("패스워드 변경이 완료되었습니다.");
-	
 		resResult.setResult(reqAccount);
 		return ResponseEntity.ok(resResult);
 	}
+	//emailResetPassword
+		@PostMapping(value = "/emailResetPassword", produces = MediaTypes.HAL_JSON_VALUE)
+		public ResponseEntity sendResetEmail(@RequestBody @Valid Account reqAccount
+	            ) throws Exception {
+			EmailDto emaildto = new EmailDto();
+			emaildto.setAddress(reqAccount.getAccountEmail());
+			emailService.resetPassword(emaildto);
+			//return data
+			ResponseResult<Account> resResult = new ResponseResult<Account>();
+			resResult.setMessage("이메일이 전송되었습니다.확인하여주십시오.");
+			resResult.setResult(reqAccount);
+			return ResponseEntity.ok(resResult);
+		}
 	//find Id
 		@PostMapping(value = "/findId", produces = MediaTypes.HAL_JSON_VALUE)
 		public ResponseEntity queryFindId(@RequestBody @Valid Customer reqCustomer
 	            ) throws Exception {
-			String resultId = accountService.findUserID(reqCustomer);
+			Optional<String> resultId = accountService.findUserID(reqCustomer);
 			//return data
 			ResponseResult<Customer> resResult = new ResponseResult<Customer>();
-			resResult.setMessage("고객님의 회원아이디는"+resultId+"입니다.");
+			String resultEmailId = resultId.get().toString();
+			resResult.setMessage("고객님의 회원아이디는"+resultEmailId+"입니다.");
 			resResult.setResult(reqCustomer);
 			return ResponseEntity.ok(resResult);
 		}
