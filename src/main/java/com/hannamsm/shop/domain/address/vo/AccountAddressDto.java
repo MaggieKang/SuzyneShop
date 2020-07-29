@@ -1,5 +1,7 @@
 package com.hannamsm.shop.domain.address.vo;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,15 +12,9 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
-public class AccountAddress {
+public class AccountAddressDto {
 	private int accountNo;
-	private String accountEmail;
+	@NotNull
 	private int seq;
-	private String address;
-	private String city;
-	private String province;
-	private String country;
-	private String postalCd;
-	private boolean isDefaultAddress; 
 
 }

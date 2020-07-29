@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.address.dao.AddressDao">
 <select id="findAll" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddress" resultType="com.hannamsm.shop.domain.address.vo.AccountAddress">
-SELECT a.account_no
+SELECT a.account_no AS accountNo
 	  ,a.account_email AS accountEmail
 	  ,b.seq AS seq
 	  ,b.address AS address
@@ -10,10 +10,67 @@ SELECT a.account_no
 	  ,b.province AS province
 	  ,b.country AS country
 	  ,b.postal_cd AS postalCd
-	  ,b.is_default_address AS isDefalutAddress
+	  ,b.is_default_address AS isDefaultAddress
 FROM account a
 LEFT OUTER JOIN account_address b ON b.account_no = a.account_no
-WHERE a.account_no = '1'
+WHERE a.account_no = #{accountNo}
 order by is_default_address DESC, seq ASC
 </select>
+<insert id="saveAddress" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddress">
+MERGE account_address AS a
+USING (SELECT #{accountNo} AS account_no
+			, #{seq}   AS seq
+			, #{address}   AS address
+			, #{city}  	   AS city
+			, #{province}  AS province
+			, #{country}   AS country
+			, #{postalCd}  AS postal_cd
+			, #{isDefaultAddress}  AS is_default_address
+	   ) AS b
+	ON(
+			a.account_no = b.account_no
+			and a.seq = b.seq
+	   )
+	   WHEN NOT MATCHED THEN
+	   		INSERT ( account_no
+                    , address
+                    , city
+                    , province
+                    , country
+                    , postal_cd
+                    , is_default_address
+                    , reg_date
+                    , reg_person
+                    , last_mod_date
+                    , last_mod_person
+	   		) VALUES(
+                      b.account_no
+                    , b.address
+                    , b.city
+                    , b.province
+                    , b.country
+                    , b.postal_cd
+                    , b.is_default_address
+                    , getdate()
+                    , b.account_no
+                    , getdate()
+                    , b.account_no
+	   		)
+	  WHEN MATCHED THEN
+	  		UPDATE
+	  		SET   a.account_no = b.account_no	  			  
+                  , a.address = b.address
+                  , a.city = b.city
+                  , a.province = b.province
+                  , a.country = b.country
+                  , a.postal_cd = b.postal_cd
+                  , a.is_default_address = b.is_default_address
+                  , a.last_mod_date = getdate()
+                  , a.last_mod_person = b.account_no;
+</insert>
+<delete id="deleteAddress" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddressDto">
+DELETE account_address
+WHERE account_no = #{accountNo}   
+AND seq = #{seq}
+</delete>
 </mapper>

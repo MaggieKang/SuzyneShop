@@ -8,7 +8,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hannamsm.shop.domain.account.vo.Account;
 import com.hannamsm.shop.domain.address.service.AddressService;
 import com.hannamsm.shop.domain.address.vo.AccountAddress;
+import com.hannamsm.shop.domain.address.vo.AccountAddressDto;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutls;
@@ -34,8 +37,7 @@ public class AddressController {
 		AccountAddress accountAddress = new AccountAddress();
 		accountAddress.setAccountNo(account.getAccountNo());
 		
-		List<AccountAddress> list = this.addressService.findAll(accountAddress);		
-		
+		List<AccountAddress> list = this.addressService.findAll(accountAddress);				
 		//return data
 		ResponseResutls<AccountAddress> resResult = new ResponseResutls<AccountAddress>();
 		resResult.setMessage("조회되었습니다.");		
@@ -56,5 +58,21 @@ public class AddressController {
 		resResult.setResult(reqAccountAddress);
 		
 		return ResponseEntity.ok(resResult);
+	}
+	@DeleteMapping(value = "/{seq}", produces = MediaTypes.HAL_JSON_VALUE)
+	public ResponseEntity deleteAddress(@PathVariable int seq
+									   , @RequestBody @Valid AccountAddressDto reqAccountAddressDto
+									   , @CurrentUser Account account) throws Exception{
+		
+		reqAccountAddressDto.setAccountNo(account.getAccountNo());
+		addressService.deleteAddress(reqAccountAddressDto);
+		System.out.println(reqAccountAddressDto.toString());
+		ResponseResult<AccountAddressDto> resResult = new ResponseResult<AccountAddressDto>();
+		resResult.setMessage("삭제 되었습니다.");
+		resResult.setResult(reqAccountAddressDto);
+		
+		return ResponseEntity.ok(resResult);
+		
+		
 	}
 }
