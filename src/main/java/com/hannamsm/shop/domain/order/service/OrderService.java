@@ -57,18 +57,11 @@ public class OrderService {
 		if(0 == numberAvailable) {
 			throw new Exception("픽업 예약이 불가능합니다!!!");
 		}
-		//픽업 업데이트
-		pickupTimeslotDao.updatePickReservation(pickupSlotTimeSearch);
-
-		//주문_픽업 저장
-		pickupTimeslotDao.updatePickReservation(pickupSlotTimeSearch);
 
 		//상품 확인 err[픽업 취소]
 
 		//주문번호 생성
 		String orderId = orderDao.createOrderId();
-
-		newOrderDto.setOrderId(orderId);
 
 		//주문상세 저장
 		newOrderDto.setOrderId(orderId);
@@ -87,8 +80,12 @@ public class OrderService {
 				.regPerson(String.valueOf(newOrderDto.getAccountNo()))
 				.lastModPerson(String.valueOf(newOrderDto.getAccountNo()))
 				.build();
+
 		//주문픽업 저장
 		orderDao.createOrderPickup(orderPickup);
+
+		//픽업 업데이트
+		pickupTimeslotDao.updatePickReservation(pickupSlotTimeSearch);
 
 		CartItemSearch cartItemSearch = CartItemSearch.builder()
 				.accountNo(newOrderDto.getAccountNo())
