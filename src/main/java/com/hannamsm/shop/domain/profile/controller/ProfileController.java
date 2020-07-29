@@ -42,7 +42,7 @@ public class ProfileController {
 		if(optionaProfile.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-
+		
 		ResponseResult<Customer> result = new ResponseResult<Customer>();
 		result.setMessage("조회하였습니다.");
 		result.setResult(optionaProfile.get());			

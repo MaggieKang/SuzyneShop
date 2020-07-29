@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.hannamsm.shop.domain.address.dao.AddressDao;
 import com.hannamsm.shop.domain.address.vo.AccountAddress;
+import com.hannamsm.shop.domain.address.vo.AccountAddressDto;
 
 
 
@@ -20,5 +21,8 @@ public class AddressService {
 	}
 	public int saveAddress(AccountAddress accountAddress) throws Exception{
 		return addressDao.saveAddress(accountAddress);
+	}
+	public int deleteAddress(AccountAddressDto accountAddressDto) throws Exception{
+		return addressDao.deleteAddress(accountAddressDto);
 	}
 }

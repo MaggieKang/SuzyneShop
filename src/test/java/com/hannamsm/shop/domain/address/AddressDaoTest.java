@@ -32,5 +32,24 @@ public class AddressDaoTest extends BaseDaoTest {
 		assertAll("list",
 				()->assertNotNull(list));
 	}
+	@Test
+	@DisplayName("address 저장 테스트")
+	public void save() throws Exception{
+		AccountAddress accountAddress = AccountAddress.builder()
+				.accountNo(1)
+				.address("kensal place")
+				.city("666")
+				.province("3")
+				.country("1")
+				.postalCd("AAA BBB")
+				.isDefaultAddress(true)
+				.build();
+		int count = this.addressDao.saveAddress(accountAddress);
+		System.out.println(count);
+		
+		assertAll("saveCount",
+							()->assertNotNull(count));		
+		
+	}						
 
 }
