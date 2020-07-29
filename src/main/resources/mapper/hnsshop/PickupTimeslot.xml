@@ -10,8 +10,8 @@ select slot_dt         as slotDt
      , store_id        as storeId
      , allocation_qty  as allocationQty
      , reserved_qty    as reservedQty
-     , (case when completion_qty >= allocation_qty then 0
-             when dateadd(hour,1,getdate()) > convert(datetime, CONVERT(varchar,slot_dt,23) +' '+ CONVERT(varchar,FORMAT(CAST(slot_time AS datetime), 'HH:mm:ss'),114), 121) then 0
+     , (case when reserved_qty >= allocation_qty then 0
+             when dateadd(hour,1,getdate()) > convert(datetime, convert(varchar,slot_dt,23) +' '+ convert(varchar,format(cast(slot_time AS datetime), 'HH:mm:ss'),114), 121) then 0
              else 1
        end) as pickupAvailable
      , reg_date        as regDate
@@ -25,14 +25,14 @@ select slot_dt         as slotDt
 
 <select id="findBySlotTime" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
 select slot_dt         as slotDt
-     , FORMAT(CAST(slot_time AS datetime), 'HH:mm') as slotTime
+     , format(cast(slot_time AS datetime), 'HH:mm') as slotTime
      , format(cast(slot_time AS datetime), 'hh tt') as startDisplaySlotTime
      , format(cast(dateadd(hour, 1, slot_time) AS datetime), 'hh tt') as endDisplaySlotTime
      , store_id        as storeId
      , allocation_qty  as allocationQty
      , reserved_qty    as reservedQty
-     , (case when completion_qty >= allocation_qty then 0
-             when dateadd(hour,1,getdate()) > convert(datetime, CONVERT(varchar,slot_dt,23) +' '+ CONVERT(varchar,FORMAT(CAST(slot_time AS datetime), 'HH:mm:ss'),114), 121) then 0
+     , (case when reserved_qty >= allocation_qty then 0
+             when dateadd(hour,1,getdate()) > convert(datetime, convert(varchar,slot_dt,23) +' '+ convert(varchar,format(cast(slot_time as datetime), 'HH:mm:ss'),114), 121) then 0
              else 1
        end) as pickupAvailable
      , reg_date        as regDate
@@ -47,7 +47,7 @@ select slot_dt         as slotDt
 
 <select id="getNumberAvailable" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="int">
 select isnull((
-	select (case when dateadd(hour,1,getdate()) > convert(datetime, CONVERT(varchar,slot_dt,23) +' '+ CONVERT(varchar,FORMAT(CAST(slot_time AS datetime), 'HH:mm:ss'),114), 121) then 0
+	select (case when dateadd(hour,1,getdate()) > convert(datetime, convert(varchar,slot_dt,23) +' '+ convert(varchar,format(cast(slot_time as datetime), 'HH:mm:ss'),114), 121) then 0
                  else (allocation_qty - reserved_qty)
            end) as numberAvailable
 	  from pickup_timeslot
