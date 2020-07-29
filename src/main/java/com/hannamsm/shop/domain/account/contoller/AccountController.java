@@ -33,16 +33,10 @@ public class AccountController {
 	@Autowired
 	EmailService emailService;
 
-
-	//회원가입 리얼
 	//@PostMapping
 	@PostMapping(value = "/join", produces = MediaTypes.HAL_JSON_VALUE)
 	public ResponseEntity queryCreateAccount(@RequestBody @Valid Account reqAccount
             ) throws Exception {
-		//accountEmail  password
-		System.out.println("queryCreateAccount username :"+reqAccount.getAccountEmail());
-		System.out.println("queryCreateAccount password :"+reqAccount.getPassword());
-
 		EmailDto emaildto = new EmailDto();
 		//return data
 		ResponseResult<Account> resResult = new ResponseResult<Account>();
@@ -63,10 +57,6 @@ public class AccountController {
 	@PostMapping(value = "/changePassword", produces = MediaTypes.HAL_JSON_VALUE)
 	public ResponseEntity queryChangePassword(@RequestBody @Valid Account reqAccount
             ) throws Exception {
-		//accountEmail  password
-		System.out.println("queryCreateAccount oldPassword :"+reqAccount.getPassword());
-		System.out.println("queryCreateAccount newPassword :"+reqAccount.getNewPassword());
-		System.out.println("queryCreateAccount userId :"+reqAccount.getAccountEmail());
 		//current 패스워드 확인 
 		Optional<Account> checkPassword =  accountService.checkOldPassword(reqAccount);
 		
