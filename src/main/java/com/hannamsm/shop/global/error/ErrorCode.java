@@ -13,7 +13,8 @@ public enum ErrorCode {
     // Member
     EMAIL_DUPLICATION(400, "M001", "Email is Duplication"),
     LOGIN_INPUT_INVALID(400, "M002", "Login input is invalid"),
-    PASSWORD_NOT_MATCH(400, "M003", "Password is not matched"),
+    PASSWORD_NOT_MATCH(410, "M003", "Password is not matched"),
+    ID_NOT_FOUND(410, "M004", "ID NOT FOUND"),
 
     // Cart
     CART_ITEM_ALREADY_USE(400, "CA001", "CartItem was already used!"),

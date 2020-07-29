@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.hannamsm.shop.domain.account.dao.AccountDao;
 import com.hannamsm.shop.domain.account.exception.AccountAlreadyMemberException;
+import com.hannamsm.shop.domain.account.exception.AccountIdNotFoundException;
 import com.hannamsm.shop.domain.account.exception.AccountNotMatchPasswordException;
 import com.hannamsm.shop.domain.account.vo.Account;
 import com.hannamsm.shop.domain.cart.exception.CartItemNotFoundException;
@@ -50,22 +51,18 @@ public class AccountService implements UserDetailsService{
     }
 
  //아이디 중복 체크
-    public String dupCheckAccount(String accountEmail) {
-    	//Optional<Account> account  = accountDao.findByUserEmail(accountEmail);
-    	String strEmail = accountDao.dupAccount(accountEmail);
-    	//account.orElseThrow(() -> new AccountAlreadyMemberException());
-    	//return account.equals(Optional.empty()) ? "" : account.get().getAccountEmail() ;
-    	return strEmail != null ? strEmail : "";
+    public int dupCheckAccount(String accountEmail) {	
+    	int strEmail = accountDao.dupAccount(accountEmail);
+    	return strEmail;
     }
 //아이디 생성
     public void createUser(Account account) {
 		accountDao.createAccount(account);
     }
 //이전 패스워드 인증(비밀번호 변경시)
-    public Account checkOldPassword(Account account) {
-    	//String strReturn = "";
-    	//Account resultAccount = accountDao.checkOldPassword(account).orElseThrow(() -> new AccountNotMatchPasswordException());
-    	Account resultAccount = accountDao.checkOldPassword(account);
+    public Optional<Account> checkOldPassword(Account account) {
+    	Optional<Account> resultAccount =  accountDao.checkOldPassword(account);
+    	resultAccount.orElseThrow(() -> new AccountNotMatchPasswordException());
     	return resultAccount;
     }
 //password update
@@ -74,8 +71,9 @@ public class AccountService implements UserDetailsService{
     	return; 
     }
  //find ID
-    public String findUserID(Customer customer) {
-    	String returnStr = accountDao.findUserID(customer);
+    public Optional<String> findUserID(Customer customer) {
+    	Optional<String> returnStr = accountDao.findUserID(customer);
+    	returnStr.orElseThrow(() -> new AccountIdNotFoundException());
     	return returnStr; 
     }
     public void deleteAccount(String userEmail) {

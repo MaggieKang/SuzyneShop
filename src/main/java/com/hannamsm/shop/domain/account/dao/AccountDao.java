@@ -17,11 +17,11 @@ public interface AccountDao {
 
 	public List<String> findRolesByUserNo(int userNo);
 
-	public String dupAccount(String userEmail);
+	public int dupAccount(String userEmail);
 
-	public Account checkOldPassword(Account account);
+	public Optional<Account> checkOldPassword(Account account);
 	
-	public String findUserID(Customer customer);
+	public Optional<String> findUserID(Customer customer);
 
 	public void resetPassword(Account account);
 
