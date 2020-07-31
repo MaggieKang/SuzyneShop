@@ -45,13 +45,17 @@ public class AddressController {
 		
 		return ResponseEntity.ok(resResult);
 	}
-	
+		
 	@PutMapping
 	public ResponseEntity saveAddress(@RequestBody @Valid AccountAddress reqAccountAddress
 									 , @CurrentUser Account account) throws Exception{
 		
 		reqAccountAddress.setAccountNo(account.getAccountNo());
 		addressService.saveAddress(reqAccountAddress);
+		int beSeq = reqAccountAddress.getBeSeq();
+		if(0<beSeq) {
+			addressService.updataDefaultAddress(beSeq);
+		}
 		
 		ResponseResult<AccountAddress> resResult = new ResponseResult<AccountAddress>();
 		resResult.setMessage("저장 되었습니다.");

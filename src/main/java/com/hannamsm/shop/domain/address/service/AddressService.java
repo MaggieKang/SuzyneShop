@@ -19,10 +19,15 @@ public class AddressService {
 	public List<AccountAddress> findAll(AccountAddress accountAddress) throws Exception{
 		return addressDao.findAll(accountAddress);
 	}
+	
 	public int saveAddress(AccountAddress accountAddress) throws Exception{
 		return addressDao.saveAddress(accountAddress);
 	}
 	public int deleteAddress(AccountAddressDto accountAddressDto) throws Exception{
 		return addressDao.deleteAddress(accountAddressDto);
+	}
+	
+	public int updataDefaultAddress(int beSeq) throws Exception{
+		return addressDao.updataDefaultAddress(beSeq);
 	}
 }

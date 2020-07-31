@@ -68,6 +68,11 @@ USING (SELECT #{accountNo} AS account_no
                   , a.last_mod_date = getdate()
                   , a.last_mod_person = b.account_no;
 </insert>
+<update id ="updataDefaultAddress" parameterType="int">
+UPDATE account_address
+SET is_default_address= 0
+WHERE seq=#{beSeq}
+</update>
 <delete id="deleteAddress" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddressDto">
 DELETE account_address
 WHERE account_no = #{accountNo}   

@@ -15,6 +15,6 @@ import lombok.ToString;
 public class AccountAddressDto {
 	private int accountNo;
 	@NotNull
-	private int seq;
+	private int seq;	
 
 }

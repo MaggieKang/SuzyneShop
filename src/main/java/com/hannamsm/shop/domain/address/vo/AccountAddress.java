@@ -20,5 +20,5 @@ public class AccountAddress {
 	private String country;
 	private String postalCd;
 	private boolean isDefaultAddress; 
-
+	private int beSeq;
 }
