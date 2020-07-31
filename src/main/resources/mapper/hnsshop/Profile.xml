@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.profile.dao.ProfileDao">
 <select id="findById" parameterType="com.hannamsm.shop.domain.profile.vo.Customer" resultType="com.hannamsm.shop.domain.profile.vo.Customer">
-SELECT TOP 1 a.account_no AS accountNo
+SELECT 	a.account_no AS accountNo
 	   ,a.account_email AS accountEmail
 	   ,b.first_name AS firstName
 	   ,b.last_name AS lastName
@@ -19,8 +19,8 @@ SELECT TOP 1 a.account_no AS accountNo
 FROM account a
 LEFT OUTER JOIN customer b ON b.account_no = a.account_no
 LEFT OUTER JOIN account_address c ON c.account_no = a.account_no
-WHERE a.account_no = #{accountNo}
-Order By is_default_address DESC, seq ASC
+AND is_default_address =1
+WHERE a.account_no = 1
 </select>
 <insert id="saveProfile" parameterType="com.hannamsm.shop.domain.profile.vo.ProfileDto">
 MERGE customer AS a
@@ -112,7 +112,7 @@ USING (SELECT #{accountNo} AS account_no
                     , b.province
                     , b.country
                     , b.postal_cd
-                    , b.is_default_address
+                    , 1
                     , getdate()
                     , b.account_no
                     , getdate()
