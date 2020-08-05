@@ -36,7 +36,7 @@ public class FavouriteService {
 				.regPerson(String.valueOf(accountNo))
 				.lastModPerson(String.valueOf(accountNo))
 				.build();
-
+		
 		return favouriteDao.add(favouriteItem);
 	}
 

@@ -42,6 +42,7 @@ public class FavouriteController {
 			@RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "listSize", defaultValue = "100") int listSize,
             @CurrentUser Account account) throws Exception {
+		
 		if(storeId == null || storeId.isEmpty()) {
 			throw new Exception("storeId is null!!!!");
 		}
@@ -79,7 +80,7 @@ public class FavouriteController {
 		ResponseResult<FavouriteItemDto> resResult = new ResponseResult<FavouriteItemDto>();
 		resResult.setMessage("추가 되었습니다.");
 		resResult.setResult(favouriteItemDto);
-
+		
         return ResponseEntity
         		.created(linkTo(this.getClass()).slash(itemId).toUri())
         		.body(favouriteItemDto);

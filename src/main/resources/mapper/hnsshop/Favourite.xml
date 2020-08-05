@@ -35,7 +35,7 @@ offset #{startRownum} rows
  fetch next #{listSize} row only
 </select>
 
-<insert id="add" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItem">
+<insert id="add" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItemDto">
 merge favourite as a
 using (select #{accountNo}     as account_no
             , #{storeId}       as store_id
@@ -65,10 +65,8 @@ using (select #{accountNo}     as account_no
                     , b.last_mod_date
                     , b.last_mod_person
              )
-        when matched then
-             update
-                set a.last_mod_person = b.last_mod_person
-                  , a.last_mod_date = b.last_mod_date;
+        when matched then     
+               delete;       	                         
 </insert>
 <delete id="delete" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItem">
 delete favourite

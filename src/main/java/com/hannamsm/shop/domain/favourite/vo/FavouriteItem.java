@@ -31,5 +31,5 @@ public class FavouriteItem {
 	private LocalDateTime regDate;
 	private String regPerson;
 	private LocalDateTime lastModDate;
-	private String lastModPerson;
+	private String lastModPerson;		
 }
