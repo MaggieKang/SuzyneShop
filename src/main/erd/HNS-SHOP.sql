@@ -295,15 +295,17 @@ CREATE TABLE [cmn_file]
 	-- 공통파일ID
 	[cmn_file_id] varchar(100) NOT NULL,
 	-- 공통파일유형코드
-	[cnm_file_type_cd] varchar(10) NOT NULL,
+	[cmn_file_type_cd] varchar(10) NOT NULL,
 	-- 공통파일원본명
 	[cmn_file_original_nm] varchar(200) NOT NULL,
 	-- 공통파일명
-	[cnm_file_nm] varchar(500) NOT NULL,
+	[cmn_file_nm] varchar(500) NOT NULL,
 	-- 공통파일경로
-	[cnm_file_path] varchar(100) NOT NULL,
+	[cmn_file_path] varchar(100) NOT NULL,
+	-- 공통파일URL
+	[cmn_file_url] varchar(200) NOT NULL,
 	-- 공통파일사이즈
-	[cnm_file_size] int NOT NULL,
+	[cmn_file_size] int NOT NULL,
 	-- 사용여부
 	[is_use] bit DEFAULT '1' NOT NULL,
 	-- 최초등록일시 : 최초등록일시
@@ -461,12 +463,14 @@ CREATE TABLE [item]
 -- 상품파일
 CREATE TABLE [item_file]
 (
-	-- 공통파일ID
-	[cmn_file_id] varchar(100) NOT NULL,
-	-- 상품ID
-	[item_id] varchar(24) NOT NULL,
 	-- 매장ID
 	[store_id] varchar(10) NOT NULL,
+	-- 상품ID
+	[item_id] varchar(24) NOT NULL,
+	-- 순번
+	[seq] int NOT NULL,
+	-- 공통파일ID
+	[cmn_file_id] varchar(100) NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -475,7 +479,7 @@ CREATE TABLE [item_file]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([cmn_file_id])
+	PRIMARY KEY ([store_id], [item_id], [seq])
 );
 
 
