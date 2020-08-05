@@ -15,175 +15,181 @@ select count(item_id) as totalCount
 </select>
 
 <select id="findAll" parameterType="com.hannamsm.shop.domain.item.vo.ItemSearch" resultType="com.hannamsm.shop.domain.item.vo.Item">
-select item_id              as itemId
-     , store_id             as storeId
-     , upc                  as upc
-     , item_kr_nm           as itemKrNm
-     , item_en_nm           as itemEnNm
-     , receiving_price      as receivingPrice
-     , regular_price        as regularPrice
-     , category_cd          as categoryCd
-     , (select category_nm from category where store_id = a.store_id and category_cd = a.category_cd) as categoryNm
-     , (select c.category_nm
-          from category b
-               left join category c on c.store_id = b.parent_store_id and c.category_cd = b.parent_category_cd
-         where b.store_id = a.store_id and b.category_cd = a.category_cd) as parentCategoryNm
-     , item_tax_cd          as itemTaxCd
-     , item_deposit_cd      as itemDepositCd
-     , item_eco_cd          as itemEcoCd
-     , item_size            as itemSize
-     , item_brand           as itemBrand
-     , item_weight          as itemWeight
-     , item_weight_unit     as itemWeightUnit
-     , sale_unit            as saleUnit
-     , promotion_bundle_qty as promotionBundleQty
-     , promotion_start_date as promotionStartDate
-     , promotion_end_date   as promotionEndDate
-     , promotion_price      as promotionPrice
-     , gal_code             as galCode
-     , prod_own_code        as prodOwnCode
-     , supp_code            as suppCode
-     , prod_id              as prodId
-     , item_type            as itemType
-     , item_type2           as itemType2
-     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then promotion_price
-             else regular_price
+select a.item_id              as itemId
+     , a.store_id             as storeId
+     , a.upc                  as upc
+     , a.item_kr_nm           as itemKrNm
+     , a.item_en_nm           as itemEnNm
+     , a.receiving_price      as receivingPrice
+     , a.regular_price        as regularPrice
+     , a.category_cd          as categoryCd
+     , (select s1.category_nm from category s1 where s1.store_id = a.store_id and s1.category_cd = a.category_cd) as categoryNm
+     , (select s2.category_nm
+          from category s1
+               left join category s2 on s2.store_id = s1.parent_store_id and s2.category_cd = s1.parent_category_cd
+         where s1.store_id = a.store_id and s1.category_cd = a.category_cd) as parentCategoryNm
+     , a.item_tax_cd          as itemTaxCd
+     , a.item_deposit_cd      as itemDepositCd
+     , a.item_eco_cd          as itemEcoCd
+     , a.item_size            as itemSize
+     , a.item_brand           as itemBrand
+     , a.item_weight          as itemWeight
+     , a.item_weight_unit     as itemWeightUnit
+     , a.sale_unit            as saleUnit
+     , a.promotion_bundle_qty as promotionBundleQty
+     , a.promotion_start_date as promotionStartDate
+     , a.promotion_end_date   as promotionEndDate
+     , a.promotion_price      as promotionPrice
+     , a.gal_code             as galCode
+     , a.prod_own_code        as prodOwnCode
+     , a.supp_code            as suppCode
+     , a.prod_id              as prodId
+     , a.item_type            as itemType
+     , a.item_type2           as itemType2
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then a.promotion_price
+             else a.regular_price
         end) as salesPrice
-     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then ceiling(((regular_price - promotion_price)/regular_price)*100)
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then ceiling(((a.regular_price - a.promotion_price)/a.regular_price)*100)
              else 0
         end) as discountRate
-     , '/upload/items/2016072001736_1.jpg' as imgUrl
-     , event_tag            as eventTag
-     , item_description     as itemDescription
-     , is_use               as isUse
-     , reg_date             as regDate
-     , reg_person           as regPerson
-     , last_mod_date        as lastModDate
-     , last_mod_person      as lastModPerson
+     , isnull(c.cmn_file_url,'proct-photos/np_image_available.jpg') as imgUrl
+     , a.event_tag            as eventTag
+     , a.item_description     as itemDescription
+     , a.is_use               as isUse
+     , a.reg_date             as regDate
+     , a.reg_person           as regPerson
+     , a.last_mod_date        as lastModDate
+     , a.last_mod_person      as lastModPerson
   from item a
- where store_id = #{storeId}
-   and is_use = 1
+       left join item_file b on b.store_id = a.store_id and b.item_id = a.item_id and b.seq = 1
+       left join cmn_file c on c.cmn_file_id = b.cmn_file_id
+ where a.store_id = #{storeId}
+   and a.is_use = 1
     <if test="itemName != null and itemName != ''">
-   and (item_kr_nm like '%'+#{itemName}+'%' or item_en_nm like '%'+#{itemName}+'%')
+   and (a.item_kr_nm like '%'+#{itemName}+'%' or a.item_en_nm like '%'+#{itemName}+'%')
     </if>
     <if test="itemCategory != null and itemCategory != '' and itemCategory != 'L29901'.toString()">
-   and category_cd = #{itemCategory}
+   and a.category_cd = #{itemCategory}
     </if>
     <if test="itemSort != null and itemSort != '' and itemSort == 'O0'.toString()">
- order by item_id
+ order by a.item_id
     </if>
     <if test="itemSort != null and itemSort != '' and itemSort == 'O1'.toString()">
- order by regular_price asc
+ order by a.regular_price asc
     </if>
     <if test="itemSort != null and itemSort != '' and itemSort == 'O2'.toString()">
- order by regular_price desc
+ order by a.regular_price desc
     </if>
 offset #{startRownum} rows
  fetch next #{listSize} row only
 </select>
 
 <select id="findById" parameterType="com.hannamsm.shop.domain.item.vo.ItemSearch" resultType="com.hannamsm.shop.domain.item.vo.Item">
-select item_id              as itemId
-     , store_id             as storeId
-     , upc                  as upc
-     , item_kr_nm           as itemKrNm
-     , item_en_nm           as itemEnNm
-     , receiving_price      as receivingPrice
-     , regular_price        as regularPrice
-     , category_cd          as categoryCd
-     , (select category_nm from category where store_id = a.store_id and category_cd = a.category_cd) as categoryNm
-     , (select c.category_nm
-          from category b
-               left join category c on c.store_id = b.parent_store_id and c.category_cd = b.parent_category_cd
-         where b.store_id = a.store_id and b.category_cd = a.category_cd) as parentCategoryNm
-     , item_tax_cd          as itemTaxCd
-     , item_deposit_cd      as itemDepositCd
-     , item_eco_cd          as itemEcoCd
-     , item_size            as itemSize
-     , item_brand           as itemBrand
-     , item_weight          as itemWeight
-     , item_weight_unit     as itemWeightUnit
-     , sale_unit            as saleUnit
-     , promotion_bundle_qty as promotionBundleQty
-     , promotion_start_date as promotionStartDate
-     , promotion_end_date   as promotionEndDate
-     , promotion_price      as promotionPrice
-     , gal_code             as galCode
-     , prod_own_code        as prodOwnCode
-     , supp_code            as suppCode
-     , prod_id              as prodId
-     , item_type            as itemType
-     , item_type2           as itemType2
-     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then promotion_price
-             else regular_price
+select a.item_id              as itemId
+     , a.store_id             as storeId
+     , a.upc                  as upc
+     , a.item_kr_nm           as itemKrNm
+     , a.item_en_nm           as itemEnNm
+     , a.receiving_price      as receivingPrice
+     , a.regular_price        as regularPrice
+     , a.category_cd          as categoryCd
+     , (select s1.category_nm from category s1 where s1.store_id = a.store_id and s1.category_cd = a.category_cd) as categoryNm
+     , (select s2.category_nm
+          from category s1
+               left join category s2 on s2.store_id = s1.parent_store_id and s2.category_cd = s1.parent_category_cd
+         where s1.store_id = a.store_id and s1.category_cd = a.category_cd) as parentCategoryNm
+     , a.item_tax_cd          as itemTaxCd
+     , a.item_deposit_cd      as itemDepositCd
+     , a.item_eco_cd          as itemEcoCd
+     , a.item_size            as itemSize
+     , a.item_brand           as itemBrand
+     , a.item_weight          as itemWeight
+     , a.item_weight_unit     as itemWeightUnit
+     , a.sale_unit            as saleUnit
+     , a.promotion_bundle_qty as promotionBundleQty
+     , a.promotion_start_date as promotionStartDate
+     , a.promotion_end_date   as promotionEndDate
+     , a.promotion_price      as promotionPrice
+     , a.gal_code             as galCode
+     , a.prod_own_code        as prodOwnCode
+     , a.supp_code            as suppCode
+     , a.prod_id              as prodId
+     , a.item_type            as itemType
+     , a.item_type2           as itemType2
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then a.promotion_price
+             else a.regular_price
         end) as salesPrice
-     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then ceiling(((regular_price - promotion_price)/regular_price)*100)
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then ceiling(((a.regular_price - a.promotion_price)/a.regular_price)*100)
              else 0
-        end) as discountRate --(정가-할인가)/정가
-     , '/upload/items/2016072001736_1.jpg' as imgUrl
-     , event_tag            as eventTag
-     , item_description     as itemDescription
-     , is_use               as isUse
-     , reg_date             as regDate
-     , reg_person           as regPerson
-     , last_mod_date        as lastModDate
-     , last_mod_person      as lastModPerson
+        end) as discountRate
+     , isnull(c.cmn_file_url,'proct-photos/np_image_available.jpg') as imgUrl
+     , a.event_tag            as eventTag
+     , a.item_description     as itemDescription
+     , a.is_use               as isUse
+     , a.reg_date             as regDate
+     , a.reg_person           as regPerson
+     , a.last_mod_date        as lastModDate
+     , a.last_mod_person      as lastModPerson
   from item a
- where store_id = #{storeId}
-   and item_id = #{itemId}
-   and is_use = 1
+       left join item_file b on b.store_id = a.store_id and b.item_id = a.item_id and b.seq = 1
+       left join cmn_file c on c.cmn_file_id = b.cmn_file_id
+ where a.store_id = #{storeId}
+   and a.item_id = #{itemId}
+   and a.is_use = 1
 </select>
 
 <select id="findByName" parameterType="com.hannamsm.shop.domain.item.vo.ItemSearch" resultType="com.hannamsm.shop.domain.item.vo.Item">
-select item_id              as itemId
-     , store_id             as storeId
-     , upc                  as upc
-     , item_kr_nm           as itemKrNm
-     , item_en_nm           as itemEnNm
-     , receiving_price      as receivingPrice
-     , regular_price        as regularPrice
-     , category_cd          as categoryCd
-     , (select category_nm from category where store_id = a.store_id and category_cd = a.category_cd) as categoryNm
-     , (select c.category_nm
-          from category b
-               left join category c on c.store_id = b.parent_store_id and c.category_cd = b.parent_category_cd
-         where b.store_id = a.store_id and b.category_cd = a.category_cd) as parentCategoryNm
-     , item_tax_cd          as itemTaxCd
-     , item_deposit_cd      as itemDepositCd
-     , item_eco_cd          as itemEcoCd
-     , item_size            as itemSize
-     , item_brand           as itemBrand
-     , item_weight          as itemWeight
-     , item_weight_unit     as itemWeightUnit
-     , sale_unit            as saleUnit
-     , promotion_bundle_qty as promotionBundleQty
-     , promotion_start_date as promotionStartDate
-     , promotion_end_date   as promotionEndDate
-     , promotion_price      as promotionPrice
-     , gal_code             as galCode
-     , prod_own_code        as prodOwnCode
-     , supp_code            as suppCode
-     , prod_id              as prodId
-     , item_type            as itemType
-     , item_type2           as itemType2
-     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then promotion_price
-             else regular_price
+select a.item_id              as itemId
+     , a.store_id             as storeId
+     , a.upc                  as upc
+     , a.item_kr_nm           as itemKrNm
+     , a.item_en_nm           as itemEnNm
+     , a.receiving_price      as receivingPrice
+     , a.regular_price        as regularPrice
+     , a.category_cd          as categoryCd
+     , (select s1.category_nm from category s1 where s1.store_id = a.store_id and s1.category_cd = a.category_cd) as categoryNm
+     , (select s2.category_nm
+          from category s1
+               left join category s2 on s2.store_id = s1.parent_store_id and s2.category_cd = s1.parent_category_cd
+         where s1.store_id = a.store_id and s1.category_cd = a.category_cd) as parentCategoryNm
+     , a.item_tax_cd          as itemTaxCd
+     , a.item_deposit_cd      as itemDepositCd
+     , a.item_eco_cd          as itemEcoCd
+     , a.item_size            as itemSize
+     , a.item_brand           as itemBrand
+     , a.item_weight          as itemWeight
+     , a.item_weight_unit     as itemWeightUnit
+     , a.sale_unit            as saleUnit
+     , a.promotion_bundle_qty as promotionBundleQty
+     , a.promotion_start_date as promotionStartDate
+     , a.promotion_end_date   as promotionEndDate
+     , a.promotion_price      as promotionPrice
+     , a.gal_code             as galCode
+     , a.prod_own_code        as prodOwnCode
+     , a.supp_code            as suppCode
+     , a.prod_id              as prodId
+     , a.item_type            as itemType
+     , a.item_type2           as itemType2
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then a.promotion_price
+             else a.regular_price
         end) as salesPrice
-     , (case when getdate() > promotion_start_date and promotion_end_date > getdate() then ceiling(((regular_price - promotion_price)/regular_price)*100)
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then ceiling(((a.regular_price - a.promotion_price)/a.regular_price)*100)
              else 0
         end) as discountRate
-     , 'http://placehold.it/300x265' as imgUrl
-     , event_tag            as eventTag
-     , item_description     as itemDescription
-     , is_use               as isUse
-     , reg_date             as regDate
-     , reg_person           as regPerson
-     , last_mod_date        as lastModDate
-     , last_mod_person      as lastModPerson
+     , isnull(c.cmn_file_url,'proct-photos/np_image_available.jpg') as imgUrl
+     , a.event_tag            as eventTag
+     , a.item_description     as itemDescription
+     , a.is_use               as isUse
+     , a.reg_date             as regDate
+     , a.reg_person           as regPerson
+     , a.last_mod_date        as lastModDate
+     , a.last_mod_person      as lastModPerson
   from item a
- where store_id = #{storeId}
-   and (item_kr_nm like '%'+ #{itemName} + '%' or item_en_nm like '%'+ #{itemName} +'%')
-   and is_use = 1
+       left join item_file b on b.store_id = a.store_id and b.item_id = a.item_id and b.seq = 1
+       left join cmn_file c on c.cmn_file_id = b.cmn_file_id
+ where a.store_id = #{storeId}
+   and (a.item_kr_nm like '%'+ #{itemName} + '%' or a.item_en_nm like '%'+ #{itemName} +'%')
+   and a.is_use = 1
 </select>
 
 </mapper>

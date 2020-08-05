@@ -13,24 +13,6 @@ spring:
           auth: true
           starttls: 
             enable: true
-  
-
-## MULTIPART (MultipartProperties)
-# 1.Enable multipart uploads
-# 2.Threshold after which files are written to disk.
-# 3.Max file size.
-# 4.Max Request Size
-  servlet:
-    multipart:
-      enabled: true
-      file-size-threshold: 2KB
-      max-file-size: 200MB
-      max-request-size: 215MB
-
-## File Storage Properties
-# All files uploaded through the REST API will be stored in this directory
-file:
-  upload-dir: ./uploads
 
 #받기로 한 값 이외는 에러
 #spring.jackson.deserialization.fail-on-unknown-properties=true
@@ -39,7 +21,6 @@ my-app:
   test-password: 1234
   client-id: HNS-SHOP
   client-secret: pass
-
     
 --- #local 환경
 spring:
@@ -73,6 +54,7 @@ logging:
     path: C:/Hannam/hns-shop-sry/logs
   level:
     root: info
+    com.hannamsm.shop.domain: debug
 
 --- #test 환경
 spring:
@@ -106,6 +88,7 @@ logging:
     path: C:/Hannam/hns-shop-sry/logs
   level:
     root: info
+    com.hannamsm.shop.domain: debug
 
 --- #real 환경
 spring:
@@ -139,3 +122,4 @@ logging:
     path: C:/Hannam/hns-shop-sry/logs
   level:
     root: info
+    com.hannamsm.shop.domain: debug
