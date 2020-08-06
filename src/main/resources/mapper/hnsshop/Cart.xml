@@ -32,14 +32,16 @@ select a.store_id             as storeId
         end) as salesPrice
      , (case when getdate() > b.promotion_start_date and b.promotion_end_date > getdate() then ceiling(((b.regular_price - b.promotion_price)/b.regular_price)*100)
              else 0
-        end) as discountRate --(정가-할인가)/정가
-     , 'http://placehold.it/121x114' as imgUrl
+        end) as discountRate
+     , isnull(d.cmn_file_url,'proct-photos/np_image_available.jpg') as imgUrl
      , a.reg_date             as regDate
      , a.reg_person           as regPerson
      , a.last_mod_date        as lastModDate
      , a.last_mod_person      as lastModPerson
   from cart a
        inner join item b on b.item_id = a.item_id and b.store_id = a.store_id and is_use = 1
+       left join item_file c on c.store_id = b.store_id and c.item_id = b.item_id and c.seq = 1
+       left join cmn_file d on d.cmn_file_id = c.cmn_file_id
  where a.account_no = #{accountNo}
    and a.store_id = #{storeId}
  order by a.item_id

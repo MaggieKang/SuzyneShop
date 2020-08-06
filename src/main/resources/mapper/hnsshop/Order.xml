@@ -80,7 +80,7 @@ select a.order_id         as orderId
      , b.regular_price    as regularPrice
      , ceiling(((b.regular_price - b.each_sale_price)/b.regular_price)*100) as discountRate --(정가-할인가)/정가
      , b.invoice_id       as invoiceId
-     , 'http://placehold.it/121x114' as imgUrl
+     , isnull(e.cmn_file_url,'proct-photos/np_image_available.jpg') as imgUrl
      , b.reg_date         as regDate
      , b.reg_person       as regPerson
      , b.last_mod_date    as lastModDate
@@ -88,6 +88,8 @@ select a.order_id         as orderId
   from orders a
        inner join orders_detail b on b.store_id = a.store_id and b.order_id = a.order_id
        left join item c on c.store_id = b.store_id and c.item_id = b.item_id
+       left join item_file d on d.store_id = c.store_id and d.item_id = c.item_id and d.seq = 1
+       left join cmn_file e on e.cmn_file_id = d.cmn_file_id
  where a.account_no = #{accountNo}
    and a.store_id = #{storeId}
    and a.order_id = #{orderId}
