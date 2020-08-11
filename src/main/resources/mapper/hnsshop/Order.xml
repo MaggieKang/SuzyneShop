@@ -14,6 +14,7 @@ select count(a.order_id) as totalCount
 <select id="findAll" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="com.hannamsm.shop.domain.order.vo.Order">
 select a.order_id          as orderId
      , a.store_id          as storeId
+     , (select top 1 city from store s2 where store_id = a.store_id) as storeNm
      , a.order_date        as orderDate
      , (select top 1 s2.item_kr_nm +'/'+ s2.item_en_nm +' '+ s2.item_size +'...'
          from orders_detail s1

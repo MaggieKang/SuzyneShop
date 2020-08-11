@@ -20,6 +20,7 @@ public class Order {
 	private String titleNm;
 	private String customerContactNumber;
 	private String storeId;
+	private String storeNm;
 	private BigDecimal grandTotalPrice;
 	private BigDecimal totalAmount;
 	private BigDecimal totalGstFee;
