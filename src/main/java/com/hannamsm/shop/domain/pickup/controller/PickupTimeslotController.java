@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hannamsm.shop.domain.pickup.service.PickupTimeslotService;
+import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtDefaultSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupTimeslot;
+import com.hannamsm.shop.domain.pickup.vo.PickupTimeslotDefault;
+import com.hannamsm.shop.global.utils.DateUtil;
 import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 
@@ -33,8 +36,8 @@ public class PickupTimeslotController {
 	 */
 	@GetMapping(value = "/slotdate")
 	public ResponseEntity getPickupSlogDt(
-			@RequestParam(value = "slotDt") String slotDt,
-            @RequestParam(value = "storeId") String storeId) throws Exception {
+			@RequestParam(value = "storeId") String storeId,
+			@RequestParam(value = "slotDt") String slotDt) throws Exception {
 
 		PickupSlogDtSearch pickupSlogDtSearch = PickupSlogDtSearch.builder()
 				.slotDt(slotDt)
@@ -45,6 +48,33 @@ public class PickupTimeslotController {
 
 		//return data
     	ResponseResutlsByPaging<PickupTimeslot> resResult = new ResponseResutlsByPaging<PickupTimeslot>();
+		resResult.setMessage("조회되었습니다.");
+		resResult.setTotalCount(list.size());
+        resResult.setCurrentCount(list.size());
+        resResult.setResultList(list);
+        resResult.update();
+
+        return ResponseEntity.ok(resResult);
+	}
+
+	/*
+	 * 픽업 날짜 기본 시간표 조회
+	 */
+	@GetMapping(value = "/default/slotdate")
+	public ResponseEntity getPickupSlogDtDefault(
+            @RequestParam(value = "storeId") String storeId,
+            @RequestParam(value = "slotDt") String slotDt) throws Exception {
+
+		PickupSlogDtDefaultSearch pickupSlogDtDefaultSearch = PickupSlogDtDefaultSearch.builder()
+				.slotDt(slotDt)
+				.storeId(storeId)
+				.defaultDayWeek((new DateUtil()).getDayOfWeek(slotDt, "yyyy-MM-dd"))
+				.build();
+
+		List<PickupTimeslotDefault> list = pickupTimeslotService.findBySlotDtDefault(pickupSlogDtDefaultSearch);
+
+		//return data
+    	ResponseResutlsByPaging<PickupTimeslotDefault> resResult = new ResponseResutlsByPaging<PickupTimeslotDefault>();
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(list.size());
         resResult.setCurrentCount(list.size());

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.hannamsm.shop.domain.pickup.dao.PickupTimeslotDao;
 import com.hannamsm.shop.domain.pickup.vo.PickupTimeslot;
+import com.hannamsm.shop.domain.pickup.vo.PickupTimeslotDefault;
+import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtDefaultSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch;
 
@@ -31,6 +33,10 @@ public class PickupTimeslotService {
 
 	public int deletePickupTimeslot(PickupTimeslot pickupTimeslot) throws Exception {
 		return pickupTimeslotDao.deleteTimeslot(pickupTimeslot);
+	}
+
+	public List<PickupTimeslotDefault> findBySlotDtDefault(PickupSlogDtDefaultSearch pickupSlogDtDefaultSearch) throws Exception {
+		return pickupTimeslotDao.findBySlotDtDefault(pickupSlogDtDefaultSearch);
 	}
 
 }

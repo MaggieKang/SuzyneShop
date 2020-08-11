@@ -28,6 +28,7 @@ IF ObJECt_ID('[oauth_client_token]') IS NOT NULL DROP TABLE [oauth_client_token]
 IF ObJECt_ID('[oauth_code]') IS NOT NULL DROP TABLE [oauth_code];
 IF ObJECt_ID('[oauth_refresh_token]') IS NOT NULL DROP TABLE [oauth_refresh_token];
 IF ObJECt_ID('[pickup_timeslot]') IS NOT NULL DROP TABLE [pickup_timeslot];
+IF ObJECt_ID('[pickup_timeslot_default]') IS NOT NULL DROP TABLE [pickup_timeslot_default];
 IF ObJECt_ID('[store]') IS NOT NULL DROP TABLE [store];
 IF ObJECt_ID('[tblEncorp]') IS NOT NULL DROP TABLE [tblEncorp];
 IF ObJECt_ID('[tfCollection3_b]') IS NOT NULL DROP TABLE [tfCollection3_b];
@@ -962,6 +963,29 @@ CREATE TABLE [pickup_timeslot]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([slot_dt], [slot_time], [store_id])
+);
+
+
+-- 픽업_시간표_기본
+CREATE TABLE [pickup_timeslot_default]
+(
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
+	-- 기본요일 : SUN, MON, TUE, WED, THU, FRI, SAT
+	[default_day_Week] varchar(3) NOT NULL,
+	-- 기본슬롯시간
+	[default_slot_time] time NOT NULL,
+	-- 할당수량
+	[allocation_qty] int DEFAULT 0 NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([store_id], [default_day_Week], [default_slot_time])
 );
 
 

@@ -114,4 +114,24 @@ update pickup_timeslot
    and slot_time = #{slotTime}
 </update>
 
+<select id="findBySlotDtDefault" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlogDtDefaultSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslotDefault">
+select store_id                 as storeId
+     , format(cast(default_slot_time as datetime), 'HH:mm') as slotTime
+     , format(cast(default_slot_time as datetime), 'hh tt') as startDisplaySlotTime
+     , format(cast(dateadd(hour, 1, default_slot_time) AS datetime), 'hh tt') as endDisplaySlotTime
+     , allocation_qty as allocationQty
+     , convert(date, #{slotDt}) as slotDt
+     , (case when 0 >= allocation_qty then 0
+             when dateadd(hour,1,getdate()) > convert(datetime, convert(varchar,#{slotDt},23) +' '+ convert(varchar,format(cast(default_slot_time as datetime), 'HH:mm:ss'),114), 121) then 0
+             else 1
+       end) as pickupAvailable
+     , reg_date        as regDate
+     , reg_person      as regPerson
+     , last_mod_date   as lastModDate
+     , last_mod_person as lastModPerson
+  from pickup_timeslot_default
+ where store_id = #{storeId}
+   and default_day_Week = #{defaultDayWeek}
+</select>
+
 </mapper>
