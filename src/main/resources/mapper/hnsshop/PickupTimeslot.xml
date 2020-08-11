@@ -54,7 +54,7 @@ select isnull((
 	 where store_id = #{storeId}
 	   and slot_dt = #{slotDt}
 	   and slot_time = #{slotTime}
-       ),0) as numberAvailable
+       ),1) as numberAvailable
 </select>
 
 <insert id="saveSlotTime" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
