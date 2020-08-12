@@ -24,9 +24,17 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "utf-8"); 
         
          String confirmTitle ="HNS SHOP 회원가입을 축하드립니다.";
-        String confirmBody = " <div style=\"width: 500px;font-size: 15px;\">\n" + 
+        String confirmBody = " <!DOCTYPE html>\n" + 
+        		"<html lang=\"en\">\n" + 
+        		"  <head>\n" + 
+        		"    <meta charset=\"utf-8\" />\n" + 
+        		"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no\" />\n" + 
+        		"    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>\n" + 
+        		"    <script src=\"//kit.fontawesome.com/a076d05399.js\"></script> \n" + 
+        		"  </head>\n" + 
+        		"  <body>\n" + 
+        		"      <div style=\"width: 100%;font-size: 15px;\">\n" + 
         		"        <div style=\"\n" + 
-        		"        margin-top: 90px;\n" + 
         		"        margin-bottom: 50px;\n" + 
         		"        background-color: #fff;\n" + 
         		"        background: #FFFFFF 0% 0% no-repeat padding-box;\n" + 
@@ -42,7 +50,7 @@ public class EmailService {
         		"          background-color: #F2F2F2;\n" + 
         		"          \">Complete your order</div>\n" + 
         		"\n" + 
-        		"          <div id=\"myLogin\" style=\"width: 500px;\n" + 
+        		"          <div id=\"myLogin\" style=\"width: 100%;\n" + 
         		"          margin: 0px auto;\">\n" + 
         		"            <ul style=\"list-style-type: none;\n" + 
         		"            padding-left: 0px;margin-bottom: 0px;\">\n" + 
@@ -65,14 +73,8 @@ public class EmailService {
         		"                      </div>\n" + 
         		"                    </li>\n" + 
         		"                    <li>\n" + 
-        		"                      <div style=\"background-color: #B4B4B4;\n" + 
-        		"                     \n" + 
-        		"                      color: #fff;\n" + 
-        		"                      text-align: center;\n" + 
-        		"                      line-height: 40px;\n" + 
-        		"                      margin: 10px 2px 10px 2px;\n" + 
-        		"                      cursor: pointer;\n" + 
-        		"                      height:40px;\">\n" + 
+        		"                      <div style=\"margin: 10px 2px 10px 2px;\n" + 
+        		"                      cursor: pointer;\">\n" + 
         		"                        <a href=\"http://localhost/accountWelcome.html\" target=\"_blank\">\n" + 
         		"                            <input type=\"button\" value=\"Continue shopping\"  style=\"width: 100%;height: 50px;background-color: #B4B4B4;color: #ffffff;\"/> </a>\n" + 
         		"                      </div>\n" + 
@@ -92,7 +94,11 @@ public class EmailService {
         		"            </ul>\n" + 
         		"          </div>\n" + 
         		"        </div>\n" + 
-        		"      </div>";
+        		"      </div>\n" + 
+        		"      \n" + 
+        		"  </body>\n" + 
+        		"</html>\n" + 
+        		"";
         message.setTo(mailDto.getAddress());
         //message.setFrom(EmailService.FROM_ADDRESS); 세팅하지 않으면 application.yml 에서 세팅
         message.setSubject(confirmTitle);
