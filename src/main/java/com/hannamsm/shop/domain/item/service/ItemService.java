@@ -27,5 +27,5 @@ public class ItemService {
 	public Optional<Item> findById(ItemSearch itemSearch) throws Exception {
 		return this.itemDao.findById(itemSearch);
 	}
-
+	
 }
