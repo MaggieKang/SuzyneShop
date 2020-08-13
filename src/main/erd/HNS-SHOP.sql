@@ -200,6 +200,8 @@ CREATE TABLE [category]
 	[category_nm] varchar(45),
 	-- 분류설명
 	[category_desc] varchar(250),
+	-- 분류순서
+	[category_sqnc] int DEFAULT 0 NOT NULL,
 	-- 부모분류코드
 	[parent_category_cd] varchar(10),
 	-- 부모매장ID
