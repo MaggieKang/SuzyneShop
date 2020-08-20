@@ -20,7 +20,7 @@ FROM account a
 LEFT OUTER JOIN customer b ON b.account_no = a.account_no
 LEFT OUTER JOIN account_address c ON c.account_no = a.account_no
 AND is_default_address =1
-WHERE a.account_no = 1
+WHERE a.account_no = #{accountNo}
 </select>
 <insert id="saveProfile" parameterType="com.hannamsm.shop.domain.profile.vo.ProfileDto">
 MERGE customer AS a
