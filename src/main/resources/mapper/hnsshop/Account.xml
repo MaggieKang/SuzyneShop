@@ -42,7 +42,7 @@ select   account_no		as accountNo
 	AND password 			= #{password}
 </select>
 <select id="findUserID" parameterType="com.hannamsm.shop.domain.profile.vo.Customer" resultType="String">
-SELECT account_email 
+SELECT top 1 account_email 
 	FROM account a
 	LEFT OUTER JOIN customer b ON b.account_no = a.account_no
 	WHERE customer_phone_number = #{customerPhoneNumber}
@@ -52,7 +52,6 @@ SELECT account_email
 UPDATE account
 	SET password = #{newPassword}
 	WHERE account_email = #{accountEmail}
-	AND password = #{password}
 </select>
 <insert id="createAccount" parameterType="com.hannamsm.shop.domain.account.vo.Account">
 insert into account
