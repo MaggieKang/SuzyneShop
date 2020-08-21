@@ -516,6 +516,8 @@ CREATE TABLE [mfProdEco]
 -- GalCode, ProdOwnCode, SuppCode, prodId
 CREATE TABLE [mfProd_b]
 (
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
 	-- p_GalCode
 	[GalCode] varchar(9) NOT NULL,
 	-- p_ProdOwnCode
@@ -700,7 +702,13 @@ CREATE TABLE [mfProd_b]
 	[useYN] char(1),
 	-- p_웹사이트에표시여부 : 웹사이트에 표시 여부
 	[webView] char(1),
-	PRIMARY KEY ([GalCode], [ProdOwnCode], [SuppCode])
+	-- syncDate
+	[syncDate] datetime,
+	-- syncTime
+	[syncTime] nvarchar(16),
+	-- syncPerson
+	[syncPerson] nvarchar(20),
+	PRIMARY KEY ([store_id], [GalCode], [ProdOwnCode], [SuppCode])
 );
 
 
