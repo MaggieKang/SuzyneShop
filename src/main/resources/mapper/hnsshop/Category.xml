@@ -55,6 +55,7 @@ select l1.category_cd        as categoryCd
   from category l1
      , category l2
  where l1.parent_category_cd = 'L000'
+   and l1.is_use = 1
    and l1.parent_store_id = #{storeId}
    and l1.category_cd = l2.parent_category_cd
  order by l1.category_cd, l2.parent_category_cd
