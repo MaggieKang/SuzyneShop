@@ -140,7 +140,11 @@ public class EmailService {
         		"                    <li><div style=\"font-size: 2.0vw;\n" + 
         		"                        font-weight: bold;\n" + 
         		"                        color: #474747;\">Please read this carefully</div></li>\n" + 
-        		"                    <li>\n" + 
+        		"                    <li>\n" + 	
+        		"						<li>Your Temporary Password : \n"+
+        		"							<div style=\"width: font-size: 1.5vw;font-weight: bold;color: red;\">\n"+
+        								mailDto.getPassword()+
+        		"						<div></li> \n"+
         		"                      <div class=\"memInfoBox\">\n" + 
         		"                        - This is an password change confirmation mail from your request. <br>\n" + 
         		"                        - Please click the confirm button below to finish this process.\n" + 

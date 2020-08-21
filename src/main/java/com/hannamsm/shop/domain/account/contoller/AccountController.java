@@ -83,14 +83,40 @@ public class AccountController {
 		@PostMapping(value = "/emailResetPassword", produces = MediaTypes.HAL_JSON_VALUE)
 		public ResponseEntity sendResetEmail(@RequestBody @Valid Account reqAccount
 	            ) throws Exception {
+			String tempPwd = getTempPassword(10);
+			reqAccount.setNewPassword(tempPwd);
+			System.out.print("getTempPassword : "+tempPwd);
 			EmailDto emaildto = new EmailDto();
 			emaildto.setAddress(reqAccount.getAccountEmail());
+			emaildto.setPassword(tempPwd);
 			emailService.resetPassword(emaildto);
+		
+			
+			this.accountService.resetPassword(reqAccount);
+			
+			
 			//return data
 			ResponseResult<Account> resResult = new ResponseResult<Account>();
 			resResult.setMessage("이메일이 전송되었습니다.확인하여주십시오.");
 			resResult.setResult(reqAccount);
 			return ResponseEntity.ok(resResult);
+		}
+		
+		public static String getTempPassword(int length) {
+		    int index = 0;
+		    char[] charArr = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+		    'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a',
+		    'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+		    'w', 'x', 'y', 'z' };
+		 
+		    StringBuffer sb = new StringBuffer();
+		 
+		    for (int i = 0; i < length; i++) {
+		        index = (int) (charArr.length * Math.random());
+		        sb.append(charArr[index]);
+		    }
+		 
+		    return sb.toString();
 		}
 	//find Id
 		@PostMapping(value = "/findId", produces = MediaTypes.HAL_JSON_VALUE)
