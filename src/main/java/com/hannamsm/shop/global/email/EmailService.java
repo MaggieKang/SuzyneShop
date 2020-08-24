@@ -153,7 +153,7 @@ public class EmailService {
         		"                   \n" + 
         		"                    <li>\n" + 
         		"                      <div >\n" + 
-        		"                        <a href=\"http://localhost/account-resetPassword.html\" target=\"_blank\">\n" + 
+        		"                        <a href=\"http://sry.hannamsm.com/account-preferences.html\" target=\"_blank\">\n" + 
         		"                            <input type=\"button\" value=\"Confirm\"  style=\"width: 100%;height: 50px;background-color: #AC0000;color: #ffffff;font-size: 1.2vw\"/> </a>\n" + 
         		"                    </div>\n" + 
         		"                    </li>\n" + 
