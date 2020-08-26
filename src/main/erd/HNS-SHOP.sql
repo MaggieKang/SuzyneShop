@@ -10,6 +10,7 @@ IF ObJECt_ID('[orders_pickup]') IS NOT NULL DROP TABLE [orders_pickup];
 IF ObJECt_ID('[orders]') IS NOT NULL DROP TABLE [orders];
 IF ObJECt_ID('[account]') IS NOT NULL DROP TABLE [account];
 IF ObJECt_ID('[account_authority]') IS NOT NULL DROP TABLE [account_authority];
+IF ObJECt_ID('[admin_notice]') IS NOT NULL DROP TABLE [admin_notice];
 IF ObJECt_ID('[admin_account]') IS NOT NULL DROP TABLE [admin_account];
 IF ObJECt_ID('[authority]') IS NOT NULL DROP TABLE [authority];
 IF ObJECt_ID('[item_file]') IS NOT NULL DROP TABLE [item_file];
@@ -21,6 +22,7 @@ IF ObJECt_ID('[cmn_cls_code]') IS NOT NULL DROP TABLE [cmn_cls_code];
 IF ObJECt_ID('[cmn_file]') IS NOT NULL DROP TABLE [cmn_file];
 IF ObJECt_ID('[mfProdEco]') IS NOT NULL DROP TABLE [mfProdEco];
 IF ObJECt_ID('[mfProd_b]') IS NOT NULL DROP TABLE [mfProd_b];
+IF ObJECt_ID('[notice]') IS NOT NULL DROP TABLE [notice];
 IF ObJECt_ID('[oauth_access_token]') IS NOT NULL DROP TABLE [oauth_access_token];
 IF ObJECt_ID('[oauth_approvals]') IS NOT NULL DROP TABLE [oauth_approvals];
 IF ObJECt_ID('[oauth_client_details]') IS NOT NULL DROP TABLE [oauth_client_details];
@@ -144,6 +146,29 @@ CREATE TABLE [admin_account]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([account_no])
+);
+
+
+-- 관리자알림
+CREATE TABLE [admin_notice]
+(
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
+	-- 공지번호
+	[notice_no] int NOT NULL,
+	-- 읽음여부 : true:1/false:0
+	[is_read] bit DEFAULT '0' NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([account_no], [store_id], [notice_no])
 );
 
 
@@ -709,6 +734,29 @@ CREATE TABLE [mfProd_b]
 	-- syncPerson
 	[syncPerson] nvarchar(20),
 	PRIMARY KEY ([store_id], [GalCode], [ProdOwnCode], [SuppCode])
+);
+
+
+-- 공지사항
+CREATE TABLE [notice]
+(
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
+	-- 공지번호
+	[notice_no] int NOT NULL IDENTITY ,
+	-- 공지제목
+	[notice_title] varchar(100) NOT NULL,
+	-- 공지내용
+	[notice_content] nvarchar(max),
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([store_id], [notice_no])
 );
 
 
