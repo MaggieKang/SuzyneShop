@@ -58,6 +58,7 @@ select l1.category_cd        as categoryCd
    and l1.is_use = 1
    and l1.parent_store_id = #{storeId}
    and l1.category_cd = l2.parent_category_cd
+   and l2.is_use = 1
  order by l1.category_cd, l2.parent_category_cd
 </select>
 

@@ -29,13 +29,13 @@ spring:
   hnsshop:
     datasource:
       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      jdbc-url: jdbc:sqlserver://192.168.99.100:1433;databaseName=hnsshop
+      jdbc-url: jdbc:sqlserver://192.168.99.100:1433;databaseName=hnsshop;sendStringParametersAsUnicode=false
       username: sa
       password: Pa33word
   srypos:
     datasource:
       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      jdbc-url: jdbc:sqlserver://192.168.99.100:1433;databaseName=wholesaleDB
+      jdbc-url: jdbc:sqlserver://192.168.99.100:1433;databaseName=wholesaleDB;sendStringParametersAsUnicode=false
       username: sa
       password: Pa33word
 
@@ -63,15 +63,15 @@ spring:
   hnsshop:
     datasource:
       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      jdbc-url: jdbc:sqlserver://172.16.3.60:1433;databaseName=hnsshop
+      jdbc-url: jdbc:sqlserver://172.16.3.60:1433;databaseName=hnsshop;sendStringParametersAsUnicode=false
       username: shopdev
       password: WVit#2020
   srypos:
     datasource:
       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      jdbc-url: jdbc:sqlserver://172.16.1.29:1433;databaseName=wholesaleDB
-      username: wssale
-      password: w2015
+      jdbc-url: jdbc:sqlserver://172.16.3.60:1433;databaseName=dbgal;sendStringParametersAsUnicode=false
+      username: pos
+      password: pos
 
 #Server HTTP port
 server:
@@ -97,15 +97,15 @@ spring:
   hnsshop:
     datasource:
       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      jdbc-url: jdbc:sqlserver://172.16.3.60:1433;databaseName=hnsshop
+      jdbc-url: jdbc:sqlserver://172.16.3.60:1433;databaseName=hnsshop;sendStringParametersAsUnicode=false
       username: shopdev
       password: WVit#2020
   srypos:
     datasource:
       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      jdbc-url: jdbc:sqlserver://172.16.1.29:1433;databaseName=wholesaleDB
-      username: wssale
-      password: w2015
+      jdbc-url: jdbc:sqlserver://172.16.3.60:1433;databaseName=dbgal;sendStringParametersAsUnicode=false
+      username: pos
+      password: pos
 
 #Server HTTP port
 server:
