@@ -1078,7 +1078,7 @@ CREATE TABLE [service_api]
 	-- API경로
 	[api_path] varchar(200) NOT NULL,
 	-- API메소드
-	[api_method] varchar(200) NOT NULL,
+	[api_method] varchar(6) NOT NULL,
 	-- API타입
 	[api_type] varchar(6) NOT NULL,
 	-- API설명
