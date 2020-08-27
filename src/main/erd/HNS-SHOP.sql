@@ -10,6 +10,7 @@ IF ObJECt_ID('[orders_pickup]') IS NOT NULL DROP TABLE [orders_pickup];
 IF ObJECt_ID('[orders]') IS NOT NULL DROP TABLE [orders];
 IF ObJECt_ID('[account]') IS NOT NULL DROP TABLE [account];
 IF ObJECt_ID('[account_authority]') IS NOT NULL DROP TABLE [account_authority];
+IF ObJECt_ID('[account_service_api]') IS NOT NULL DROP TABLE [account_service_api];
 IF ObJECt_ID('[admin_notice]') IS NOT NULL DROP TABLE [admin_notice];
 IF ObJECt_ID('[admin_account]') IS NOT NULL DROP TABLE [admin_account];
 IF ObJECt_ID('[authority]') IS NOT NULL DROP TABLE [authority];
@@ -31,6 +32,7 @@ IF ObJECt_ID('[oauth_code]') IS NOT NULL DROP TABLE [oauth_code];
 IF ObJECt_ID('[oauth_refresh_token]') IS NOT NULL DROP TABLE [oauth_refresh_token];
 IF ObJECt_ID('[pickup_timeslot]') IS NOT NULL DROP TABLE [pickup_timeslot];
 IF ObJECt_ID('[pickup_timeslot_default]') IS NOT NULL DROP TABLE [pickup_timeslot_default];
+IF ObJECt_ID('[service_api]') IS NOT NULL DROP TABLE [service_api];
 IF ObJECt_ID('[store]') IS NOT NULL DROP TABLE [store];
 IF ObJECt_ID('[tblEncorp]') IS NOT NULL DROP TABLE [tblEncorp];
 IF ObJECt_ID('[tfCollection3_b]') IS NOT NULL DROP TABLE [tfCollection3_b];
@@ -117,6 +119,25 @@ CREATE TABLE [account_authority]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([auth_cd], [account_no])
+);
+
+
+-- 계정서비스API
+CREATE TABLE [account_service_api]
+(
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL,
+	-- API번호
+	[api_no] int NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([account_no], [api_no])
 );
 
 
@@ -1044,6 +1065,33 @@ CREATE TABLE [pickup_timeslot_default]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([store_id], [default_day_Week], [default_slot_time])
+);
+
+
+-- 서비스API
+CREATE TABLE [service_api]
+(
+	-- API번호
+	[api_no] int NOT NULL IDENTITY ,
+	-- API이름
+	[api_nm] varchar(20) NOT NULL,
+	-- API경로
+	[api_path] varchar(200) NOT NULL,
+	-- API메소드
+	[api_method] varchar(200) NOT NULL,
+	-- API타입
+	[api_type] varchar(6) NOT NULL,
+	-- API설명
+	[api_desc] varchar(500),
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([api_no])
 );
 
 
