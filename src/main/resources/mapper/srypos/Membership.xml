@@ -4,7 +4,7 @@
 <select id="findMembership" parameterType="com.hannamsm.shop.domain.membership.vo.MembershipDto" resultType="com.hannamsm.shop.domain.membership.vo.MembershipDto">
 SELECT top 1
 	 cardKey
-   ,CardNo
+   ,a.CardNo
    ,WebID
    ,Lang_cd
    ,StoreCode
@@ -22,11 +22,13 @@ SELECT top 1
    ,EMail
    ,KrName
    ,CardIssueDate
-   ,LastModDate
-FROM
-	tblCustomer 
-WHERE EnName = #{enName} or KrName = #{krName}
-AND Phone = #{phone}
-ORDER BY LastTranDate DESC
+   ,LastModDate 
+FROM [dbgal].[dbo].[tblCustomer] a
+LEFT OUTER JOIN [dbgal].[dbo].[tblCustomerHist] b
+ON a.CardNo = b.CardNo
+WHERE  b.NewCardNo is null
+AND a.Active = 1
+AND a.EnName = #{enName} or a.KrName = #{krName}
+AND a.Phone = #{phone}
 </select>
 </mapper>
