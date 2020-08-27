@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hannamsm.shop.domain.account.service.AccountService;
 import com.hannamsm.shop.domain.account.vo.Account;
 import com.hannamsm.shop.domain.profile.vo.Customer;
+import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.email.EmailDto;
 import com.hannamsm.shop.global.email.EmailService;
 import com.hannamsm.shop.global.vo.ResponseResult;
@@ -55,9 +56,12 @@ public class AccountController {
 	}
 	//changePassword
 	@PostMapping(value = "/changePassword", produces = MediaTypes.HAL_JSON_VALUE)
-	public ResponseEntity queryChangePassword(@RequestBody @Valid Account reqAccount
+	public ResponseEntity queryChangePassword(@RequestBody @Valid Account reqAccount, @CurrentUser Account currentUser
             ) throws Exception {
 		//current 패스워드 확인 
+		if(reqAccount.getAccountEmail().equals("")) {
+			reqAccount.setAccountEmail(currentUser.getAccountEmail());
+		}
 		Optional<Account> checkPassword =  accountService.checkOldPassword(reqAccount);
 		
 		accountService.resetPassword(reqAccount);
