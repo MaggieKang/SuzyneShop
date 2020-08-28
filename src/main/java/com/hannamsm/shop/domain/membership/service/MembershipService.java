@@ -15,9 +15,7 @@ public class MembershipService {
 	@Autowired
 	MembershipDao membershipDao;
 	//find membership
-    public Optional<MembershipDto> findMembership(MembershipDto member) throws Exception{
-    	Optional<MembershipDto> returnStr = membershipDao.findMembership(member);
-    	returnStr.orElseThrow(() -> new AccountIdNotFoundException());
-    	return returnStr; 
+    public Optional<MembershipDto> findMembership(MembershipDto member) throws Exception{    	    	
+    	return membershipDao.findMembership(member); 
     }
 }

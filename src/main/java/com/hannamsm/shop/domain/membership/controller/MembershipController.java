@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hannamsm.shop.domain.membership.exception.CardNoNotFoundException;
 import com.hannamsm.shop.domain.membership.service.MembershipService;
 import com.hannamsm.shop.domain.membership.vo.MembershipDto;
 import com.hannamsm.shop.global.vo.ResponseResult;
@@ -25,9 +26,13 @@ public class MembershipController {
 	@PostMapping(value = "/findMembershipInfo", produces = MediaTypes.HAL_JSON_VALUE)
 	public ResponseEntity queryFindMembership(@RequestBody @Valid MembershipDto reqCustomer
             ) throws Exception {
-		System.out.println("findMembershipInfo getLastName: "+reqCustomer.getEnName());
-		System.out.println("findMembershipInfo getPhone: "+reqCustomer.getPhone());
-		Optional<MembershipDto> resultCustomer = membershipService.findMembership(reqCustomer);
+		
+		Optional<MembershipDto> resultCustomer = this.membershipService.findMembership(reqCustomer);
+		resultCustomer.orElseThrow(() -> new CardNoNotFoundException(reqCustomer.getCardNo()));		
+		if(resultCustomer.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		
 		//return data
 		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();
 		resResult.setMessage("조회에 성공하였습니다.");
