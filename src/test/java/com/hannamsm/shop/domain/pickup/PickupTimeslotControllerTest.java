@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.MediaTypes;
@@ -46,6 +47,7 @@ public class PickupTimeslotControllerTest extends BaseControllerTest {
 
 	@Test
 	@DisplayName("픽업 시간 조회 테스트 - (정상)")
+	@Disabled
 	public void queryStore() throws Exception {
 		// Given
 		String targetDay = LocalDate.of(2020,7,15).toString();

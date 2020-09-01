@@ -46,10 +46,10 @@ select a.item_id              as itemId
      , a.prod_id              as prodId
      , a.item_type            as itemType
      , a.item_type2           as itemType2
-     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then a.promotion_price
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() and a.promotion_bundle_qty = 1 then a.promotion_price
              else a.regular_price
         end) as salesPrice
-     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then ceiling(((a.regular_price - a.promotion_price)/a.regular_price)*100)
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() and a.promotion_bundle_qty = 1 then ceiling(((a.regular_price - a.promotion_price)/a.regular_price)*100)
              else 0
         end) as discountRate
      , isnull(c.cmn_file_url,'proct-photos/np_image_available.jpg') as imgUrl
@@ -116,10 +116,10 @@ select a.item_id              as itemId
      , a.prod_id              as prodId
      , a.item_type            as itemType
      , a.item_type2           as itemType2
-     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then a.promotion_price
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() and a.promotion_bundle_qty = 1 then a.promotion_price
              else a.regular_price
         end) as salesPrice
-     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then ceiling(((a.regular_price - a.promotion_price)/a.regular_price)*100)
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() and a.promotion_bundle_qty = 1 then ceiling(((a.regular_price - a.promotion_price)/a.regular_price)*100)
              else 0
         end) as discountRate
      , isnull(c.cmn_file_url,'proct-photos/np_image_available.jpg') as imgUrl
@@ -170,10 +170,10 @@ select a.item_id              as itemId
      , a.prod_id              as prodId
      , a.item_type            as itemType
      , a.item_type2           as itemType2
-     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then a.promotion_price
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() and a.promotion_bundle_qty = 1 then a.promotion_price
              else a.regular_price
         end) as salesPrice
-     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() then ceiling(((a.regular_price - a.promotion_price)/a.regular_price)*100)
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() and a.promotion_bundle_qty = 1 then ceiling(((a.regular_price - a.promotion_price)/a.regular_price)*100)
              else 0
         end) as discountRate
      , isnull(c.cmn_file_url,'proct-photos/np_image_available.jpg') as imgUrl
