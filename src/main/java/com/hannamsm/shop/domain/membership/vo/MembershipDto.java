@@ -1,21 +1,16 @@
 package com.hannamsm.shop.domain.membership.vo;
 
-import java.io.Serializable;
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-@Getter @Setter @EqualsAndHashCode(of = "cardNo")
-@Builder @NoArgsConstructor @AllArgsConstructor
-@ToString
-public class MembershipDto implements Serializable{
-	private static final long serialVersionUID = 1L;
 
+@Builder
+@AllArgsConstructor @NoArgsConstructor
+@Getter @Setter @ToString
+public class MembershipDto {
     private int cardKey;
     private String cardNo;
     private String webID;

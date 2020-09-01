@@ -26,17 +26,14 @@ public class MembershipController {
 	@PostMapping(value = "/findMembershipInfo", produces = MediaTypes.HAL_JSON_VALUE)
 	public ResponseEntity queryFindMembership(@RequestBody @Valid MembershipDto reqCustomer
             ) throws Exception {
-		
-		Optional<MembershipDto> resultCustomer = this.membershipService.findMembership(reqCustomer);
-		resultCustomer.orElseThrow(() -> new CardNoNotFoundException(reqCustomer.getCardNo()));		
-		if(resultCustomer.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		
+				
+		MembershipDto resultCustomer = new MembershipDto();		
+		resultCustomer = this.membershipService.findMembership(reqCustomer);
+			
 		//return data
 		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();
 		resResult.setMessage("조회에 성공하였습니다.");
-		resResult.setResult(resultCustomer.get());
+		resResult.setResult(resultCustomer);
 		return ResponseEntity.ok(resResult);
 	}
 }

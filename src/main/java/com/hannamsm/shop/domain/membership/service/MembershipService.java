@@ -15,7 +15,7 @@ public class MembershipService {
 	@Autowired
 	MembershipDao membershipDao;
 	//find membership
-    public Optional<MembershipDto> findMembership(MembershipDto member) throws Exception{    	    	
+    public MembershipDto findMembership(MembershipDto member) throws Exception{    	    	
     	return membershipDao.findMembership(member); 
     }
 }
