@@ -458,13 +458,23 @@ CREATE TABLE [item]
 	-- 
 	[sale_unit] nvarchar(4),
 	-- 프로모션묶음개수
-	[promotion_bundle_qty] int,
+	[promotion_bundle_qty] int DEFAULT 0 NOT NULL,
 	-- 프로모션시작일시
 	[promotion_start_date] datetime,
 	-- 프로모션종료일시
 	[promotion_end_date] datetime,
 	-- 프로모션가격
 	[promotion_price] decimal(10,2),
+	-- 회원제제한수량
+	[membership_limit_qty] int DEFAULT 0 NOT NULL,
+	-- 회원제묶음수량
+	[membership_bundle_qty] int DEFAULT 0 NOT NULL,
+	-- 회원제시작일시
+	[membership_start_date] datetime,
+	-- 회원제종료일시
+	[membership_end_date] datetime,
+	-- 회원제가격
+	[membership_price] decimal(10,2),
 	-- 포스Key1
 	[gal_code] varchar(9),
 	-- 포스Key2
@@ -483,9 +493,9 @@ CREATE TABLE [item]
 	-- 상품설명
 	[item_description] varchar(max),
 	-- 설명출력여부
-	[is_description_display] bit DEFAULT '1',
+	[is_description_display] bit DEFAULT '1' NOT NULL,
 	-- 사용여부
-	[is_use] bit DEFAULT '1',
+	[is_use] bit DEFAULT '1' NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
