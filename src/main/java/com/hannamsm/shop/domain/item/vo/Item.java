@@ -3,6 +3,8 @@ package com.hannamsm.shop.domain.item.vo;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,8 +23,6 @@ public class Item {
 	private String upc;
 	private String itemKrNm;
 	private String itemEnNm;
-	private BigDecimal receivingPrice;
-	private BigDecimal regularPrice;
 	private String categoryCd;
 	private String categoryNm;
 	private String parentCategoryNm;
@@ -34,18 +34,34 @@ public class Item {
     private String itemWeight;
     private String itemWeightUnit;
 	private String saleUnit;
-    private int promotionBundleQty;
+
+	private BigDecimal receivingPrice;
+	private BigDecimal regularPrice;
+
+	private int promotionBundleQty;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private LocalDateTime promotionStartDate;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private LocalDateTime promotionEndDate;
 	private BigDecimal promotionPrice;
+	private int promotionDiscountRate;
+
+	private int memberLimitQty;
+	private int memberBundleQty;
+    @JsonFormat(pattern="yyyy-MM-dd")
+	private LocalDateTime memberStartDate;
+    @JsonFormat(pattern="yyyy-MM-dd")
+	private LocalDateTime memberEndDate;
+	private BigDecimal memberPrice;
+	private BigDecimal memberDiscountRate;
+
 	private String galCode;
 	private String prodOwnCode;
 	private String suppCode;
 	private String prodId;
 	private String itemType;
 	private String itemType2;
-	private BigDecimal salesPrice;
-    private int discountRate;
+
     private String imgUrl;
     private String eventTag;
     private String itemDescription;

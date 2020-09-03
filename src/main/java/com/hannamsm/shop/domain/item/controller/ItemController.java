@@ -56,8 +56,6 @@ public class ItemController {
 				.build();
 		itemSearch.updatePaging();
 
-		System.out.println(itemSearch.toString());
-
 		int allCount = this.itemService.findAllCount(itemSearch);
 		List<Item> list = this.itemService.findAll(itemSearch);
 

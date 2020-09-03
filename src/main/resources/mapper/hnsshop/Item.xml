@@ -20,8 +20,6 @@ select a.item_id              as itemId
      , a.upc                  as upc
      , a.item_kr_nm           as itemKrNm
      , a.item_en_nm           as itemEnNm
-     , a.receiving_price      as receivingPrice
-     , a.regular_price        as regularPrice
      , a.category_cd          as categoryCd
      , (select s1.category_nm from category s1 where s1.store_id = a.store_id and s1.category_cd = a.category_cd) as categoryNm
      , (select s2.category_nm
@@ -36,22 +34,36 @@ select a.item_id              as itemId
      , a.item_weight          as itemWeight
      , a.item_weight_unit     as itemWeightUnit
      , a.sale_unit            as saleUnit
+     , a.receiving_price      as receivingPrice
+     , a.regular_price        as regularPrice
      , a.promotion_bundle_qty as promotionBundleQty
      , a.promotion_start_date as promotionStartDate
      , a.promotion_end_date   as promotionEndDate
-     , a.promotion_price      as promotionPrice
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() and a.promotion_bundle_qty > 0 then isnull(a.promotion_price,0)
+             else 0
+        end) as promotionPrice
+     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() and a.promotion_price > 0 and a.promotion_bundle_qty > 0 then ceiling(((a.regular_price - (a.promotion_price/a.promotion_bundle_qty))/a.regular_price)*100)
+             else 0
+        end) as promotionDiscountRate
+     , a.member_limit_qty          as memberLimitQty
+     , a.member_bundle_qty         as memberBundleQty
+     , a.member_start_date         as memberStartDate
+     , a.member_end_date           as memberEndDate
+     , (case when getdate() > a.member_start_date and a.member_end_date > getdate() and a.member_bundle_qty > 0 then isnull(a.member_price,0)
+             else 0
+        end) as memberPrice
+     , (case when getdate() > a.member_start_date and a.member_end_date > getdate() and a.member_price > 0 and a.member_bundle_qty > 0 then ceiling(((a.regular_price - (a.member_price/a.member_bundle_qty))/a.regular_price)*100)
+             else 0
+        end) as memberDiscountRate
      , a.gal_code             as galCode
      , a.prod_own_code        as prodOwnCode
      , a.supp_code            as suppCode
      , a.prod_id              as prodId
      , a.item_type            as itemType
      , a.item_type2           as itemType2
-     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() and a.promotion_bundle_qty = 1 then a.promotion_price
-             else a.regular_price
-        end) as salesPrice
-     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() and a.promotion_bundle_qty = 1 then ceiling(((a.regular_price - a.promotion_price)/a.regular_price)*100)
-             else 0
-        end) as discountRate
+--     , (case when getdate() > a.promotion_start_date and a.promotion_end_date > getdate() and a.promotion_bundle_qty = 1 then a.promotion_price
+--             else a.regular_price
+--        end) as salesPrice
      , isnull(c.cmn_file_url,'proct-photos/np_image_available.jpg') as imgUrl
      , a.event_tag            as eventTag
      , a.item_description     as itemDescription

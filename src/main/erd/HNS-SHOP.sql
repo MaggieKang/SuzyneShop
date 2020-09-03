@@ -212,6 +212,12 @@ CREATE TABLE [cart]
 	[store_id] varchar(10) NOT NULL,
 	-- 상품수량 : item quantity
 	[item_qty] int DEFAULT 0 NOT NULL,
+	-- 정규가격수량
+	[regular_price_qty] int DEFAULT 0 NOT NULL,
+	-- 프로모션가격수량
+	[promotion_price_qty] int DEFAULT 0 NOT NULL,
+	-- 회원가격수량
+	[member_price_qty] int DEFAULT 0 NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -465,16 +471,16 @@ CREATE TABLE [item]
 	[promotion_end_date] datetime,
 	-- 프로모션가격
 	[promotion_price] decimal(10,2),
-	-- 회원제제한수량
-	[membership_limit_qty] int DEFAULT 0 NOT NULL,
-	-- 회원제묶음수량
-	[membership_bundle_qty] int DEFAULT 0 NOT NULL,
-	-- 회원제시작일시
-	[membership_start_date] datetime,
-	-- 회원제종료일시
-	[membership_end_date] datetime,
-	-- 회원제가격
-	[membership_price] decimal(10,2),
+	-- 회원제한수량
+	[member_limit_qty] int DEFAULT 0 NOT NULL,
+	-- 회원묶음수량
+	[member_bundle_qty] int DEFAULT 0 NOT NULL,
+	-- 회원시작일시
+	[member_start_date] datetime,
+	-- 회원종료일시
+	[member_end_date] datetime,
+	-- 회원가격
+	[member_price] decimal(10,2),
 	-- 포스Key1
 	[gal_code] varchar(9),
 	-- 포스Key2
