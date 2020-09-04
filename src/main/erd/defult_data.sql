@@ -105,7 +105,7 @@ INSERT INTO category (store_id, parent_store_id, category_cd, category_nm, categ
 ,('st002','st002','L127','하드웨어','하드웨어', 'L000', 11, getDate(),'sysadmin', getDate(),'sysadmin')
 ,('st002','st002','L128','한남','한남', 'L000', 11, getDate(),'sysadmin', getDate(),'sysadmin')
 ,('st002','st002','L129','헬스 앤 뷰티','헬스 앤 뷰티', 'L000', 11, getDate(),'sysadmin', getDate(),'sysadmin')
-,('st002','st002','L130','Dr. Bee','Dr. Bee', 'L000', getDate(),'sysadmin', getDate(),'sysadmin')
+,('st002','st002','L130','Dr. Bee','Dr. Bee', 'L000', 11, getDate(),'sysadmin', getDate(),'sysadmin')
 ,('st002','st002','L131','G/M','G/M', 'L000', 11, getDate(),'sysadmin', getDate(),'sysadmin')
 ,('st002','st002','L132','생선','생선', 'L000', 11, getDate(),'sysadmin', getDate(),'sysadmin')
 ,('st002','st002','L133','반찬','반찬', 'L000', 11, getDate(),'sysadmin', getDate(),'sysadmin')
