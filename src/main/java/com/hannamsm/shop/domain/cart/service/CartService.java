@@ -15,8 +15,8 @@ import com.hannamsm.shop.domain.cart.vo.CartItemDto;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.domain.cart.vo.CartSummary;
 import com.hannamsm.shop.domain.item.dao.ItemDao;
-import com.hannamsm.shop.domain.item.vo.Item;
-import com.hannamsm.shop.domain.item.vo.ItemSearch;
+import com.hannamsm.shop.domain.item.vo.ItemForAddCart;
+import com.hannamsm.shop.domain.item.vo.ItemForAddCartSearch;
 
 @Service
 public class CartService {
@@ -46,22 +46,23 @@ public class CartService {
 				.accountNo(accountNo)
 				.storeId(cartItemDto.getStoreId())
 				.itemId(cartItemDto.getItemId())
-				.itemSalesType("R01")
 				.itemQty(cartItemDto.getItemQty())
 				.regPerson(String.valueOf(accountNo))
 				.lastModPerson(String.valueOf(accountNo))
 				.build();
 
-		ItemSearch itemSearch = ItemSearch.builder()
+		ItemForAddCartSearch itemForAddCartSearch = ItemForAddCartSearch.builder()
+				.accountNo(accountNo)
 				.storeId(cartItemDto.getStoreId())
 				.itemId(cartItem.getItemId())
 				.build();
 
 		//상품 검색
-		Optional<Item> optionalItem = this.itemDao.findById(itemSearch);
-		optionalItem.orElseThrow(() -> new CartItemNotFoundException(itemSearch.getItemId()));
+		Optional<ItemForAddCart> optionalItem = this.itemDao.findForAddCart(itemForAddCartSearch);
+		optionalItem.orElseThrow(() -> new CartItemNotFoundException(itemForAddCartSearch.getItemId()));
 
 		//카트 동일 상품 검색후 R:일반상품, P:프로모션, M:멤버쉽 상품판매종류를 검색한다.
+		cartItem.setItemSalesType(optionalItem.get().getSalesType());
 
 		return cartDao.add(cartItem);
 	}
