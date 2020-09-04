@@ -128,6 +128,7 @@ merge cart as a
 using (select #{accountNo}     as account_no
             , #{storeId}       as store_id
             , #{itemId}        as item_id
+            , #{itemSalesType} as item_sales_type
             , #{itemQty}       as item_qty
             , getdate()        as reg_date
             , #{regPerson}     as reg_person
@@ -136,11 +137,13 @@ using (select #{accountNo}     as account_no
       ) as b
         on (     a.account_no = b.account_no
              and a.store_id = b.store_id
-             and a.item_id = b.item_id)
+             and a.item_id = b.item_id
+             and a.item_sales_type = b.item_sales_type)
         when not matched then
              insert ( account_no
                     , store_id
                     , item_id
+                    , item_sales_type
                     , item_qty
                     , reg_date
                     , reg_person
@@ -150,6 +153,7 @@ using (select #{accountNo}     as account_no
                       b.account_no
                     , b.store_id
                     , b.item_id
+                    , b.item_sales_type
                     , b.item_qty
                     , b.reg_date
                     , b.reg_person

@@ -206,18 +206,14 @@ CREATE TABLE [cart]
 (
 	-- 계정번호 : 계정번호
 	[account_no] int NOT NULL,
-	-- 상품ID
-	[item_id] varchar(24) NOT NULL,
 	-- 매장ID
 	[store_id] varchar(10) NOT NULL,
+	-- 상품ID
+	[item_id] varchar(24) NOT NULL,
+	-- 상품판매종류 : REGULAR1:일반가격, PROMO01:홍보가격(단), PROMO02:홍보가격(묶), MEMBER01:회원제가격(단), MEMBER02:회원제가격(묶)
+	[item_sales_type] varchar(10) NOT NULL,
 	-- 상품수량 : item quantity
 	[item_qty] int DEFAULT 0 NOT NULL,
-	-- 정규가격수량
-	[regular_price_qty] int DEFAULT 0 NOT NULL,
-	-- 프로모션가격수량
-	[promotion_price_qty] int DEFAULT 0 NOT NULL,
-	-- 회원가격수량
-	[member_price_qty] int DEFAULT 0 NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
@@ -226,7 +222,7 @@ CREATE TABLE [cart]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([account_no], [item_id], [store_id])
+	PRIMARY KEY ([account_no], [store_id], [item_id], [item_sales_type])
 );
 
 
@@ -608,6 +604,10 @@ CREATE TABLE [orders_detail]
 	[store_id] varchar(10) NOT NULL,
 	-- 상품ID
 	[item_id] varchar(24) NOT NULL,
+	-- 순번
+	[seq] int NOT NULL,
+	-- 상품판매종류 : REGULAR1:일반가격, PROMO01:홍보가격(단), PROMO02:홍보가격(묶), MEMBER01:회원제가격(단), MEMBER02:회원제가격(묶)
+	[item_sales_type] varchar(10) NOT NULL,
 	-- 상품세금코드 : 세금유형 - GST, BOTH(GST+PST)
 	-- 
 	[item_tax_cd] nchar(1) NOT NULL,
@@ -661,7 +661,7 @@ CREATE TABLE [orders_detail]
 	[last_mod_date] datetime,
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
-	PRIMARY KEY ([order_id], [store_id], [item_id])
+	PRIMARY KEY ([order_id], [store_id], [item_id], [seq])
 );
 
 

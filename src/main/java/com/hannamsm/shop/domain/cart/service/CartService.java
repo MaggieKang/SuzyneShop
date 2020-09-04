@@ -46,6 +46,7 @@ public class CartService {
 				.accountNo(accountNo)
 				.storeId(cartItemDto.getStoreId())
 				.itemId(cartItemDto.getItemId())
+				.itemSalesType("R01")
 				.itemQty(cartItemDto.getItemQty())
 				.regPerson(String.valueOf(accountNo))
 				.lastModPerson(String.valueOf(accountNo))
@@ -59,6 +60,8 @@ public class CartService {
 		//상품 검색
 		Optional<Item> optionalItem = this.itemDao.findById(itemSearch);
 		optionalItem.orElseThrow(() -> new CartItemNotFoundException(itemSearch.getItemId()));
+
+		//카트 동일 상품 검색후 R:일반상품, P:프로모션, M:멤버쉽 상품판매종류를 검색한다.
 
 		return cartDao.add(cartItem);
 	}

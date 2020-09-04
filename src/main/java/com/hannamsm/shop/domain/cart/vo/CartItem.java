@@ -17,6 +17,13 @@ public class CartItem {
 	private int accountNo;
 	private String storeId;
 	private String itemId;
+	/**
+	 * 상품판매종류
+	 * R01:일반가격
+	 * P01:프로모션(단품), P02:프로모션(묶음)
+	 * M01:회원제(단품), M02:회원제(묶음)
+	 */
+	private String itemSalesType;
 	private int itemQty;
 	private String upc;
 	private String itemKrNm;
