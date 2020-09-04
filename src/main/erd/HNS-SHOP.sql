@@ -385,6 +385,8 @@ CREATE TABLE [customer]
 	[customer_lang_cd] varchar(4),
 	-- 맴버쉽번호
 	[membership_no] int,
+	-- 맴버쉽여부 : 맴버쉽여부
+	[is_membership] bit DEFAULT '0' NOT NULL,
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
