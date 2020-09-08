@@ -1,19 +1,19 @@
 package com.hannamsm.shop.domain.membership.controller;
 
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hannamsm.shop.domain.membership.exception.CardNoNotFoundException;
 import com.hannamsm.shop.domain.membership.service.MembershipService;
+import com.hannamsm.shop.domain.membership.vo.MembershipConfirmDto;
 import com.hannamsm.shop.domain.membership.vo.MembershipDto;
 import com.hannamsm.shop.global.vo.ResponseResult;
 
@@ -27,8 +27,15 @@ public class MembershipController {
 	public ResponseEntity queryFindMembership(@RequestBody @Valid MembershipDto reqCustomer
             ) throws Exception {
 				
-		MembershipDto resultCustomer = new MembershipDto();		
-		resultCustomer = this.membershipService.findMembership(reqCustomer);
+		MembershipDto resultCustomer = new MembershipDto();	
+		
+		int allCount = this.membershipService.findAllCount(reqCustomer);
+		
+		if(1==allCount) {
+			resultCustomer = this.membershipService.findMembership(reqCustomer);
+		}else {
+			resultCustomer = null;
+		}
 			
 		//return data
 		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();
@@ -36,4 +43,23 @@ public class MembershipController {
 		resResult.setResult(resultCustomer);
 		return ResponseEntity.ok(resResult);
 	}
+	
+	@PostMapping(value = "/confirmMembership", produces = MediaTypes.HAL_JSON_VALUE)
+	public ResponseEntity queryConfirmMembership(@RequestBody @Valid MembershipConfirmDto reqCustomer
+			)throws Exception{
+								
+		int confirm = membershipService.confirmNumber(reqCustomer);
+		MembershipConfirmDto confirmResult = new MembershipConfirmDto();
+		confirmResult.setResult(confirm);
+		
+		ResponseResult<MembershipConfirmDto> resResult = new ResponseResult<MembershipConfirmDto>();
+		
+		if(1==confirm) {			
+			resResult.setMessage("인증에 성공 했습니다.");						
+		}else {
+			resResult.setMessage("인증에 실패 했습니다.");
+		}
+		resResult.setResult(confirmResult);
+		return ResponseEntity.ok(resResult);
+	} 
 }
