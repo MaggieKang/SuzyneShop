@@ -23,7 +23,7 @@ public class CartItem {
 	 * P01:프로모션(단품), P02:프로모션(묶음)
 	 * M01:회원제(단품), M02:회원제(묶음)
 	 */
-	private String itemSalesType;
+	private String itemSalesTypeCd;
 	private int itemQty;
 	private String upc;
 	private String itemKrNm;

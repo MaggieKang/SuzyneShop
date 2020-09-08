@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hannamsm.shop.domain.order.dao.OrderDao;
-import com.hannamsm.shop.domain.order.vo.Order;
+import com.hannamsm.shop.domain.order.vo.OrderDto;
 import com.hannamsm.shop.domain.order.vo.OrderSearch;
 import com.hannamsm.shop.global.BaseDaoTest;
 
@@ -26,7 +26,7 @@ public class OrderDaoTest extends BaseDaoTest {
 	public void findAll() throws Exception {
 		OrderSearch orderSearch = new OrderSearch(1, 10);
 
-		List<Order> list = this.orderDao.findAll(orderSearch);
+		List<OrderDto> list = this.orderDao.findAll(orderSearch);
 		System.out.println(list.toString());
 
 		assertAll("list",

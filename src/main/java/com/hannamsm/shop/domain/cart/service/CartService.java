@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.hannamsm.shop.domain.cart.dao.CartDao;
 import com.hannamsm.shop.domain.cart.exception.CartItemNotFoundException;
+import com.hannamsm.shop.domain.cart.vo.CartDeleteItemDto;
 import com.hannamsm.shop.domain.cart.vo.CartItem;
 import com.hannamsm.shop.domain.cart.vo.CartItemDto;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
@@ -31,7 +32,7 @@ public class CartService {
 		return this.cartDao.findByAccountIdCount(cartItemSearch);
 	}
 
-	public List<CartItem> findByAccountId(CartItemSearch cartItemSearch) throws Exception {
+	public List<CartItemDto> findByAccountId(CartItemSearch cartItemSearch) throws Exception {
 		return cartDao.findByAccountId(cartItemSearch);
 	}
 
@@ -42,19 +43,10 @@ public class CartService {
 	public int addCartItem(CartItemDto cartItemDto) throws Exception {
 		int accountNo = cartItemDto.getAccountNo();
 
-		CartItem cartItem = CartItem.builder()
-				.accountNo(accountNo)
-				.storeId(cartItemDto.getStoreId())
-				.itemId(cartItemDto.getItemId())
-				.itemQty(cartItemDto.getItemQty())
-				.regPerson(String.valueOf(accountNo))
-				.lastModPerson(String.valueOf(accountNo))
-				.build();
-
 		ItemForAddCartSearch itemForAddCartSearch = ItemForAddCartSearch.builder()
 				.accountNo(accountNo)
 				.storeId(cartItemDto.getStoreId())
-				.itemId(cartItem.getItemId())
+				.itemId(cartItemDto.getItemId())
 				.build();
 
 		//상품 검색
@@ -62,7 +54,17 @@ public class CartService {
 		optionalItem.orElseThrow(() -> new CartItemNotFoundException(itemForAddCartSearch.getItemId()));
 
 		//카트 동일 상품 검색후 R:일반상품, P:프로모션, M:멤버쉽 상품판매종류를 검색한다.
-		cartItem.setItemSalesType(optionalItem.get().getSalesType());
+		ItemForAddCart itemForAddCart = optionalItem.get();
+
+		CartItem cartItem = CartItem.builder()
+				.accountNo(accountNo)
+				.storeId(cartItemDto.getStoreId())
+				.itemId(cartItemDto.getItemId())
+				.itemSalesTypeCd(itemForAddCart.getItemSalesTypeCd())
+				.itemQty(itemForAddCart.getAddSalesQty())
+				.regPerson(String.valueOf(accountNo))
+				.lastModPerson(String.valueOf(accountNo))
+				.build();
 
 		return cartDao.add(cartItem);
 	}
@@ -74,6 +76,7 @@ public class CartService {
 				.accountNo(accountNo)
 				.storeId(cartItemDto.getStoreId())
 				.itemId(cartItemDto.getItemId())
+				.itemSalesTypeCd(cartItemDto.getItemSalesTypeCd())
 				.itemQty(cartItemDto.getItemQty())
 				.regPerson(String.valueOf(accountNo))
 				.lastModPerson(String.valueOf(accountNo))
@@ -86,14 +89,14 @@ public class CartService {
 		return cartDao.save(cartItem);
 	}
 
-	public int deleteCartItem(@Valid CartItemDto cartItemDto) throws Exception {
-		int accountNo = cartItemDto.getAccountNo();
+	public int deleteCartItem(@Valid CartDeleteItemDto cartDeleteItemDto) throws Exception {
+		int accountNo = cartDeleteItemDto.getAccountNo();
 
 		CartItem cartItem = CartItem.builder()
 				.accountNo(accountNo)
-				.storeId(cartItemDto.getStoreId())
-				.itemId(cartItemDto.getItemId())
-				.itemQty(cartItemDto.getItemQty())
+				.storeId(cartDeleteItemDto.getStoreId())
+				.itemId(cartDeleteItemDto.getItemId())
+				.itemSalesTypeCd(cartDeleteItemDto.getItemSalesTypeCd())
 				.regPerson(String.valueOf(accountNo))
 				.lastModPerson(String.valueOf(accountNo))
 				.build();

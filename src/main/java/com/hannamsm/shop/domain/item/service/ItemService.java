@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.hannamsm.shop.domain.item.dao.ItemDao;
 import com.hannamsm.shop.domain.item.vo.Item;
+import com.hannamsm.shop.domain.item.vo.ItemDto;
 import com.hannamsm.shop.domain.item.vo.ItemSearch;
 
 @Service
@@ -24,8 +25,8 @@ public class ItemService {
 		return this.itemDao.findAllCount(itemSearch);
 	}
 
-	public Optional<Item> findById(ItemSearch itemSearch) throws Exception {
+	public Optional<ItemDto> findById(ItemSearch itemSearch) throws Exception {
 		return this.itemDao.findById(itemSearch);
 	}
-	
+
 }

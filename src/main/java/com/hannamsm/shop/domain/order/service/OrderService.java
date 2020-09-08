@@ -9,8 +9,8 @@ import com.hannamsm.shop.domain.cart.dao.CartDao;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.domain.order.dao.OrderDao;
 import com.hannamsm.shop.domain.order.vo.NewOrderDto;
-import com.hannamsm.shop.domain.order.vo.Order;
-import com.hannamsm.shop.domain.order.vo.OrderDetail;
+import com.hannamsm.shop.domain.order.vo.OrderDetailDto;
+import com.hannamsm.shop.domain.order.vo.OrderDto;
 import com.hannamsm.shop.domain.order.vo.OrderPickup;
 import com.hannamsm.shop.domain.order.vo.OrderSearch;
 import com.hannamsm.shop.domain.pickup.dao.PickupTimeslotDao;
@@ -32,7 +32,7 @@ public class OrderService {
 		return this.orderDao.findAllCount(orderSearch);
 	}
 
-	public List<Order> findAll(OrderSearch orderSearch) throws Exception {
+	public List<OrderDto> findAll(OrderSearch orderSearch) throws Exception {
 		return orderDao.findAll(orderSearch);
 	}
 
@@ -40,7 +40,7 @@ public class OrderService {
 		return orderDao.findByIdCount(orderSearch);
 	}
 
-	public List<OrderDetail> findById(OrderSearch orderSearch) throws Exception {
+	public List<OrderDetailDto> findById(OrderSearch orderSearch) throws Exception {
 		return orderDao.findById(orderSearch);
 	}
 

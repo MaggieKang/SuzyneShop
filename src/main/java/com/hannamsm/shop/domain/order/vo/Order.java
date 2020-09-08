@@ -15,17 +15,16 @@ import lombok.ToString;
 @Getter @Setter @ToString
 public class Order {
 	private int accountNo;
+	private String storeId;
+	private String storeNm;
 	private String orderId;
 	private LocalDateTime orderDate;
 	private String titleNm;
 	private String customerContactNumber;
-	private String storeId;
-	private String storeNm;
 	private BigDecimal grandTotalPrice;
 	private BigDecimal totalAmount;
 	private BigDecimal totalGstFee;
 	private BigDecimal totalPstFee;
-	private BigDecimal totalHstFee;
 	private BigDecimal totalEcoFee;
 	private BigDecimal totalDepositFee;
 	private String slotDt;

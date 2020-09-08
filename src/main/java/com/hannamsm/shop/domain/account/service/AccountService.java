@@ -8,15 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.stereotype.Service;
 
 import com.hannamsm.shop.domain.account.dao.AccountDao;
-import com.hannamsm.shop.domain.account.exception.AccountAlreadyMemberException;
 import com.hannamsm.shop.domain.account.exception.AccountIdNotFoundException;
 import com.hannamsm.shop.domain.account.exception.AccountNotMatchPasswordException;
 import com.hannamsm.shop.domain.account.vo.Account;
-import com.hannamsm.shop.domain.cart.exception.CartItemNotFoundException;
 import com.hannamsm.shop.domain.profile.vo.Customer;
 import com.hannamsm.shop.global.adapter.AccountAdapter;
 
@@ -51,7 +48,7 @@ public class AccountService implements UserDetailsService{
     }
 
  //아이디 중복 체크
-    public int dupCheckAccount(String accountEmail) {	
+    public int dupCheckAccount(String accountEmail) {
     	int strEmail = accountDao.dupAccount(accountEmail);
     	return strEmail;
     }
@@ -68,13 +65,13 @@ public class AccountService implements UserDetailsService{
 //password update
     public void resetPassword(Account account) {
     	 accountDao.resetPassword(account);
-    	return; 
+    	return;
     }
  //find ID
     public Optional<String> findUserID(Customer customer) {
     	Optional<String> returnStr = accountDao.findUserID(customer);
     	returnStr.orElseThrow(() -> new AccountIdNotFoundException());
-    	return returnStr; 
+    	return returnStr;
     }
     public void deleteAccount(String userEmail) {
     	Account account = accountDao.findByUserEmail(userEmail)

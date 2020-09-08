@@ -15,5 +15,6 @@ public class ItemForAddCart {
 
 	/* 상품ID */
 	private String itemId;
-	private String salesType;
+	private String itemSalesTypeCd;
+	private int addSalesQty;
 }

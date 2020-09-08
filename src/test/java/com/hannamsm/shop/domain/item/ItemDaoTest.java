@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hannamsm.shop.domain.item.dao.ItemDao;
 import com.hannamsm.shop.domain.item.vo.Item;
+import com.hannamsm.shop.domain.item.vo.ItemDto;
 import com.hannamsm.shop.domain.item.vo.ItemSearch;
 import com.hannamsm.shop.global.BaseDaoTest;
 
@@ -56,7 +57,7 @@ public class ItemDaoTest extends BaseDaoTest {
 		itemSearch.setItemId("ABC123123");
 		itemSearch.setStoreId("st002");
 
-		Optional<Item> item = this.itemDao.findById(itemSearch);
+		Optional<ItemDto> item = this.itemDao.findById(itemSearch);
 		System.out.println(item.toString());
 
 		assertAll("items",

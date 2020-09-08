@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hannamsm.shop.domain.cart.dao.CartDao;
 import com.hannamsm.shop.domain.cart.vo.CartItem;
+import com.hannamsm.shop.domain.cart.vo.CartItemDto;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.global.BaseDaoTest;
 
@@ -32,7 +33,7 @@ public class CartDaoTest extends BaseDaoTest {
 		cartItemSearch.setAccountNo(1);
 		cartItemSearch.setStoreId("st002");
 
-		List<CartItem> list = this.cartDao.findByAccountId(cartItemSearch);
+		List<CartItemDto> list = this.cartDao.findByAccountId(cartItemSearch);
 		System.out.println(list.toString());
 
 		assertAll("list",

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hannamsm.shop.domain.account.vo.Account;
 import com.hannamsm.shop.domain.cart.service.CartService;
-import com.hannamsm.shop.domain.cart.vo.CartItem;
+import com.hannamsm.shop.domain.cart.vo.CartAddItemDto;
+import com.hannamsm.shop.domain.cart.vo.CartDeleteItemDto;
 import com.hannamsm.shop.domain.cart.vo.CartItemDto;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.domain.cart.vo.CartSummary;
@@ -30,6 +32,9 @@ import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
 @RestController
 @RequestMapping(value="/api/cart", produces = MediaTypes.HAL_JSON_VALUE)
 public class CartController {
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Autowired
 	private CartService cartService;
@@ -51,10 +56,10 @@ public class CartController {
 		cartItemSearch.setStoreId(storeId);
 
 		int allCount = this.cartService.findByAccountIdCount(cartItemSearch);
-		List<CartItem> list = this.cartService.findByAccountId(cartItemSearch);
+		List<CartItemDto> list = this.cartService.findByAccountId(cartItemSearch);
 
 		//return data
-    	ResponseResutlsByPaging<CartItem> resResult = new ResponseResutlsByPaging<CartItem>(page, listSize);
+    	ResponseResutlsByPaging<CartItemDto> resResult = new ResponseResutlsByPaging<CartItemDto>(page, listSize);
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(allCount);
         resResult.setCurrentCount(list.size());
@@ -114,15 +119,17 @@ public class CartController {
 	 */
 	@PostMapping(value = "/{itemId}", produces = MediaTypes.HAL_JSON_VALUE)
 	public ResponseEntity addCartItem(@PathVariable String itemId
-			, @RequestBody @Valid CartItemDto reqCartItemDto
+			, @RequestBody @Valid CartAddItemDto cartAddItemDto
 			, @CurrentUser Account currentUser) throws Exception {
-		reqCartItemDto.setAccountNo(currentUser.getAccountNo());
+		cartAddItemDto.setAccountNo(currentUser.getAccountNo());
 
-		cartService.addCartItem(reqCartItemDto);
+		CartItemDto cartItemDto = modelMapper.map(cartAddItemDto, CartItemDto.class);
 
-		ResponseResult<CartItemDto> resResult = new ResponseResult<CartItemDto>();
+		cartService.addCartItem(cartItemDto);
+
+		ResponseResult<CartAddItemDto> resResult = new ResponseResult<CartAddItemDto>();
 		resResult.setMessage("추가 되었습니다.");
-		resResult.setResult(reqCartItemDto);
+		resResult.setResult(cartAddItemDto);
 
         return ResponseEntity.ok(resResult);
 	}
@@ -131,15 +138,24 @@ public class CartController {
 	 * 장바구니 상품 저장
 	 */
 	@PutMapping(value = "/{itemId}", produces = MediaTypes.HAL_JSON_VALUE)
-	public ResponseEntity saveCartItem(@PathVariable String itemId
+	public ResponseEntity saveCartItemQty(@PathVariable String itemId
 			, @RequestBody @Valid CartItemDto reqCartItemDto
 			, @CurrentUser Account currentUser) throws Exception {
 		reqCartItemDto.setAccountNo(currentUser.getAccountNo());
 
-		cartService.saveCartItem(reqCartItemDto);
+		String message = "";
+
+		if(0 == reqCartItemDto.getItemQty()) {
+			message = "삭제";
+			CartDeleteItemDto cartDeleteItemDto = modelMapper.map(reqCartItemDto, CartDeleteItemDto.class);
+			cartService.deleteCartItem(cartDeleteItemDto);
+		} else {
+			message = "저장";
+			cartService.saveCartItem(reqCartItemDto);
+		}
 
 		ResponseResult<CartItemDto> resResult = new ResponseResult<CartItemDto>();
-		resResult.setMessage("저장 되었습니다.");
+		resResult.setMessage(message+" 되었습니다.");
 		resResult.setResult(reqCartItemDto);
 
         return ResponseEntity.ok(resResult);
@@ -150,13 +166,13 @@ public class CartController {
 	 */
 	@DeleteMapping(value = "/{itemId}", produces = MediaTypes.HAL_JSON_VALUE)
 	public ResponseEntity deleteCartItem(@PathVariable String itemId
-			, @RequestBody @Valid CartItemDto reqCartItemDto
+			, @RequestBody @Valid CartDeleteItemDto reqCartItemDto
 			, @CurrentUser Account currentUser) throws Exception {
 		reqCartItemDto.setAccountNo(currentUser.getAccountNo());
 
 		cartService.deleteCartItem(reqCartItemDto);
 
-		ResponseResult<CartItemDto> resResult = new ResponseResult<CartItemDto>();
+		ResponseResult<CartDeleteItemDto> resResult = new ResponseResult<CartDeleteItemDto>();
 		resResult.setMessage("삭제 되었습니다.");
 		resResult.setResult(reqCartItemDto);
 
