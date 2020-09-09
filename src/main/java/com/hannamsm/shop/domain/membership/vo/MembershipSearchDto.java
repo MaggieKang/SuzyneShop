@@ -14,10 +14,8 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
-public class MembershipConfirmDto {
+public class MembershipSearchDto {
 	@NotEmpty
-	private String cardNo;
-	@NotEmpty
-	private String phone;
-	private int result;
+	private String cardNo;	
+	private String phone;	
 }

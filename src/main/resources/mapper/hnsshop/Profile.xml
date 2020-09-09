@@ -9,12 +9,14 @@ SELECT 	a.account_no AS accountNo
 	   ,b.customer_email AS customerEmail
 	   ,b.customer_phone_number  AS customerPhoneNumber
 	   ,b.extension_nember  AS extensionNumber
-	   ,c.seq  as seq
+	   ,b.membership_id AS membershipId 
+	   ,b.is_membership AS isMembership
+	   ,c.seq  AS seq
 	   ,c.address AS address
 	   ,c.city AS city
 	   ,c.province AS province
 	   ,c.country AS country
-	   ,c.postal_cd AS postalCd
+	   ,c.postal_cd AS postalCd	   
 	   ,c.is_default_address AS isDefaultAddress
 FROM account a
 LEFT OUTER JOIN customer b ON b.account_no = a.account_no
@@ -27,6 +29,7 @@ MERGE customer AS a
 USING (SELECT #{accountNo} AS account_no
 			, #{firstName} AS first_name
 			, #{lastName}  AS last_name
+			, #{membershipId}  AS membership_id
 			, #{customerEmail}		  AS customer_email
 			, #{customerPhoneNumber}  AS customer_phone_number
 			, #{extensionNumber}      AS extension_nember
@@ -45,7 +48,7 @@ USING (SELECT #{accountNo} AS account_no
                     , customer_kr_nm
                     , customer_en_nm
                     , customer_lang_cd
-                    , membership_no
+                    , membership_id
                     , reg_date
                     , reg_person
                     , last_mod_date
@@ -61,7 +64,7 @@ USING (SELECT #{accountNo} AS account_no
                     , NULL
                     , NULL
                     , NULL
-                    , NULL
+                    , b.membership_id
                     , getdate()
                     , b.account_no
                     , getdate()
@@ -72,6 +75,7 @@ USING (SELECT #{accountNo} AS account_no
 	  		SET   a.account_no = b.account_no
                   , a.first_name = b.first_name
                   , a.last_name = b.last_name
+                  , a.membership_id = b.membership_id
                   , a.customer_email = b.customer_email
                   , a.customer_phone_number = b.customer_phone_number
                   , a.extension_nember = b.extension_nember

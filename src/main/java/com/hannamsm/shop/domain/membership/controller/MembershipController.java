@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hannamsm.shop.domain.membership.service.MembershipService;
-import com.hannamsm.shop.domain.membership.vo.MembershipConfirmDto;
+import com.hannamsm.shop.domain.membership.vo.MembershipSearchDto;
 import com.hannamsm.shop.domain.membership.vo.MembershipDto;
 import com.hannamsm.shop.global.vo.ResponseResult;
 
@@ -24,7 +24,7 @@ public class MembershipController {
 	MembershipService membershipService;
 	//find Membership Id
 	@PostMapping(value = "/findMembershipInfo", produces = MediaTypes.HAL_JSON_VALUE)
-	public ResponseEntity queryFindMembership(@RequestBody @Valid MembershipDto reqCustomer
+	public ResponseEntity queryFindMembership(@RequestBody @Valid MembershipSearchDto reqCustomer
             ) throws Exception {
 				
 		MembershipDto resultCustomer = new MembershipDto();	
@@ -45,14 +45,15 @@ public class MembershipController {
 	}
 	
 	@PostMapping(value = "/confirmMembership", produces = MediaTypes.HAL_JSON_VALUE)
-	public ResponseEntity queryConfirmMembership(@RequestBody @Valid MembershipConfirmDto reqCustomer
+	public ResponseEntity queryConfirmMembership(@RequestBody @Valid MembershipSearchDto reqCustomer
 			)throws Exception{
 								
 		int confirm = membershipService.confirmNumber(reqCustomer);
-		MembershipConfirmDto confirmResult = new MembershipConfirmDto();
+		MembershipDto confirmResult = new MembershipDto();
+		confirmResult = this.membershipService.findMembership(reqCustomer);
 		confirmResult.setResult(confirm);
 		
-		ResponseResult<MembershipConfirmDto> resResult = new ResponseResult<MembershipConfirmDto>();
+		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();
 		
 		if(1==confirm) {			
 			resResult.setMessage("인증에 성공 했습니다.");						

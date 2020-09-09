@@ -16,6 +16,7 @@ public class ProfileDto {
 	private int accountNo;			
 	private String firstName;
 	private String lastName;
+	private String membershipId;
 	private String customerEmail;
 	private String customerPhoneNumber;
 	private String extensionNumber;

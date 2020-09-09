@@ -18,6 +18,8 @@ public class Customer {
 	private String customerEmail;
 	private String customerPhoneNumber;
 	private String extensionNumber;
+	private String membershipId;
+	private boolean isMembership;
 	private int seq;
 	private String address;
 	private String city;

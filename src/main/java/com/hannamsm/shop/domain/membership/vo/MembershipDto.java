@@ -19,5 +19,6 @@ public class MembershipDto {
     private String city;    
     private String province;    
     private String postalCode;    
-    private String krName;    
+    private String krName;  
+    private int result;
 }
