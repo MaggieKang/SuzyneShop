@@ -21,6 +21,8 @@ IF ObJECt_ID('[cmn_code_detail]') IS NOT NULL DROP TABLE [cmn_code_detail];
 IF ObJECt_ID('[cmn_code]') IS NOT NULL DROP TABLE [cmn_code];
 IF ObJECt_ID('[cmn_cls_code]') IS NOT NULL DROP TABLE [cmn_cls_code];
 IF ObJECt_ID('[cmn_file]') IS NOT NULL DROP TABLE [cmn_file];
+IF ObJECt_ID('[invoice_detail]') IS NOT NULL DROP TABLE [invoice_detail];
+IF ObJECt_ID('[invoice]') IS NOT NULL DROP TABLE [invoice];
 IF ObJECt_ID('[notice]') IS NOT NULL DROP TABLE [notice];
 IF ObJECt_ID('[pickup_timeslot]') IS NOT NULL DROP TABLE [pickup_timeslot];
 IF ObJECt_ID('[pickup_timeslot_default]') IS NOT NULL DROP TABLE [pickup_timeslot_default];
@@ -420,6 +422,118 @@ CREATE TABLE [favourite]
 );
 
 
+-- 인보이스
+CREATE TABLE [invoice]
+(
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
+	-- 인보이스ID
+	[invoice_id] varchar(20) NOT NULL,
+	-- 인보이스일시
+	[invoice_date] datetime NOT NULL,
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL,
+	-- 총지불금액 : Total Amount + Total GST + Total PST + Total ECO + Total Deposit
+	[total_pay_amount] decimal(10,2) NOT NULL,
+	-- 총금액 : (item_qty * sales_bundle_price) or (pickup_qty * sales_bundle_price)
+	[total_amount] decimal(10,2) NOT NULL,
+	-- 총GST수수료
+	[total_gst_fee] decimal(10,2) NOT NULL,
+	-- 총PST수수료
+	[total_pst_fee] decimal(10,2) NOT NULL,
+	-- 총ECO수수료
+	[total_eco_fee] decimal(10,2) NOT NULL,
+	-- 총Deposit수수료
+	[total_deposit_fee] decimal(10,2) NOT NULL,
+	-- 배달주소
+	[delivery_address] varchar(200) NOT NULL,
+	-- 청구서주소
+	[billing_address] varchar(200) NOT NULL,
+	-- 판매회사
+	[sold_by] varchar(100) NOT NULL,
+	-- 주문ID
+	[order_id] varchar(20),
+	-- 주문일시
+	[order_date] datetime,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([store_id], [invoice_id])
+);
+
+
+-- 인보이스상세
+CREATE TABLE [invoice_detail]
+(
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
+	-- 인보이스ID
+	[invoice_id] varchar(20) NOT NULL,
+	-- 상품ID
+	[item_id] varchar(24) NOT NULL,
+	-- 순번
+	[seq] int NOT NULL,
+	-- 상품판매종류코드 : REGULAR1:일반가격, PROMO01:홍보가격(단), PROMO02:홍보가격(묶), MEMBER01:회원제가격(단), MEMBER02:회원제가격(묶)
+	[item_sales_type_cd] varchar(10) NOT NULL,
+	-- 바코드ID
+	[upc] varchar(20) NOT NULL,
+	-- 상품영문이름
+	[item_en_nm] varchar(150) NOT NULL,
+	-- 상품한글이름
+	[item_kr_nm] varchar(150) NOT NULL,
+	-- 상품세금코드 : 세금유형 - GST, BOTH(GST+PST)
+	-- 
+	[item_tax_cd] nchar(1) NOT NULL,
+	-- 상품Deposit코드 : "값이 있을 경우 다음 Table 참조 Bottle Deposit / Ecofee 추가
+	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType' 
+	-- 100 보다 작으면 Select * FROM [dbgal].[dbo].[tblEncorp] WHERE ReturnType ='ReturnType'"
+	[item_deposit_cd] varchar(4) NOT NULL,
+	-- 상품ECO코드
+	[item_eco_cd] varchar(4) NOT NULL,
+	-- 상품규격
+	[item_size] nvarchar(30) NOT NULL,
+	-- 판매단위 : 판매 단위 - EA, PK, LB
+	-- 
+	[sales_unit] nvarchar(4) NOT NULL,
+	-- 판매수량
+	[sales_qty] int NOT NULL,
+	-- 판매묶음총계
+	[sales_bundle_amount] decimal(10,2) NOT NULL,
+	-- 판매묶음GST수수료
+	[sales_bundle_gst_fee] decimal(10,2) NOT NULL,
+	-- 판매묶음PST수수료
+	[sales_bundle_pst_fee] decimal(10,2) NOT NULL,
+	-- 판매묶음Deposit수수료
+	[sales_bundle_deposit_fee] decimal(10,2) NOT NULL,
+	-- 판매묶음ECO수수료
+	[sales_bundle_eco_fee] decimal(10,2) NOT NULL,
+	-- 판매묶음입고가격
+	[sales_bundle_receiving_price] decimal(10,2) NOT NULL,
+	-- 판매묶음정규가격
+	[sales_bundle_regular_price] decimal(10,2) NOT NULL,
+	-- 판매묶음개수
+	[sales_bundle_qty] int NOT NULL,
+	-- 판매묶음가격
+	[sales_bundle_price] decimal(10,2) NOT NULL,
+	-- 판매묶음할인율
+	[sales_bundle_discount_rate] int NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([store_id], [invoice_id], [item_id], [seq])
+);
+
+
 -- 상품
 CREATE TABLE [item]
 (
@@ -460,7 +574,7 @@ CREATE TABLE [item]
 	[category_store_id] varchar(10),
 	-- 판매단위 : 판매 단위 - EA, PK, LB
 	-- 
-	[sale_unit] nvarchar(4),
+	[sales_unit] nvarchar(4),
 	-- 프로모션묶음개수
 	[promotion_bundle_qty] int DEFAULT 0 NOT NULL,
 	-- 프로모션시작일시
@@ -569,7 +683,7 @@ CREATE TABLE [orders]
 	[order_date] datetime NOT NULL,
 	-- 고객연락번호
 	[customer_contact_number] varchar(20) NOT NULL,
-	-- 총합계
+	-- 총금액 : (item_qty * sales_bundle_price) or (pickup_qty * sales_bundle_price)
 	[total_amount] decimal(10,2),
 	-- 총GST수수료
 	[total_gst_fee] decimal(10,2),
@@ -581,6 +695,8 @@ CREATE TABLE [orders]
 	[total_deposit_fee] decimal(10,2),
 	-- 주문상태코드
 	[order_status_cd] varchar(10) NOT NULL,
+	-- 인보이스ID
+	[invoice_id] varchar(20) NOT NULL,
 	-- 계정번호 : 계정번호
 	[account_no] int NOT NULL,
 	-- 최초등록일시 : 최초등록일시
@@ -641,8 +757,6 @@ CREATE TABLE [orders_detail]
 	[sales_bundle_price] decimal(10,2) DEFAULT 0 NOT NULL,
 	-- 판매묶음할인율
 	[sales_bundle_discount_rate] int DEFAULT 0 NOT NULL,
-	-- 인보이스ID
-	[invoice_id] varchar(20),
 	-- 최초등록일시 : 최초등록일시
 	[reg_date] datetime,
 	-- 최초등록사용자 : 최초등록사용자
