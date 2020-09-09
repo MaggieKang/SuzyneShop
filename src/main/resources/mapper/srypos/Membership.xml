@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.membership.dao.MembershipDao">
+<select id="findAllCount" parameterType="com.hannamsm.shop.domain.membership.vo.MembershipDto" resultType="int">
+SELECT count(a.CardNo) as cardCount   	                                        
+FROM tblCustomer a
+LEFT OUTER JOIN tblCustomerHist b ON a.CardNo = b.CardNo
+WHERE  b.NewCardNo is null
+AND a.Active = 1
+AND a.CardNo = #{cardNo}
+</select>
+<select id="confirmNumber" parameterType="com.hannamsm.shop.domain.membership.vo.MembershipConfirmDto" resultType="int">
+SELECT COUNT(a.CardNo) as confirmCount  	                 
+FROM tblCustomer a
+LEFT OUTER JOIN tblCustomerHist b ON a.CardNo = b.CardNo
+WHERE 1=1
+AND b.NewCardNo is null
+AND a.Active = 1
+AND a.cardNo = #{cardNo}
+AND REPLACE(a.Phone ,' ','') = REPLACE(#{phone},' ','') 
+</select>
 <select id="findMembership" parameterType="com.hannamsm.shop.domain.membership.vo.MembershipDto" resultType="com.hannamsm.shop.domain.membership.vo.MembershipDto">
-SELECT cardKey
-   	   ,a.CardNo
-   	   ,WebID
-       ,Lang_cd
-       ,StoreCode
-       ,CustLanguage
-       ,Sex
-       ,EnName
-       ,Phone
-       ,Address
-       ,city_cd
-       ,City
-       ,province_cd
-       ,Province
-       ,country_cd
-       ,PostalCode
-       ,EMail
-       ,KrName
-       ,CardIssueDate
-       ,LastModDate 
+SELECT a.CardNo as cardNo   	                               
+       ,REPLACE(EnName ,' ','')  as enName
+       ,Phone   as phone
+       ,Address as address       
+       ,City    as city   
+       ,Province   as province     
+       ,PostalCode as postalCode       
+       ,REPLACE(KrName ,' ','')     as krName          
 FROM tblCustomer a
 LEFT OUTER JOIN tblCustomerHist b
 ON a.CardNo = b.CardNo
