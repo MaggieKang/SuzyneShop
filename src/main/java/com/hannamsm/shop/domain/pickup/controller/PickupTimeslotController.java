@@ -40,9 +40,9 @@ public class PickupTimeslotController {
 			@RequestParam(value = "slotDt") String slotDt) throws Exception {
 
 		PickupSlogDtSearch pickupSlogDtSearch = PickupSlogDtSearch.builder()
-				.slotDt(slotDt)
-				.storeId(storeId)
-				.build();
+			.slotDt(slotDt)
+			.storeId(storeId)
+			.build();
 
 		List<PickupTimeslot> list = pickupTimeslotService.findBySlotDt(pickupSlogDtSearch);
 
