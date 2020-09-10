@@ -117,7 +117,6 @@ insert into orders_detail (
      , sales_bundle_qty
      , sales_bundle_price
      , sales_bundle_discount_rate
-     , invoice_id
      , reg_date
      , reg_person
      , last_mod_date
@@ -149,7 +148,6 @@ select #{orderId} as order_id
      , m.sales_bundle_qty
      , m.sales_bundle_price
      , (ceiling((((m.regular_price * m.sales_bundle_qty) - m.sales_bundle_price)/(m.regular_price * m.sales_bundle_qty))*100)) as discountRate
-     , null as invoice_id
      , getDate() as reg_date
      , #{accountNo} as reg_person
      , getDate() as last_mod_date
