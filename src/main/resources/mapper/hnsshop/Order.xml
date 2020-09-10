@@ -76,7 +76,6 @@ select a.order_id                     as orderId
      , b.sales_bundle_qty             as salesBundleQty
      , b.sales_bundle_price           as salesBundlePrice
      , b.sales_bundle_discount_rate   as salesBundleDiscountRate
-     , b.invoice_id                   as invoiceId
      , isnull(e.cmn_file_url,'proct-photos/np_image_available.jpg') as imgUrl
   from orders a
        inner join orders_detail b on b.store_id = a.store_id and b.order_id = a.order_id

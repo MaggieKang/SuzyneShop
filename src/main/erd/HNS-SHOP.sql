@@ -696,7 +696,7 @@ CREATE TABLE [orders]
 	-- 주문상태코드
 	[order_status_cd] varchar(10) NOT NULL,
 	-- 인보이스ID
-	[invoice_id] varchar(20) NOT NULL,
+	[invoice_id] varchar(20),
 	-- 계정번호 : 계정번호
 	[account_no] int NOT NULL,
 	-- 최초등록일시 : 최초등록일시
