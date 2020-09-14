@@ -2,12 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.membership.dao.MembershipDao">
 <select id="findAllCount" parameterType="com.hannamsm.shop.domain.membership.vo.MembershipSearchDto" resultType="int">
-SELECT count(a.CardNo) as cardCount   	                                        
+SELECT  COUNT(m.CardNo) as allCount   	                 
+  FROM (
+SELECT  a.CardNo as cardNo
+	   ,REPLACE(a.EnName,' ','') as enName
+       ,REPLACE(a.KrName,' ','') as krName   	                        
 FROM tblCustomer a
 LEFT OUTER JOIN tblCustomerHist b ON a.CardNo = b.CardNo
-WHERE  b.NewCardNo is null
+WHERE 1=1
+and b.NewCardNo is null
 AND a.Active = 1
-AND a.CardNo = #{cardNo}
+AND REPLACE(a.Phone ,' ','') = #{phone}
+) as m
+where 1=1
+  and (m.enName like '%'+#{name}+'%' or m.krName like '%'+ #{name} +'%')
 </select>
 <select id="confirmNumber" parameterType="com.hannamsm.shop.domain.membership.vo.MembershipSearchDto" resultType="int">
 SELECT COUNT(a.CardNo) as confirmCount  	                 
@@ -34,5 +42,33 @@ ON a.CardNo = b.CardNo
 WHERE  b.NewCardNo is null
 AND a.Active = 1
 AND a.CardNo = #{cardNo}
+</select>
+<select id="searchMembership" parameterType="com.hannamsm.shop.domain.membership.vo.MembershipSearchDto" resultType="com.hannamsm.shop.domain.membership.vo.MembershipDto">
+SELECT  m.CardNo as cardNo   	          
+       ,m.EnName as enName
+       ,m.KrName as krName
+       ,m.Phone  as phone
+       ,m.Address as address        
+       ,m.City    as city   
+       ,m.Province   as province     
+       ,m.PostalCode as postalCode
+  FROM (
+SELECT  a.CardNo as cardNo   	          
+       ,REPLACE(a.EnName,' ','') as enName
+       ,REPLACE(a.KrName,' ','') as krName
+       ,a.Phone  as phone
+       ,a.Address as address        
+       ,a.City    as city   
+       ,a.Province   as province     
+       ,a.PostalCode as postalCode        
+FROM tblCustomer a
+LEFT OUTER JOIN tblCustomerHist b ON a.CardNo = b.CardNo
+WHERE 1=1
+and b.NewCardNo is null
+AND a.Active = 1
+AND REPLACE(a.Phone ,' ','') = #{phone}
+) as m
+where 1=1
+  and (m.enName like '%'+#{name}+'%' or m.krName like '%'+ #{name} +'%')
 </select>
 </mapper>

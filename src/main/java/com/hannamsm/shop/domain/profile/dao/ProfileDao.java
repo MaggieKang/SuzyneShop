@@ -15,4 +15,5 @@ public interface ProfileDao {
 	public int saveProfile(ProfileDto profileDto) throws Exception;
 
 	public int saveAddress(AddressDto addressDto) throws Exception;
+		
 }

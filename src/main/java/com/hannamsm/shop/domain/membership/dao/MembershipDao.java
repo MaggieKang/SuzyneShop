@@ -13,4 +13,6 @@ public interface MembershipDao {
 		
 	public int findAllCount(MembershipSearchDto reqCustomer)throws Exception;
 	
+	public MembershipDto searchMembership(MembershipSearchDto reqCustomer)throws Exception;
+	
 }

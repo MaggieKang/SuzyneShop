@@ -25,5 +25,4 @@ public class ProfileService {
 	public int saveAddress(AddressDto addressDto) throws Exception{	
 		return profileDao.saveAddress(addressDto);
 	}
-
 }

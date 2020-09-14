@@ -20,5 +20,5 @@ public class MembershipDto {
     private String province;    
     private String postalCode;    
     private String krName;  
-    private int result;
+    private int confirm;
 }

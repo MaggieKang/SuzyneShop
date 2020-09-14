@@ -17,5 +17,6 @@ import lombok.ToString;
 public class MembershipSearchDto {
 	@NotEmpty
 	private String cardNo;	
-	private String phone;	
+	private String phone;
+	private String name;
 }
