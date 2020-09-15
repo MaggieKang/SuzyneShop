@@ -28,89 +28,64 @@ public class MembershipController {
 	@Autowired
 	MembershipService membershipService;
 		
-	//find Membership Id
+	/*
+	 * Profile membership Check
+	 * 멤버쉽 ID 조회  by srypos cardNo  
+	 */
 	@PostMapping(value = "/findMembershipInfo")
 	public ResponseEntity queryFindMembership(@RequestBody @Valid MembershipSearchDto reqCustomer) throws Exception {
+		
+		String message = null;
+		
+		String membershipId = reqCustomer.getCardNo();
+		int dupCheck = this.membershipService.membershipDupCheck(membershipId);
 				
-		MembershipDto resultCustomer = new MembershipDto();									
-		resultCustomer = this.membershipService.findMembership(reqCustomer);		
-							
+		MembershipDto resultCustomer = new MembershipDto();
+		if(0==dupCheck) {
+			resultCustomer = this.membershipService.findMembership(reqCustomer);			
+			message = "조회 되었습니다.";
+		}else {
+			message = "이미 등록된 membership 입니다.";
+			resultCustomer.setDupCheck(dupCheck);
+		}				
 		//return data
 		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();
-		resResult.setMessage("조회에 성공하였습니다.");
+		resResult.setMessage(message);
 		resResult.setResult(resultCustomer);
 		return ResponseEntity.ok(resResult);
 	}
 	
+	/*
+	 * Profile membership Confirm
+	 * MembershipId duplicate check
+	 * 멤버쉽 ID 조회 후 확인 (이름, 전화번호)
+	 */
 	@PostMapping(value = "/confirmMembership")
 	public ResponseEntity queryConfirmMembership(@RequestBody @Valid MembershipSearchDto reqCustomer)throws Exception{
-								
+		
+		String message =null;								
 		int confirm = membershipService.confirmNumber(reqCustomer);
+		
 		MembershipDto confirmResult = new MembershipDto();
-		confirmResult = this.membershipService.findMembership(reqCustomer);
+						
+		if(1==confirm) {
+			confirmResult = this.membershipService.findMembership(reqCustomer);
+			message = "인증에 성공 했습니다.";					
+		}else {
+			message = "인증에 실패 했습니다.";
+		}
 		confirmResult.setConfirm(confirm);
 		
 		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();		
-		if(1==confirm) {			
-			resResult.setMessage("인증에 성공 했습니다.");						
-		}else {
-			resResult.setMessage("인증에 실패 했습니다.");
-		}
+		
+		resResult.setMessage(message);
 		resResult.setResult(confirmResult);
 		return ResponseEntity.ok(resResult);
 	} 
-	
-	@PostMapping(value = "/searchMembership")
-	public ResponseEntity querySearchMembership(@RequestBody MembershipSearchDto reqCustomer) throws Exception{
-		
-		MembershipDto resultCustomer = new MembershipDto();
-		int allCount = membershipService.findAllCount(reqCustomer);
-		
-		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();
-		if(1==allCount) {
-			resultCustomer = this.membershipService.searchMembership(reqCustomer);
-			resResult.setMessage("조회 성공 했습니다.");
-		}else{
-			if(0==allCount) {
-				resResult.setMessage("일치 하는 데이터가 없습니다.");	
-			}else if(1<allCount){
-				resResult.setMessage("2건 이상 조회 되었습니다.");				
-			}
-			resultCustomer = null;			
-		}
-		resResult.setResult(resultCustomer);	
-		return ResponseEntity.ok(resResult);
-	}
-	
-	@PutMapping(value = "/profile")
-	public ResponseEntity saveMemProfile(@RequestBody ProfileDto reqProfileDto
-										, @CurrentUser Account account) throws Exception {
-		reqProfileDto.setAccountNo(account.getAccountNo());
-		membershipService.saveMemProfile(reqProfileDto);
-		
-		ResponseResult<ProfileDto> resResult = new ResponseResult<ProfileDto>();
-		resResult.setMessage("저장 되었습니다.");
-		resResult.setResult(reqProfileDto);		
-		return ResponseEntity.ok(resResult);							
-	}
-	
-	@PutMapping(value = "/address")
-	public ResponseEntity saveMemAddress(@RequestBody AddressDto reqAddressDto
-										, @CurrentUser Account account) throws Exception{
-		
-		int accountNo = account.getAccountNo();
-		int seq = this.membershipService.findAddressSeq(accountNo);
-		
-		reqAddressDto.setAccountNo(accountNo);
-		reqAddressDto.setSeq(seq);
-		
-		membershipService.saveMemAddress(reqAddressDto);				
-		
-		ResponseResult<AddressDto> resResult = new ResponseResult<AddressDto>();
-		resResult.setMessage("저장 되었습니다.");
-		resResult.setResult(reqAddressDto);		
-		return ResponseEntity.ok(resResult);		
-	}
+	/*
+	 * Init check membershipId
+	 * account-left membership 메뉴 멤버쉽 찾기
+	 */
 	@GetMapping
 	public ResponseEntity queryMembershipID(@CurrentUser Account account) throws Exception{
 		
@@ -125,4 +100,95 @@ public class MembershipController {
 		resResult.setResult(resultProfileDto);				
 		return ResponseEntity.ok(resResult);
 	}
+	
+	/*
+	 * Find MembershipID by phone and name
+	 * account-left membership 메뉴 멤버쉽 찾기
+	 * 일치 하는 데이터가 1건일때만 결과 전송
+	 */
+	@PostMapping(value = "/searchMembership")
+	public ResponseEntity querySearchMembership(@RequestBody MembershipSearchDto reqCustomer) throws Exception{
+		
+		String message =null;		
+		MembershipDto resultCustomer = new MembershipDto();
+		int allCount = membershipService.findAllCount(reqCustomer);
+		
+		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();
+		if(1==allCount) {
+			resultCustomer = this.membershipService.searchMembership(reqCustomer);
+			message = "조회 성공 했습니다.";
+		}else{
+			if(0==allCount) {
+				message = "일치 하는 데이터가 없습니다.";				
+			}else if(1<allCount){
+				message = "2건 이상 조회 되었습니다.";								
+			}
+			resultCustomer = null;			
+		}
+		resResult.setMessage(message);
+		resResult.setResult(resultCustomer);	
+		return ResponseEntity.ok(resResult);
+	}
+	
+	/*
+	 * Save sryPos membership data to shop profile
+	 * Use Profile VO
+	 * membershipID duplicate check
+	 * 멤버쉽 profile 동기화, 멤버쉽 중복 체크 후 저장
+	 */
+	
+	@PutMapping(value = "/profile")
+	public ResponseEntity saveMemProfile(@RequestBody ProfileDto reqProfileDto
+										, @CurrentUser Account account) throws Exception {
+		boolean checkId;
+		String message = null;
+		reqProfileDto.setAccountNo(account.getAccountNo());
+		
+		String membershipId = reqProfileDto.getMembershipId();
+		int dupCheck = this.membershipService.membershipDupCheck(membershipId);
+		
+		if(0==dupCheck) {
+			membershipService.saveMemProfile(reqProfileDto);
+			checkId = true;
+			message = "저장 되었습니다.";
+		}else {
+			checkId = false;
+			message = "이미 등록 된 membership 입니다.";
+		}
+		
+		ResponseResult<Boolean> resResult = new ResponseResult<Boolean>();		
+		resResult.setMessage(message);
+		resResult.setResult(checkId);				
+		return ResponseEntity.ok(resResult);							
+	}
+	
+	/*
+	 * Save sryPos membership data to shop address
+	 * Use Profile VO
+	 * Find Address seq number
+	 * 멤버쉽 주소 동기화
+	 * 기존 저장된 기본 주소가 있을 경우 해당 seq 번호 불러온 후 update
+	 */
+	
+	@PutMapping(value = "/address")
+	public ResponseEntity saveMemAddress(@RequestBody AddressDto reqAddressDto
+										, @CurrentUser Account account) throws Exception{
+		
+		int accountNo = account.getAccountNo();
+		Integer seq = this.membershipService.findAddressSeq(accountNo);
+		
+		reqAddressDto.setAccountNo(accountNo);
+		
+		if(seq!=null) {
+		reqAddressDto.setSeq(seq);
+		}
+						
+		membershipService.saveMemAddress(reqAddressDto);				
+		
+		ResponseResult<AddressDto> resResult = new ResponseResult<AddressDto>();
+		resResult.setMessage("저장 되었습니다.");
+		resResult.setResult(reqAddressDto);		
+		return ResponseEntity.ok(resResult);		
+	}
+	
 }

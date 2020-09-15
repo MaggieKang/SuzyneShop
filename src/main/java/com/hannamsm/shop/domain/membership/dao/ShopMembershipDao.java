@@ -13,8 +13,10 @@ public interface ShopMembershipDao {
 	
 	public int saveMemAddress(AddressDto addressDto)throws Exception;
 	
-	public int findAddressSeq(int accountNo)throws Exception;
+	public Integer findAddressSeq(int accountNo)throws Exception;
 	
 	public String queryMembershipId(int accountNo)throws Exception;
+	
+	public int membershipDupCheck(String membershipId)throws Exception;
 	
 }

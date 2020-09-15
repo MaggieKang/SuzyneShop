@@ -21,4 +21,5 @@ public class MembershipDto {
     private String postalCode;    
     private String krName;  
     private int confirm;
+    private int dupCheck;
 }

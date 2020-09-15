@@ -37,11 +37,13 @@ public class MembershipService {
     public int saveMemAddress(AddressDto addressDto)throws Exception{
     	return shopMembershipDao.saveMemAddress(addressDto);
     }
-	public int findAddressSeq(int accountNo) throws Exception{
+	public Integer findAddressSeq(int accountNo) throws Exception{
 		return shopMembershipDao.findAddressSeq(accountNo);
 	}
 	public String queryMembershipId(int accountNo) throws Exception{
 		return shopMembershipDao.queryMembershipId(accountNo);
 	}
-    
+    public int membershipDupCheck(String membershipId) throws Exception{
+    	return shopMembershipDao.membershipDupCheck(membershipId);
+    }
 }
