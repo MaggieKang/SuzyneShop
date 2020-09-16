@@ -48,9 +48,9 @@ public class AccountService implements UserDetailsService{
     }
 
  //아이디 중복 체크
-    public int dupCheckAccount(String accountEmail) {
-    	int strEmail = accountDao.dupAccount(accountEmail);
-    	return strEmail;
+    public Optional<Account> dupAccount(String accountEmail) {
+    	Optional<Account> account = accountDao.findByUserEmail(accountEmail);
+    	return account;
     }
 //아이디 생성
     public void createUser(Account account) {

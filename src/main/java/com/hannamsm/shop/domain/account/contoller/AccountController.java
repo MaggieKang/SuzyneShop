@@ -42,16 +42,18 @@ public class AccountController {
 		//return data
 		ResponseResult<Account> resResult = new ResponseResult<Account>();
 		//이메일 중복 체크
-		int dupAccount = accountService.dupCheckAccount(reqAccount.getAccountEmail());
-		if(dupAccount > 0) {
-			resResult.setMessage("중복된 회원 아이디가 있습니다.");
-		}else {
+		Optional<Account>  dupAccount = accountService.dupAccount(reqAccount.getAccountEmail());
+		if(dupAccount.isEmpty()) {
 			emaildto.setAddress(reqAccount.getAccountEmail());
 			accountService.createUser(reqAccount);
 			emailService.newCustomerMailSend(emaildto);
 			resResult.setMessage("회원가입이 완료 되었습니다.");
+			resResult.setResult(reqAccount);
+		}else {
+			resResult.setMessage("중복된 회원 아이디가 있습니다.");
+			resResult.setResult(dupAccount.get());
 		}
-		resResult.setResult(reqAccount);
+		
 		return ResponseEntity.ok(resResult);
 	}
 	//changePassword
@@ -95,9 +97,7 @@ public class AccountController {
 			emaildto.setPassword(tempPwd);
 			emailService.resetPassword(emaildto);
 		
-			
 			this.accountService.resetPassword(reqAccount);
-			
 			
 			//return data
 			ResponseResult<Account> resResult = new ResponseResult<Account>();

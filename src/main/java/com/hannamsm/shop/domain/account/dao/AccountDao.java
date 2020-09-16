@@ -17,8 +17,6 @@ public interface AccountDao {
 
 	public List<String> findRolesByUserNo(int userNo);
 
-	public int dupAccount(String userEmail);
-
 	public Optional<Account> checkOldPassword(Account account);
 	
 	public Optional<String> findUserID(Customer customer);

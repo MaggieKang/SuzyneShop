@@ -48,7 +48,7 @@ public class EmailService {
         		"          margin: 30px 10px 10px 10px;\n" + 
         		"          padding: 5px 10px 5px 10px;\n" + 
         		"          background-color: #F2F2F2;\n" + 
-        		"          \">Complete your order</div>\n" + 
+        		"          \">Complete your registration</div>\n" + 
         		"\n" + 
         		"          <div id=\"myLogin\" style=\"width: 100%;\n" + 
         		"          margin: 0px auto;\">\n" + 
@@ -69,7 +69,7 @@ public class EmailService {
         		"                    <li>\n" + 
         		"                      <div class=\"memInfoBox\">\n" + 
         		"                        Welcome to HNS online order & pick up service. You can\n" + 
-        		"                        use all services on this site from now.\n" + 
+        		"                        use all services on HNS online from now.\n" + 
         		"                      </div>\n" + 
         		"                    </li>\n" + 
         		"                    <li>\n" + 
