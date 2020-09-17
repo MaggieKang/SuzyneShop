@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.cart.dao.CartDao">
 <select id="findByAccountIdCount" parameterType="com.hannamsm.shop.domain.cart.vo.CartItemSearch" resultType="int">
-select count(a.item_id) as totalCount
+select sum(a.item_qty) as totalCount
   from cart a
        inner join item b on b.item_id = a.item_id and b.store_id = a.store_id and is_use = 1
  where a.account_no = #{accountNo}
