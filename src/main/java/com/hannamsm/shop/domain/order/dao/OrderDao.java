@@ -3,6 +3,7 @@ package com.hannamsm.shop.domain.order.dao;
 import java.util.List;
 
 import com.hannamsm.shop.domain.order.vo.NewOrderDto;
+import com.hannamsm.shop.domain.order.vo.Order;
 import com.hannamsm.shop.domain.order.vo.OrderDetailDto;
 import com.hannamsm.shop.domain.order.vo.OrderDto;
 import com.hannamsm.shop.domain.order.vo.OrderPickup;
@@ -26,5 +27,7 @@ public interface OrderDao {
 	public int createOrdersFromCart(NewOrderDto newOrderDto) throws Exception;
 
 	public int createOrderPickup(OrderPickup orderPickup) throws Exception;
+
+	public int updateOrders(Order order) throws Exception;
 
 }

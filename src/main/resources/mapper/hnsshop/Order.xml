@@ -240,4 +240,36 @@ insert into orders_pickup (
      , #{lastModPerson}
 )
 </insert>
+
+<update id="updateOrders" parameterType="com.hannamsm.shop.domain.order.vo.Order">
+update orders
+   set last_mod_date = getDate()
+     , last_mod_person = #{accountNo}
+   <if test="customerContactNumber != null and customerContactNumber != ''">
+     , customer_contact_number = #{customerContactNumber}
+   </if>
+   <if test="totalAmount != null and totalAmount != ''">
+     , total_amount = #{totalAmount}
+   </if>
+   <if test="totalGstFee != null and totalGstFee != ''">
+     , total_gst_fee = #{totalGstFee}
+   </if>
+   <if test="totalPstFee != null and totalPstFee != ''">
+     , total_pst_fee = #{totalPstFee}
+   </if>
+   <if test="totalEcoFee != null and totalEcoFee != ''">
+     , total_eco_fee = #{totalEcoFee}
+   </if>
+   <if test="totalDepositFee != null and totalDepositFee != ''">
+     , total_deposit_fee = #{totalDepositFee}
+   </if>
+   <if test="orderStatusCd != null and orderStatusCd != ''">
+     , order_status_cd = #{orderStatusCd}
+   </if>
+   <if test="invoiceId != null and invoiceId != ''">
+     , invoice_id = #{invoiceId}
+   </if>
+ where store_id = #{storeId}
+   and order_id = #{orderId}
+</update>
 </mapper>

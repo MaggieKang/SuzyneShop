@@ -21,6 +21,7 @@ import com.hannamsm.shop.domain.order.vo.NewOrderDto;
 import com.hannamsm.shop.domain.order.vo.OrderDetailDto;
 import com.hannamsm.shop.domain.order.vo.OrderDto;
 import com.hannamsm.shop.domain.order.vo.OrderSearch;
+import com.hannamsm.shop.domain.order.vo.PayNowOrderDto;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
@@ -93,18 +94,33 @@ public class OrderController {
 	/*
 	 * 신규 주문 저장
 	 */
-	@PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
-	public ResponseEntity saveNewOrder(@RequestBody @Valid NewOrderDto newOrderDto
+	@PostMapping
+	public ResponseEntity savePayNowOrder(@RequestBody @Valid NewOrderDto newOrderDto
 			, @CurrentUser Account currentUser) throws Exception {
-
 		newOrderDto.setAccountNo(currentUser.getAccountNo());
 
-		NewOrderDto resultNewOrderDto = orderService.saveCartToOrder(newOrderDto);
+		NewOrderDto resultNewOrderDto = this.orderService.saveCartToOrder(newOrderDto);
 
 		ResponseResult<NewOrderDto> resResult = new ResponseResult<NewOrderDto>();
 		resResult.setMessage("저장 되었습니다.");
 		resResult.setResult(resultNewOrderDto);
 
+        return ResponseEntity.ok(resResult);
+	}
+
+	/*
+	 * 주문 지불 저장
+	 */
+	@PostMapping(value = "/paynow/{orderId}")
+	public ResponseEntity savePayNowOrder(@RequestBody @Valid PayNowOrderDto payNowOrderDto
+			, @CurrentUser Account currentUser) throws Exception {
+		payNowOrderDto.setAccountNo(currentUser.getAccountNo());
+
+		PayNowOrderDto resultNewOrderDto = this.orderService.savePayNowOrder(payNowOrderDto);
+
+		ResponseResult<PayNowOrderDto> resResult = new ResponseResult<PayNowOrderDto>();
+		resResult.setMessage("저장 되었습니다.");
+		resResult.setResult(resultNewOrderDto);
         return ResponseEntity.ok(resResult);
 	}
 }

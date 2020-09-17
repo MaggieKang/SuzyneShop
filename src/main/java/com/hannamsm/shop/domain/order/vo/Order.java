@@ -27,11 +27,13 @@ public class Order {
 	private BigDecimal totalPstFee;
 	private BigDecimal totalEcoFee;
 	private BigDecimal totalDepositFee;
+	private String orderStatusCd;
 	private String slotDt;
 	private String slotTime;
 	private String startDisplaySlotTime;
 	private String endDisplaySlotTime;
 	private int itemCount;
+	private int invoiceId;
 	private LocalDateTime regDate;
 	private String regPerson;
 	private LocalDateTime lastModDate;

@@ -9,10 +9,12 @@ import com.hannamsm.shop.domain.cart.dao.CartDao;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.domain.order.dao.OrderDao;
 import com.hannamsm.shop.domain.order.vo.NewOrderDto;
+import com.hannamsm.shop.domain.order.vo.Order;
 import com.hannamsm.shop.domain.order.vo.OrderDetailDto;
 import com.hannamsm.shop.domain.order.vo.OrderDto;
 import com.hannamsm.shop.domain.order.vo.OrderPickup;
 import com.hannamsm.shop.domain.order.vo.OrderSearch;
+import com.hannamsm.shop.domain.order.vo.PayNowOrderDto;
 import com.hannamsm.shop.domain.pickup.dao.PickupTimeslotDao;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch;
 
@@ -55,7 +57,7 @@ public class OrderService {
 		//픽업 예약 가능한지 확인
 		int numberAvailable = pickupTimeslotDao.getNumberAvailable(pickupSlotTimeSearch);
 		if(0 == numberAvailable) {
-			throw new Exception("픽업 예약이 불가능합니다!!!");
+			//throw new Exception("픽업 예약이 불가능합니다!!!");
 		}
 
 		//상품 확인 err[픽업 취소]
@@ -97,5 +99,46 @@ public class OrderService {
 		//저장정보 조회
 
 		return newOrderDto;
+	}
+
+	public PayNowOrderDto savePayNowOrder(PayNowOrderDto payNowOrderDto) throws Exception {
+
+		PickupSlotTimeSearch pickupSlotTimeSearch = PickupSlotTimeSearch.builder()
+				.storeId(payNowOrderDto.getStoreId())
+				.slotDt(payNowOrderDto.getSlotDt())
+				.slotTime(payNowOrderDto.getSlotTime())
+				.build();
+
+		//픽업 예약 가능한지 확인
+		int numberAvailable = pickupTimeslotDao.getNumberAvailable(pickupSlotTimeSearch);
+		if(0 == numberAvailable) {
+			throw new Exception("픽업 예약이 불가능합니다!!!");
+		}
+
+		//상품 확인 err[픽업 취소]
+
+
+		/*
+		 * 1) 전화번호, 픽업 정보
+		 * 2) Billing Address
+		 * 3) Pay
+		 * 4) 인보이스 생성
+		 * 5) 주문 상태 변경
+		 */
+
+		Order updateOrder = Order.builder()
+			.accountNo(payNowOrderDto.getAccountNo())
+			.orderId(payNowOrderDto.getOrderId())
+			.storeId(payNowOrderDto.getStoreId())
+			.slotDt(payNowOrderDto.getSlotDt())
+			.slotTime(payNowOrderDto.getSlotTime())
+			.orderStatusCd("PAID")
+			.lastModPerson(String.valueOf(payNowOrderDto.getAccountNo()))
+			.build();
+		System.out.println(updateOrder.toString());
+		//저장정보 조회
+		this.orderDao.updateOrders(updateOrder);
+
+		return payNowOrderDto;
 	}
 }

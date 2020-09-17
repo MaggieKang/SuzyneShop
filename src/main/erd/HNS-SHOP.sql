@@ -8,6 +8,7 @@ IF ObJECt_ID('[favourite]') IS NOT NULL DROP TABLE [favourite];
 IF ObJECt_ID('[orders_detail]') IS NOT NULL DROP TABLE [orders_detail];
 IF ObJECt_ID('[orders_pickup]') IS NOT NULL DROP TABLE [orders_pickup];
 IF ObJECt_ID('[orders]') IS NOT NULL DROP TABLE [orders];
+IF ObJECt_ID('[payment]') IS NOT NULL DROP TABLE [payment];
 IF ObJECt_ID('[account]') IS NOT NULL DROP TABLE [account];
 IF ObJECt_ID('[account_authority]') IS NOT NULL DROP TABLE [account_authority];
 IF ObJECt_ID('[account_service_api]') IS NOT NULL DROP TABLE [account_service_api];
@@ -793,6 +794,37 @@ CREATE TABLE [orders_pickup]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([order_id], [store_id])
+);
+
+
+-- 지불
+CREATE TABLE [payment]
+(
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL,
+	-- Payment ID
+	[paymentId] int NOT NULL IDENTITY ,
+	-- 카드번호
+	[card_no] varchar(16) NOT NULL,
+	-- card_name
+	[card_name] varchar(200) NOT NULL,
+	-- 유효기간월
+	[expiration_month] char(2) NOT NULL,
+	-- 유효기간년
+	[expiration_year] char(2) NOT NULL,
+	-- 기본여부
+	[isDefault] bit DEFAULT '0' NOT NULL,
+	-- CVC번호
+	[card_verification_code] varchar(10),
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([account_no], [paymentId])
 );
 
 
