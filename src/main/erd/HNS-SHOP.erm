@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2020-05-14 07:51:40</creation_date>
-			<updated_date>2020-09-15 16:55:02</updated_date>
+			<updated_date>2020-09-21 09:16:35</updated_date>
 			<model_property>
 				<name>프로젝트명</name>
 				<value></value>
@@ -1093,7 +1093,7 @@
 			<char_semantics>false</char_semantics>
 			<description></description>
 			<logical_name>기본여부</logical_name>
-			<physical_name>isDefault</physical_name>
+			<physical_name>is_default</physical_name>
 			<type>bit</type>
 		</word>
 		<word>
@@ -1765,7 +1765,7 @@
 			<char_semantics>false</char_semantics>
 			<description></description>
 			<logical_name>Payment ID</logical_name>
-			<physical_name>paymentId</physical_name>
+			<physical_name>payment_id</physical_name>
 			<type>integer</type>
 		</word>
 		<word>
@@ -8963,6 +8963,22 @@
 					<referenced_column>151</referenced_column>
 					<referenced_column>151</referenced_column>
 					<referenced_column>151</referenced_column>
+					<referenced_column>151</referenced_column>
+					<referenced_column>151</referenced_column>
+					<referenced_column>151</referenced_column>
+					<referenced_column>151</referenced_column>
+					<referenced_column>151</referenced_column>
+					<referenced_column>151</referenced_column>
+					<referenced_column>151</referenced_column>
+					<referenced_column>151</referenced_column>
+					<relation>21</relation>
+					<relation>21</relation>
+					<relation>21</relation>
+					<relation>21</relation>
+					<relation>21</relation>
+					<relation>21</relation>
+					<relation>21</relation>
+					<relation>21</relation>
 					<relation>21</relation>
 					<relation>21</relation>
 					<relation>21</relation>
@@ -11604,18 +11620,18 @@
 					</sequence>
 				</normal_column>
 				<normal_column>
-					<word_id>57</word_id>
+					<word_id>16</word_id>
 					<id>235</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
 					<physical_name></physical_name>
-					<type>bit</type>
+					<type>varchar(n)</type>
 					<constraint></constraint>
-					<default_value>0</default_value>
+					<default_value></default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
-					<not_null>true</not_null>
+					<not_null>false</not_null>
 					<primary_key>false</primary_key>
 					<unique_key>false</unique_key>
 					<character_set></character_set>
@@ -11637,18 +11653,18 @@
 					</sequence>
 				</normal_column>
 				<normal_column>
-					<word_id>16</word_id>
+					<word_id>57</word_id>
 					<id>236</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
 					<physical_name></physical_name>
-					<type>varchar(n)</type>
+					<type>bit</type>
 					<constraint></constraint>
-					<default_value></default_value>
+					<default_value>0</default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
-					<not_null>false</not_null>
+					<not_null>true</not_null>
 					<primary_key>false</primary_key>
 					<unique_key>false</unique_key>
 					<character_set></character_set>

@@ -2,20 +2,77 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.payment.dao.PaymentDao">
 <select id="find" parameterType="com.hannamsm.shop.domain.payment.vo.PaymentSearch" resultType="com.hannamsm.shop.domain.payment.vo.PaymentDto">
-select paymentId        as paymentId
+select payment_id       as paymentId
      , card_name        as cardName
      , right(card_no,4) as cardLastNo
+     , expiration_month as expirationMonth
+     , expiration_year  as expirationYear
+     , is_default       as isDefaultPayment
  from payment
 where account_no = #{accountNo}
 </select>
 
 <select id="findByDefault" parameterType="com.hannamsm.shop.domain.payment.vo.PaymentSearch" resultType="com.hannamsm.shop.domain.payment.vo.PaymentDto">
 select top 1
-       paymentId        as paymentId
+       payment_id       as paymentId
      , card_name        as cardName
      , right(card_no,4) as cardLastNo
+     , expiration_month as expirationMonth
+     , expiration_year  as expirationYear
+     , is_default       as isDefaultPayment
  from payment
 where account_no = #{accountNo}
-  and isDefault = 1
+  and is_default = 1
 </select>
+
+<insert id="insert" parameterType="com.hannamsm.shop.domain.payment.vo.Payment">
+insert into payment (
+       account_no
+     , card_no
+     , card_name
+     , expiration_month
+     , expiration_year
+     , card_verification_code
+     , is_default
+     , reg_date
+     , reg_person
+     , last_mod_date
+     , last_mod_person
+) values (
+       #{accountNo}
+     , #{cardNo}
+     , #{cardName}
+     , #{expirationMonth}
+     , #{expirationYear}
+     , #{cardVerificationCode}
+     , #{isDefault}
+     , getDate()
+     , #{accountNo}
+     , getDate()
+     , #{accountNo}
+)
+</insert>
+
+<update id="save" parameterType="com.hannamsm.shop.domain.payment.vo.Payment">
+update payment
+   set last_mod_date = getDate()
+     , last_mod_person = #{accountNo}
+     , is_default = #{isDefault}
+ where account_no = #{accountNo}
+   and payment_id = #{paymentId}
+</update>
+
+<update id="saveDefaultAllFalse" parameterType="com.hannamsm.shop.domain.payment.vo.Payment">
+update payment
+   set last_mod_date = getDate()
+     , last_mod_person = #{accountNo}
+     , is_default = 0
+ where account_no = #{accountNo}
+</update>
+
+<delete id="delete" parameterType="com.hannamsm.shop.domain.payment.vo.Payment">
+delete payment
+ where account_no = #{accountNo}
+   and payment_id = #{paymentId}
+</delete>
 </mapper>

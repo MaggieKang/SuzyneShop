@@ -1,5 +1,8 @@
 package com.hannamsm.shop.domain.payment.vo;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,17 +13,20 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
-public class PaymentDto {
-	// Payemnt ID
+public class AddPaymentDto {
+	private int accountNo;
+	private String storeId;
 	private String paymentId;
-	// 카드이름
+	@NotEmpty
 	private String cardName;
-	// 카드마지막4자리번호
-	private String cardLastNo;
-	// 유효기간월
+	@NotNull
+	private String cardNo;
+	@NotNull
+	private String cardVerificationCode;
+	@NotNull
 	private String expirationMonth;
-	// 유효기간년
+	@NotNull
 	private String expirationYear;
-	// 기본여부
-	private boolean isDefaultPayment;
+	@NotNull
+	private boolean isDefault;
 }
