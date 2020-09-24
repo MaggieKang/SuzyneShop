@@ -18,15 +18,18 @@ IF ObJECt_ID('[authority]') IS NOT NULL DROP TABLE [authority];
 IF ObJECt_ID('[item_file]') IS NOT NULL DROP TABLE [item_file];
 IF ObJECt_ID('[item]') IS NOT NULL DROP TABLE [item];
 IF ObJECt_ID('[category]') IS NOT NULL DROP TABLE [category];
+IF ObJECt_ID('[city]') IS NOT NULL DROP TABLE [city];
 IF ObJECt_ID('[cmn_code_detail]') IS NOT NULL DROP TABLE [cmn_code_detail];
 IF ObJECt_ID('[cmn_code]') IS NOT NULL DROP TABLE [cmn_code];
 IF ObJECt_ID('[cmn_cls_code]') IS NOT NULL DROP TABLE [cmn_cls_code];
 IF ObJECt_ID('[cmn_file]') IS NOT NULL DROP TABLE [cmn_file];
+IF ObJECt_ID('[country]') IS NOT NULL DROP TABLE [country];
 IF ObJECt_ID('[invoice_detail]') IS NOT NULL DROP TABLE [invoice_detail];
 IF ObJECt_ID('[invoice]') IS NOT NULL DROP TABLE [invoice];
 IF ObJECt_ID('[notice]') IS NOT NULL DROP TABLE [notice];
 IF ObJECt_ID('[pickup_timeslot]') IS NOT NULL DROP TABLE [pickup_timeslot];
 IF ObJECt_ID('[pickup_timeslot_default]') IS NOT NULL DROP TABLE [pickup_timeslot_default];
+IF ObJECt_ID('[province]') IS NOT NULL DROP TABLE [province];
 IF ObJECt_ID('[service_api]') IS NOT NULL DROP TABLE [service_api];
 IF ObJECt_ID('[store]') IS NOT NULL DROP TABLE [store];
 
@@ -260,6 +263,27 @@ CREATE TABLE [category]
 );
 
 
+-- city
+CREATE TABLE [city]
+(
+	-- 도시코드
+	[city_cd] varchar(10) NOT NULL,
+	-- 도시이름
+	[city_nm] varchar(100) NOT NULL,
+	-- province_cd
+	[province_cd] varchar(10) NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([city_cd])
+);
+
+
 -- 공통분류코드 : common classification code
 -- 공통 분류 코드
 CREATE TABLE [cmn_cls_code]
@@ -360,6 +384,25 @@ CREATE TABLE [cmn_file]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([cmn_file_id])
+);
+
+
+-- country
+CREATE TABLE [country]
+(
+	-- 국가코드
+	[country_cd] varchar(10) NOT NULL,
+	-- 국가이름
+	[country_nm] varchar(100) NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([country_cd])
 );
 
 
@@ -489,13 +532,13 @@ CREATE TABLE [invoice_detail]
 	[item_kr_nm] varchar(150) NOT NULL,
 	-- 상품세금코드 : 세금유형 - GST, BOTH(GST+PST)
 	-- 
-	[item_tax_cd] nchar(1) NOT NULL,
+	[item_tax_cd] nchar(1),
 	-- 상품Deposit코드 : "값이 있을 경우 다음 Table 참조 Bottle Deposit / Ecofee 추가
 	-- 100 보다 크면 Select * FROM [dbgal].[dbo].[mfProdEco] WHERE ReturnType ='ReturnType' 
 	-- 100 보다 작으면 Select * FROM [dbgal].[dbo].[tblEncorp] WHERE ReturnType ='ReturnType'"
-	[item_deposit_cd] varchar(4) NOT NULL,
+	[item_deposit_cd] varchar(4),
 	-- 상품ECO코드
-	[item_eco_cd] varchar(4) NOT NULL,
+	[item_eco_cd] varchar(4),
 	-- 상품규격
 	[item_size] nvarchar(30) NOT NULL,
 	-- 판매단위 : 판매 단위 - EA, PK, LB
@@ -873,6 +916,27 @@ CREATE TABLE [pickup_timeslot_default]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([store_id], [default_day_Week], [default_slot_time])
+);
+
+
+-- province
+CREATE TABLE [province]
+(
+	-- 주코드
+	[province_cd] varchar(10) NOT NULL,
+	-- 주이름
+	[province_nm] varchar(100) NOT NULL,
+	-- 나라코드
+	[country_cd] varchar(10) NOT NULL,
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([province_cd])
 );
 
 
