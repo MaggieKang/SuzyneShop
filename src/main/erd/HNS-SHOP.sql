@@ -6,7 +6,6 @@ IF ObJECt_ID('[cart]') IS NOT NULL DROP TABLE [cart];
 IF ObJECt_ID('[customer]') IS NOT NULL DROP TABLE [customer];
 IF ObJECt_ID('[favourite]') IS NOT NULL DROP TABLE [favourite];
 IF ObJECt_ID('[orders_detail]') IS NOT NULL DROP TABLE [orders_detail];
-IF ObJECt_ID('[orders_pickup]') IS NOT NULL DROP TABLE [orders_pickup];
 IF ObJECt_ID('[orders]') IS NOT NULL DROP TABLE [orders];
 IF ObJECt_ID('[payment]') IS NOT NULL DROP TABLE [payment];
 IF ObJECt_ID('[account]') IS NOT NULL DROP TABLE [account];
@@ -496,7 +495,7 @@ CREATE TABLE [invoice]
 	-- 판매회사
 	[sold_by] varchar(100) NOT NULL,
 	-- 주문ID
-	[order_id] varchar(20),
+	[order_id] varchar(30),
 	-- 주문일시
 	[order_date] datetime,
 	-- 최초등록일시 : 최초등록일시
@@ -720,7 +719,7 @@ CREATE TABLE [notice]
 CREATE TABLE [orders]
 (
 	-- 주문ID
-	[order_id] varchar(20) NOT NULL,
+	[order_id] varchar(30) NOT NULL,
 	-- 매장ID
 	[store_id] varchar(10) NOT NULL,
 	-- 주문일시
@@ -739,6 +738,10 @@ CREATE TABLE [orders]
 	[total_deposit_fee] decimal(10,2),
 	-- 주문상태코드
 	[order_status_cd] varchar(10) NOT NULL,
+	-- 슬롯날짜
+	[slot_dt] date,
+	-- 슬롯시간
+	[slot_time] time,
 	-- 인보이스ID
 	[invoice_id] varchar(30),
 	-- 계정번호 : 계정번호
@@ -759,7 +762,7 @@ CREATE TABLE [orders]
 CREATE TABLE [orders_detail]
 (
 	-- 주문ID
-	[order_id] varchar(20) NOT NULL,
+	[order_id] varchar(30) NOT NULL,
 	-- 매장ID
 	[store_id] varchar(10) NOT NULL,
 	-- 상품ID
@@ -810,33 +813,6 @@ CREATE TABLE [orders_detail]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([order_id], [store_id], [item_id], [item_sales_type_cd])
-);
-
-
--- 주문픽업
-CREATE TABLE [orders_pickup]
-(
-	-- 주문ID
-	[order_id] varchar(20) NOT NULL,
-	-- 매장ID
-	[store_id] varchar(10) NOT NULL,
-	-- 슬롯날짜
-	[slot_dt] date NOT NULL,
-	-- 슬롯시간
-	[slot_time] time NOT NULL,
-	-- 매장ID
-	[pickup_store_id] varchar(10) NOT NULL,
-	-- 주문픽업상태코드
-	[order_pickup_status_cd] varchar(10) NOT NULL,
-	-- 최초등록일시 : 최초등록일시
-	[reg_date] datetime,
-	-- 최초등록사용자 : 최초등록사용자
-	[reg_person] varchar(256),
-	-- 마지막변경일시 : last_mod_date
-	[last_mod_date] datetime,
-	-- 마지막변경사용자 : 마지막 변경 사용자
-	[last_mod_person] varchar(256),
-	PRIMARY KEY ([order_id], [store_id])
 );
 
 

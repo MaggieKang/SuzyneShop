@@ -19,7 +19,6 @@ import com.hannamsm.shop.domain.order.vo.NewOrderDto;
 import com.hannamsm.shop.domain.order.vo.Order;
 import com.hannamsm.shop.domain.order.vo.OrderDetailDto;
 import com.hannamsm.shop.domain.order.vo.OrderDto;
-import com.hannamsm.shop.domain.order.vo.OrderPickup;
 import com.hannamsm.shop.domain.order.vo.OrderSearch;
 import com.hannamsm.shop.domain.order.vo.PayNowOrderDto;
 import com.hannamsm.shop.domain.payment.dao.PaymentDao;
@@ -84,28 +83,13 @@ public class OrderService {
 		//상품 확인 err[픽업 취소]
 
 		//주문번호 생성
-		String orderId = orderDao.createOrderId();
+		String orderId = orderDao.createOrderId(newOrderDto.getStoreId());
 
 		//주문상세 저장
 		newOrderDto.setOrderId(orderId);
 		orderDao.createOrdersDetailFromCart(newOrderDto);
 		//주문 저장
 		orderDao.createOrdersFromCart(newOrderDto);
-
-		OrderPickup orderPickup = OrderPickup.builder()
-				.accountNo(newOrderDto.getAccountNo())
-				.orderId(newOrderDto.getOrderId())
-				.storeId(newOrderDto.getStoreId())
-				.slotDt(newOrderDto.getSlotDt())
-				.slotTime(newOrderDto.getSlotTime())
-				.pickupStoreId(newOrderDto.getStoreId())
-				.orderPickupStatusCd("ORDERED")
-				.regPerson(String.valueOf(newOrderDto.getAccountNo()))
-				.lastModPerson(String.valueOf(newOrderDto.getAccountNo()))
-				.build();
-
-		//주문픽업 저장
-		orderDao.createOrderPickup(orderPickup);
 
 		//픽업 업데이트
 		pickupTimeslotDao.updatePickReservation(pickupSlotTimeSearch);

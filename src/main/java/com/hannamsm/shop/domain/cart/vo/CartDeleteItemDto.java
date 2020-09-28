@@ -1,8 +1,5 @@
 package com.hannamsm.shop.domain.cart.vo;
 
-import java.math.BigDecimal;
-
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
