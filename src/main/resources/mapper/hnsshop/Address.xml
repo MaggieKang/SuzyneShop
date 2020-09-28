@@ -16,6 +16,22 @@ LEFT OUTER JOIN account_address b ON b.account_no = a.account_no
 WHERE a.account_no = #{accountNo}
 order by is_default_address DESC, seq ASC
 </select>
+<select id="findById" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddress" resultType="com.hannamsm.shop.domain.address.vo.AccountAddress">
+select a.account_no as accountNo
+     , a.account_email as accountEmail
+     , b.seq as seq
+     , b.address as address
+     , b.city as city
+     , b.province as province
+     , b.country as country
+     , b.postal_cd as postalCd
+     , b.is_default_address as isDefaultAddress
+  from account a
+     , account_address b
+ where a.account_no = #{accountNo}
+   and b.account_no = a.account_no
+   and b.seq = #{seq}
+</select>
 <insert id="saveAddress" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddress">
 MERGE account_address AS a
 USING (SELECT #{accountNo} AS account_no
@@ -58,7 +74,7 @@ USING (SELECT #{accountNo} AS account_no
 	   		)
 	  WHEN MATCHED THEN
 	  		UPDATE
-	  		SET   a.account_no = b.account_no	  			  
+	  		SET   a.account_no = b.account_no
                   , a.address = b.address
                   , a.city = b.city
                   , a.province = b.province
@@ -75,7 +91,7 @@ WHERE seq=#{beSeq}
 </update>
 <delete id="deleteAddress" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddressDto">
 DELETE account_address
-WHERE account_no = #{accountNo}   
+WHERE account_no = #{accountNo}
 AND seq = #{seq}
 </delete>
 </mapper>

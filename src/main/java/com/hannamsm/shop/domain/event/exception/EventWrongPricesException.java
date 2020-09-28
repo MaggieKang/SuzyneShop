@@ -11,7 +11,7 @@ public class EventWrongPricesException extends InvalidValueException {
 	}
 
 	public EventWrongPricesException(String value) {
-		super(value +" is wrong", ErrorCode.EVENT_WRONG_PRICES);
+		super(value +" is wrong", ErrorCode.EVENT_WRONG_PRICES_ERROR);
 	}
 
 	public EventWrongPricesException(String value, ErrorCode errorCode) {

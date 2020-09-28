@@ -25,6 +25,18 @@ where account_no = #{accountNo}
   and is_default = 1
 </select>
 
+<select id="findById" parameterType="com.hannamsm.shop.domain.payment.vo.PaymentSearch" resultType="com.hannamsm.shop.domain.payment.vo.Payment">
+select payment_id       as paymentId
+     , card_no          as cardNo
+     , card_name        as cardName
+     , expiration_month as expirationMonth
+     , expiration_year  as expirationYear
+     , card_verification_code as cardVerificationCode
+ from payment
+where account_no = #{accountNo}
+  and payment_id = #{paymentId}
+</select>
+
 <insert id="insert" parameterType="com.hannamsm.shop.domain.payment.vo.Payment">
 insert into payment (
        account_no

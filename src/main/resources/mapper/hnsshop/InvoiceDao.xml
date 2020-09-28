@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hannamsm.shop.domain.invoice.dao.InvoiceDao">
+<select id="getNewInvoiceId" parameterType="string" resultType="String">
+select ('INV_'+ #{storeId} +'_' + convert(varchar, getDate(), 112) + '_' + right('0000000000' + convert(varchar, (next value for seq_invoice_id)), 10)) as invoice_id
+</select>
+
+<insert id="createNewInvoice" parameterType="com.hannamsm.shop.domain.invoice.vo.CreateNewInvoiceDto">
+insert into invoice (
+       store_id
+     , invoice_id
+     , invoice_date
+     , account_no
+     , total_pay_amount
+     , total_amount
+     , total_gst_fee
+     , total_pst_fee
+     , total_eco_fee
+     , total_deposit_fee
+     , delivery_address
+     , billing_address
+     , sold_by
+     , order_id
+     , order_date
+     , reg_date
+     , reg_person
+     , last_mod_date
+     , last_mod_person
+)
+select a.store_id                      as store_id
+     , #{invoiceId}                    as invoice_id
+     , getDate()                       as invoice_date
+     , #{accountNo}                    as account_no
+     , #{totalPayAmount}               as total_pay_amount
+     , sum(b.sales_bundle_amount)      as total_amount
+     , sum(b.sales_bundle_gst_fee)     as total_gst_fee
+     , sum(b.sales_bundle_pst_fee)     as total_pst_fee
+     , sum(b.sales_bundle_eco_fee)     as total_eco_fee
+     , sum(b.sales_bundle_deposit_fee) as total_deposit_fee
+     , (select address + ', ' + city + ', ' + province + ', Canada ' + postal_cd from store where store_id = #{storeId}) as delivery_address
+     , #{billingAddress}               as billing_address
+     , (select store_nm from store where store_id = #{storeId}) as sold_by
+     , a.order_id                      as order_id
+     , a.order_date                    as order_date
+     , getDate()                       as reg_date
+     , #{accountNo}                    as reg_person
+     , getDate()                       as last_mod_date
+     , #{accountNo}                    as last_mod_person
+  from orders a
+       inner join orders_detail b on b.store_id = a.store_id and b.order_id = a.order_id
+ where a.account_no = #{accountNo}
+   and a.store_id = #{storeId}
+   and a.order_id = #{orderId}
+   and a.order_status_cd = 'PAY'
+ group by a.order_id, a.store_id, a.order_date
+</insert>
+
+<insert id="createNewInvoiceDetail" parameterType="com.hannamsm.shop.domain.invoice.vo.CreateNewInvoiceDto">
+insert into invoice_detail (
+       store_id
+     , invoice_id
+     , item_id
+     , seq
+     , item_sales_type_cd
+     , upc
+     , item_en_nm
+     , item_kr_nm
+     , item_tax_cd
+     , item_deposit_cd
+     , item_eco_cd
+     , item_size
+     , sales_unit
+     , sales_qty
+     , sales_bundle_amount
+     , sales_bundle_gst_fee
+     , sales_bundle_pst_fee
+     , sales_bundle_deposit_fee
+     , sales_bundle_eco_fee
+     , sales_bundle_receiving_price
+     , sales_bundle_regular_price
+     , sales_bundle_qty
+     , sales_bundle_price
+     , sales_bundle_discount_rate
+     , reg_date
+     , reg_person
+     , last_mod_date
+     , last_mod_person
+)
+select a.store_id                                as store_id
+     , #{invoiceId}                              as invoice_id
+     , b.item_id                                 as item_id
+     , row_number() over(order by b.item_id asc) as seq
+     , b.item_sales_type_cd                      as item_sales_type_cd
+     , c.upc                                     as upc
+     , c.item_en_nm                              as item_en_nm
+     , c.item_kr_nm                              as item_kr_nm
+     , b.item_tax_cd                             as item_tax_cd
+     , b.item_deposit_cd                         as item_deposit_cd
+     , b.item_eco_cd                             as item_eco_cd
+     , c.item_size                               as item_size
+     , c.sale_unit                               as sales_unit
+     , b.order_qty                               as sales_qty
+     , b.sales_bundle_amount                     as sales_bundle_amount
+     , b.sales_bundle_gst_fee                    as sales_bundle_gst_fee
+     , b.sales_bundle_pst_fee                    as sales_bundle_pst_fee
+     , b.sales_bundle_deposit_fee                as sales_bundle_deposit_fee
+     , b.sales_bundle_eco_fee                    as sales_bundle_eco_fee
+     , b.sales_bundle_receiving_price            as sales_bundle_receiving_price
+     , b.sales_bundle_regular_price              as sales_bundle_regular_price
+     , b.sales_bundle_qty                        as sales_bundle_qty
+     , b.sales_bundle_price                      as sales_bundle_price
+     , b.sales_bundle_discount_rate              as sales_bundle_discount_rate
+     , getDate()                                 as reg_date
+     , #{accountNo}                              as reg_person
+     , getDate()                                 as last_mod_date
+     , #{accountNo}                              as last_mod_person
+  from orders a
+       inner join orders_detail b on b.store_id = a.store_id and b.order_id = a.order_id
+       inner join item c on c.store_id = b.store_id and c.item_id = b.item_id
+ where a.account_no = #{accountNo}
+   and a.store_id = #{storeId}
+   and a.order_id = #{orderId}
+   and a.order_status_cd = 'PAY'
+ order by b.item_id
+</insert>
+
+</mapper>

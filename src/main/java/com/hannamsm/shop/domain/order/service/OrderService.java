@@ -1,12 +1,19 @@
 package com.hannamsm.shop.domain.order.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.hannamsm.shop.domain.address.dao.AddressDao;
+import com.hannamsm.shop.domain.address.exception.BillingAddressNotFoundException;
+import com.hannamsm.shop.domain.address.vo.AccountAddress;
 import com.hannamsm.shop.domain.cart.dao.CartDao;
 import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
+import com.hannamsm.shop.domain.invoice.service.InvoiceService;
+import com.hannamsm.shop.domain.invoice.vo.CreateNewInvoiceDto;
 import com.hannamsm.shop.domain.order.dao.OrderDao;
 import com.hannamsm.shop.domain.order.vo.NewOrderDto;
 import com.hannamsm.shop.domain.order.vo.Order;
@@ -15,7 +22,12 @@ import com.hannamsm.shop.domain.order.vo.OrderDto;
 import com.hannamsm.shop.domain.order.vo.OrderPickup;
 import com.hannamsm.shop.domain.order.vo.OrderSearch;
 import com.hannamsm.shop.domain.order.vo.PayNowOrderDto;
+import com.hannamsm.shop.domain.payment.dao.PaymentDao;
+import com.hannamsm.shop.domain.payment.exception.PaymentNotFoundException;
+import com.hannamsm.shop.domain.payment.vo.Payment;
+import com.hannamsm.shop.domain.payment.vo.PaymentSearch;
 import com.hannamsm.shop.domain.pickup.dao.PickupTimeslotDao;
+import com.hannamsm.shop.domain.pickup.exception.PickupNoSlotTimeException;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch;
 
 @Service
@@ -26,6 +38,15 @@ public class OrderService {
 
 	@Autowired
 	CartDao cartDao;
+
+	@Autowired
+	AddressDao addressDao;
+
+	@Autowired
+	PaymentDao paymentDao;
+
+	@Autowired
+	InvoiceService invoiceService;
 
 	@Autowired
 	PickupTimeslotDao pickupTimeslotDao;
@@ -101,43 +122,100 @@ public class OrderService {
 		return newOrderDto;
 	}
 
+	@Transactional(rollbackFor = {RuntimeException.class})
 	public PayNowOrderDto savePayNowOrder(PayNowOrderDto payNowOrderDto) throws Exception {
 
-		PickupSlotTimeSearch pickupSlotTimeSearch = PickupSlotTimeSearch.builder()
+		// 1) 픽업 예약 가능한지 확인
+		{
+			PickupSlotTimeSearch pickupSlotTimeSearch = PickupSlotTimeSearch.builder()
+					.storeId(payNowOrderDto.getStoreId())
+					.slotDt(payNowOrderDto.getSlotDt())
+					.slotTime(payNowOrderDto.getSlotTime())
+					.build();
+
+			int numberAvailable = pickupTimeslotDao.getNumberAvailable(pickupSlotTimeSearch);
+			if(0 == numberAvailable) {
+				throw new PickupNoSlotTimeException();
+			}
+		}
+
+		// 2) Billing Address 확인
+		AccountAddress billingAddress = null;
+		{
+			AccountAddress accountAddress = AccountAddress.builder()
+				.accountNo(payNowOrderDto.getAccountNo())
+				.seq(Integer.parseInt(payNowOrderDto.getAddressId()))
+				.build();
+			billingAddress = this.addressDao.findById(accountAddress)
+					.orElseThrow(() -> new BillingAddressNotFoundException());
+		}
+
+		// 3) Payment 확인
+		Payment paymentDto = null;
+		{
+			PaymentSearch paymentSearch = PaymentSearch.builder()
+					.accountNo(payNowOrderDto.getAccountNo())
+					.paymentId(payNowOrderDto.getPaymentId())
+					.build();
+			paymentDto = this.paymentDao.findById(paymentSearch)
+				.orElseThrow(() -> new PaymentNotFoundException());
+		}
+
+		// 4) 상품 확인
+		{
+
+		}
+
+		// 5) 주문 상태 변경
+		{
+			Order updateOrder = Order.builder()
+				.accountNo(payNowOrderDto.getAccountNo())
+				.orderId(payNowOrderDto.getOrderId())
 				.storeId(payNowOrderDto.getStoreId())
 				.slotDt(payNowOrderDto.getSlotDt())
 				.slotTime(payNowOrderDto.getSlotTime())
+				.orderStatusCd("PAY")
+				.lastModPerson(String.valueOf(payNowOrderDto.getAccountNo()))
 				.build();
-
-		//픽업 예약 가능한지 확인
-		int numberAvailable = pickupTimeslotDao.getNumberAvailable(pickupSlotTimeSearch);
-		if(0 == numberAvailable) {
-			throw new Exception("픽업 예약이 불가능합니다!!!");
+			//저장정보 조회
+			this.orderDao.updateOrders(updateOrder);
 		}
 
-		//상품 확인 err[픽업 취소]
+		// 6) 결제(대외계)
+		{
+			System.out.println("결제(대외계) ===> "+paymentDto.toString());
+		}
 
 
-		/*
-		 * 1) 전화번호, 픽업 정보
-		 * 2) Billing Address
-		 * 3) Pay
-		 * 4) 인보이스 생성
-		 * 5) 주문 상태 변경
-		 */
+		// 7) 인보이스 생성
+		CreateNewInvoiceDto resultNewInvoiceDto = null;
+		{
+			CreateNewInvoiceDto createNewInvoiceDto = CreateNewInvoiceDto.builder()
+					.accountNo(payNowOrderDto.getAccountNo())
+					.orderId(payNowOrderDto.getOrderId())
+					.storeId(payNowOrderDto.getStoreId())
+					.customerContactNumber(payNowOrderDto.getCustomerContactNumber())
+					.billingAddress(billingAddress.getFullAddress())
+					.totalPayAmount(new BigDecimal(0))
+					.build();
+			resultNewInvoiceDto = this.invoiceService.createInvoice(createNewInvoiceDto);
+		}
 
-		Order updateOrder = Order.builder()
-			.accountNo(payNowOrderDto.getAccountNo())
-			.orderId(payNowOrderDto.getOrderId())
-			.storeId(payNowOrderDto.getStoreId())
-			.slotDt(payNowOrderDto.getSlotDt())
-			.slotTime(payNowOrderDto.getSlotTime())
-			.orderStatusCd("PAID")
-			.lastModPerson(String.valueOf(payNowOrderDto.getAccountNo()))
-			.build();
-		System.out.println(updateOrder.toString());
-		//저장정보 조회
-		this.orderDao.updateOrders(updateOrder);
+		// 8) 주문 상태 변경
+		{
+			Order updateOrder = Order.builder()
+				.accountNo(payNowOrderDto.getAccountNo())
+				.orderId(payNowOrderDto.getOrderId())
+				.storeId(payNowOrderDto.getStoreId())
+				.slotDt(payNowOrderDto.getSlotDt())
+				.slotTime(payNowOrderDto.getSlotTime())
+				.invoiceId(resultNewInvoiceDto.getInvoiceId())
+				.orderStatusCd("PAID")
+				.lastModPerson(String.valueOf(payNowOrderDto.getAccountNo()))
+				.build();
+			//저장정보 조회
+			this.orderDao.updateOrders(updateOrder);
+		}
 
 		return payNowOrderDto;
 	}

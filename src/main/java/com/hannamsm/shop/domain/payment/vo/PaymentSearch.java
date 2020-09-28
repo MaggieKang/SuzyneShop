@@ -11,10 +11,8 @@ import lombok.ToString;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
 public class PaymentSearch {
-	// 계정번호 : 계정번호
 	private int accountNo;
-
+	private String paymentId;
 	// 기본여부
 	private boolean isDefault;
-
 }

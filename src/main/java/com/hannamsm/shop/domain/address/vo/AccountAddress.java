@@ -19,6 +19,10 @@ public class AccountAddress {
 	private String province;
 	private String country;
 	private String postalCd;
-	private boolean isDefaultAddress; 
+	private boolean isDefaultAddress;
 	private int beSeq;
+
+	public String getFullAddress() {
+		return address + ", " + city + ", " + province + ", " + country + " " + postalCd;
+	}
 }

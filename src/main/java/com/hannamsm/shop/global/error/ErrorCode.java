@@ -10,6 +10,9 @@ public enum ErrorCode {
     HANDLE_ACCESS_DENIED(403, "CM006", "Access is Denied"),
 
 
+    // Address
+    ADDRESS_BILLING_NOT_FOUND_ERROR(400, "AB001", "Billing address could not be found!"),
+
     // Member
     EMAIL_DUPLICATION(400, "M001", "Email is Duplication"),
     LOGIN_INPUT_INVALID(400, "M002", "Login input is invalid"),
@@ -24,12 +27,18 @@ public enum ErrorCode {
     //COUPON_EXPIRE(400, "CO004", "Coupon was already expired")
 
     // EVENT
-    EVENT_WRONG_PRICES(400, "EV001", "MaxPrics is wrong!"),
-    EVENT_END_EVENT_DATE_TIME(400, "EV002", "EndEventDateTime is wrong!"),
+    EVENT_WRONG_PRICES_ERROR(400, "EV001", "MaxPrics is wrong!"),
+    EVENT_END_EVENT_DATE_TIME_ERROR(400, "EV002", "EndEventDateTime is wrong!"),
 
     // FILE
     FILE_STORAGE_ERROR(400, "FI001", "Could not store file!"),
     FILE_NOT_FOUND_ERROR(400, "FI002", "Could not found file!"),
+
+    // PICKUP
+    PICKUP_NO_SLOT_TIME_ERROR(400, "PI001", "There is no slot time!"),
+
+    // PAYMENT
+    PAYMENT_NOT_FOUND_ERROR(400, "PI001", "Could not found payment!"),
 
     //999
     ETC_ERROR(500, "ZZ999", "Etc is Error!")

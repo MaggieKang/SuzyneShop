@@ -33,7 +33,7 @@ public class Order {
 	private String startDisplaySlotTime;
 	private String endDisplaySlotTime;
 	private int itemCount;
-	private int invoiceId;
+	private String invoiceId;
 	private LocalDateTime regDate;
 	private String regPerson;
 	private LocalDateTime lastModDate;

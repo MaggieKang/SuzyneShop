@@ -1,6 +1,6 @@
-package com.hannamsm.shop.domain.order.vo;
+package com.hannamsm.shop.domain.invoice.vo;
 
-import javax.validation.constraints.NotEmpty;
+import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,20 +12,12 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
-public class PayNowOrderDto {
+public class CreateNewInvoiceDto {
 	private int accountNo;
-	@NotEmpty
 	private String storeId;
-	@NotEmpty
+	private String invoiceId;
 	private String orderId;
-	@NotEmpty
+	private BigDecimal totalPayAmount;
 	private String customerContactNumber;
-	@NotEmpty
-	private String paymentId;
-	@NotEmpty
-	private String addressId;
-	@NotEmpty
-	private String slotDt;
-	@NotEmpty
-	private String slotTime;
+	private String billingAddress;
 }
