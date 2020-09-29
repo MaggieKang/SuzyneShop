@@ -10,15 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hannamsm.shop.domain.account.vo.Account;
 import com.hannamsm.shop.domain.membership.service.MembershipService;
+import com.hannamsm.shop.domain.membership.vo.MembershipDto;
 import com.hannamsm.shop.domain.membership.vo.MembershipSearchDto;
 import com.hannamsm.shop.domain.profile.vo.AddressDto;
 import com.hannamsm.shop.domain.profile.vo.ProfileDto;
-import com.hannamsm.shop.domain.membership.vo.MembershipDto;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResult;
 
@@ -27,34 +26,34 @@ import com.hannamsm.shop.global.vo.ResponseResult;
 public class MembershipController {
 	@Autowired
 	MembershipService membershipService;
-		
+
 	/*
 	 * Profile membership Check
-	 * 멤버쉽 ID 조회  by srypos cardNo  
+	 * 멤버쉽 ID 조회  by srypos cardNo
 	 */
 	@PostMapping(value = "/findMembershipInfo")
 	public ResponseEntity queryFindMembership(@RequestBody @Valid MembershipSearchDto reqCustomer) throws Exception {
-		
+
 		String message = null;
-		
+
 		String membershipId = reqCustomer.getCardNo();
 		int dupCheck = this.membershipService.membershipDupCheck(membershipId);
-				
+
 		MembershipDto resultCustomer = new MembershipDto();
 		if(0==dupCheck) {
-			resultCustomer = this.membershipService.findMembership(reqCustomer);			
+			resultCustomer = this.membershipService.findMembership(reqCustomer);
 			message = "조회 되었습니다.";
 		}else {
 			message = "이미 등록된 membership 입니다.";
 			resultCustomer.setDupCheck(dupCheck);
-		}				
+		}
 		//return data
 		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();
 		resResult.setMessage(message);
 		resResult.setResult(resultCustomer);
 		return ResponseEntity.ok(resResult);
 	}
-	
+
 	/*
 	 * Profile membership Confirm
 	 * MembershipId duplicate check
@@ -62,45 +61,45 @@ public class MembershipController {
 	 */
 	@PostMapping(value = "/confirmMembership")
 	public ResponseEntity queryConfirmMembership(@RequestBody @Valid MembershipSearchDto reqCustomer)throws Exception{
-		
-		String message =null;								
+
+		String message =null;
 		int confirm = membershipService.confirmNumber(reqCustomer);
-		
+
 		MembershipDto confirmResult = new MembershipDto();
-						
+
 		if(1==confirm) {
 			confirmResult = this.membershipService.findMembership(reqCustomer);
-			message = "인증에 성공 했습니다.";					
+			message = "인증에 성공 했습니다.";
 		}else {
 			message = "인증에 실패 했습니다.";
 		}
 		confirmResult.setConfirm(confirm);
-		
-		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();		
-		
+
+		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();
+
 		resResult.setMessage(message);
 		resResult.setResult(confirmResult);
 		return ResponseEntity.ok(resResult);
-	} 
+	}
 	/*
 	 * Init check membershipId
 	 * account-left membership 메뉴 멤버쉽 찾기
 	 */
 	@GetMapping
 	public ResponseEntity queryMembershipID(@CurrentUser Account account) throws Exception{
-		
+
 		int accountNo = account.getAccountNo();
 		String membershipId = this.membershipService.queryMembershipId(accountNo);
-		
+
 		ProfileDto resultProfileDto = new ProfileDto();
 		resultProfileDto.setMembershipId(membershipId);
-		
+
 		ResponseResult<ProfileDto> resResult = new ResponseResult<ProfileDto>();
 		resResult.setMessage("조회 되었습니다.");
-		resResult.setResult(resultProfileDto);				
+		resResult.setResult(resultProfileDto);
 		return ResponseEntity.ok(resResult);
 	}
-	
+
 	/*
 	 * Find MembershipID by phone and name
 	 * account-left membership 메뉴 멤버쉽 찾기
@@ -108,45 +107,45 @@ public class MembershipController {
 	 */
 	@PostMapping(value = "/searchMembership")
 	public ResponseEntity querySearchMembership(@RequestBody MembershipSearchDto reqCustomer) throws Exception{
-		
-		String message =null;		
+
+		String message =null;
 		MembershipDto resultCustomer = new MembershipDto();
 		int allCount = membershipService.findAllCount(reqCustomer);
-		
+
 		ResponseResult<MembershipDto> resResult = new ResponseResult<MembershipDto>();
 		if(1==allCount) {
 			resultCustomer = this.membershipService.searchMembership(reqCustomer);
 			message = "조회 성공 했습니다.";
 		}else{
 			if(0==allCount) {
-				message = "일치 하는 데이터가 없습니다.";				
+				message = "일치 하는 데이터가 없습니다.";
 			}else if(1<allCount){
-				message = "2건 이상 조회 되었습니다.";								
+				message = "2건 이상 조회 되었습니다.";
 			}
-			resultCustomer = null;			
+			resultCustomer = null;
 		}
 		resResult.setMessage(message);
-		resResult.setResult(resultCustomer);	
+		resResult.setResult(resultCustomer);
 		return ResponseEntity.ok(resResult);
 	}
-	
+
 	/*
 	 * Save sryPos membership data to shop profile
 	 * Use Profile VO
 	 * membershipID duplicate check
 	 * 멤버쉽 profile 동기화, 멤버쉽 중복 체크 후 저장
 	 */
-	
+
 	@PutMapping(value = "/profile")
 	public ResponseEntity saveMemProfile(@RequestBody ProfileDto reqProfileDto
 										, @CurrentUser Account account) throws Exception {
 		boolean checkId;
 		String message = null;
 		reqProfileDto.setAccountNo(account.getAccountNo());
-		
+
 		String membershipId = reqProfileDto.getMembershipId();
 		int dupCheck = this.membershipService.membershipDupCheck(membershipId);
-		
+
 		if(0==dupCheck) {
 			membershipService.saveMemProfile(reqProfileDto);
 			checkId = true;
@@ -155,13 +154,13 @@ public class MembershipController {
 			checkId = false;
 			message = "이미 등록 된 membership 입니다.";
 		}
-		
-		ResponseResult<Boolean> resResult = new ResponseResult<Boolean>();		
+
+		ResponseResult<Boolean> resResult = new ResponseResult<Boolean>();
 		resResult.setMessage(message);
-		resResult.setResult(checkId);				
-		return ResponseEntity.ok(resResult);							
+		resResult.setResult(checkId);
+		return ResponseEntity.ok(resResult);
 	}
-	
+
 	/*
 	 * Save sryPos membership data to shop address
 	 * Use Profile VO
@@ -169,26 +168,26 @@ public class MembershipController {
 	 * 멤버쉽 주소 동기화
 	 * 기존 저장된 기본 주소가 있을 경우 해당 seq 번호 불러온 후 update
 	 */
-	
+
 	@PutMapping(value = "/address")
 	public ResponseEntity saveMemAddress(@RequestBody AddressDto reqAddressDto
 										, @CurrentUser Account account) throws Exception{
-		
+
 		int accountNo = account.getAccountNo();
 		Integer seq = this.membershipService.findAddressSeq(accountNo);
-		
+
 		reqAddressDto.setAccountNo(accountNo);
-		
+
 		if(seq!=null) {
 		reqAddressDto.setSeq(seq);
 		}
-						
-		membershipService.saveMemAddress(reqAddressDto);				
-		
+
+		membershipService.saveMemAddress(reqAddressDto);
+
 		ResponseResult<AddressDto> resResult = new ResponseResult<AddressDto>();
 		resResult.setMessage("저장 되었습니다.");
-		resResult.setResult(reqAddressDto);		
-		return ResponseEntity.ok(resResult);		
+		resResult.setResult(reqAddressDto);
+		return ResponseEntity.ok(resResult);
 	}
-	
+
 }

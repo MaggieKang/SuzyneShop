@@ -68,7 +68,7 @@ public class PickupTimeslotController {
 		PickupSlogDtDefaultSearch pickupSlogDtDefaultSearch = PickupSlogDtDefaultSearch.builder()
 				.slotDt(slotDt)
 				.storeId(storeId)
-				.defaultDayWeek((new DateUtil()).getDayOfWeek(slotDt, "yyyy-MM-dd"))
+				.defaultDayWeek(DateUtil.getDayOfWeek(slotDt, "yyyy-MM-dd"))
 				.build();
 
 		List<PickupTimeslotDefault> list = pickupTimeslotService.findBySlotDtDefault(pickupSlogDtDefaultSearch);
