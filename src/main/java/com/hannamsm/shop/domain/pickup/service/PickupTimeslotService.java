@@ -45,7 +45,7 @@ public class PickupTimeslotService {
 	public int updatePickupReservation(UpdatePickupReservation updatePickupReservation) throws Exception {
 		SimpleDateFormat sfm = new SimpleDateFormat("E"); //영문 요일 ex)Tue
 		String dayWeek = sfm.format(new Date()).toUpperCase();
-
+System.out.println("==============="+dayWeek+"===============");
 		PickupSlogDtDefaultSearch pickupSlogDtDefaultSearch = PickupSlogDtDefaultSearch.builder()
 				.storeId(updatePickupReservation.getStoreId())
 				.slotDt(updatePickupReservation.getSlotDt())
