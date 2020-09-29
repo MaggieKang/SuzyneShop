@@ -90,7 +90,7 @@ offset #{startRownum} rows
 </select>
 
 <select id="createOrderId" parameterType="string" resultType="String">
-select ('ORD_'+ #{storeId} +'_' + convert(varchar, getDate(), 112) + '_' + right('0000000000' + convert(varchar, (next value for seq_order_id)), 10)) as order_id
+select (#{storeId} + convert(varchar, getDate(), 12) + right('0000000000' + convert(varchar, (next value for seq_order_id)), 10)) as order_id
 </select>
 
 <insert id="createOrdersDetailFromCart" parameterType="com.hannamsm.shop.domain.order.vo.NewOrderDto">
