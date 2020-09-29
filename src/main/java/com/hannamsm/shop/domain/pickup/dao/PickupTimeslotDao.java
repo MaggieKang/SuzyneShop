@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.hannamsm.shop.domain.pickup.vo.PickupTimeslot;
 import com.hannamsm.shop.domain.pickup.vo.PickupTimeslotDefault;
+import com.hannamsm.shop.domain.pickup.vo.UpdatePickupReservation;
 import com.hannamsm.shop.global.mapper.HnsShopConnMapper;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtDefaultSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch;
@@ -23,7 +24,10 @@ public interface PickupTimeslotDao {
 
 	public int getNumberAvailable(PickupSlotTimeSearch pickupTimeslotSearch) throws Exception;
 
-	public int updatePickReservation(PickupSlotTimeSearch pickupTimeslotSearch) throws Exception;
+	public int updatePickupReservation(UpdatePickupReservation updatePickupReservation) throws Exception;
 
 	public List<PickupTimeslotDefault> findBySlotDtDefault(PickupSlogDtDefaultSearch pickupSlogDtDefaultSearch) throws Exception;
+
+	public Optional<PickupTimeslotDefault> findBySlotDtDefaultByDayTime(PickupSlogDtDefaultSearch pickupSlogDtDefaultSearch) throws Exception;
+
 }

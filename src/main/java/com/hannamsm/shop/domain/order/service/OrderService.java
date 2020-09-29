@@ -1,6 +1,8 @@
 package com.hannamsm.shop.domain.order.service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,11 @@ import com.hannamsm.shop.domain.payment.vo.Payment;
 import com.hannamsm.shop.domain.payment.vo.PaymentSearch;
 import com.hannamsm.shop.domain.pickup.dao.PickupTimeslotDao;
 import com.hannamsm.shop.domain.pickup.exception.PickupNoSlotTimeException;
+import com.hannamsm.shop.domain.pickup.service.PickupTimeslotService;
+import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtDefaultSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch;
+import com.hannamsm.shop.domain.pickup.vo.PickupTimeslotDefault;
+import com.hannamsm.shop.domain.pickup.vo.UpdatePickupReservation;
 
 @Service
 public class OrderService {
@@ -46,6 +52,9 @@ public class OrderService {
 
 	@Autowired
 	InvoiceService invoiceService;
+
+	@Autowired
+	PickupTimeslotService pickupTimeslotService;
 
 	@Autowired
 	PickupTimeslotDao pickupTimeslotDao;
@@ -68,40 +77,69 @@ public class OrderService {
 
 	public NewOrderDto saveCartToOrder(NewOrderDto newOrderDto) throws Exception {
 
-		PickupSlotTimeSearch pickupSlotTimeSearch = PickupSlotTimeSearch.builder()
-				.storeId(newOrderDto.getStoreId())
-				.slotDt(newOrderDto.getSlotDt())
-				.slotTime(newOrderDto.getSlotTime())
-				.build();
-
 		//픽업 예약 가능한지 확인
-		int numberAvailable = pickupTimeslotDao.getNumberAvailable(pickupSlotTimeSearch);
-		if(0 == numberAvailable) {
-			//throw new Exception("픽업 예약이 불가능합니다!!!");
+		{
+			PickupSlotTimeSearch pickupSlotTimeSearch = PickupSlotTimeSearch.builder()
+					.storeId(newOrderDto.getStoreId())
+					.slotDt(newOrderDto.getSlotDt())
+					.slotTime(newOrderDto.getSlotTime())
+					.build();
+
+			int numberAvailable = pickupTimeslotDao.getNumberAvailable(pickupSlotTimeSearch);
+			if(0 == numberAvailable) {
+				//throw new Exception("픽업 예약이 불가능합니다!!!");
+			}
 		}
 
 		//상품 확인 err[픽업 취소]
 
-		//주문번호 생성
-		String orderId = orderDao.createOrderId(newOrderDto.getStoreId());
-
-		//주문상세 저장
-		newOrderDto.setOrderId(orderId);
-		orderDao.createOrdersDetailFromCart(newOrderDto);
 		//주문 저장
-		orderDao.createOrdersFromCart(newOrderDto);
+		{
+			//주문번호 생성
+			String orderId = orderDao.createOrderId(newOrderDto.getStoreId());
 
-		//픽업 업데이트
-		pickupTimeslotDao.updatePickReservation(pickupSlotTimeSearch);
+			//주문상세 저장
+			newOrderDto.setOrderId(orderId);
+			orderDao.createOrdersDetailFromCart(newOrderDto);
 
-		CartItemSearch cartItemSearch = CartItemSearch.builder()
-				.accountNo(newOrderDto.getAccountNo())
-				.storeId(newOrderDto.getStoreId())
-				.build();
+			orderDao.createOrdersFromCart(newOrderDto);
+		}
+
+//		//픽업 업데이트
+//		{
+//			SimpleDateFormat sfm = new SimpleDateFormat("E"); //영문 요일 ex)Tue
+//			String dayWeek = sfm.format(new Date()).toUpperCase();
+//
+//			PickupSlogDtDefaultSearch pickupSlogDtDefaultSearch = PickupSlogDtDefaultSearch.builder()
+//					.storeId(newOrderDto.getStoreId())
+//					.slotDt(newOrderDto.getSlotDt())
+//					.defaultSlotTime(newOrderDto.getSlotTime())
+//					.defaultDayWeek(dayWeek)
+//					.build();
+//			// 픽업기본설정 조회
+//			PickupTimeslotDefault pickupTimeslotDefault = pickupTimeslotDao.findBySlotDtDefaultByDayTime(pickupSlogDtDefaultSearch)
+//					.orElseThrow();
+//
+//			UpdatePickupReservation updatePickupReservation = UpdatePickupReservation.builder()
+//					.accountNo(newOrderDto.getAccountNo())
+//					.storeId(newOrderDto.getStoreId())
+//					.slotDt(newOrderDto.getSlotDt())
+//					.slotTime(newOrderDto.getSlotTime())
+//					.allocationQty(pickupTimeslotDefault.getAllocationQty())
+//					.build();
+//			pickupTimeslotDao.updatePickupReservation(updatePickupReservation);
+//		}
 
 		//장바구니 삭제
-		cartDao.deleteAllForOrder(cartItemSearch);
-		//저장정보 조회
+		{
+			CartItemSearch cartItemSearch = CartItemSearch.builder()
+					.accountNo(newOrderDto.getAccountNo())
+					.storeId(newOrderDto.getStoreId())
+					.build();
+
+			cartDao.deleteAllForOrder(cartItemSearch);
+			//저장정보 조회
+		}
 
 		return newOrderDto;
 	}
@@ -199,6 +237,17 @@ public class OrderService {
 				.build();
 			//저장정보 조회
 			this.orderDao.updateOrders(updateOrder);
+		}
+
+		//픽업예약 업데이트
+		{
+			UpdatePickupReservation updatePickupReservation = UpdatePickupReservation.builder()
+					.accountNo(payNowOrderDto.getAccountNo())
+					.storeId(payNowOrderDto.getStoreId())
+					.slotDt(payNowOrderDto.getSlotDt())
+					.slotTime(payNowOrderDto.getSlotTime())
+					.build();
+			this.pickupTimeslotService.updatePickupReservation(updatePickupReservation);
 		}
 
 		return payNowOrderDto;

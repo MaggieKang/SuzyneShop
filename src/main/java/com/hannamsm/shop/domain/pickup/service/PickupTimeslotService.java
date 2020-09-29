@@ -1,5 +1,7 @@
 package com.hannamsm.shop.domain.pickup.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.hannamsm.shop.domain.pickup.dao.PickupTimeslotDao;
 import com.hannamsm.shop.domain.pickup.vo.PickupTimeslot;
 import com.hannamsm.shop.domain.pickup.vo.PickupTimeslotDefault;
+import com.hannamsm.shop.domain.pickup.vo.UpdatePickupReservation;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtDefaultSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch;
@@ -37,6 +40,25 @@ public class PickupTimeslotService {
 
 	public List<PickupTimeslotDefault> findBySlotDtDefault(PickupSlogDtDefaultSearch pickupSlogDtDefaultSearch) throws Exception {
 		return pickupTimeslotDao.findBySlotDtDefault(pickupSlogDtDefaultSearch);
+	}
+
+	public int updatePickupReservation(UpdatePickupReservation updatePickupReservation) throws Exception {
+		SimpleDateFormat sfm = new SimpleDateFormat("E"); //영문 요일 ex)Tue
+		String dayWeek = sfm.format(new Date()).toUpperCase();
+
+		PickupSlogDtDefaultSearch pickupSlogDtDefaultSearch = PickupSlogDtDefaultSearch.builder()
+				.storeId(updatePickupReservation.getStoreId())
+				.slotDt(updatePickupReservation.getSlotDt())
+				.defaultSlotTime(updatePickupReservation.getSlotTime())
+				.defaultDayWeek(dayWeek)
+				.build();
+		// 픽업기본설정 조회
+		PickupTimeslotDefault pickupTimeslotDefault = pickupTimeslotDao.findBySlotDtDefaultByDayTime(pickupSlogDtDefaultSearch)
+				.orElseThrow();
+
+		updatePickupReservation.setAllocationQty(pickupTimeslotDefault.getAllocationQty());
+		// 픽업예약 업데이트
+		return pickupTimeslotDao.updatePickupReservation(updatePickupReservation);
 	}
 
 }

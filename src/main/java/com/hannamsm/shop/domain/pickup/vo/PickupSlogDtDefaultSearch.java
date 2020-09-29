@@ -20,4 +20,6 @@ public class PickupSlogDtDefaultSearch {
 	private String slotDt;
 	@NotNull
 	private String defaultDayWeek;
+
+	private String defaultSlotTime;
 }
