@@ -15,7 +15,7 @@ public class DateUtil {
 	 * @throws ParseException
 	 * ex) DateUtil.getDayOfWeek("2020-08-10", "yyyy-MM-dd");
 	 */
-	public String getDayOfWeek(String date, String formatStr) throws Exception {
+	public static String getDayOfWeek(String date, String formatStr) throws Exception {
 		SimpleDateFormat format = new SimpleDateFormat(formatStr);
 		String[] week = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
 		Calendar cal = Calendar.getInstance();

@@ -12,6 +12,7 @@ import com.hannamsm.shop.domain.pickup.dao.PickupTimeslotDao;
 import com.hannamsm.shop.domain.pickup.vo.PickupTimeslot;
 import com.hannamsm.shop.domain.pickup.vo.PickupTimeslotDefault;
 import com.hannamsm.shop.domain.pickup.vo.UpdatePickupReservation;
+import com.hannamsm.shop.global.utils.DateUtil;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtDefaultSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch;
 import com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch;
@@ -43,9 +44,8 @@ public class PickupTimeslotService {
 	}
 
 	public int updatePickupReservation(UpdatePickupReservation updatePickupReservation) throws Exception {
-		SimpleDateFormat sfm = new SimpleDateFormat("E"); //영문 요일 ex)Tue
-		String dayWeek = sfm.format(new Date()).toUpperCase();
-System.out.println("==============="+dayWeek+"===============");
+		String dayWeek = DateUtil.getDayOfWeek(updatePickupReservation.getSlotDt(), "yyyy-MM-dd");
+
 		PickupSlogDtDefaultSearch pickupSlogDtDefaultSearch = PickupSlogDtDefaultSearch.builder()
 				.storeId(updatePickupReservation.getStoreId())
 				.slotDt(updatePickupReservation.getSlotDt())
