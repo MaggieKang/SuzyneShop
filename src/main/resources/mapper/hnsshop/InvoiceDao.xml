@@ -98,7 +98,7 @@ select a.store_id                                as store_id
      , b.item_deposit_cd                         as item_deposit_cd
      , b.item_eco_cd                             as item_eco_cd
      , c.item_size                               as item_size
-     , c.sale_unit                               as sales_unit
+     , c.sales_unit                              as sales_unit
      , b.order_qty                               as sales_qty
      , b.sales_bundle_amount                     as sales_bundle_amount
      , b.sales_bundle_gst_fee                    as sales_bundle_gst_fee
