@@ -76,7 +76,7 @@ public class OrderService {
 
 	public NewOrderDto saveCartToOrder(NewOrderDto newOrderDto) throws Exception {
 
-		//픽업 예약 가능한지 확인
+		// 1) 픽업 예약 가능한지 확인
 		{
 			PickupSlotTimeSearch pickupSlotTimeSearch = PickupSlotTimeSearch.builder()
 					.storeId(newOrderDto.getStoreId())
@@ -90,9 +90,7 @@ public class OrderService {
 			}
 		}
 
-		//상품 확인 err[픽업 취소]
-
-		//주문 저장
+		// 2) 주문 저장
 		{
 			//주문번호 생성
 			String orderId = orderDao.createOrderId(newOrderDto.getStoreId());
@@ -104,32 +102,7 @@ public class OrderService {
 			orderDao.createOrdersFromCart(newOrderDto);
 		}
 
-//		//픽업 업데이트
-//		{
-//			SimpleDateFormat sfm = new SimpleDateFormat("E"); //영문 요일 ex)Tue
-//			String dayWeek = sfm.format(new Date()).toUpperCase();
-//
-//			PickupSlogDtDefaultSearch pickupSlogDtDefaultSearch = PickupSlogDtDefaultSearch.builder()
-//					.storeId(newOrderDto.getStoreId())
-//					.slotDt(newOrderDto.getSlotDt())
-//					.defaultSlotTime(newOrderDto.getSlotTime())
-//					.defaultDayWeek(dayWeek)
-//					.build();
-//			// 픽업기본설정 조회
-//			PickupTimeslotDefault pickupTimeslotDefault = pickupTimeslotDao.findBySlotDtDefaultByDayTime(pickupSlogDtDefaultSearch)
-//					.orElseThrow();
-//
-//			UpdatePickupReservation updatePickupReservation = UpdatePickupReservation.builder()
-//					.accountNo(newOrderDto.getAccountNo())
-//					.storeId(newOrderDto.getStoreId())
-//					.slotDt(newOrderDto.getSlotDt())
-//					.slotTime(newOrderDto.getSlotTime())
-//					.allocationQty(pickupTimeslotDefault.getAllocationQty())
-//					.build();
-//			pickupTimeslotDao.updatePickupReservation(updatePickupReservation);
-//		}
-
-		//장바구니 삭제
+		// 3) 장바구니 삭제
 		{
 			CartItemSearch cartItemSearch = CartItemSearch.builder()
 					.accountNo(newOrderDto.getAccountNo())
@@ -146,7 +119,7 @@ public class OrderService {
 	@Transactional(rollbackFor = {RuntimeException.class})
 	public PayNowOrderDto savePayNowOrder(PayNowOrderDto payNowOrderDto) throws Exception {
 
-		// 0) 주문 확인
+		// 0) 주문 상태 확인
 		{
 			OrderSearch orderSearch = OrderSearch.builder()
 					.accountNo(payNowOrderDto.getAccountNo())
