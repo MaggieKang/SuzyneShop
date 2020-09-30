@@ -33,7 +33,7 @@ public class Item {
 	private String itemBrand;
     private String itemWeight;
     private String itemWeightUnit;
-	private String saleUnit;
+	private String salesUnit;
 
 	private BigDecimal receivingPrice;
 	private BigDecimal regularPrice;

@@ -22,7 +22,7 @@ select m.storeId
      , m.itemDepositCd
      , m.itemEcoCd
      , m.itemSize
-     , m.saleUnit
+     , m.salesUnit
      , m.salesBundleQty
      , m.salesLimitQty
      , m.salesPrice
@@ -68,7 +68,7 @@ select m.storeId
              , b.item_deposit_cd      as itemDepositCd
              , b.item_eco_cd          as itemEcoCd
              , b.item_size            as itemSize
-             , b.sale_unit            as saleUnit
+             , b.sales_unit           as salesUnit
              , (case when getdate() > b.promotion_start_date and b.promotion_end_date > getdate() and b.promotion_bundle_qty = 1 then ceiling(((b.regular_price - b.promotion_price)/b.regular_price)*100)
                      else 0
                 end) as discountRate
@@ -148,7 +148,7 @@ select a.store_id             as storeId
      , b.item_deposit_cd      as itemDepositCd
      , b.item_eco_cd          as itemEcoCd
      , b.item_size            as itemSize
-     , b.sale_unit            as saleUnit
+     , b.sales_unit           as salesUnit
      , b.promotion_bundle_qty as promotionBundleQty
      , b.promotion_start_date as promotionStartDate
      , b.promotion_end_date   as promotionEndDate

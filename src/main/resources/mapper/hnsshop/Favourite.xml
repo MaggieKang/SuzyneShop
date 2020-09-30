@@ -19,7 +19,7 @@ select a.item_id         as itemId
      , b.receiving_price as receiving_price
      , b.regular_price   as regularPrice
      , b.item_tax_cd     as itemTaxCd
-     , b.sale_unit       as saleUnit
+     , b.sales_unit      as salesUnit
      , b.item_deposit_cd as itemDepositCd
      , b.category_cd     as categoryCd
      , a.reg_date        as regDate
@@ -65,8 +65,8 @@ using (select #{accountNo}     as account_no
                     , b.last_mod_date
                     , b.last_mod_person
              )
-        when matched then     
-               delete;       	                         
+        when matched then
+               delete;
 </insert>
 <delete id="delete" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItem">
 delete favourite

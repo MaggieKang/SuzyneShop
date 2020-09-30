@@ -34,7 +34,7 @@ public class CartItem {
 	private String itemDepositCd;
 	private String itemEcoCd;
 	private String itemSize;
-	private String saleUnit;
+	private String salesUnit;
 	private int promotionBundleQty;
     private LocalDateTime promotionStartDate;
     private LocalDateTime promotionEndDate;

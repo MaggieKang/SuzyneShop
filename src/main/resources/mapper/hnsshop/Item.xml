@@ -33,7 +33,7 @@ select a.item_id              as itemId
      , a.item_brand           as itemBrand
      , a.item_weight          as itemWeight
      , a.item_weight_unit     as itemWeightUnit
-     , a.sale_unit            as saleUnit
+     , a.sales_unit           as salesUnit
      , a.receiving_price      as receivingPrice
      , a.regular_price        as regularPrice
      , a.promotion_bundle_qty as promotionBundleQty
@@ -115,7 +115,7 @@ select a.item_id              as itemId
      , a.item_brand           as itemBrand
      , a.item_weight          as itemWeight
      , a.item_weight_unit     as itemWeightUnit
-     , a.sale_unit            as saleUnit
+     , a.sales_unit           as salesUnit
      , a.promotion_bundle_qty as promotionBundleQty
      , a.promotion_start_date as promotionStartDate
      , a.promotion_end_date   as promotionEndDate
@@ -183,7 +183,7 @@ select a.item_id              as itemId
      , a.item_brand           as itemBrand
      , a.item_weight          as itemWeight
      , a.item_weight_unit     as itemWeightUnit
-     , a.sale_unit            as saleUnit
+     , a.sales_unit           as salesUnit
      , a.promotion_bundle_qty as promotionBundleQty
      , a.promotion_start_date as promotionStartDate
      , a.promotion_end_date   as promotionEndDate

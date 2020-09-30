@@ -33,7 +33,7 @@ public class ItemDto {
 	private String itemBrand;
     private String itemWeight;
     private String itemWeightUnit;
-	private String saleUnit;
+	private String salesUnit;
 
 	private BigDecimal regularPrice;
 	private BigDecimal salesPrice;

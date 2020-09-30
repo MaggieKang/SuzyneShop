@@ -25,11 +25,11 @@ public class FavouriteItem {
 	private BigDecimal receivingPrice;
 	private BigDecimal regularPrice;
 	private String itemTaxCd;
-	private String saleUnit;
+	private String salesUnit;
 	private String itemDepositCd;
 	private String categoryCd;
 	private LocalDateTime regDate;
 	private String regPerson;
 	private LocalDateTime lastModDate;
-	private String lastModPerson;		
+	private String lastModPerson;
 }

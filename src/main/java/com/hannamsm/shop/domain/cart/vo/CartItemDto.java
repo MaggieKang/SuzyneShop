@@ -34,7 +34,7 @@ public class CartItemDto {
     private String itemDepositCd;
     private String itemEcoCd;
     private String itemSize;
-    private String saleUnit;
+    private String salesUnit;
     private int salesBundleQty;
     private int salesLimitQty;
     private BigDecimal salesPrice;

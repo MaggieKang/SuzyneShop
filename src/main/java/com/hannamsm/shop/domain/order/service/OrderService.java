@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import com.hannamsm.shop.domain.address.dao.AddressDao;
 import com.hannamsm.shop.domain.address.exception.BillingAddressNotFoundException;
@@ -57,6 +58,9 @@ public class OrderService {
 
 	@Autowired
 	PickupTimeslotDao pickupTimeslotDao;
+
+	@Autowired
+    RestTemplate restTemplate;
 
 	public int findAllCount(OrderSearch orderSearch) throws Exception {
 		return this.orderDao.findAllCount(orderSearch);
@@ -195,7 +199,9 @@ public class OrderService {
 
 		// 6) 결제(대외계)
 		{
-			System.out.println("결제(대외계) ===> "+paymentDto.toString());
+			String obj = restTemplate.getForObject("http://127.0.0.1:90/api/item?storeId=st002&page=1&listSize=10", String.class);
+
+			System.out.println("결제(대외계) ===> "+obj);
 		}
 
 
