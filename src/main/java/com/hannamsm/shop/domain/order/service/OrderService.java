@@ -15,11 +15,14 @@ import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.domain.invoice.service.InvoiceService;
 import com.hannamsm.shop.domain.invoice.vo.CreateNewInvoiceDto;
 import com.hannamsm.shop.domain.order.dao.OrderDao;
+import com.hannamsm.shop.domain.order.exception.OrderNotFoundException;
+import com.hannamsm.shop.domain.order.exception.OrderWrongStatusException;
 import com.hannamsm.shop.domain.order.vo.NewOrderDto;
 import com.hannamsm.shop.domain.order.vo.Order;
 import com.hannamsm.shop.domain.order.vo.OrderDetailDto;
 import com.hannamsm.shop.domain.order.vo.OrderDto;
 import com.hannamsm.shop.domain.order.vo.OrderSearch;
+import com.hannamsm.shop.domain.order.vo.OrderStatus;
 import com.hannamsm.shop.domain.order.vo.PayNowOrderDto;
 import com.hannamsm.shop.domain.payment.dao.PaymentDao;
 import com.hannamsm.shop.domain.payment.exception.PaymentNotFoundException;
@@ -142,6 +145,24 @@ public class OrderService {
 
 	@Transactional(rollbackFor = {RuntimeException.class})
 	public PayNowOrderDto savePayNowOrder(PayNowOrderDto payNowOrderDto) throws Exception {
+
+		// 0) 주문 확인
+		{
+			OrderSearch orderSearch = OrderSearch.builder()
+					.accountNo(payNowOrderDto.getAccountNo())
+					.storeId(payNowOrderDto.getStoreId())
+					.orderId(payNowOrderDto.getOrderId())
+					.build();
+
+			List<OrderDto> rOrderList= this.orderDao.findAll(orderSearch);
+			if(null == rOrderList || rOrderList.isEmpty() || 0 == rOrderList.size()) {
+				throw new OrderNotFoundException(orderSearch.getOrderId());
+			}
+
+			if(!OrderStatus.ORDERED.toString().equals(rOrderList.get(0).getOrderStatusCd())) {
+				throw new OrderWrongStatusException(orderSearch.getOrderId());
+			}
+		}
 
 		// 1) 픽업 예약 가능한지 확인
 		{

@@ -38,6 +38,10 @@ public enum ErrorCode {
     PICKUP_NO_SLOT_TIME_ERROR(400, "PI001", "There is no slot time!"),
     PICKUP_NO_DEFAULT_SLOT_TIME_ERROR(400, "PI001", "There is no default slot time!"),
 
+    // ORDER
+    ORDER_NOT_FOUND_ERROR(400, "OR001", "Order is not found!"),
+    ORDER_STATUS_WRONG_PRICES(400, "OR002", "Order status is wrong!"),
+
     // PAYMENT
     PAYMENT_NOT_FOUND_ERROR(400, "PI001", "Could not found payment!"),
 

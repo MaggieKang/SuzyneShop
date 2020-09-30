@@ -14,9 +14,12 @@ public class OrderSearch {
 	private String orderId;
 	private String storeId;
 
-	private int startRownum;
-	private int page;
-	private int listSize;
+	@Builder.Default
+	private int startRownum = 0;
+	@Builder.Default
+	private int page = 1;
+	@Builder.Default
+	private int listSize = 10;
 
 	public OrderSearch(int page, int listSize) {
 		this.page = page;

@@ -95,7 +95,7 @@ public class OrderController {
 	 * 신규 주문 저장
 	 */
 	@PostMapping
-	public ResponseEntity savePayNowOrder(@RequestBody @Valid NewOrderDto newOrderDto
+	public ResponseEntity saveNewOrder(@RequestBody @Valid NewOrderDto newOrderDto
 			, @CurrentUser Account currentUser) throws Exception {
 		newOrderDto.setAccountNo(currentUser.getAccountNo());
 
