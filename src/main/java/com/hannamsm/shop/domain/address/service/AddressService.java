@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.hannamsm.shop.domain.address.dao.AddressDao;
 import com.hannamsm.shop.domain.address.vo.AccountAddress;
 import com.hannamsm.shop.domain.address.vo.AccountAddressDto;
+import com.hannamsm.shop.domain.address.vo.Address;
 
 
 
@@ -29,5 +30,14 @@ public class AddressService {
 	
 	public int updataDefaultAddress(int beSeq) throws Exception{
 		return addressDao.updataDefaultAddress(beSeq);
+	}
+	public List<Address> getCity() throws Exception{
+		return addressDao.getCity();
+	}
+	public List<Address> getProvince() throws Exception{
+		return addressDao.getProvince();
+	}
+	public List<Address> getCountry() throws Exception{
+		return addressDao.getCountry();
 	}
 }

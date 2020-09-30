@@ -94,4 +94,21 @@ DELETE account_address
 WHERE account_no = #{accountNo}
 AND seq = #{seq}
 </delete>
+<select id="getCity" resultType="com.hannamsm.shop.domain.address.vo.Address">
+SELECT city_cd AS id 
+	 ,city_nm AS name
+	 ,province_cd AS parent_id
+FROM city
+</select>
+<select id="getProvince" resultType="com.hannamsm.shop.domain.address.vo.Address">
+SELECT province_cd AS id
+	  ,province_nm AS name
+	  ,country_cd AS parent_id
+FROM province 
+</select>
+<select id="getCountry" resultType="com.hannamsm.shop.domain.address.vo.Address">
+SELECT country_cd AS id
+	  ,country_nm AS name	  
+FROM country
+</select>
 </mapper>

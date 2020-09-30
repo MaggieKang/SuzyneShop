@@ -20,6 +20,8 @@ import com.hannamsm.shop.domain.account.vo.Account;
 import com.hannamsm.shop.domain.address.service.AddressService;
 import com.hannamsm.shop.domain.address.vo.AccountAddress;
 import com.hannamsm.shop.domain.address.vo.AccountAddressDto;
+import com.hannamsm.shop.domain.address.vo.Address;
+import com.hannamsm.shop.domain.address.vo.AddressList;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResult;
 import com.hannamsm.shop.global.vo.ResponseResutls;
@@ -75,8 +77,24 @@ public class AddressController {
 		resResult.setMessage("삭제 되었습니다.");
 		resResult.setResult(reqAccountAddressDto);
 		
+		return ResponseEntity.ok(resResult);				
+	}
+	@GetMapping(value ="/getAddress")
+	public ResponseEntity getAddress() throws Exception{
+		
+		List<Address> cityList = addressService.getCity();
+		List<Address> provinceList = addressService.getProvince();
+		List<Address> countryList = addressService.getCountry();
+		
+		AddressList addressList = new AddressList();
+		addressList.setCityList(cityList);
+		addressList.setProvinceList(provinceList);
+		addressList.setCountryList(countryList);
+		
+		ResponseResult<AddressList> resResult = new ResponseResult<AddressList>();
+		resResult.setMessage("조회되었습니다.");		
+		resResult.setResult(addressList);				
+		
 		return ResponseEntity.ok(resResult);
-		
-		
 	}
 }
