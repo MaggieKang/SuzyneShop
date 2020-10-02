@@ -52,7 +52,7 @@ INSERT INTO authority (auth_cd,auth_desc,reg_date,reg_person,last_mod_date,last_
  ('ADMIN','ADMIN',getdate(),'sysadmin',getdate(),'sysadmin')
 ,('USER','USER',getdate(),'sysadmin',getdate(),'sysadmin');
 
-INSERT INTO item (item_id,store_id,upc,item_kr_nm,item_en_nm,receiving_price,regular_price,category_cd,category_store_id,item_tax_cd,item_deposit_cd,item_eco_cd,item_size,sale_unit,promotion_bundle_qty,promotion_start_date,promotion_end_date,promotion_price,gal_code,prod_own_code,supp_code,prod_id,item_type,item_type2,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+INSERT INTO item (item_id,store_id,upc,item_kr_nm,item_en_nm,receiving_price,regular_price,category_cd,category_store_id,item_tax_cd,item_deposit_cd,item_eco_cd,item_size,sales_unit,promotion_bundle_qty,promotion_start_date,promotion_end_date,promotion_price,gal_code,prod_own_code,supp_code,prod_id,item_type,item_type2,is_use,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
  ('DK0101004135KR0101001','st002','11121','이천쌀 햅쌀','RHEE CHUN RICE NEW CROP',33.00,49.99,'L20201','st002','N',NULL,NULL,'40LB','EA',1,'2020-05-09 00:00:00.000','2025-12-31 00:00:00.000',38.99,'DK0101004','135','KR0101001','11121','07','07',1,'2020-05-28 23:44:33.330','sysadmin','2020-05-28 23:44:33.330','sysadmin')
 ,('DK0106370007KR0101001','st002','2011','한국미 현미','BROWN RICE',12.50,27.99,'L20201','st002','N',NULL,NULL,'15LB','PK',1,'2020-05-21 00:00:00.000','2025-12-31 00:00:00.000',19.99,'DK0106370','007','KR0101001','2011','07','07',1,'2020-05-28 23:44:33.330','sysadmin','2020-05-28 23:44:33.330','sysadmin')
 ,('DK0101114027KR0101001','st002','4134','선물용 후지사과 박스','FUJI APPLES GIFT BOX',1.27,29.99,'L23501','st002','N',NULL,NULL,'','BOX',1,'2019-12-16 00:00:00.000','2020-06-25 00:00:00.000',19.99,'DK0101114','027','KR0101001','4134','19','19',1,'2020-05-28 23:44:33.330','sysadmin','2020-05-28 23:44:33.330','sysadmin')
@@ -376,7 +376,7 @@ INSERT INTO category (store_id, parent_store_id, category_cd, category_nm, categ
 ,('st002','st002','L23599','과일 기타','과일 기타','L135', 1, getDate(),'sysadmin', getDate(),'sysadmin')
 ,('st002','st002','L20108','기타','기타','L101', 1, getDate(),'sysadmin', getDate(),'sysadmin');
 
-INSERT INTO customer (account_no,first_name, last_name ,customer_email,customer_phone_number,customer_gender,customer_kr_nm,customer_en_nm,customer_lang_cd,membership_no,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
+INSERT INTO customer (account_no,first_name, last_name ,customer_email,customer_phone_number,customer_gender,customer_kr_nm,customer_en_nm,customer_lang_cd,membership_id,reg_date,reg_person,last_mod_date,last_mod_person) VALUES
  (1,'first_name','last_name','1006_email@gmail.com','123-123-1234','mail','이름1006','en_name1006','kr',1234,getDate(),'sysadmin',getDate(),'sysadmin')
 ,(2,'first_name','last_name','9001_email@gmail.com','123-123-1236','mail','이름9001','en_name9001','en',1236,getDate(),'sysadmin',getDate(),'sysadmin');
 
