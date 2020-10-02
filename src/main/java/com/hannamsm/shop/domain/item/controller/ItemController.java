@@ -41,8 +41,6 @@ public class ItemController {
             @RequestParam(value = "itemCategory", defaultValue = "") String itemCategory,
             @RequestParam(value = "itemSort", defaultValue = "O0") String itemSort) throws Exception {
 		log.debug("================= queryItems start =================");
-
-
 		if(storeId == null || storeId.isEmpty()) {
 			throw new Exception("storeId is null!!!");
 		}

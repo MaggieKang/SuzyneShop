@@ -471,7 +471,9 @@ CREATE TABLE [invoice]
 	-- 매장ID
 	[store_id] varchar(10) NOT NULL,
 	-- 인보이스ID
-	[invoice_id] varchar(30) NOT NULL,
+	[invoice_id] varchar(25) NOT NULL,
+	-- 인보이스인덱스번호
+	[invoice_index_no] int NOT NULL,
 	-- 인보이스일시
 	[invoice_date] datetime NOT NULL,
 	-- 계정번호 : 계정번호
@@ -516,7 +518,7 @@ CREATE TABLE [invoice_detail]
 	-- 매장ID
 	[store_id] varchar(10) NOT NULL,
 	-- 인보이스ID
-	[invoice_id] varchar(30) NOT NULL,
+	[invoice_id] varchar(25) NOT NULL,
 	-- 상품ID
 	[item_id] varchar(24) NOT NULL,
 	-- 순번
@@ -743,7 +745,7 @@ CREATE TABLE [orders]
 	-- 슬롯시간
 	[slot_time] time,
 	-- 인보이스ID
-	[invoice_id] varchar(30),
+	[invoice_id] varchar(25),
 	-- 계정번호 : 계정번호
 	[account_no] int NOT NULL,
 	-- 최초등록일시 : 최초등록일시

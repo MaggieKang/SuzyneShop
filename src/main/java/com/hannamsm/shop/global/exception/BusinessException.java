@@ -32,4 +32,10 @@ public class BusinessException extends RuntimeException {
 		this.errorCode = errorCode;
 		this.errors = new ArrayList<>();
 	}
+
+	public BusinessException(String errorCode, String errorName, String errorMessage) {
+		super(errorCode + ", " + errorName + ", " + errorMessage);
+		this.errorCode = null;
+		this.errors = null;
+	}
 }

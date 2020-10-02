@@ -1,6 +1,8 @@
 package com.hannamsm.shop.domain.order.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ import com.hannamsm.shop.domain.order.vo.OrderStatus;
 import com.hannamsm.shop.domain.order.vo.PayNowOrderDto;
 import com.hannamsm.shop.domain.payment.dao.PaymentDao;
 import com.hannamsm.shop.domain.payment.exception.PaymentNotFoundException;
+import com.hannamsm.shop.domain.payment.service.PaymentService;
+import com.hannamsm.shop.domain.payment.vo.ConvergeSaleTransctionVO;
 import com.hannamsm.shop.domain.payment.vo.Payment;
 import com.hannamsm.shop.domain.payment.vo.PaymentSearch;
 import com.hannamsm.shop.domain.pickup.dao.PickupTimeslotDao;
@@ -55,6 +59,9 @@ public class OrderService {
 
 	@Autowired
 	PickupTimeslotService pickupTimeslotService;
+
+	@Autowired
+	PaymentService paymentService;
 
 	@Autowired
 	PickupTimeslotDao pickupTimeslotDao;
@@ -124,6 +131,7 @@ public class OrderService {
 	public PayNowOrderDto savePayNowOrder(PayNowOrderDto payNowOrderDto) throws Exception {
 
 		// 0) 주문 상태 확인
+		OrderDto orderDto = null;
 		{
 			OrderSearch orderSearch = OrderSearch.builder()
 					.accountNo(payNowOrderDto.getAccountNo())
@@ -136,9 +144,12 @@ public class OrderService {
 				throw new OrderNotFoundException(orderSearch.getOrderId());
 			}
 
-			if(!OrderStatus.ORDERED.toString().equals(rOrderList.get(0).getOrderStatusCd())) {
+			orderDto = rOrderList.get(0);
+
+			if(!OrderStatus.ORDERED.toString().equals(orderDto.getOrderStatusCd())) {
 				throw new OrderWrongStatusException(orderSearch.getOrderId());
 			}
+
 		}
 
 		// 1) 픽업 예약 가능한지 확인
@@ -197,14 +208,6 @@ public class OrderService {
 			this.orderDao.updateOrders(updateOrder);
 		}
 
-		// 6) 결제(대외계)
-		{
-			String obj = restTemplate.getForObject("http://127.0.0.1:90/api/item?storeId=st002&page=1&listSize=10", String.class);
-
-			System.out.println("결제(대외계) ===> "+obj);
-		}
-
-
 		// 7) 인보이스 생성
 		CreateNewInvoiceDto resultNewInvoiceDto = null;
 		{
@@ -244,6 +247,22 @@ public class OrderService {
 					.slotTime(payNowOrderDto.getSlotTime())
 					.build();
 			this.pickupTimeslotService.updatePickupReservation(updatePickupReservation);
+		}
+
+		// 6) 결제(대외계)
+		{
+			NumberFormat format = NumberFormat.getInstance();
+			format.setMinimumIntegerDigits(2);
+			format.setRoundingMode(RoundingMode.HALF_EVEN);
+
+			ConvergeSaleTransctionVO convergeSaleTransctionVO = ConvergeSaleTransctionVO.builder()
+					.sslInvoiceNumber(resultNewInvoiceDto.getInvoiceId())
+					.sslCardNumber(paymentDto.getCardNo())
+					.sslExpDate(paymentDto.getExpirationMonth()+paymentDto.getExpirationYear())
+					.sslCvv2cvc2(paymentDto.getCardVerificationCode())
+					.sslAmount(format.format(orderDto.getGrandTotalPrice()))
+					.build();
+			this.paymentService.callConvergeForSaleTransction(convergeSaleTransctionVO);
 		}
 
 		return payNowOrderDto;

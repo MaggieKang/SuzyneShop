@@ -16,6 +16,7 @@ public class CreateNewInvoiceDto {
 	private int accountNo;
 	private String storeId;
 	private String invoiceId;
+	private int invoiceIndexNo;
 	private String orderId;
 	private BigDecimal totalPayAmount;
 	private String customerContactNumber;

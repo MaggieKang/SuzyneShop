@@ -9,7 +9,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class RestfulConfig {
+public class RestTemplateConfig {
 
 	@Value("${restTemplate.factory.readTimeout}")
     private int READ_TIMEOUT;
@@ -30,8 +30,8 @@ public class RestfulConfig {
         factory.setConnectTimeout(CONNECT_TIMEOUT);
 
         HttpClient httpClient = HttpClientBuilder.create()
-                .setMaxConnTotal(MAX_CONN_TOTAL)
-                .setMaxConnPerRoute(MAX_CONN_PER_ROUTE)
+                .setMaxConnTotal(MAX_CONN_TOTAL) //연결을 유지할 최대 숫자
+                .setMaxConnPerRoute(MAX_CONN_PER_ROUTE) //특정 경로당 최대 숫자
                 .build();
 
         factory.setHttpClient(httpClient);

@@ -2,13 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.invoice.dao.InvoiceDao">
 <select id="getNewInvoiceId" parameterType="string" resultType="String">
-select ('INV_'+ #{storeId} +'_' + convert(varchar, getDate(), 112) + '_' + right('0000000000' + convert(varchar, (next value for seq_invoice_id)), 10)) as invoice_id
+select ('I' + convert(varchar, getDate(), 112) + #{storeId} + '_' + right('0000000000' + convert(varchar, (next value for seq_invoice_id)), 10)) as invoice_id
 </select>
 
 <insert id="createNewInvoice" parameterType="com.hannamsm.shop.domain.invoice.vo.CreateNewInvoiceDto">
 insert into invoice (
        store_id
      , invoice_id
+     , invoice_index_no
      , invoice_date
      , account_no
      , total_pay_amount
@@ -29,6 +30,7 @@ insert into invoice (
 )
 select a.store_id                      as store_id
      , #{invoiceId}                    as invoice_id
+     , #{invoiceIndexNo}               as invoice_index_no
      , getDate()                       as invoice_date
      , #{accountNo}                    as account_no
      , #{totalPayAmount}               as total_pay_amount

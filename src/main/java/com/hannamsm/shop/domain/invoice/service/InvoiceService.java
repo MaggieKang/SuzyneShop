@@ -14,8 +14,10 @@ public class InvoiceService {
 
 	public CreateNewInvoiceDto createInvoice(CreateNewInvoiceDto createNewInvoiceDto) throws Exception {
 		String invoiceId = this.invoiceDao.getNewInvoiceId(createNewInvoiceDto.getStoreId());
+		int setInvoiceIndexNo = Integer.parseInt(invoiceId.split("_")[1]);
 
 		createNewInvoiceDto.setInvoiceId(invoiceId);
+		createNewInvoiceDto.setInvoiceIndexNo(setInvoiceIndexNo);
 		this.invoiceDao.createNewInvoice(createNewInvoiceDto);
 		this.invoiceDao.createNewInvoiceDetail(createNewInvoiceDto);
 		return createNewInvoiceDto;
