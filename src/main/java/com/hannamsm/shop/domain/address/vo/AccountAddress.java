@@ -16,8 +16,11 @@ public class AccountAddress {
 	private int seq;
 	private String address;
 	private String city;
+	private String cityNm;
 	private String province;
+	private String provinceNm;
 	private String country;
+	private String countryNm;
 	private String postalCd;
 	private boolean isDefaultAddress;
 	private int beSeq;
