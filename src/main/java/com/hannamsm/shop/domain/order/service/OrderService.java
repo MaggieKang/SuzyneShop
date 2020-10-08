@@ -1,6 +1,5 @@
 package com.hannamsm.shop.domain.order.service;
 
-import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.List;
@@ -217,12 +216,23 @@ public class OrderService {
 					.storeId(payNowOrderDto.getStoreId())
 					.customerContactNumber(payNowOrderDto.getCustomerContactNumber())
 					.billingAddress(billingAddress.getFullAddress())
-					.totalPayAmount(new BigDecimal(0))
+					.totalPayAmount(orderDto.getGrandTotalPrice())
 					.build();
 			resultNewInvoiceDto = this.invoiceService.createInvoice(createNewInvoiceDto);
 		}
 
-		// 8) 주문 상태 변경
+		// 8)픽업예약 업데이트
+		{
+			UpdatePickupReservation updatePickupReservation = UpdatePickupReservation.builder()
+					.accountNo(payNowOrderDto.getAccountNo())
+					.storeId(payNowOrderDto.getStoreId())
+					.slotDt(payNowOrderDto.getSlotDt())
+					.slotTime(payNowOrderDto.getSlotTime())
+					.build();
+			this.pickupTimeslotService.updatePickupReservation(updatePickupReservation);
+		}
+
+		// 9) 주문 상태 변경
 		{
 			Order updateOrder = Order.builder()
 				.accountNo(payNowOrderDto.getAccountNo())
@@ -238,18 +248,9 @@ public class OrderService {
 			this.orderDao.updateOrders(updateOrder);
 		}
 
-		//픽업예약 업데이트
-		{
-			UpdatePickupReservation updatePickupReservation = UpdatePickupReservation.builder()
-					.accountNo(payNowOrderDto.getAccountNo())
-					.storeId(payNowOrderDto.getStoreId())
-					.slotDt(payNowOrderDto.getSlotDt())
-					.slotTime(payNowOrderDto.getSlotTime())
-					.build();
-			this.pickupTimeslotService.updatePickupReservation(updatePickupReservation);
-		}
 
-		// 6) 결제(대외계)
+
+		// 10) 결제(대외계)
 		{
 			NumberFormat format = NumberFormat.getInstance();
 			format.setMinimumIntegerDigits(2);

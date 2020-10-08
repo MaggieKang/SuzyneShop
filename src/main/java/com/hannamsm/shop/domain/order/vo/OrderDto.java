@@ -22,6 +22,7 @@ public class OrderDto {
 	private String orderId;
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private LocalDateTime orderDate;
+	private String invoiceId;
 	private String titleNm;
 	private String customerContactNumber;
 	private BigDecimal grandTotalPrice;

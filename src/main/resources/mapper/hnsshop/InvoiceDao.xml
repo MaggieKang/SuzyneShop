@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hannamsm.shop.domain.invoice.dao.InvoiceDao">
+<select id="findByIdCount" parameterType="com.hannamsm.shop.domain.invoice.vo.InvoiceSearch" resultType="int">
+select count(a.seq) as totalCount
+  from invoice_detail a
+ where a.store_id = #{storeId}
+   and a.invoice_id = #{invoiceId}
+</select>
+
+<select id="findById" parameterType="com.hannamsm.shop.domain.invoice.vo.InvoiceSearch" resultType="com.hannamsm.shop.domain.invoice.vo.InvoiceDetailDto">
+select row_number() over(order by a.item_id, a.seq) as rowNo
+     , a.store_id                         as storeId
+     , a.invoice_id                       as invoiceId
+     , b.invoice_date                     as invoiceDate
+     , a.item_id                          as itemId
+     , a.upc                              as upc
+     , a.item_kr_nm                       as itemKrNm
+     , a.item_en_nm                       as itemEnNm
+     , isnull(a.sales_qty,0)              as salesQty
+     , isnull(a.sales_bundle_amount,0)    as salesBundleAmount
+     , isnull(a.sales_bundle_price,0)     as salesBundlePrice
+     , sum(a.sales_qty) over()            as totalSalesQty
+     , isnull(b.total_pay_amount,0)       as totalPayAmount
+     , isnull(b.total_amount,0)           as totalAmount
+     , isnull(b.total_gst_fee,0)          as totalGstFee
+     , isnull(b.total_pst_fee,0)          as totalPstFee
+     , isnull(b.total_eco_fee,0)          as totalEcoFee
+     , isnull(b.total_deposit_fee,0)      as totalDepositFee
+     , b.delivery_address                 as deliveryAddress
+     , b.billing_address                  as billingAddress
+     , b.sold_by                          as soldBy
+     , b.order_id                         as orderId
+     , isnull(d.first_name,'')            as customerFirstName
+     , isnull(d.last_name,'')             as customerLastName
+     , isnull(d.customer_phone_number,'') as customerPhoneNumber
+     , isnull(d.customer_email,'')        as customerEMail
+  from invoice_detail a
+       inner join invoice b on b.store_id = a.store_id and b.invoice_id = a.invoice_id
+       left join customer d on d.account_no = b.account_no
+ where a.store_id = #{storeId}
+   and a.invoice_id = #{invoiceId}
+</select>
+
 <select id="getNewInvoiceId" parameterType="string" resultType="String">
 select ('I' + convert(varchar, getDate(), 112) + #{storeId} + '_' + right('0000000000' + convert(varchar, (next value for seq_invoice_id)), 10)) as invoice_id
 </select>

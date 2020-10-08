@@ -25,6 +25,7 @@ IF ObJECt_ID('[cmn_file]') IS NOT NULL DROP TABLE [cmn_file];
 IF ObJECt_ID('[country]') IS NOT NULL DROP TABLE [country];
 IF ObJECt_ID('[invoice_detail]') IS NOT NULL DROP TABLE [invoice_detail];
 IF ObJECt_ID('[invoice]') IS NOT NULL DROP TABLE [invoice];
+IF ObJECt_ID('[new_table]') IS NOT NULL DROP TABLE [new_table];
 IF ObJECt_ID('[notice]') IS NOT NULL DROP TABLE [notice];
 IF ObJECt_ID('[pickup_timeslot]') IS NOT NULL DROP TABLE [pickup_timeslot];
 IF ObJECt_ID('[pickup_timeslot_default]') IS NOT NULL DROP TABLE [pickup_timeslot_default];
@@ -694,6 +695,13 @@ CREATE TABLE [item_file]
 );
 
 
+-- 결제결과
+CREATE TABLE [new_table]
+(
+
+);
+
+
 -- 공지사항
 CREATE TABLE [notice]
 (
@@ -729,15 +737,15 @@ CREATE TABLE [orders]
 	-- 고객연락번호
 	[customer_contact_number] varchar(20) NOT NULL,
 	-- 총금액 : (item_qty * sales_bundle_price) or (pickup_qty * sales_bundle_price)
-	[total_amount] decimal(10,2),
+	[total_amount] decimal(10,2) DEFAULT 0,
 	-- 총GST수수료
-	[total_gst_fee] decimal(10,2),
+	[total_gst_fee] decimal(10,2) DEFAULT 0,
 	-- 총PST수수료
-	[total_pst_fee] decimal(10,2),
+	[total_pst_fee] decimal(10,2) DEFAULT 0,
 	-- 총ECO수수료
-	[total_eco_fee] decimal(10,2),
+	[total_eco_fee] decimal(10,2) DEFAULT 0,
 	-- 총Deposit수수료
-	[total_deposit_fee] decimal(10,2),
+	[total_deposit_fee] decimal(10,2) DEFAULT 0,
 	-- 주문상태코드
 	[order_status_cd] varchar(10) NOT NULL,
 	-- 슬롯날짜
