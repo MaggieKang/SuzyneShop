@@ -25,8 +25,11 @@ select a.account_no as accountNo
      , b.seq as seq
      , b.address as address
      , b.city as city
+     , (select top 1 city_nm from city where city_cd = b.city) as cityNm
      , b.province as province
+     , (select top 1 province_nm from province where province_cd = b.province) as provinceNm
      , b.country as country
+     , (select top 1 country_nm from country where country_cd = b.country) as countryNm
      , b.postal_cd as postalCd
      , b.is_default_address as isDefaultAddress
   from account a
