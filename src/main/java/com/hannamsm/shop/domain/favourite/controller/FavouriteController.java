@@ -25,7 +25,7 @@ import com.hannamsm.shop.domain.favourite.vo.FavouriteItemDto;
 import com.hannamsm.shop.domain.favourite.vo.FavouriteItemSearch;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResult;
-import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
+import com.hannamsm.shop.global.vo.ResponseResultsByPaging;
 
 @RestController
 @RequestMapping(value="/api/favourite", produces = MediaTypes.HAL_JSON_VALUE)
@@ -55,7 +55,7 @@ public class FavouriteController {
 		List<FavouriteItem> list = this.favouriteService.findByAccountId(favouriteItemSearch);
 
 		//return data
-    	ResponseResutlsByPaging<FavouriteItem> resResult = new ResponseResutlsByPaging<FavouriteItem>(page, listSize);
+    	ResponseResultsByPaging<FavouriteItem> resResult = new ResponseResultsByPaging<FavouriteItem>(page, listSize);
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(allCount);
         resResult.setCurrentCount(list.size());

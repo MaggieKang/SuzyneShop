@@ -27,7 +27,7 @@ import com.hannamsm.shop.domain.cart.vo.CartItemSearch;
 import com.hannamsm.shop.domain.cart.vo.CartSummary;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResult;
-import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
+import com.hannamsm.shop.global.vo.ResponseResultsByPaging;
 
 @RestController
 @RequestMapping(value="/api/cart", produces = MediaTypes.HAL_JSON_VALUE)
@@ -59,7 +59,7 @@ public class CartController {
 		List<CartItemDto> list = this.cartService.findByAccountId(cartItemSearch);
 
 		//return data
-    	ResponseResutlsByPaging<CartItemDto> resResult = new ResponseResutlsByPaging<CartItemDto>(page, listSize);
+    	ResponseResultsByPaging<CartItemDto> resResult = new ResponseResultsByPaging<CartItemDto>(page, listSize);
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(allCount);
         resResult.setCurrentCount(list.size());

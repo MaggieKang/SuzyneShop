@@ -29,7 +29,7 @@ import com.hannamsm.shop.domain.event.vo.EventSearch;
 import com.hannamsm.shop.domain.event.vo.ResEventDto;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResult;
-import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
+import com.hannamsm.shop.global.vo.ResponseResultsByPaging;
 
 @RestController
 @RequestMapping(value="/api/events", produces = MediaTypes.HAL_JSON_VALUE)
@@ -79,7 +79,7 @@ public class EventController {
 		List<Event> list = this.eventService.findAll(eventSearch);
 
 		//return data
-    	ResponseResutlsByPaging<Event> resResult = new ResponseResutlsByPaging<Event>(page, listSize);
+    	ResponseResultsByPaging<Event> resResult = new ResponseResultsByPaging<Event>(page, listSize);
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(totalCount);
         resResult.setCurrentCount(list.size());

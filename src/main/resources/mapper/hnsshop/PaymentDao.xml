@@ -87,4 +87,52 @@ delete payment
  where account_no = #{accountNo}
    and payment_id = #{paymentId}
 </delete>
+
+<insert id="saveReqRequestCardTranjection" parameterType="com.hannamsm.shop.domain.payment.vo.CardPaymentResultVO">
+insert into card_payment_result (
+  request_uuid
+, store_id
+, account_no
+, order_id
+, invoice_id
+, ssl_transaction_type
+, ssl_card_number
+, ssl_card_type
+, ssl_amount
+, reg_date
+, reg_person
+, last_mod_date
+, last_mod_person
+) values (
+  #{requestUuid}
+, #{storeId}
+, #{accountNo}
+, #{orderId}
+, #{invoiceId}
+, #{sslTransactionType}
+, #{sslCardNumber}
+, #{sslCardType}
+, #{sslAmount}
+, getDate()
+, #{accountNo}
+, getDate()
+, #{accountNo}
+)
+</insert>
+
+<update id="saveResRequestCardTranjection" parameterType="com.hannamsm.shop.domain.payment.vo.CardPaymentResultVO">
+update card_payment_result
+   set last_mod_date = getDate()
+     , last_mod_person = #{accountNo}
+     , ssl_txn_id = #{sslTxnId}
+     , ssl_txn_time = #{sslTxnTime}
+     , ssl_result_message = #{sslResultMessage}
+     , ssl_approval_code = #{sslApprovalCode}
+     , ssl_result = #{sslResult}
+     , error_code = #{errorCode}
+     , error_name = #{errorName}
+     , error_message = #{errorMessage}
+ where request_uuid = #{requestUuid}
+</update>
+
 </mapper>

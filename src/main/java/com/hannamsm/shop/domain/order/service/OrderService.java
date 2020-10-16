@@ -29,6 +29,7 @@ import com.hannamsm.shop.domain.order.vo.PayNowOrderDto;
 import com.hannamsm.shop.domain.payment.dao.PaymentDao;
 import com.hannamsm.shop.domain.payment.exception.PaymentNotFoundException;
 import com.hannamsm.shop.domain.payment.service.PaymentService;
+import com.hannamsm.shop.domain.payment.vo.CardPaymentResultVO;
 import com.hannamsm.shop.domain.payment.vo.ConvergeSaleTransctionVO;
 import com.hannamsm.shop.domain.payment.vo.Payment;
 import com.hannamsm.shop.domain.payment.vo.PaymentSearch;
@@ -263,7 +264,14 @@ public class OrderService {
 					.sslCvv2cvc2(paymentDto.getCardVerificationCode())
 					.sslAmount(format.format(orderDto.getGrandTotalPrice()))
 					.build();
-			this.paymentService.callConvergeForSaleTransction(convergeSaleTransctionVO);
+
+			CardPaymentResultVO cardPaymentResultVO = CardPaymentResultVO.builder()
+					.storeId(payNowOrderDto.getStoreId())
+					.accountNo(payNowOrderDto.getAccountNo())
+					.orderId(payNowOrderDto.getOrderId())
+					.invoiceId(resultNewInvoiceDto.getInvoiceId())
+					.build();
+			this.paymentService.callConvergeForSaleTransction(convergeSaleTransctionVO, cardPaymentResultVO);
 		}
 
 		return payNowOrderDto;

@@ -3,14 +3,14 @@ package com.hannamsm.shop.global.properties;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConstructorBinding;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
-@Component
+@Getter @AllArgsConstructor
+@ConstructorBinding
 @ConfigurationProperties(prefix = "tomcat")
-@Getter @Setter
 public class TomcatProperties {
 	@NotEmpty
 	String ajpProtocol;

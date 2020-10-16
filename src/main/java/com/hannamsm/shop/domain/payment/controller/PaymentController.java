@@ -26,7 +26,7 @@ import com.hannamsm.shop.domain.payment.vo.PaymentSearch;
 import com.hannamsm.shop.domain.payment.vo.SavePaymentDto;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResult;
-import com.hannamsm.shop.global.vo.ResponseResutls;
+import com.hannamsm.shop.global.vo.ResponseResults;
 
 @RestController
 @RequestMapping(value="/api/payment", produces = MediaTypes.HAL_JSON_VALUE)
@@ -50,7 +50,7 @@ public class PaymentController {
 		List<PaymentDto> list = this.paymentService.find(paymentSearch);
 
 		//return data
-		ResponseResutls<PaymentDto> resResult = new ResponseResutls<PaymentDto>();
+		ResponseResults<PaymentDto> resResult = new ResponseResults<PaymentDto>();
 		resResult.setMessage("조회되었습니다.");
         resResult.setResultList(list);
 

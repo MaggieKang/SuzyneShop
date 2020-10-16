@@ -16,7 +16,7 @@ import com.hannamsm.shop.domain.store.service.StoreService;
 import com.hannamsm.shop.domain.store.vo.Store;
 import com.hannamsm.shop.domain.store.vo.StoreSearch;
 import com.hannamsm.shop.global.vo.ResponseResult;
-import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
+import com.hannamsm.shop.global.vo.ResponseResultsByPaging;
 
 @RestController
 @RequestMapping(value="/api/store", produces = MediaTypes.HAL_JSON_VALUE)
@@ -37,7 +37,7 @@ public class StoreController {
 		List<Store> list = this.storeService.findAll(storeSearch);
 
 		//return data
-    	ResponseResutlsByPaging<Store> resResult = new ResponseResutlsByPaging<Store>(page, listSize);
+    	ResponseResultsByPaging<Store> resResult = new ResponseResultsByPaging<Store>(page, listSize);
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(allCount);
         resResult.setCurrentCount(list.size());

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hannamsm.shop.domain.category.service.CategoryService;
 import com.hannamsm.shop.domain.category.vo.CategoryDto;
 import com.hannamsm.shop.domain.category.vo.CategorySearch;
-import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
+import com.hannamsm.shop.global.vo.ResponseResultsByPaging;
 
 @RestController
 @RequestMapping(value="/api/category", produces = MediaTypes.HAL_JSON_VALUE)
@@ -41,7 +41,7 @@ public class CategoryController {
 		List<CategoryDto> list = this.categoryService.findAll(itemSearch);
 
 		//return data
-    	ResponseResutlsByPaging<CategoryDto> resResult = new ResponseResutlsByPaging<CategoryDto>(page, listSize);
+    	ResponseResultsByPaging<CategoryDto> resResult = new ResponseResultsByPaging<CategoryDto>(page, listSize);
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(allCount);
         resResult.setCurrentCount(list.size());
@@ -64,7 +64,7 @@ public class CategoryController {
 		List<CategoryDto> list = this.categoryService.findByCode(categorySearch);
 
 		//return data
-    	ResponseResutlsByPaging<CategoryDto> resResult = new ResponseResutlsByPaging<CategoryDto>(1, 1000);
+    	ResponseResultsByPaging<CategoryDto> resResult = new ResponseResultsByPaging<CategoryDto>(1, 1000);
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(list.size());
         resResult.setCurrentCount(list.size());

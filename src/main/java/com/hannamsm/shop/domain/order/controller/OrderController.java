@@ -24,7 +24,7 @@ import com.hannamsm.shop.domain.order.vo.OrderSearch;
 import com.hannamsm.shop.domain.order.vo.PayNowOrderDto;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResult;
-import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
+import com.hannamsm.shop.global.vo.ResponseResultsByPaging;
 
 @RestController
 @RequestMapping(value="/api/order", produces = MediaTypes.HAL_JSON_VALUE)
@@ -52,7 +52,7 @@ public class OrderController {
 		List<OrderDto> list = this.orderService.findAll(orderSearch);
 
 		//return data
-    	ResponseResutlsByPaging<OrderDto> resResult = new ResponseResutlsByPaging<OrderDto>(page, listSize);
+    	ResponseResultsByPaging<OrderDto> resResult = new ResponseResultsByPaging<OrderDto>(page, listSize);
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(allCount);
         resResult.setCurrentCount(list.size());
@@ -81,7 +81,7 @@ public class OrderController {
 		List<OrderDetailDto> list = this.orderService.findById(orderSearch);
 
 		//return data
-    	ResponseResutlsByPaging<OrderDetailDto> resResult = new ResponseResutlsByPaging<OrderDetailDto>(page, listSize);
+    	ResponseResultsByPaging<OrderDetailDto> resResult = new ResponseResultsByPaging<OrderDetailDto>(page, listSize);
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(allCount);
         resResult.setCurrentCount(list.size());

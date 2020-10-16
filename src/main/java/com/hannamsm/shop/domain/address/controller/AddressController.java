@@ -24,7 +24,7 @@ import com.hannamsm.shop.domain.address.vo.Address;
 import com.hannamsm.shop.domain.address.vo.AddressList;
 import com.hannamsm.shop.global.adapter.CurrentUser;
 import com.hannamsm.shop.global.vo.ResponseResult;
-import com.hannamsm.shop.global.vo.ResponseResutls;
+import com.hannamsm.shop.global.vo.ResponseResults;
 
 @RestController
 @RequestMapping(value="/api/address", produces = MediaTypes.HAL_JSON_VALUE)
@@ -41,7 +41,7 @@ public class AddressController {
 		
 		List<AccountAddress> list = this.addressService.findAll(accountAddress);				
 		//return data
-		ResponseResutls<AccountAddress> resResult = new ResponseResutls<AccountAddress>();
+		ResponseResults<AccountAddress> resResult = new ResponseResults<AccountAddress>();
 		resResult.setMessage("조회되었습니다.");		
 		resResult.setResultList(list);				
 		

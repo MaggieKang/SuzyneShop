@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @ToString
-public class ResponseResutlsByPaging<T> {
+public class ResponseResultsByPaging<T> {
 
 	// 현재 페이지 번호
 	private int page = 1;
@@ -28,7 +28,7 @@ public class ResponseResutlsByPaging<T> {
 
 	private List<T> resultList;
 
-	public ResponseResutlsByPaging() {
+	public ResponseResultsByPaging() {
 		super();
 		this.page = 0;
 		this.listSize = 100;
@@ -36,7 +36,7 @@ public class ResponseResutlsByPaging<T> {
 		this.startRownum = (page - 1) * listSize + 1 ;
 	}
 
-	public ResponseResutlsByPaging(int page, int listSize) {
+	public ResponseResultsByPaging(int page, int listSize) {
 		super();
 		this.page = page;
 		this.listSize = listSize;

@@ -22,7 +22,7 @@ import com.hannamsm.shop.domain.pickup.vo.PickupTimeslot;
 import com.hannamsm.shop.domain.pickup.vo.PickupTimeslotDefault;
 import com.hannamsm.shop.global.utils.DateUtil;
 import com.hannamsm.shop.global.vo.ResponseResult;
-import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
+import com.hannamsm.shop.global.vo.ResponseResultsByPaging;
 
 @RestController
 @RequestMapping(value="/api/pickup", produces = MediaTypes.HAL_JSON_VALUE)
@@ -47,7 +47,7 @@ public class PickupTimeslotController {
 		List<PickupTimeslot> list = pickupTimeslotService.findBySlotDt(pickupSlogDtSearch);
 
 		//return data
-    	ResponseResutlsByPaging<PickupTimeslot> resResult = new ResponseResutlsByPaging<PickupTimeslot>();
+    	ResponseResultsByPaging<PickupTimeslot> resResult = new ResponseResultsByPaging<PickupTimeslot>();
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(list.size());
         resResult.setCurrentCount(list.size());
@@ -74,7 +74,7 @@ public class PickupTimeslotController {
 		List<PickupTimeslotDefault> list = pickupTimeslotService.findBySlotDtDefault(pickupSlogDtDefaultSearch);
 
 		//return data
-    	ResponseResutlsByPaging<PickupTimeslotDefault> resResult = new ResponseResutlsByPaging<PickupTimeslotDefault>();
+    	ResponseResultsByPaging<PickupTimeslotDefault> resResult = new ResponseResultsByPaging<PickupTimeslotDefault>();
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(list.size());
         resResult.setCurrentCount(list.size());

@@ -3,6 +3,10 @@ package com.hannamsm.shop.domain.payment.dao;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.hannamsm.shop.domain.payment.vo.CardPaymentResultVO;
 import com.hannamsm.shop.domain.payment.vo.Payment;
 import com.hannamsm.shop.domain.payment.vo.PaymentDto;
 import com.hannamsm.shop.domain.payment.vo.PaymentSearch;
@@ -23,4 +27,12 @@ public interface PaymentDao {
 	public int delete(Payment payment) throws Exception;
 
 	public int saveDefaultAllFalse(Payment payment) throws Exception;
+
+	public int saveRequestCardTranjection(Payment payment) throws Exception;
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public int saveReqRequestCardTranjection(CardPaymentResultVO cardPaymentResultVO) throws Exception;
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public int saveResRequestCardTranjection(CardPaymentResultVO cardPaymentResultVO) throws Exception;
 }

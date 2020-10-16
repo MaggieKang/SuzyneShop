@@ -16,7 +16,7 @@ import com.hannamsm.shop.domain.invoice.service.InvoiceService;
 import com.hannamsm.shop.domain.invoice.vo.InvoiceDetailDto;
 import com.hannamsm.shop.domain.invoice.vo.InvoiceSearch;
 import com.hannamsm.shop.global.adapter.CurrentUser;
-import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
+import com.hannamsm.shop.global.vo.ResponseResultsByPaging;
 
 @RestController
 @RequestMapping(value="/api/invoice", produces = MediaTypes.HAL_JSON_VALUE)
@@ -42,7 +42,7 @@ public class InvoiceController {
 		List<InvoiceDetailDto> list = this.invoiceService.findById(invoiceSearch);
 
 		//return data
-    	ResponseResutlsByPaging<InvoiceDetailDto> resResult = new ResponseResutlsByPaging<InvoiceDetailDto>();
+    	ResponseResultsByPaging<InvoiceDetailDto> resResult = new ResponseResultsByPaging<InvoiceDetailDto>();
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(allCount);
         resResult.setCurrentCount(list.size());

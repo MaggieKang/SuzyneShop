@@ -19,7 +19,7 @@ import com.hannamsm.shop.domain.item.vo.Item;
 import com.hannamsm.shop.domain.item.vo.ItemDto;
 import com.hannamsm.shop.domain.item.vo.ItemSearch;
 import com.hannamsm.shop.global.vo.ResponseResult;
-import com.hannamsm.shop.global.vo.ResponseResutlsByPaging;
+import com.hannamsm.shop.global.vo.ResponseResultsByPaging;
 
 
 @RestController
@@ -59,7 +59,7 @@ public class ItemController {
 		List<Item> list = this.itemService.findAll(itemSearch);
 
 		//return data
-    	ResponseResutlsByPaging<Item> resResult = new ResponseResutlsByPaging<Item>(page, listSize);
+    	ResponseResultsByPaging<Item> resResult = new ResponseResultsByPaging<Item>(page, listSize);
 		resResult.setMessage("조회되었습니다.");
 		resResult.setTotalCount(allCount);
         resResult.setCurrentCount(list.size());

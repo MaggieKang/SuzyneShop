@@ -9,14 +9,17 @@ SELECT 	a.account_no AS accountNo
 	   ,b.customer_email AS customerEmail
 	   ,b.customer_phone_number  AS customerPhoneNumber
 	   ,b.extension_nember  AS extensionNumber
-	   ,b.membership_id AS membershipId 
+	   ,b.membership_id AS membershipId
 	   ,b.is_membership AS isMembership
 	   ,c.seq  AS seq
 	   ,c.address AS address
 	   ,c.city AS city
+       ,(select top 1 city_nm from city where city_cd = c.city) as cityNm
 	   ,c.province AS province
+       ,(select top 1 province_nm from province where province_cd = c.province) as provinceNm
 	   ,c.country AS country
-	   ,c.postal_cd AS postalCd	   
+       ,(select top 1 country_nm from country where country_cd = c.country) as countryNm
+	   ,c.postal_cd AS postalCd
 	   ,c.is_default_address AS isDefaultAddress
 FROM account a
 LEFT OUTER JOIN customer b ON b.account_no = a.account_no
@@ -124,12 +127,12 @@ USING (SELECT #{accountNo} AS account_no
 	   		)
 	  WHEN MATCHED THEN
 	  		UPDATE
-	  		SET   a.account_no = b.account_no	  			  
+	  		SET   a.account_no = b.account_no
                   , a.address = b.address
                   , a.city = b.city
                   , a.province = b.province
                   , a.country = b.country
-                  , a.postal_cd = b.postal_cd                  
+                  , a.postal_cd = b.postal_cd
                   , a.last_mod_date = getdate()
                   , a.last_mod_person = b.account_no;
 </insert>

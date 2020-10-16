@@ -14,6 +14,7 @@ IF ObJECt_ID('[account_service_api]') IS NOT NULL DROP TABLE [account_service_ap
 IF ObJECt_ID('[admin_notice]') IS NOT NULL DROP TABLE [admin_notice];
 IF ObJECt_ID('[admin_account]') IS NOT NULL DROP TABLE [admin_account];
 IF ObJECt_ID('[authority]') IS NOT NULL DROP TABLE [authority];
+IF ObJECt_ID('[card_payment_result]') IS NOT NULL DROP TABLE [card_payment_result];
 IF ObJECt_ID('[item_file]') IS NOT NULL DROP TABLE [item_file];
 IF ObJECt_ID('[item]') IS NOT NULL DROP TABLE [item];
 IF ObJECt_ID('[category]') IS NOT NULL DROP TABLE [category];
@@ -25,7 +26,6 @@ IF ObJECt_ID('[cmn_file]') IS NOT NULL DROP TABLE [cmn_file];
 IF ObJECt_ID('[country]') IS NOT NULL DROP TABLE [country];
 IF ObJECt_ID('[invoice_detail]') IS NOT NULL DROP TABLE [invoice_detail];
 IF ObJECt_ID('[invoice]') IS NOT NULL DROP TABLE [invoice];
-IF ObJECt_ID('[new_table]') IS NOT NULL DROP TABLE [new_table];
 IF ObJECt_ID('[notice]') IS NOT NULL DROP TABLE [notice];
 IF ObJECt_ID('[pickup_timeslot]') IS NOT NULL DROP TABLE [pickup_timeslot];
 IF ObJECt_ID('[pickup_timeslot_default]') IS NOT NULL DROP TABLE [pickup_timeslot_default];
@@ -204,6 +204,55 @@ CREATE TABLE [authority]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([auth_cd])
+);
+
+
+-- 카드결제결과
+CREATE TABLE [card_payment_result]
+(
+	-- 요청UUID : 요청UUID
+	[request_uuid] varchar(50) NOT NULL,
+	-- 매장ID
+	[store_id] varchar(10) NOT NULL,
+	-- 계정번호 : 계정번호
+	[account_no] int NOT NULL,
+	-- 주문ID
+	[order_id] varchar(30) NOT NULL,
+	-- 인보이스ID
+	[invoice_id] varchar(25) NOT NULL,
+	-- ssl_transaction_type
+	[ssl_transaction_type] varchar(20) NOT NULL,
+	-- ssl_txn_id
+	[ssl_txn_id] varchar(60),
+	-- ssl_txn_time
+	[ssl_txn_time] varchar(30),
+	-- ssl_card_number
+	[ssl_card_number] varchar(25),
+	-- ssl_card_type
+	[ssl_card_type] varchar(25),
+	-- ssl_amount
+	[ssl_amount] varchar(20),
+	-- ssl_result_message
+	[ssl_result_message] varchar(200),
+	-- ssl_approval_code
+	[ssl_approval_code] varchar(50),
+	-- ssl_result
+	[ssl_result] varchar(50),
+	-- error_code
+	[error_code] varchar(50),
+	-- error_name
+	[error_name] varchar(200),
+	-- error_message
+	[error_message] varchar(500),
+	-- 최초등록일시 : 최초등록일시
+	[reg_date] datetime,
+	-- 최초등록사용자 : 최초등록사용자
+	[reg_person] varchar(256),
+	-- 마지막변경일시 : last_mod_date
+	[last_mod_date] datetime,
+	-- 마지막변경사용자 : 마지막 변경 사용자
+	[last_mod_person] varchar(256),
+	PRIMARY KEY ([request_uuid])
 );
 
 
@@ -477,6 +526,8 @@ CREATE TABLE [invoice]
 	[invoice_index_no] int NOT NULL,
 	-- 인보이스일시
 	[invoice_date] datetime NOT NULL,
+	-- 인보이스상태코드
+	[invoice_status_cd] varchar(10) NOT NULL,
 	-- 계정번호 : 계정번호
 	[account_no] int NOT NULL,
 	-- 총지불금액 : Total Amount + Total GST + Total PST + Total ECO + Total Deposit
@@ -692,13 +743,6 @@ CREATE TABLE [item_file]
 	-- 마지막변경사용자 : 마지막 변경 사용자
 	[last_mod_person] varchar(256),
 	PRIMARY KEY ([store_id], [item_id], [seq])
-);
-
-
--- 결제결과
-CREATE TABLE [new_table]
-(
-
 );
 
 

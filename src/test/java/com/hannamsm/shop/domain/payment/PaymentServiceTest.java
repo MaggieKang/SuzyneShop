@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hannamsm.shop.domain.account.dao.AccountDao;
 import com.hannamsm.shop.domain.payment.service.PaymentService;
+import com.hannamsm.shop.domain.payment.vo.CardPaymentResultVO;
 import com.hannamsm.shop.domain.payment.vo.ConvergeSaleTransctionVO;
 import com.hannamsm.shop.global.BaseServiceTest;
 
@@ -37,8 +38,14 @@ public class PaymentServiceTest extends BaseServiceTest {
 				.sslCvv2cvc2("1234")
 				.sslAmount(format.format(new BigDecimal(1.00)))
 				.build();
+		CardPaymentResultVO cardPaymentResultVO = CardPaymentResultVO.builder()
+				.storeId("st002")
+				.accountNo(1)
+				.orderId("OR_TEST_123123")
+				.invoiceId("IN_TEST_123123")
+				.build();
 		// When
-		this.paymentService.callConvergeForSaleTransction(convergeSaleTransctionVO);
+		this.paymentService.callConvergeForSaleTransction(convergeSaleTransctionVO, cardPaymentResultVO);
 
 		// Then
 //		assertThat(userDetails.getUsername()).isEqualTo(username);
