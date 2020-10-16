@@ -10,6 +10,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +32,7 @@ import com.hannamsm.shop.global.utils.DateUtil;
 
 @Service
 public class PaymentService {
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
     RestTemplate restTemplate;
@@ -67,10 +70,9 @@ public class PaymentService {
 	 * Sale 결제
 	 */
 	public void callConvergeForSaleTransction(ConvergeSaleTransctionVO convergeSaleTransctionVO, CardPaymentResultVO cardPaymentResultVO) throws Exception {
-
+		log.info("결제(대외계) 시작 ===> ");
 		String requestUuid = (DateUtil.getCurrntDate()+"-"+UUID.randomUUID().toString()).replaceAll("-", "");
 
-		System.out.println("결제(대외계) 시작 ===> ");
 		convergeSaleTransctionVO.setSslMerchantId("006448");
 		convergeSaleTransctionVO.setSslUserId("webpage");
 		convergeSaleTransctionVO.setSslPin("B5XY328XXM1SMDSZO11HTDRTRRJY2ZFMFZG2TXNR3RY8H7C4H8EBOY72WGW52OJD");
@@ -92,9 +94,9 @@ public class PaymentService {
 		StringWriter sw = new StringWriter();
 		jaxbMarshaller.marshal(convergeSaleTransctionVO, sw);
 		String sendXml = sw.toString().replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>","");
-		System.out.println("=======================================");
-		System.out.println(sendXml);
-		System.out.println("=======================================");
+		log.info("=======================================");
+		log.info(sendXml);
+		log.info("=======================================");
 
 		// Set the Content-Type header
 		HttpHeaders requestHeaders = new HttpHeaders();
@@ -106,7 +108,7 @@ public class PaymentService {
 		String url = "https://elavon.gateway.akana.com/converge/processxml.do";
 		String obj = restTemplate.postForObject(url, requestEntity, String.class);
 
-		System.out.println("결제(대외계) ===> "+obj.toString());
+		log.info("결제(대외계) ===> "+obj.toString());
 
 		JAXBContext unJaxbContext = JAXBContext.newInstance(ConvergeSaleTransctionResVO.class);
 		Unmarshaller jaxbUnmarshaller = unJaxbContext.createUnmarshaller();
@@ -117,7 +119,7 @@ public class PaymentService {
 			throw new PaymentSaleTransactionException();
 		}
 
-		System.out.println("결제(대외계)2 ===> "+convergeSaleTransctionResVO.toString());
+		log.info("결제(대외계)2 ===> "+convergeSaleTransctionResVO.toString());
 
 		//응답 저장
 		{
