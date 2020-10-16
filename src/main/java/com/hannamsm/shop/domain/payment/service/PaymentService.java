@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.hannamsm.shop.domain.payment.dao.PaymentDao;
 import com.hannamsm.shop.domain.payment.exception.PaymentDeclinedException;
-import com.hannamsm.shop.domain.payment.exception.PaymentSaleTransctionException;
+import com.hannamsm.shop.domain.payment.exception.PaymentSaleTransactionException;
 import com.hannamsm.shop.domain.payment.vo.CardPaymentResultVO;
 import com.hannamsm.shop.domain.payment.vo.ConvergeSaleTransctionResVO;
 import com.hannamsm.shop.domain.payment.vo.ConvergeSaleTransctionVO;
@@ -114,7 +114,7 @@ public class PaymentService {
 		ConvergeSaleTransctionResVO convergeSaleTransctionResVO = (ConvergeSaleTransctionResVO)jaxbUnmarshaller.unmarshal(reader);
 
 		if(null == convergeSaleTransctionResVO) {
-			throw new PaymentSaleTransctionException();
+			throw new PaymentSaleTransactionException();
 		}
 
 		System.out.println("결제(대외계)2 ===> "+convergeSaleTransctionResVO.toString());
@@ -142,7 +142,7 @@ public class PaymentService {
 
 		if(!(null == convergeSaleTransctionResVO.getErrorCode() || convergeSaleTransctionResVO.getErrorCode().isEmpty())) {
 			//에러 Invaild!
-			throw new PaymentSaleTransctionException(convergeSaleTransctionResVO.getErrorCode(), convergeSaleTransctionResVO.getErrorName(), convergeSaleTransctionResVO.getErrorMessage());
+			throw new PaymentSaleTransactionException(convergeSaleTransctionResVO.getErrorCode(), convergeSaleTransctionResVO.getErrorName(), convergeSaleTransctionResVO.getErrorMessage());
 		} else {
 			/*
 			 * Transaction Outcome
