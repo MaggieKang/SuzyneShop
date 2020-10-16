@@ -152,7 +152,6 @@ public class PaymentService {
 			 *  - An ssl_result not equal to 0 indicates a declined and unauthorized transaction.
 			 */
 			if("0".equals(convergeSaleTransctionResVO.getSslResult())) {
-				//insert
 			} else {
 				//에러 Decline!
 				throw new PaymentDeclinedException(convergeSaleTransctionResVO.getSslResultMessage());

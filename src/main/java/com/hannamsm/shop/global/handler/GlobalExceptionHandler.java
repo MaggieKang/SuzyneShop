@@ -81,8 +81,9 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
         // log.error("handleEntityNotFoundException", e);
         final ErrorCode errorCode = e.getErrorCode();
+        final String errorMessage = e.getErrorMessage();
         final List<FieldError> errors = e.getErrors();
-        final ErrorResponse response = ErrorResponse.of(errorCode, errors);
+        final ErrorResponse response = ErrorResponse.of(errorCode, errorMessage, errors);
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
     }
 

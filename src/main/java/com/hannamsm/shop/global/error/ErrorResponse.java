@@ -19,6 +19,14 @@ public class ErrorResponse {
 	private List<FieldError> errors;
 	private String code;
 
+
+	private ErrorResponse(final ErrorCode code) {
+        this.message = code.getMessage();
+        this.status = code.getStatus();
+        this.code = code.getCode();
+        this.errors = new ArrayList<>();
+    }
+
 	private ErrorResponse(final ErrorCode code, final List<FieldError> errors) {
         this.message = code.getMessage();
         this.status = code.getStatus();
@@ -26,8 +34,8 @@ public class ErrorResponse {
         this.code = code.getCode();
     }
 
-	private ErrorResponse(final ErrorCode code) {
-        this.message = code.getMessage();
+	private ErrorResponse(final ErrorCode code, final String message, final List<FieldError> errors) {
+        this.message = message;
         this.status = code.getStatus();
         this.code = code.getCode();
         this.errors = new ArrayList<>();
@@ -48,6 +56,10 @@ public class ErrorResponse {
 
     public static ErrorResponse of(final ErrorCode code, final List<FieldError> errors) {
         return new ErrorResponse(code, errors);
+    }
+
+    public static ErrorResponse of(final ErrorCode code, final String message, final List<FieldError> errors) {
+        return new ErrorResponse(code, message, errors);
     }
 
     public static ErrorResponse of(MethodArgumentTypeMismatchException e) {
