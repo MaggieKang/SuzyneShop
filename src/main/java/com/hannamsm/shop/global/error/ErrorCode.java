@@ -44,7 +44,8 @@ public enum ErrorCode {
 
     // PAYMENT
     PAYMENT_NOT_FOUND_ERROR(400, "PI001", "Could not found payment!"),
-    PAYMENT_DECLINED_ERROR(400, "PI002", "Transaction declined!"),
+    PAYMENT_TRANSACTION_ERROR(400, "PI002", "Transaction Error!"),
+    PAYMENT_DECLINED_ERROR(400, "PI003", "Transaction declined!"),
 
     // Credit Card
     CREDIT_CARD_NUMBER_INVALID(400, "CC5000", "Credit Card Number Invalid!"),

@@ -144,7 +144,7 @@ public class PaymentService {
 
 		if(!(null == convergeSaleTransctionResVO.getErrorCode() || convergeSaleTransctionResVO.getErrorCode().isEmpty())) {
 			//에러 Invaild!
-			throw new PaymentSaleTransactionException(convergeSaleTransctionResVO.getErrorCode(), convergeSaleTransctionResVO.getErrorName(), convergeSaleTransctionResVO.getErrorMessage());
+			throw new PaymentSaleTransactionException(convergeSaleTransctionResVO.getErrorCode()+", "+convergeSaleTransctionResVO.getErrorName()+", "+convergeSaleTransctionResVO.getErrorMessage());
 		} else {
 			/*
 			 * Transaction Outcome
