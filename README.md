@@ -1,4 +1,4 @@
-# HNS-SHOP
+# Maggies-SHOP
 
 
 ### 1. 환경 구성
