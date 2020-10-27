@@ -742,7 +742,6 @@ try catch를 사용해야 하는 경우라면 더 구체적인 예외로 Excepti
 
 *****
 ### 9. Test 작성 가이드
-<img src="http://tst.t-brothers.com/images/initTB.jpg" width="40%" height="30%" title="px(픽셀) 크기 설정" alt="RubberDuck"></img>
 
 *****
 ### 10. Doc 문서화 작성 가이드
