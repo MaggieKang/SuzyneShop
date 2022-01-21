@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hannamsm.shop.domain.account.dao.AccountDao">
-<select id="findByUserNo" parameterType="int" resultType="com.hannamsm.shop.domain.account.vo.Account">
+<mapper namespace="com.suzyne.shop.domain.account.dao.AccountDao">
+<select id="findByUserNo" parameterType="int" resultType="com.suzyne.shop.domain.account.vo.Account">
  select account_no    as accountNo
       , account_email as accountEmail
       , password      as password
@@ -11,7 +11,7 @@
    from account
   where account_no = #{accountNo}
 </select>
-<select id="findByUserEmail" parameterType="String" resultType="com.hannamsm.shop.domain.account.vo.Account">
+<select id="findByUserEmail" parameterType="String" resultType="com.suzyne.shop.domain.account.vo.Account">
  select account_no    as accountNo
       , account_email as accountEmail
       , password      as password
@@ -27,7 +27,7 @@ select auth_cd
  where account_no = #{accountNo}
 </select>
 
-<select id="checkOldPassword" parameterType="com.hannamsm.shop.domain.account.vo.Account" resultType="com.hannamsm.shop.domain.account.vo.Account">
+<select id="checkOldPassword" parameterType="com.suzyne.shop.domain.account.vo.Account" resultType="com.suzyne.shop.domain.account.vo.Account">
 select   account_no		as accountNo
 		, account_email	as accountEmail
 		, is_expired		as isExpired
@@ -37,19 +37,19 @@ select   account_no		as accountNo
 	WHERE account_email 	= #{accountEmail}
 	AND password 			= #{password}
 </select>
-<select id="findUserID" parameterType="com.hannamsm.shop.domain.profile.vo.Customer" resultType="String">
+<select id="findUserID" parameterType="com.suzyne.shop.domain.profile.vo.Customer" resultType="String">
 SELECT top 1 account_email 
 	FROM account a
 	LEFT OUTER JOIN customer b ON b.account_no = a.account_no
 	WHERE customer_phone_number = #{customerPhoneNumber}
 	AND b.last_name 		= #{lastName}
 </select>
-<select id="resetPassword" parameterType="com.hannamsm.shop.domain.account.vo.Account">
+<select id="resetPassword" parameterType="com.suzyne.shop.domain.account.vo.Account">
 UPDATE account
 	SET password = #{newPassword}
 	WHERE account_email = #{accountEmail}
 </select>
-<insert id="createAccount" parameterType="com.hannamsm.shop.domain.account.vo.Account">
+<insert id="createAccount" parameterType="com.suzyne.shop.domain.account.vo.Account">
 insert into account
 (
        account_email
@@ -73,7 +73,7 @@ insert into account
      , #{accountEmail}
 )
 </insert>
-<delete id="deleteAccount" parameterType="com.hannamsm.shop.domain.account.vo.Account">
+<delete id="deleteAccount" parameterType="com.suzyne.shop.domain.account.vo.Account">
 update account
    set isEnabled = 1
      , lastModDate = getDate()
@@ -97,12 +97,12 @@ insert into account_authority
      , #{accountNo}
 );
 </insert>
-<delete id="deleteAuthority" parameterType="com.hannamsm.shop.domain.account.vo.AccountAuthority">
+<delete id="deleteAuthority" parameterType="com.suzyne.shop.domain.account.vo.AccountAuthority">
 delete account_authority
  where account_no = #{accountNo}
    and authority_code = #{authCd}
 </delete>
-<delete id="deleteAuthorities" parameterType="com.hannamsm.shop.domain.account.vo.AccountAuthority">
+<delete id="deleteAuthorities" parameterType="com.suzyne.shop.domain.account.vo.AccountAuthority">
 delete account_authority
  where account_no = #{accountNo}
 </delete>

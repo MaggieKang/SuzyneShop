@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hannamsm.shop.domain.favourite.dao.FavouriteDao">
-<select id="findByAccountIdCount" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItemSearch" resultType="int">
+<mapper namespace="com.suzyne.shop.domain.favourite.dao.FavouriteDao">
+<select id="findByAccountIdCount" parameterType="com.suzyne.shop.domain.favourite.vo.FavouriteItemSearch" resultType="int">
 select count(a.item_id) as totalCount
   from favourite a
        inner join item b on b.item_id = a.item_id and is_use = 1
@@ -9,7 +9,7 @@ select count(a.item_id) as totalCount
    and a.store_id = #{storeId}
 </select>
 
-<select id="findByAccountId" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItemSearch" resultType="com.hannamsm.shop.domain.favourite.vo.FavouriteItem">
+<select id="findByAccountId" parameterType="com.suzyne.shop.domain.favourite.vo.FavouriteItemSearch" resultType="com.suzyne.shop.domain.favourite.vo.FavouriteItem">
 select a.item_id         as itemId
      , a.store_id        as storeId
      , b.upc             as upc
@@ -35,7 +35,7 @@ offset #{startRownum} rows
  fetch next #{listSize} row only
 </select>
 
-<insert id="add" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItemDto">
+<insert id="add" parameterType="com.suzyne.shop.domain.favourite.vo.FavouriteItemDto">
 merge favourite as a
 using (select #{accountNo}     as account_no
             , #{storeId}       as store_id
@@ -68,7 +68,7 @@ using (select #{accountNo}     as account_no
         when matched then
                delete;
 </insert>
-<delete id="delete" parameterType="com.hannamsm.shop.domain.favourite.vo.FavouriteItem">
+<delete id="delete" parameterType="com.suzyne.shop.domain.favourite.vo.FavouriteItem">
 delete favourite
  where account_no = #{accountNo}
    and store_id = #{storeId}

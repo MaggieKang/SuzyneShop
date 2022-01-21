@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hannamsm.shop.domain.membership.dao.ShopMembershipDao">
+<mapper namespace="com.suzyne.shop.domain.membership.dao.ShopMembershipDao">
 <select id="findAddressSeq" parameterType="int" resultType="int">
 SELECT seq
 FROM account_address  
@@ -17,7 +17,7 @@ SELECT COUNT(account_no)
 FROM customer c 
 WHERE membership_id = #{membershipId}
 </select>
-<insert id="saveMemProfile" parameterType="com.hannamsm.shop.domain.profile.vo.ProfileDto">
+<insert id="saveMemProfile" parameterType="com.suzyne.shop.domain.profile.vo.ProfileDto">
 MERGE customer AS a
 USING (SELECT #{accountNo} AS account_no
 			, #{firstName} AS first_name
@@ -76,7 +76,7 @@ USING (SELECT #{accountNo} AS account_no
                   , a.customer_phone_number = b.customer_phone_number
                   , a.extension_nember = b.extension_nember;                  
 </insert>
-<insert id="saveMemAddress" parameterType="com.hannamsm.shop.domain.profile.vo.AddressDto">
+<insert id="saveMemAddress" parameterType="com.suzyne.shop.domain.profile.vo.AddressDto">
 MERGE account_address AS a
 USING (SELECT #{accountNo} AS account_no
 			, #{seq}   AS seq

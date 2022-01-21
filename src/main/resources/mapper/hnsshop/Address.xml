@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hannamsm.shop.domain.address.dao.AddressDao">
-<select id="findAll" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddress" resultType="com.hannamsm.shop.domain.address.vo.AccountAddress">
+<mapper namespace="com.suzyne.shop.domain.address.dao.AddressDao">
+<select id="findAll" parameterType="com.suzyne.shop.domain.address.vo.AccountAddress" resultType="com.suzyne.shop.domain.address.vo.AccountAddress">
 SELECT a.account_no AS accountNo
       ,a.account_email AS accountEmail
       ,b.seq AS seq
@@ -19,7 +19,7 @@ LEFT OUTER JOIN account_address b ON b.account_no = a.account_no
 WHERE a.account_no = #{accountNo}
 order by is_default_address DESC, seq ASC
 </select>
-<select id="findById" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddress" resultType="com.hannamsm.shop.domain.address.vo.AccountAddress">
+<select id="findById" parameterType="com.suzyne.shop.domain.address.vo.AccountAddress" resultType="com.suzyne.shop.domain.address.vo.AccountAddress">
 select a.account_no as accountNo
      , a.account_email as accountEmail
      , b.seq as seq
@@ -38,7 +38,7 @@ select a.account_no as accountNo
    and b.account_no = a.account_no
    and b.seq = #{seq}
 </select>
-<insert id="saveAddress" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddress">
+<insert id="saveAddress" parameterType="com.suzyne.shop.domain.address.vo.AccountAddress">
 MERGE account_address AS a
 USING (SELECT #{accountNo} AS account_no
 			, #{seq}   AS seq
@@ -95,24 +95,24 @@ UPDATE account_address
 SET is_default_address= 0
 WHERE seq=#{beSeq}
 </update>
-<delete id="deleteAddress" parameterType="com.hannamsm.shop.domain.address.vo.AccountAddressDto">
+<delete id="deleteAddress" parameterType="com.suzyne.shop.domain.address.vo.AccountAddressDto">
 DELETE account_address
 WHERE account_no = #{accountNo}
 AND seq = #{seq}
 </delete>
-<select id="getCity" resultType="com.hannamsm.shop.domain.address.vo.Address">
+<select id="getCity" resultType="com.suzyne.shop.domain.address.vo.Address">
 SELECT city_cd AS id
 	 ,city_nm AS name
 	 ,province_cd AS parent_id
 FROM city
 </select>
-<select id="getProvince" resultType="com.hannamsm.shop.domain.address.vo.Address">
+<select id="getProvince" resultType="com.suzyne.shop.domain.address.vo.Address">
 SELECT province_cd AS id
 	  ,province_nm AS name
 	  ,country_cd AS parent_id
 FROM province
 </select>
-<select id="getCountry" resultType="com.hannamsm.shop.domain.address.vo.Address">
+<select id="getCountry" resultType="com.suzyne.shop.domain.address.vo.Address">
 SELECT country_cd AS id
 	  ,country_nm AS name
 FROM country

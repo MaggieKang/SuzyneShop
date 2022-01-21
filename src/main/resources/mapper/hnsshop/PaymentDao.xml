@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hannamsm.shop.domain.payment.dao.PaymentDao">
-<select id="find" parameterType="com.hannamsm.shop.domain.payment.vo.PaymentSearch" resultType="com.hannamsm.shop.domain.payment.vo.PaymentDto">
+<mapper namespace="com.suzyne.shop.domain.payment.dao.PaymentDao">
+<select id="find" parameterType="com.suzyne.shop.domain.payment.vo.PaymentSearch" resultType="com.suzyne.shop.domain.payment.vo.PaymentDto">
 select payment_id       as paymentId
      , card_name        as cardName
      , right(card_no,4) as cardLastNo
@@ -12,7 +12,7 @@ select payment_id       as paymentId
 where account_no = #{accountNo}
 </select>
 
-<select id="findByDefault" parameterType="com.hannamsm.shop.domain.payment.vo.PaymentSearch" resultType="com.hannamsm.shop.domain.payment.vo.PaymentDto">
+<select id="findByDefault" parameterType="com.suzyne.shop.domain.payment.vo.PaymentSearch" resultType="com.suzyne.shop.domain.payment.vo.PaymentDto">
 select top 1
        payment_id       as paymentId
      , card_name        as cardName
@@ -25,7 +25,7 @@ where account_no = #{accountNo}
   and is_default = 1
 </select>
 
-<select id="findById" parameterType="com.hannamsm.shop.domain.payment.vo.PaymentSearch" resultType="com.hannamsm.shop.domain.payment.vo.Payment">
+<select id="findById" parameterType="com.suzyne.shop.domain.payment.vo.PaymentSearch" resultType="com.suzyne.shop.domain.payment.vo.Payment">
 select payment_id       as paymentId
      , card_no          as cardNo
      , card_name        as cardName
@@ -37,7 +37,7 @@ where account_no = #{accountNo}
   and payment_id = #{paymentId}
 </select>
 
-<insert id="insert" parameterType="com.hannamsm.shop.domain.payment.vo.Payment">
+<insert id="insert" parameterType="com.suzyne.shop.domain.payment.vo.Payment">
 insert into payment (
        account_no
      , card_no
@@ -65,7 +65,7 @@ insert into payment (
 )
 </insert>
 
-<update id="save" parameterType="com.hannamsm.shop.domain.payment.vo.Payment">
+<update id="save" parameterType="com.suzyne.shop.domain.payment.vo.Payment">
 update payment
    set last_mod_date = getDate()
      , last_mod_person = #{accountNo}
@@ -74,7 +74,7 @@ update payment
    and payment_id = #{paymentId}
 </update>
 
-<update id="saveDefaultAllFalse" parameterType="com.hannamsm.shop.domain.payment.vo.Payment">
+<update id="saveDefaultAllFalse" parameterType="com.suzyne.shop.domain.payment.vo.Payment">
 update payment
    set last_mod_date = getDate()
      , last_mod_person = #{accountNo}
@@ -82,13 +82,13 @@ update payment
  where account_no = #{accountNo}
 </update>
 
-<delete id="delete" parameterType="com.hannamsm.shop.domain.payment.vo.Payment">
+<delete id="delete" parameterType="com.suzyne.shop.domain.payment.vo.Payment">
 delete payment
  where account_no = #{accountNo}
    and payment_id = #{paymentId}
 </delete>
 
-<insert id="saveReqRequestCardTranjection" parameterType="com.hannamsm.shop.domain.payment.vo.CardPaymentResultVO">
+<insert id="saveReqRequestCardTranjection" parameterType="com.suzyne.shop.domain.payment.vo.CardPaymentResultVO">
 insert into card_payment_result (
   request_uuid
 , store_id
@@ -120,7 +120,7 @@ insert into card_payment_result (
 )
 </insert>
 
-<update id="saveResRequestCardTranjection" parameterType="com.hannamsm.shop.domain.payment.vo.CardPaymentResultVO">
+<update id="saveResRequestCardTranjection" parameterType="com.suzyne.shop.domain.payment.vo.CardPaymentResultVO">
 update card_payment_result
    set last_mod_date = getDate()
      , last_mod_person = #{accountNo}

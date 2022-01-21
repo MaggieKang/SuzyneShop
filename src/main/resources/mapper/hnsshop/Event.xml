@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hannamsm.shop.domain.event.dao.EventDao">
-<insert id="create" parameterType="com.hannamsm.shop.domain.event.vo.Event">
+<mapper namespace="com.suzyne.shop.domain.event.dao.EventDao">
+<insert id="create" parameterType="com.suzyne.shop.domain.event.vo.Event">
 INSERT INTO EVENT (
             id
           , name
@@ -42,7 +42,7 @@ INSERT INTO EVENT (
           , #{event.lastModPerson}
 )
 </insert>
-<update id="update" parameterType="com.hannamsm.shop.domain.event.vo.Event">
+<update id="update" parameterType="com.suzyne.shop.domain.event.vo.Event">
 UPDATE EVENT
    SET lastModPerson           = #{lastModPerson}
      , lastModDate             = getdate()
@@ -61,12 +61,12 @@ UPDATE EVENT
      , eventStatus             = #{eventStatus}                
  WHERE id = #{id}
 </update>
-<select id="findAllTotalCount" parameterType="com.hannamsm.shop.domain.event.vo.EventSearch" resultType="int">
+<select id="findAllTotalCount" parameterType="com.suzyne.shop.domain.event.vo.EventSearch" resultType="int">
 SELECT COUNT(id) AS totalCount
   FROM EVENT
 </select>
 
-<select id="findAll" parameterType="com.hannamsm.shop.domain.event.vo.EventSearch" resultType="com.hannamsm.shop.domain.event.vo.Event">
+<select id="findAll" parameterType="com.suzyne.shop.domain.event.vo.EventSearch" resultType="com.suzyne.shop.domain.event.vo.Event">
 SELECT id
      , name
      , description
@@ -97,7 +97,7 @@ OFFSET #{startRownum} ROWS
 SELECT ISNULL(MAX(id),0)+1 AS id
   FROM EVENT
 </select>
-<select id="findById" parameterType="int" resultType="com.hannamsm.shop.domain.event.vo.Event">
+<select id="findById" parameterType="int" resultType="com.suzyne.shop.domain.event.vo.Event">
 SELECT id
      , name
      , description

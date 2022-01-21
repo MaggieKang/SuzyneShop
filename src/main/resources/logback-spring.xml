@@ -17,12 +17,12 @@
     </appender>
 
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/hns-shop.log</file>
+        <file>${LOG_PATH}/suzyne-shop.log</file>
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/hns-shop.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/suzyne-shop.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- or whenever the file size reaches 100MB -->
                 <maxFileSize>10MB</maxFileSize>

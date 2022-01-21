@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hannamsm.shop.domain.store.dao.StoreDao">
-<select id="findAllCount" parameterType="com.hannamsm.shop.domain.store.vo.StoreSearch" resultType="int">
+<mapper namespace="com.suzyne.shop.domain.store.dao.StoreDao">
+<select id="findAllCount" parameterType="com.suzyne.shop.domain.store.vo.StoreSearch" resultType="int">
 select count(store_id) as totalCount
   from store
 </select>
 
-<select id="findAll" parameterType="com.hannamsm.shop.domain.store.vo.StoreSearch" resultType="com.hannamsm.shop.domain.store.vo.Store">
+<select id="findAll" parameterType="com.suzyne.shop.domain.store.vo.StoreSearch" resultType="com.suzyne.shop.domain.store.vo.Store">
 select store_id        as storeId
      , store_nm        as storeNm
      , address         as address
@@ -26,7 +26,7 @@ offset #{startRownum} rows
  fetch next #{listSize} row only
 </select>
 
-<select id="findById" parameterType="com.hannamsm.shop.domain.store.vo.StoreSearch" resultType="com.hannamsm.shop.domain.store.vo.Store">
+<select id="findById" parameterType="com.suzyne.shop.domain.store.vo.StoreSearch" resultType="com.suzyne.shop.domain.store.vo.Store">
 select store_id        as storeId
      , store_nm        as storeNm
      , address         as address

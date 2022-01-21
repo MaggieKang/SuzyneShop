@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hannamsm.shop.domain.category.dao.CategoryDao">
-<select id="findAllCount" parameterType="com.hannamsm.shop.domain.category.vo.CategorySearch" resultType="int">
+<mapper namespace="com.suzyne.shop.domain.category.dao.CategoryDao">
+<select id="findAllCount" parameterType="com.suzyne.shop.domain.category.vo.CategorySearch" resultType="int">
 with temp as (
 	select category_cd
 	     , store_id
@@ -33,19 +33,19 @@ select count(category_cd) as totalCount
  OPTION(MAXRECURSION 5)
 </select>
 
-<resultMap type="com.hannamsm.shop.domain.category.vo.CategoryDto" id="categoryMap">
+<resultMap type="com.suzyne.shop.domain.category.vo.CategoryDto" id="categoryMap">
     <id property="categoryCd" column="categoryCd" />
     <id property="categoryNm" column="categoryNm" />
     <id property="parentCategoryCd" column="parentCategoryCd" />
 
-    <collection property="subCategoryList" ofType="com.hannamsm.shop.domain.category.vo.CategoryDto">
+    <collection property="subCategoryList" ofType="com.suzyne.shop.domain.category.vo.CategoryDto">
         <id property="categoryCd" column="subCategoryCd" />
         <id property="categoryNm" column="subCategoryNm" />
         <id property="parentCategoryCd" column="subParentCategoryCd" />
     </collection>
 </resultMap>
 
-<select id="findAll" parameterType="com.hannamsm.shop.domain.category.vo.CategorySearch" resultMap="categoryMap">
+<select id="findAll" parameterType="com.suzyne.shop.domain.category.vo.CategorySearch" resultMap="categoryMap">
 select l1.category_cd        as categoryCd
      , l1.category_nm        as categoryNm
      , l1.parent_category_cd as parentCategoryCd
@@ -62,7 +62,7 @@ select l1.category_cd        as categoryCd
  order by l1.category_cd, l2.parent_category_cd
 </select>
 
-<select id="findAll2" parameterType="com.hannamsm.shop.domain.category.vo.CategorySearch" resultType="com.hannamsm.shop.domain.category.vo.CategoryDto">
+<select id="findAll2" parameterType="com.suzyne.shop.domain.category.vo.CategorySearch" resultType="com.suzyne.shop.domain.category.vo.CategoryDto">
 with temp as (
 	select category_cd
 	     , store_id
@@ -100,7 +100,7 @@ select category_cd        as categoryCd
  OPTION(MAXRECURSION 5)
 </select>
 
-<select id="findByCodeCount" parameterType="com.hannamsm.shop.domain.category.vo.CategorySearch" resultType="int">
+<select id="findByCodeCount" parameterType="com.suzyne.shop.domain.category.vo.CategorySearch" resultType="int">
 with temp as (
 	select category_cd
 	     , store_id
@@ -132,7 +132,7 @@ select count(category_cd) as totalCount
 option(maxrecursion 5)
 </select>
 
-<select id="findByCode" parameterType="com.hannamsm.shop.domain.category.vo.CategorySearch" resultType="com.hannamsm.shop.domain.category.vo.CategoryDto">
+<select id="findByCode" parameterType="com.suzyne.shop.domain.category.vo.CategorySearch" resultType="com.suzyne.shop.domain.category.vo.CategoryDto">
 with temp as (
 	select category_cd
 	     , store_id

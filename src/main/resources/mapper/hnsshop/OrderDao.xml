@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hannamsm.shop.domain.order.dao.OrderDao">
-<select id="findAllCount" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="int">
+<mapper namespace="com.suzyne.shop.domain.order.dao.OrderDao">
+<select id="findAllCount" parameterType="com.suzyne.shop.domain.order.vo.OrderSearch" resultType="int">
 select count(a.order_id) as totalCount
   from orders a
  where a.account_no = #{accountNo}
@@ -11,7 +11,7 @@ select count(a.order_id) as totalCount
     </if>
 </select>
 
-<select id="findAll" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="com.hannamsm.shop.domain.order.vo.OrderDto">
+<select id="findAll" parameterType="com.suzyne.shop.domain.order.vo.OrderSearch" resultType="com.suzyne.shop.domain.order.vo.OrderDto">
 select a.order_id          as orderId
      , a.store_id          as storeId
      , (select top 1 city from store s2 where store_id = a.store_id) as storeNm
@@ -46,7 +46,7 @@ offset #{startRownum} rows
  fetch next #{listSize} row only
 </select>
 
-<select id="findByIdCount" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="int">
+<select id="findByIdCount" parameterType="com.suzyne.shop.domain.order.vo.OrderSearch" resultType="int">
 select count(b.item_id) as totalCount
   from orders a
        inner join orders_detail b on b.store_id = a.store_id and b.order_id = a.order_id
@@ -55,7 +55,7 @@ select count(b.item_id) as totalCount
    and a.order_id = #{orderId}
 </select>
 
-<select id="findById" parameterType="com.hannamsm.shop.domain.order.vo.OrderSearch" resultType="com.hannamsm.shop.domain.order.vo.OrderDetailDto">
+<select id="findById" parameterType="com.suzyne.shop.domain.order.vo.OrderSearch" resultType="com.suzyne.shop.domain.order.vo.OrderDetailDto">
 select a.order_id                     as orderId
      , a.store_id                     as storeId
      , b.item_sales_type_cd           as itemSalesTypeCd
@@ -94,7 +94,7 @@ offset #{startRownum} rows
 select (#{storeId} + convert(varchar, getDate(), 12) + right('0000000000' + convert(varchar, (next value for seq_order_id)), 10)) as order_id
 </select>
 
-<insert id="createOrdersDetailFromCart" parameterType="com.hannamsm.shop.domain.order.vo.NewOrderDto">
+<insert id="createOrdersDetailFromCart" parameterType="com.suzyne.shop.domain.order.vo.NewOrderDto">
 insert into orders_detail (
        order_id
      , store_id
@@ -176,7 +176,7 @@ select #{orderId} as order_id
        ) m
 </insert>
 
-<insert id="createOrdersFromCart" parameterType="com.hannamsm.shop.domain.order.vo.NewOrderDto">
+<insert id="createOrdersFromCart" parameterType="com.suzyne.shop.domain.order.vo.NewOrderDto">
 insert into orders (
        order_id
      , store_id
@@ -219,7 +219,7 @@ select a.order_id                      as order_id
  group by a.order_id, a.store_id;
 </insert>
 
-<update id="updateOrders" parameterType="com.hannamsm.shop.domain.order.vo.Order">
+<update id="updateOrders" parameterType="com.suzyne.shop.domain.order.vo.Order">
 update orders
    set last_mod_date = getDate()
      , last_mod_person = #{accountNo}

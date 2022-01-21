@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hannamsm.shop.domain.pickup.dao.PickupTimeslotDao">
+<mapper namespace="com.suzyne.shop.domain.pickup.dao.PickupTimeslotDao">
 
-<select id="findBySlotDt" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlogDtSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
+<select id="findBySlotDt" parameterType="com.suzyne.shop.domain.pickup.vo.PickupSlogDtSearch" resultType="com.suzyne.shop.domain.pickup.vo.PickupTimeslot">
 select slot_dt         as slotDt
      , format(cast(slot_time AS datetime), 'HH:mm') as slotTime
      , format(cast(slot_time AS datetime), 'hh tt') as startDisplaySlotTime
@@ -23,7 +23,7 @@ select slot_dt         as slotDt
    and slot_dt = #{slotDt}
 </select>
 
-<select id="findBySlotTime" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
+<select id="findBySlotTime" parameterType="com.suzyne.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="com.suzyne.shop.domain.pickup.vo.PickupTimeslot">
 select slot_dt         as slotDt
      , format(cast(slot_time AS datetime), 'HH:mm') as slotTime
      , format(cast(slot_time AS datetime), 'hh tt') as startDisplaySlotTime
@@ -45,7 +45,7 @@ select slot_dt         as slotDt
    and slot_time = #{slotTime}
 </select>
 
-<select id="getNumberAvailable" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="int">
+<select id="getNumberAvailable" parameterType="com.suzyne.shop.domain.pickup.vo.PickupSlotTimeSearch" resultType="int">
 select isnull((
 	select (case when dateadd(hour,1,getdate()) > convert(datetime, convert(varchar,slot_dt,23) +' '+ convert(varchar,format(cast(slot_time as datetime), 'HH:mm:ss'),114), 121) then 0
                  else (allocation_qty - reserved_qty)
@@ -57,7 +57,7 @@ select isnull((
        ),1) as numberAvailable
 </select>
 
-<insert id="saveSlotTime" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
+<insert id="saveSlotTime" parameterType="com.suzyne.shop.domain.pickup.vo.PickupTimeslot">
 merge pickup_timeslot as a
 using (select #{slotDt}        as slot_dt
             , #{slotTime}      as slot_time
@@ -100,13 +100,13 @@ using (select #{slotDt}        as slot_dt
                   , a.reserved_qty = b.reserved_qty;
 </insert>
 
-<insert id="deleteTimeslot" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslot">
+<insert id="deleteTimeslot" parameterType="com.suzyne.shop.domain.pickup.vo.PickupTimeslot">
 delete pickup_timeslot
  where store_id = #{storeId}
    and slot_dt = #{slotDt}
 </insert>
 
-<update id="updatePickupReservation" parameterType="com.hannamsm.shop.domain.pickup.vo.UpdatePickupReservation">
+<update id="updatePickupReservation" parameterType="com.suzyne.shop.domain.pickup.vo.UpdatePickupReservation">
 merge pickup_timeslot as a
 using (select #{storeId}       as store_id
             , #{slotDt}        as slot_dt
@@ -147,7 +147,7 @@ using (select #{storeId}       as store_id
                   , a.reserved_qty += 1;
 </update>
 
-<select id="findBySlotDtDefault" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlogDtDefaultSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslotDefault">
+<select id="findBySlotDtDefault" parameterType="com.suzyne.shop.domain.pickup.vo.PickupSlogDtDefaultSearch" resultType="com.suzyne.shop.domain.pickup.vo.PickupTimeslotDefault">
 select store_id                 as storeId
      , format(cast(default_slot_time as datetime), 'HH:mm') as slotTime
      , format(cast(default_slot_time as datetime), 'hh tt') as startDisplaySlotTime
@@ -167,7 +167,7 @@ select store_id                 as storeId
    and default_day_Week = #{defaultDayWeek}
 </select>
 
-<select id="findBySlotDtDefaultByDayTime" parameterType="com.hannamsm.shop.domain.pickup.vo.PickupSlogDtDefaultSearch" resultType="com.hannamsm.shop.domain.pickup.vo.PickupTimeslotDefault">
+<select id="findBySlotDtDefaultByDayTime" parameterType="com.suzyne.shop.domain.pickup.vo.PickupSlogDtDefaultSearch" resultType="com.suzyne.shop.domain.pickup.vo.PickupTimeslotDefault">
 select store_id                 as storeId
      , format(cast(default_slot_time as datetime), 'HH:mm') as slotTime
      , format(cast(default_slot_time as datetime), 'hh tt') as startDisplaySlotTime

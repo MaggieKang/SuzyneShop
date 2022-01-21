@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hannamsm.shop.domain.invoice.dao.InvoiceDao">
-<select id="findByIdCount" parameterType="com.hannamsm.shop.domain.invoice.vo.InvoiceSearch" resultType="int">
+<mapper namespace="com.suzyne.shop.domain.invoice.dao.InvoiceDao">
+<select id="findByIdCount" parameterType="com.suzyne.shop.domain.invoice.vo.InvoiceSearch" resultType="int">
 select count(a.seq) as totalCount
   from invoice_detail a
  where a.store_id = #{storeId}
    and a.invoice_id = #{invoiceId}
 </select>
 
-<select id="findById" parameterType="com.hannamsm.shop.domain.invoice.vo.InvoiceSearch" resultType="com.hannamsm.shop.domain.invoice.vo.InvoiceDetailDto">
+<select id="findById" parameterType="com.suzyne.shop.domain.invoice.vo.InvoiceSearch" resultType="com.suzyne.shop.domain.invoice.vo.InvoiceDetailDto">
 select row_number() over(order by a.item_id, a.seq) as rowNo
      , a.store_id                         as storeId
      , a.invoice_id                       as invoiceId
@@ -46,7 +46,7 @@ select row_number() over(order by a.item_id, a.seq) as rowNo
 select ('I' + convert(varchar, getDate(), 112) + #{storeId} + '_' + right('0000000000' + convert(varchar, (next value for seq_invoice_id)), 10)) as invoice_id
 </select>
 
-<insert id="createNewInvoice" parameterType="com.hannamsm.shop.domain.invoice.vo.CreateNewInvoiceDto">
+<insert id="createNewInvoice" parameterType="com.suzyne.shop.domain.invoice.vo.CreateNewInvoiceDto">
 insert into invoice (
        store_id
      , invoice_id
@@ -98,7 +98,7 @@ select a.store_id                      as store_id
  group by a.order_id, a.store_id, a.order_date
 </insert>
 
-<insert id="createNewInvoiceDetail" parameterType="com.hannamsm.shop.domain.invoice.vo.CreateNewInvoiceDto">
+<insert id="createNewInvoiceDetail" parameterType="com.suzyne.shop.domain.invoice.vo.CreateNewInvoiceDto">
 insert into invoice_detail (
        store_id
      , invoice_id
