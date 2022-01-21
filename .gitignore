@@ -33,3 +33,4 @@ build/
 /bin/
 /logs/
 /LOG_PATH_IS_UNDEFINED/
+/.metadata/
