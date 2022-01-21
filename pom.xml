@@ -9,11 +9,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <packaging>jar</packaging>
-    <groupId>com.hannamsm.shop</groupId>
+    <groupId>com.suzyne.shop</groupId>
     <artifactId>HNS-SHOP</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>HNS-SHOP</name>
-    <description>Hannam Online Shop</description>
+    <description>suzyne Online Shop</description>
     <properties>
         <finalName>${project.artifactId}</finalName>
         <java.version>11</java.version>
