@@ -39,7 +39,7 @@ public class PaymentController {
 	private PaymentService paymentService;
 
 	/*
-	 * Payment 목록 조회
+	 * Payment 목록 조회//카드 조회
 	 */
 	@GetMapping
 	public ResponseEntity getMyPayment(@CurrentUser Account account) throws Exception {
