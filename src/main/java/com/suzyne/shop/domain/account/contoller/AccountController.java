@@ -24,7 +24,7 @@ import com.suzyne.shop.global.vo.ResponseResult;
 @RestController
 @RequestMapping(value="/api/account", produces = MediaTypes.HAL_JSON_VALUE)
 public class AccountController {
-//	private Logger log = LoggerFactory.getLogger(this.getClass());
+//	private Logger log = LoggerFactory.getLogger(this.getClass());test
 	@Autowired
 	AuthenticationManager authenticationManager;
 	@Autowired
